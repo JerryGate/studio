@@ -1,6 +1,7 @@
 
 'use client';
 
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
@@ -13,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Banknote, ShieldCheck, Users } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Autoplay from "embla-carousel-autoplay"
 
 const testimonials = [
   {
@@ -102,6 +104,10 @@ const itemVariants = {
 };
 
 const TrustSignals = () => {
+    const plugin = React.useRef(
+        Autoplay({ delay: 2000, stopOnInteraction: true })
+    );
+
   return (
     <section id="testimonials" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
@@ -147,11 +153,14 @@ const TrustSignals = () => {
             variants={itemVariants}
         >
             <Carousel
-            opts={{
-                align: 'start',
-                loop: true,
-            }}
-            className="w-full max-w-4xl mx-auto"
+                plugins={[plugin.current]}
+                onMouseEnter={plugin.current.stop}
+                onMouseLeave={plugin.current.reset}
+                opts={{
+                    align: 'start',
+                    loop: true,
+                }}
+                className="w-full max-w-4xl mx-auto"
             >
             <CarouselContent>
                 {testimonials.map((testimonial, index) => (
