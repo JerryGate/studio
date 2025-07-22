@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Eye, EyeOff } from "lucide-react";
 
 type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
 
@@ -26,6 +27,7 @@ export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
   const [role, setRole] = useState<UserRole>('admin');
+  const [showPassword, setShowPassword] = useState(false);
   
   const handleLogin = () => {
     const email = mockUsers[role].email;
@@ -67,7 +69,16 @@ export default function LoginPage() {
                     </a>
                 </div>
             </div>
-            <Input id={`${currentRole}-password`} type="password" required defaultValue="password" />
+            <div className="relative">
+                <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
+                <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+            </div>
         </div>
          <div>
             <Button type="submit" className="w-full" onClick={handleLogin}>
