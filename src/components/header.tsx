@@ -1,13 +1,15 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, X } from 'lucide-react';
+import { Menu, ShoppingCart, X, Sun, Moon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import Logo from './logo';
 import { useCart } from '@/contexts/cart-context';
 import { Badge } from './ui/badge';
+import { useTheme } from '@/contexts/theme-context';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -22,6 +24,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
+  const { mode, toggleMode } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,6 +56,10 @@ const Header = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-2">
+             <Button variant="ghost" size="icon" onClick={toggleMode}>
+                {mode === 'light' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                <span className="sr-only">Toggle theme</span>
+            </Button>
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />
@@ -68,6 +75,10 @@ const Header = () => {
           </div>
 
           <div className="md:hidden flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={toggleMode}>
+                {mode === 'light' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                <span className="sr-only">Toggle theme</span>
+            </Button>
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />

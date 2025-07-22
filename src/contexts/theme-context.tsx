@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -10,6 +11,8 @@ const DEFAULT_THEME = {
     background: '210, 20%, 98%',
 };
 
+type ThemeMode = 'light' | 'dark';
+
 interface Theme {
   primary: string;
   accent: string;
@@ -20,6 +23,8 @@ interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   resetTheme: () => void;
+  mode: ThemeMode;
+  toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -29,6 +34,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     if (isServer) return DEFAULT_THEME;
     const savedTheme = localStorage.getItem('website-theme');
     return savedTheme ? JSON.parse(savedTheme) : DEFAULT_THEME;
+  });
+
+  const [mode, setMode] = useState<ThemeMode>(() => {
+      if (isServer) return 'light';
+      const savedMode = localStorage.getItem('theme-mode') as ThemeMode;
+      return savedMode || 'light';
   });
 
   useEffect(() => {
@@ -41,6 +52,15 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [theme]);
 
+   useEffect(() => {
+    if (mode === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme-mode', mode);
+  }, [mode]);
+
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
   };
@@ -49,8 +69,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(DEFAULT_THEME);
   }
 
+  const toggleMode = () => {
+      setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
+  }
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resetTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, toggleMode }}>
       {children}
     </ThemeContext.Provider>
   );
