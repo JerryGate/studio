@@ -39,6 +39,30 @@ const testimonials = [
     dataAiHint: 'happy customer',
     quote: 'Fast, reliable, and trustworthy. I no longer have to worry about fake drugs. Highly recommended for anyone in Nigeria!',
   },
+  {
+    name: 'Funke Ojo',
+    location: 'Port Harcourt',
+    avatar: 'FO',
+    image: 'https://placehold.co/100x100.png',
+    dataAiHint: 'smiling woman',
+    quote: 'The 24/7 customer support is amazing. I had a question about my order late at night and got an immediate, helpful response.',
+  },
+  {
+    name: 'Emeka Nwosu',
+    location: 'Enugu',
+    avatar: 'EN',
+    image: 'https://placehold.co/100x100.png',
+    dataAiHint: 'man with glasses',
+    quote: 'I love that I can track my delivery in real-time. It gives me peace of mind knowing exactly when my medication will arrive.',
+  },
+   {
+    name: 'Zainab Bello',
+    location: 'Kaduna',
+    avatar: 'ZB',
+    image: 'https://placehold.co/100x100.png',
+    dataAiHint: 'woman in headscarf',
+    quote: 'Finally, a platform that makes getting authentic medication easy and affordable. The selection is great and the service is top-notch.',
+  },
 ];
 
 const trustBadges = [
