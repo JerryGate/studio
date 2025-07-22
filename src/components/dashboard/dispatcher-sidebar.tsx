@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -5,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, User, Truck, History, MessageSquare, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/auth-context';
 
 const navItems = [
   { href: '/dispatcher', icon: LayoutDashboard, label: 'Dashboard' },
@@ -16,6 +18,7 @@ const navItems = [
 
 export default function DispatcherSidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <aside className="w-64 flex-shrink-0">
@@ -38,6 +41,7 @@ export default function DispatcherSidebar() {
             <Separator className="my-4" />
             <Link
                 href="/"
+                onClick={logout}
                 className='flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-destructive hover:bg-destructive/10'
             >
                 <LogOut className="h-4 w-4" />

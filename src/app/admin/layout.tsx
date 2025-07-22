@@ -1,7 +1,10 @@
+
+'use client';
 import AdminSidebar from '@/components/admin/admin-sidebar';
 import { ThemeProvider } from '@/contexts/theme-context';
+import { withAuth } from '@/components/with-auth';
 
-export default function AdminLayout({
+function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,3 +20,6 @@ export default function AdminLayout({
     </ThemeProvider>
   );
 }
+
+export default withAuth(AdminLayout, ['admin']);
+

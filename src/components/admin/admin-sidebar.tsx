@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -6,6 +7,7 @@ import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBu
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
+import { useAuth } from '@/contexts/auth-context';
 
 const navItems = [
   { href: '/admin', icon: Home, label: 'Dashboard' },
@@ -21,6 +23,7 @@ const navItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <aside className="w-64 flex-shrink-0 bg-background border-r">
@@ -47,6 +50,7 @@ export default function AdminSidebar() {
             <Separator className="my-4" />
              <Link
               href="/"
+              onClick={logout}
               className='flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-destructive hover:bg-destructive/10'
             >
               <Power className="h-4 w-4" />

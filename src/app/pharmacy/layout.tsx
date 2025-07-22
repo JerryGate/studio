@@ -1,6 +1,9 @@
-import PharmacySidebar from '@/components/dashboard/pharmacy-sidebar';
 
-export default function PharmacyDashboardLayout({
+'use client';
+import PharmacySidebar from '@/components/dashboard/pharmacy-sidebar';
+import { withAuth } from '@/components/with-auth';
+
+function PharmacyDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -14,3 +17,5 @@ export default function PharmacyDashboardLayout({
       </div>
   );
 }
+
+export default withAuth(PharmacyDashboardLayout, ['pharmacy']);

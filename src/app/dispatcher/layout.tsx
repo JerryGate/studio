@@ -1,6 +1,9 @@
-import DispatcherSidebar from '@/components/dashboard/dispatcher-sidebar';
 
-export default function DispatcherDashboardLayout({
+'use client';
+import DispatcherSidebar from '@/components/dashboard/dispatcher-sidebar';
+import { withAuth } from '@/components/with-auth';
+
+function DispatcherDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -14,3 +17,5 @@ export default function DispatcherDashboardLayout({
       </div>
   );
 }
+
+export default withAuth(DispatcherDashboardLayout, ['dispatcher']);

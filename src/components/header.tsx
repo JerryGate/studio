@@ -3,13 +3,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, X, Sun, Moon } from 'lucide-react';
+import { Menu, ShoppingCart, X, Sun, Moon, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import Logo from './logo';
 import { useCart } from '@/contexts/cart-context';
 import { Badge } from './ui/badge';
 import { useTheme } from '@/contexts/theme-context';
+import { useAuth } from '@/contexts/auth-context';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -25,6 +26,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
   const { mode, toggleMode } = useTheme();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,12 +72,21 @@ const Header = () => {
                   )}
               </Button>
             </Link>
-            <Link href="/login">
-                <Button variant="ghost">Log In</Button>
-            </Link>
-            <Link href="/signup">
-                <Button>Sign Up</Button>
-            </Link>
+            {user ? (
+                <Button variant="ghost" onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log Out
+                </Button>
+            ) : (
+                <>
+                    <Link href="/login">
+                        <Button variant="ghost">Log In</Button>
+                    </Link>
+                    <Link href="/signup">
+                        <Button>Sign Up</Button>
+                    </Link>
+                </>
+            )}
           </div>
 
           <div className="md:hidden flex items-center gap-2">
@@ -104,7 +115,7 @@ const Header = () => {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b">
                      <Logo />
-                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpe(false)}>
+                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
                       <X className="h-6 w-6" />
                       <span className="sr-only">Close menu</span>
                     </Button>
@@ -114,7 +125,7 @@ const Header = () => {
                       <Link key={link.name} href={link.href}>
                         <span
                           className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-300"
-                          onClick={() => setIsMobileMenuOpe(false)}
+                          onClick={() => setIsMobileMenuOpen(false)}
                         >
                           {link.name}
                         </span>
@@ -122,14 +133,23 @@ const Header = () => {
                     ))}
                   </nav>
                   <div className="p-4 border-t space-y-2">
-                    <Link href="/login" className="w-full" onClick={() => setIsMobileMenuOpe(false)}>
-                        <Button variant="ghost" className="w-full">
-                            Log In
+                     {user ? (
+                        <Button variant="ghost" className="w-full" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Log Out
                         </Button>
-                    </Link>
-                    <Link href="/signup" className="w-full" onClick={() => setIsMobileMenuOpe(false)}>
-                        <Button className="w-full">Sign Up</Button>
-                    </Link>
+                    ) : (
+                        <>
+                            <Link href="/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button variant="ghost" className="w-full">
+                                    Log In
+                                </Button>
+                            </Link>
+                            <Link href="/signup" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button className="w-full">Sign Up</Button>
+                            </Link>
+                        </>
+                    )}
                   </div>
                 </div>
               </SheetContent>
