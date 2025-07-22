@@ -1,10 +1,30 @@
+
+'use client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.6,
+        },
+    },
+};
 
 const Cta = () => {
   return (
     <section id="contact" className="py-20 md:py-32 bg-primary/5">
-      <div className="container mx-auto px-4 text-center">
+      <motion.div 
+        className="container mx-auto px-4 text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        variants={itemVariants}
+      >
         <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary mb-4">
           Ready to Take Control of Your Health?
         </h2>
@@ -21,7 +41,7 @@ const Cta = () => {
             Join as a Pharmacy/Dispatcher
           </Button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

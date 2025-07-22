@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -7,6 +8,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, MapPin, Navigation } from 'lucide-react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.6,
+        },
+    },
+};
 
 const GeolocationFeature = () => {
   const [loading, setLoading] = useState(false);
@@ -67,10 +80,16 @@ const GeolocationFeature = () => {
   };
 
   return (
-    <section id="geolocation" className="py-20 md:py-32 bg-background">
+    <section id="geolocation" className="py-20 md:py-32 bg-background overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="text-center md:text-left">
+          <motion.div 
+            className="text-center md:text-left"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            variants={itemVariants}
+          >
             <div className="inline-block bg-accent/10 text-accent font-semibold py-1 px-3 rounded-full text-sm mb-4">
               Smart & Fast
             </div>
@@ -118,8 +137,14 @@ const GeolocationFeature = () => {
                 </Card>
               )}
             </div>
-          </div>
-           <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-2xl">
+          </motion.div>
+           <motion.div 
+            className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-2xl"
+            initial={{x: 100, opacity: 0}}
+            whileInView={{x: 0, opacity: 1}}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{duration: 0.8, type: 'spring'}}
+           >
               <Image 
                 src="https://placehold.co/600x400.png" 
                 alt="Map showing pharmacy locations" 
@@ -132,7 +157,7 @@ const GeolocationFeature = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <MapPin className="h-16 w-16 text-white/80 animate-pulse" />
               </div>
-           </div>
+           </motion.div>
         </div>
       </div>
     </section>

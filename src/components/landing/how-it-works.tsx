@@ -1,5 +1,8 @@
+
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CreditCard, MapPin, Search } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const steps = [
   {
@@ -19,11 +22,39 @@ const steps = [
   },
 ];
 
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.5,
+        },
+    },
+};
+
 const HowItWorks = () => {
   return (
     <section id="how-it-works" className="py-20 md:py-32 bg-primary/5">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <motion.div 
+            className="text-center mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            variants={itemVariants}
+        >
            <div className="inline-block bg-primary/10 text-primary font-semibold py-1 px-3 rounded-full text-sm mb-4">
               Easy as 1-2-3
             </div>
@@ -33,23 +64,31 @@ const HowItWorks = () => {
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             We've streamlined the process to make healthcare accessible and convenient for you.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <motion.div 
+            className="grid md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={containerVariants}
+        >
           {steps.map((step, index) => (
-            <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-accent">
-              <CardHeader>
-                <div className="mx-auto bg-accent text-accent-foreground rounded-full h-16 w-16 flex items-center justify-center mb-4">
-                  <step.icon className="h-8 w-8" />
-                </div>
-                <CardTitle className="font-headline text-2xl text-primary">{step.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{step.description}</p>
-              </CardContent>
-            </Card>
+            <motion.div key={index} variants={itemVariants}>
+                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-accent h-full">
+                <CardHeader>
+                    <div className="mx-auto bg-accent text-accent-foreground rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                    <step.icon className="h-8 w-8" />
+                    </div>
+                    <CardTitle className="font-headline text-2xl text-primary">{step.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">{step.description}</p>
+                </CardContent>
+                </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
