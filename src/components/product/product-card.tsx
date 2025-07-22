@@ -47,7 +47,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 
                 <div className="flex items-center gap-2 mt-auto mb-2">
                     {isInStock ? (
-                        <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
+                        <Badge variant="default" className="text-xs">
                             <CheckCircle className="h-3 w-3 mr-1" />
                             In Stock
                         </Badge>
@@ -63,7 +63,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     ₦{product.price.toLocaleString()}
                 </p>
             </div>
-            <CardFooter className="p-4 bg-gray-50/50">
+            <CardFooter className="p-4 bg-muted/50">
                 <Button className="w-full" disabled={!isInStock} onClick={handleAddToCart}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     {isInStock ? 'Add to Cart' : 'Out of Stock'}

@@ -6,53 +6,75 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 const isServer = typeof window === 'undefined';
 
 const DEFAULT_THEME = {
-    primary: '211, 90%, 53%',
-    accent: '145, 58%, 59%',
-    background: '0, 0%, 100%',
+    primary: '226, 66%, 32%',
+    accent: '145, 63%, 42%',
+    background: '210, 20%, 98%',
 };
 
-const HSL_VARS = {
-    '--background': '0 0% 100%',
+// These are the base HSL values that don't change with the theme picker
+const BASE_HSL_VARS = {
     '--foreground': '222 47% 11%',
     '--card': '0 0% 100%',
     '--card-foreground': '222 47% 11%',
     '--popover': '0 0% 100%',
     '--popover-foreground': '222 47% 11%',
-    '--primary': '211 90% 53%',
     '--primary-foreground': '0 0% 100%',
-    '--secondary': '210 40% 96.1%',
+    '--secondary': '220 13% 91%',
     '--secondary-foreground': '222 47% 11%',
-    '--muted': '210 40% 96.1%',
+    '--muted': '220 9% 96%',
     '--muted-foreground': '220 9% 45%',
-    '--accent': '145 58% 59%',
-    '--accent-foreground': '222 47% 11%',
+    '--accent-foreground': '0 0% 100%',
     '--destructive': '0 84.2% 60.2%',
     '--destructive-foreground': '0 0% 98%',
-    '--border': '214 32% 91%',
-    '--input': '214 32% 91%',
-    '--ring': '211 90% 53%',
+    '--border': '220 13% 91%',
+    '--input': '220 13% 91%',
+    '--ring': '226 66% 32%',
+    '--chart-1': 'hsl(var(--primary))',
+    '--chart-2': 'hsl(var(--accent))',
+    '--chart-3': '197 37% 24%',
+    '--chart-4': '43 74% 66%',
+    '--chart-5': '27 87% 67%',
+    '--radius': '0.5rem',
+    '--sidebar-background': '0 0% 98%',
+    '--sidebar-foreground': '240 5.3% 26.1%',
+    '--sidebar-primary': '240 5.9% 10%',
+    '--sidebar-primary-foreground': '0 0% 98%',
+    '--sidebar-accent': '240 4.8% 95.9%',
+    '--sidebar-accent-foreground': '240 5.9% 10%',
+    '--sidebar-border': '220 13% 91%',
+    '--sidebar-ring': '217.2 91.2% 59.8%',
 };
 
-const DARK_HSL_VARS = {
-    '--background': '222 47% 11%',
+const BASE_DARK_HSL_VARS = {
     '--foreground': '0 0% 98%',
     '--card': '222 47% 11%',
     '--card-foreground': '0 0% 98%',
     '--popover': '222 47% 11%',
     '--popover-foreground': '0 0% 98%',
-    '--primary': '211 90% 63%',
-    '--primary-foreground': '222 47% 11%',
+    '--primary-foreground': '226 66% 32%',
     '--secondary': '220 13% 18%',
     '--secondary-foreground': '0 0% 98%',
     '--muted': '220 13% 18%',
     '--muted-foreground': '220 9% 55%',
-    '--accent': '145 58% 69%',
-    '--accent-foreground': '222 47% 11%',
+    '--accent-foreground': '0 0% 100%',
     '--destructive': '0 62.8% 30.6%',
     '--destructive-foreground': '0 0% 98%',
     '--border': '220 13% 18%',
     '--input': '220 13% 18%',
-    '--ring': '211 90% 63%',
+    '--ring': '145 63% 42%',
+    '--chart-1': 'hsl(var(--primary))',
+    '--chart-2': 'hsl(var(--accent))',
+    '--chart-3': '30 80% 55%',
+    '--chart-4': '280 65% 60%',
+    '--chart-5': '340 75% 55%',
+    '--sidebar-background': '240 5.9% 10%',
+    '--sidebar-foreground': '240 4.8% 95.9%',
+    '--sidebar-primary': '224.3 76.3% 48%',
+    '--sidebar-primary-foreground': '0 0% 100%',
+    '--sidebar-accent': '240 3.7% 15.9%',
+    '--sidebar-accent-foreground': '240 4.8% 95.9%',
+    '--sidebar-border': '240 3.7% 15.9%',
+    '--sidebar-ring': '217.2 91.2% 59.8%',
 };
 
 type ThemeMode = 'light' | 'dark';
@@ -76,21 +98,23 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const applyTheme = (theme: Theme, mode: ThemeMode) => {
     const root = document.documentElement;
 
-    const baseVars = mode === 'light' ? HSL_VARS : DARK_HSL_VARS;
+    const baseVars = mode === 'light' ? BASE_HSL_VARS : BASE_DARK_HSL_VARS;
     
-    const newVars = {
-        ...baseVars,
-        '--primary': theme.primary,
-        '--accent': theme.accent,
-    };
+    // Set base variables first
+    Object.entries(baseVars).forEach(([property, value]) => {
+        root.style.setProperty(property, value);
+    });
+
+    // Then override with theme-specific colors
+    root.style.setProperty('--primary', theme.primary);
+    root.style.setProperty('--accent', theme.accent);
 
     if (mode === 'light') {
-        newVars['--background'] = theme.background;
+        root.style.setProperty('--background', theme.background);
+    } else {
+        // In dark mode, we use a fixed dark background but can adjust primary/accent
+        root.style.setProperty('--background', BASE_DARK_HSL_VARS['--background']);
     }
-
-    Object.keys(newVars).forEach(property => {
-        root.style.setProperty(property, newVars[property]);
-    });
 }
 
 

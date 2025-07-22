@@ -57,12 +57,13 @@ export const columns: ColumnDef<Patient>[] = [
     header: 'Status',
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
-      const badgeClass = {
-        Active: 'bg-green-100 text-green-800',
-        Inactive: 'bg-gray-100 text-gray-800',
-        Suspended: 'bg-yellow-100 text-yellow-800',
-      }[status] || '';
-      return <Badge className={badgeClass} variant="outline">{status}</Badge>;
+      const variant = {
+        Active: 'default',
+        Inactive: 'secondary',
+        Suspended: 'destructive',
+      }[status] || 'outline';
+      
+      return <Badge variant={variant as any}>{status}</Badge>;
     },
   },
   {

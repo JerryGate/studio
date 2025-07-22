@@ -40,10 +40,7 @@ export default function OrderHistoryPage() {
                                     <TableCell>
                                         <Badge variant={
                                             order.status === 'Delivered' ? 'default' : 
-                                            order.status === 'Shipped' ? 'secondary' : 'destructive'
-                                        } className={
-                                            order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
-                                            order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' : 'bg-orange-100 text-orange-800'
+                                            order.status === 'Shipped' ? 'secondary' : 'outline'
                                         }>
                                             {order.status}
                                         </Badge>

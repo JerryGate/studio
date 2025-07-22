@@ -83,7 +83,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                             <div className="flex items-center gap-2 pt-2">
                                 <Badge variant="secondary">{product.category}</Badge>
                                 {isInStock ? (
-                                    <Badge variant="default" className="bg-green-100 text-green-800">
+                                    <Badge variant="default">
                                         <CheckCircle className="h-4 w-4 mr-1" />
                                         In Stock
                                     </Badge>

@@ -62,13 +62,13 @@ export const columns: ColumnDef<Pharmacy>[] = [
     header: 'Status',
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
-      const badgeClass = {
-        Approved: 'bg-green-100 text-green-800',
-        Pending: 'bg-orange-100 text-orange-800',
-        Rejected: 'bg-red-100 text-red-800',
-      }[status] || '';
+      const variant = {
+        Approved: 'default',
+        Pending: 'secondary',
+        Rejected: 'destructive',
+      }[status] || 'outline';
 
-      return <Badge variant="outline" className={badgeClass}>{status}</Badge>;
+      return <Badge variant={variant as any}>{status}</Badge>;
     },
   },
   {

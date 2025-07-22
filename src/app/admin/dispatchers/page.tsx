@@ -55,8 +55,7 @@ export const columns: ColumnDef<Dispatcher>[] = [
     header: 'Status',
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
-      const badgeClass = status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
-      return <Badge className={badgeClass} variant="outline">{status}</Badge>;
+      return <Badge variant={status === 'Active' ? 'default' : 'secondary'}>{status}</Badge>;
     },
   },
   {
