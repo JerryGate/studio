@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const Cta = () => {
   return (
@@ -11,9 +12,11 @@ const Cta = () => {
           Join thousands of Nigerians who trust Medfast for their medication needs. Fast, reliable, and always affordable.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground animate-pulse">
-            Order Your Drugs Today
-          </Button>
+          <Link href="/search">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground animate-pulse">
+              Order Your Drugs Today
+            </Button>
+          </Link>
           <Button size="lg" variant="outline">
             Join as a Pharmacy/Dispatcher
           </Button>

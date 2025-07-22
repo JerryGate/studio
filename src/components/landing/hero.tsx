@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const Hero = () => {
   const router = useRouter();
@@ -20,8 +21,8 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative py-24 md:py-40 text-center text-white overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary to-blue-800 animate-gradient-xy"></div>
+    <section className="relative py-24 md:py-40 text-center text-white overflow-hidden bg-primary">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-800 to-primary/60 animate-gradient-xy"></div>
       <style jsx>{`
         @keyframes gradient-xy {
           0%, 100% {
@@ -46,12 +47,16 @@ const Hero = () => {
           Affordable, verified medications delivered to your doorstep from nearby pharmacies.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform duration-300 shadow-lg">
-            Get Started
-          </Button>
-          <Button size="lg" variant="secondary" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
-            Learn More
-          </Button>
+          <Link href="/search">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform duration-300 shadow-lg">
+              Get Started
+            </Button>
+          </Link>
+          <Link href="/about">
+            <Button size="lg" variant="secondary" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
+              Learn More
+            </Button>
+          </Link>
         </div>
         <div className="mt-12 max-w-xl mx-auto">
           <form className="relative" onSubmit={handleSearch}>
