@@ -1,0 +1,26 @@
+import { Button } from '@/components/ui/button';
+
+const Cta = () => {
+  return (
+    <section id="contact" className="py-20 md:py-32 bg-primary/5">
+      <div className="container mx-auto px-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary mb-4">
+          Ready to Take Control of Your Health?
+        </h2>
+        <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-8">
+          Join thousands of Nigerians who trust Medfast for their medication needs. Fast, reliable, and always affordable.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground animate-pulse">
+            Order Your Drugs Today
+          </Button>
+          <Button size="lg" variant="outline">
+            Join as a Pharmacy/Dispatcher
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Cta;
