@@ -6,6 +6,7 @@ import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
   const router = useRouter();
@@ -18,6 +19,27 @@ const Hero = () => {
     } else {
       router.push('/search');
     }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+      },
+    },
   };
 
   return (
@@ -39,14 +61,28 @@ const Hero = () => {
         }
       `}</style>
       
-      <div className="container mx-auto px-4 relative z-10">
-        <h1 className="text-4xl md:text-6xl font-extrabold font-headline mb-4 drop-shadow-lg animate-fade-in-down">
+      <motion.div 
+        className="container mx-auto px-4 relative z-10"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.h1 
+          className="text-4xl md:text-6xl font-extrabold font-headline mb-4 drop-shadow-lg"
+          variants={itemVariants}
+        >
           Order Quality Drugs with Fast Delivery in Nigeria
-        </h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/90 drop-shadow-md animate-fade-in-down animation-delay-300">
+        </motion.h1>
+        <motion.p 
+          className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/90 drop-shadow-md"
+          variants={itemVariants}
+        >
           Affordable, verified medications delivered to your doorstep from nearby pharmacies.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up animation-delay-600">
+        </motion.p>
+        <motion.div 
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          variants={itemVariants}
+        >
           <Link href="/search">
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform duration-300 shadow-lg">
               Get Started
@@ -57,8 +93,11 @@ const Hero = () => {
               Learn More
             </Button>
           </Link>
-        </div>
-        <div className="mt-12 max-w-xl mx-auto animate-fade-in-up animation-delay-900">
+        </motion.div>
+        <motion.div 
+          className="mt-12 max-w-xl mx-auto"
+          variants={itemVariants}
+        >
           <form className="relative" onSubmit={handleSearch}>
             <Input
               type="text"
@@ -72,8 +111,8 @@ const Hero = () => {
                 Search
             </Button>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

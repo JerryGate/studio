@@ -29,7 +29,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
             clipPath: 'polygon(50% 0, 50% 0, 50% 100%, 50% 100%)',
           },
         }}
-        className="flex-1"
+        className="flex-1 flex flex-col"
       >
         {children}
       </motion.div>
