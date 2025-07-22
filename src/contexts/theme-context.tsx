@@ -81,33 +81,36 @@ const applyTheme = (theme: Theme, mode: ThemeMode) => {
             root.style.setProperty(property, vars[property]);
         });
     };
+    
+    // Always apply the light theme vars first to get the custom colors
+    applyColors({
+        ...HSL_VARS,
+        '--primary': theme.primary,
+        '--accent': theme.accent,
+        '--background': theme.background,
+        '--ring': theme.primary,
+    });
 
-    if (mode === 'light') {
-        applyColors({
-            ...HSL_VARS,
-            '--primary': theme.primary,
-            '--accent': theme.accent,
-            '--background': theme.background,
-            '--ring': theme.primary,
-        });
-    } else {
-        const bgHsl = theme.background.split(',').map(s => parseFloat(s));
-        const invertedBg = `${bgHsl[0]}, ${bgHsl[1]}%, ${100 - bgHsl[2]}%`;
+    if (mode === 'dark') {
+      // In dark mode, we derive the dark palette from the light one
+      const bgHsl = theme.background.split(',').map(s => parseFloat(s));
+      const invertedBg = `${bgHsl[0]}, ${bgHsl[1]}%, ${100 - bgHsl[2]}%`;
+      const darkForeground = `0, 0%, 98%`;
 
-        applyColors({
-            ...DARK_HSL_VARS,
-            '--primary': theme.accent,
-            '--primary-foreground': '0, 0%, 100%',
-            '--accent': theme.primary,
-            '--accent-foreground': '0, 0%, 100%',
-            '--background': invertedBg,
-            '--foreground': `0, 0%, 98%`,
-            '--card': invertedBg,
-            '--card-foreground': `0, 0%, 98%`,
-            '--popover': invertedBg,
-            '--popover-foreground': `0, 0%, 98%`,
-            '--ring': theme.accent,
-        });
+      applyColors({
+        ...DARK_HSL_VARS,
+        '--background': invertedBg,
+        '--foreground': darkForeground,
+        '--card': invertedBg,
+        '--card-foreground': darkForeground,
+        '--popover': invertedBg,
+        '--popover-foreground': darkForeground,
+        '--primary': theme.primary,
+        '--primary-foreground': theme.background,
+        '--accent': theme.accent,
+        '--accent-foreground': '0, 0%, 100%',
+        '--ring': theme.accent,
+      });
     }
 }
 
@@ -115,8 +118,12 @@ const applyTheme = (theme: Theme, mode: ThemeMode) => {
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (isServer) return DEFAULT_THEME;
-    const savedTheme = localStorage.getItem('website-theme');
-    return savedTheme ? JSON.parse(savedTheme) : DEFAULT_THEME;
+    try {
+        const savedTheme = localStorage.getItem('website-theme');
+        return savedTheme ? JSON.parse(savedTheme) : DEFAULT_THEME;
+    } catch (e) {
+        return DEFAULT_THEME;
+    }
   });
 
   const [mode, setMode] = useState<ThemeMode>(() => {
@@ -133,11 +140,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [theme, mode]);
 
    useEffect(() => {
-    if (mode === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(mode);
     localStorage.setItem('theme-mode', mode);
   }, [mode]);
 
