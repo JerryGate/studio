@@ -3,8 +3,22 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const Hero = () => {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push('/search');
+    }
+  };
+
   return (
     <section className="relative py-24 md:py-40 text-center text-white overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary to-blue-800 animate-gradient-xy"></div>
@@ -40,13 +54,18 @@ const Hero = () => {
           </Button>
         </div>
         <div className="mt-12 max-w-xl mx-auto">
-          <form className="relative">
+          <form className="relative" onSubmit={handleSearch}>
             <Input
               type="text"
               placeholder="e.g., Paracetamol, Vitamin C..."
               className="h-14 pl-12 pr-4 text-base bg-white/90 text-primary placeholder:text-muted-foreground/80 border-2 border-transparent focus:border-accent focus:ring-accent"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
+             <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-10">
+                Search
+            </Button>
           </form>
         </div>
       </div>
