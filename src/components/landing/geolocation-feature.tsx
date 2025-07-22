@@ -67,7 +67,7 @@ const GeolocationFeature = () => {
   };
 
   return (
-    <section className="py-20 md:py-32 bg-background">
+    <section id="geolocation" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="text-center md:text-left">
