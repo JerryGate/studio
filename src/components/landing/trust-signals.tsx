@@ -72,8 +72,8 @@ const TrustSignals = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
             {trustBadges.map((badge, index) => (
-                <div key={index} className="flex flex-col items-center gap-3 text-center">
-                    <div className="bg-primary/10 text-primary p-4 rounded-full">
+                <div key={index} className="flex flex-col items-center gap-3 text-center group">
+                    <div className="bg-primary/10 text-primary p-4 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
                         <badge.icon className="h-8 w-8" />
                     </div>
                     <p className="font-semibold text-lg text-foreground">{badge.text}</p>
@@ -92,7 +92,7 @@ const TrustSignals = () => {
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
-                  <Card className="h-full flex flex-col justify-between shadow-lg">
+                  <Card className="h-full flex flex-col justify-between shadow-lg transition-shadow duration-300 hover:shadow-xl">
                     <CardContent className="p-6">
                       <p className="text-muted-foreground mb-6">"{testimonial.quote}"</p>
                       <div className="flex items-center">

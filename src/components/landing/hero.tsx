@@ -40,13 +40,13 @@ const Hero = () => {
       `}</style>
       
       <div className="container mx-auto px-4 relative z-10">
-        <h1 className="text-4xl md:text-6xl font-extrabold font-headline mb-4 drop-shadow-lg">
+        <h1 className="text-4xl md:text-6xl font-extrabold font-headline mb-4 drop-shadow-lg animate-fade-in-down">
           Order Quality Drugs with Fast Delivery in Nigeria
         </h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/90 drop-shadow-md">
+        <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/90 drop-shadow-md animate-fade-in-down animation-delay-300">
           Affordable, verified medications delivered to your doorstep from nearby pharmacies.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up animation-delay-600">
           <Link href="/search">
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform duration-300 shadow-lg">
               Get Started
@@ -58,7 +58,7 @@ const Hero = () => {
             </Button>
           </Link>
         </div>
-        <div className="mt-12 max-w-xl mx-auto">
+        <div className="mt-12 max-w-xl mx-auto animate-fade-in-up animation-delay-900">
           <form className="relative" onSubmit={handleSearch}>
             <Input
               type="text"

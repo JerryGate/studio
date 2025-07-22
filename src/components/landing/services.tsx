@@ -43,9 +43,9 @@ const Services = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service) => (
-            <Card key={service.role} className="flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300">
+            <Card key={service.role} className="flex flex-col shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
               <CardHeader className="flex-row items-center gap-4">
-                <div className="bg-primary/10 text-primary p-3 rounded-lg">
+                <div className="bg-primary/10 text-primary p-3 rounded-lg transition-colors duration-300">
                     <service.icon className="h-6 w-6" />
                 </div>
                 <CardTitle className="font-headline text-2xl">{service.role}</CardTitle>
@@ -54,8 +54,8 @@ const Services = () => {
                 <CardDescription>{service.description}</CardDescription>
               </CardContent>
               <CardFooter>
-                <Button variant="link" className="p-0 text-primary">
-                  Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                <Button variant="link" className="p-0 text-primary group">
+                  Learn More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </CardFooter>
             </Card>
