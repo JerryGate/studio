@@ -16,7 +16,6 @@ const baseNavLinks = [
   { name: 'Home', href: '/' },
   { name: 'About Us', href: '/about' },
   { name: 'Services', href: '/#services' },
-  { name: 'Register to Buy', href: '/signup' },
   { name: 'Testimonials', href: '/#testimonials' },
   { name: 'Contact Us', href: '/#contact' },
   { name: 'FAQ', href: '/faq' },
