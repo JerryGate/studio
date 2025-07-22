@@ -17,7 +17,7 @@ type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState('admin@medfast.ng');
+  const [email, setEmail] = useState('admin@e-pharma.com');
   const [role, setRole] = useState<UserRole>('admin');
 
   const handleLogin = () => {
@@ -105,4 +105,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

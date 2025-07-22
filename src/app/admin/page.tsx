@@ -31,7 +31,7 @@ export default function AdminDashboard() {
                 <CardTitle>Welcome, Admin!</CardTitle>
             </CardHeader>
             <CardContent>
-                <p>From this dashboard, you can manage all aspects of the Medfast platform. Use the sidebar to navigate to different sections.</p>
+                <p>From this dashboard, you can manage all aspects of the E-pharma platform. Use the sidebar to navigate to different sections.</p>
             </CardContent>
         </Card>
       </div>

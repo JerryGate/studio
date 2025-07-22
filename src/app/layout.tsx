@@ -10,10 +10,10 @@ import { ThemeProvider } from '@/contexts/theme-context';
 import { AuthProvider } from '@/contexts/auth-context';
 
 export const metadata: Metadata = {
-  title: 'Medfast Nigeria - Quality Drugs, Fast Delivery',
+  title: 'E-pharma - Quality Drugs, Fast Delivery in Nigeria',
   description:
     'Affordable, verified medications delivered to your doorstep from nearby pharmacies in Nigeria. Order drugs online with ease and track your delivery in real-time.',
-  keywords: 'buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, medfast nigeria',
+  keywords: 'buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, e-pharma',
 };
 
 export default function RootLayout({

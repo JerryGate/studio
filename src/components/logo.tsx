@@ -9,7 +9,7 @@ const Logo = () => {
           <Pill className="h-6 w-6" />
         </div>
         <span className="text-2xl font-bold font-headline text-primary">
-          Medfast<span className="text-accent">.ng</span>
+          E-pharma
         </span>
       </div>
     </Link>
