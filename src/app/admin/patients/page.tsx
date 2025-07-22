@@ -1,11 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
-import {
-  ColumnDef,
-} from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,7 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/data-table';
-
+import { MoreHorizontal } from 'lucide-react';
 
 const mockPatients: Patient[] = [
     { id: 'PAT001', name: 'Adebayo Adekunle', email: 'adebayo@example.com', phone: '08011223344', orders: 5, status: 'Active' },
@@ -66,7 +62,7 @@ export const columns: ColumnDef<Patient>[] = [
         Inactive: 'bg-gray-100 text-gray-800',
         Suspended: 'bg-yellow-100 text-yellow-800',
       }[status] || '';
-      return <Badge className={badgeClass}>{status}</Badge>;
+      return <Badge className={badgeClass} variant="outline">{status}</Badge>;
     },
   },
   {

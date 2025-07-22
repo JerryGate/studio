@@ -1,11 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
-import {
-  ColumnDef,
-} from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/data-table';
+import { MoreHorizontal } from 'lucide-react';
 
 const mockDispatchers: Dispatcher[] = [
     { id: 'DIS001', name: 'Femi Adebayo', phone: '08098765432', vehicle: 'Honda Motorcycle - ABC 123', status: 'Active', deliveries: 25 },
@@ -59,7 +56,7 @@ export const columns: ColumnDef<Dispatcher>[] = [
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
       const badgeClass = status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
-      return <Badge className={badgeClass}>{status}</Badge>;
+      return <Badge className={badgeClass} variant="outline">{status}</Badge>;
     },
   },
   {

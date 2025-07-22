@@ -54,7 +54,7 @@ export default function CartPage() {
                     <p className="w-24 text-right font-bold text-lg">
                       ₦{(item.price * item.quantity).toLocaleString()}
                     </p>
-                    <Button variant="ghost" size="icon" className="text-destructive" onClick={() => removeFromCart(item.id)}>
+                    <Button variant="destructive" size="icon" className="text-destructive-foreground" onClick={() => removeFromCart(item.id)}>
                       <Trash2 className="h-5 w-5" />
                     </Button>
                   </div>
@@ -64,7 +64,7 @@ export default function CartPage() {
           )}
         </CardContent>
         {cartCount > 0 && (
-          <CardFooter className="flex flex-col items-end gap-4 bg-gray-50/50 p-6">
+          <CardFooter className="flex flex-col items-end gap-4 bg-secondary/50 p-6">
             <div className="w-full md:w-1/3 space-y-2">
               <div className="flex justify-between text-lg">
                 <span className="text-muted-foreground">Subtotal ({cartCount} items)</span>

@@ -18,7 +18,7 @@ export function OverviewChart() {
   return (
     <Card>
         <CardHeader>
-            <CardTitle>Sales & Orders Overview</CardTitle>
+            <CardTitle className="text-xl">Sales & Orders Overview</CardTitle>
             <CardDescription>Monthly revenue and number of orders.</CardDescription>
         </CardHeader>
         <CardContent>

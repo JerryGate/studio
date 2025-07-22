@@ -1,17 +1,8 @@
 
 'use client';
 
-import { useState } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,14 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/data-table';
@@ -79,19 +62,13 @@ export const columns: ColumnDef<Pharmacy>[] = [
     header: 'Status',
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
-      const variant = {
-        Approved: 'default',
-        Pending: 'secondary',
-        Rejected: 'destructive',
-      }[status] as 'default' | 'secondary' | 'destructive' | null;
+      const badgeClass = {
+        Approved: 'bg-green-100 text-green-800',
+        Pending: 'bg-orange-100 text-orange-800',
+        Rejected: 'bg-red-100 text-red-800',
+      }[status] || '';
 
-       const badgeClass = {
-            Approved: 'bg-green-100 text-green-800',
-            Pending: 'bg-orange-100 text-orange-800',
-            Rejected: 'bg-red-100 text-red-800',
-        }[status] || '';
-
-      return <Badge variant={variant || 'default'} className={badgeClass}>{status}</Badge>;
+      return <Badge variant="outline" className={badgeClass}>{status}</Badge>;
     },
   },
   {

@@ -19,7 +19,7 @@ export function SalesByCategoryChart() {
   return (
      <Card>
         <CardHeader>
-            <CardTitle>Sales by Category</CardTitle>
+            <CardTitle className="text-xl">Sales by Category</CardTitle>
             <CardDescription>Breakdown of sales across different drug categories.</CardDescription>
         </CardHeader>
         <CardContent>

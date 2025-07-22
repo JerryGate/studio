@@ -6,31 +6,31 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 const isServer = typeof window === 'undefined';
 
 const DEFAULT_THEME = {
-    primary: '226, 66%, 32%',
-    accent: '145, 63%, 42%',
-    background: '210, 20%, 98%',
+    primary: '211, 90%, 53%',
+    accent: '145, 58%, 59%',
+    background: '0, 0%, 100%',
 };
 
 const HSL_VARS = {
-    '--background': '210 20% 98%',
+    '--background': '0 0% 100%',
     '--foreground': '222 47% 11%',
     '--card': '0 0% 100%',
     '--card-foreground': '222 47% 11%',
     '--popover': '0 0% 100%',
     '--popover-foreground': '222 47% 11%',
-    '--primary': '226 66% 32%',
+    '--primary': '211 90% 53%',
     '--primary-foreground': '0 0% 100%',
-    '--secondary': '220 13% 91%',
+    '--secondary': '210 40% 96.1%',
     '--secondary-foreground': '222 47% 11%',
-    '--muted': '220 9% 96%',
+    '--muted': '210 40% 96.1%',
     '--muted-foreground': '220 9% 45%',
-    '--accent': '145 63% 42%',
-    '--accent-foreground': '0 0% 100%',
+    '--accent': '145 58% 59%',
+    '--accent-foreground': '222 47% 11%',
     '--destructive': '0 84.2% 60.2%',
     '--destructive-foreground': '0 0% 98%',
-    '--border': '220 13% 91%',
-    '--input': '220 13% 91%',
-    '--ring': '226 66% 32%',
+    '--border': '214 32% 91%',
+    '--input': '214 32% 91%',
+    '--ring': '211 90% 53%',
 };
 
 const DARK_HSL_VARS = {
@@ -40,19 +40,19 @@ const DARK_HSL_VARS = {
     '--card-foreground': '0 0% 98%',
     '--popover': '222 47% 11%',
     '--popover-foreground': '0 0% 98%',
-    '--primary': '0 0% 98%',
-    '--primary-foreground': '226 66% 32%',
+    '--primary': '211 90% 63%',
+    '--primary-foreground': '222 47% 11%',
     '--secondary': '220 13% 18%',
     '--secondary-foreground': '0 0% 98%',
     '--muted': '220 13% 18%',
     '--muted-foreground': '220 9% 55%',
-    '--accent': '145 63% 42%',
-    '--accent-foreground': '0 0% 100%',
+    '--accent': '145 58% 69%',
+    '--accent-foreground': '222 47% 11%',
     '--destructive': '0 62.8% 30.6%',
     '--destructive-foreground': '0 0% 98%',
     '--border': '220 13% 18%',
     '--input': '220 13% 18%',
-    '--ring': '145 63% 42%',
+    '--ring': '211 90% 63%',
 };
 
 type ThemeMode = 'light' | 'dark';
@@ -76,42 +76,21 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const applyTheme = (theme: Theme, mode: ThemeMode) => {
     const root = document.documentElement;
 
-    const applyColors = (vars: Record<string, string>) => {
-        Object.keys(vars).forEach(property => {
-            root.style.setProperty(property, vars[property]);
-        });
-    };
+    const baseVars = mode === 'light' ? HSL_VARS : DARK_HSL_VARS;
     
-    // Always apply the light theme vars first to get the custom colors
-    applyColors({
-        ...HSL_VARS,
+    const newVars = {
+        ...baseVars,
         '--primary': theme.primary,
         '--accent': theme.accent,
-        '--background': theme.background,
-        '--ring': theme.primary,
-    });
+    };
 
-    if (mode === 'dark') {
-      // In dark mode, we derive the dark palette from the light one
-      const bgHsl = theme.background.split(',').map(s => parseFloat(s));
-      const invertedBg = `${bgHsl[0]}, ${bgHsl[1]}%, ${100 - bgHsl[2]}%`;
-      const darkForeground = `0, 0%, 98%`;
-
-      applyColors({
-        ...DARK_HSL_VARS,
-        '--background': invertedBg,
-        '--foreground': darkForeground,
-        '--card': invertedBg,
-        '--card-foreground': darkForeground,
-        '--popover': invertedBg,
-        '--popover-foreground': darkForeground,
-        '--primary': theme.primary,
-        '--primary-foreground': theme.background,
-        '--accent': theme.accent,
-        '--accent-foreground': '0, 0%, 100%',
-        '--ring': theme.accent,
-      });
+    if (mode === 'light') {
+        newVars['--background'] = theme.background;
     }
+
+    Object.keys(newVars).forEach(property => {
+        root.style.setProperty(property, newVars[property]);
+    });
 }
 
 
