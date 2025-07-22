@@ -18,7 +18,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
     const { addToCart } = useCart();
     const isInStock = product.stock > 0;
 
-    const handleAddToCart = () => {
+    const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         addToCart(product, 1);
     }
 
@@ -37,33 +38,31 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         />
                     </div>
                 </CardHeader>
-            </Link>
-            <div className="p-4 flex flex-col flex-grow">
-                <CardTitle className="text-lg font-bold mb-1 hover:text-primary">
-                    <Link href={`/product/${product.id}`}>
+                <div className="p-4 flex flex-col flex-grow">
+                    <CardTitle className="text-lg font-bold mb-1 hover:text-primary">
                         {product.name}
-                    </Link>
-                </CardTitle>
-                <CardDescription className="text-sm text-muted-foreground mb-2">{product.category}</CardDescription>
-                
-                <div className="flex items-center gap-2 mt-auto mb-2">
-                    {isInStock ? (
-                        <Badge variant="default" className="text-xs">
-                            <CheckCircle className="h-3 w-3 mr-1" />
-                            In Stock
-                        </Badge>
-                    ) : (
-                        <Badge variant="destructive" className="text-xs">
-                            <XCircle className="h-3 w-3 mr-1" />
-                            Out of Stock
-                        </Badge>
-                    )}
-                </div>
+                    </CardTitle>
+                    <CardDescription className="text-sm text-muted-foreground mb-2">{product.category}</CardDescription>
+                    
+                    <div className="flex items-center gap-2 mt-auto mb-2">
+                        {isInStock ? (
+                            <Badge variant="default" className="text-xs">
+                                <CheckCircle className="h-3 w-3 mr-1" />
+                                In Stock
+                            </Badge>
+                        ) : (
+                            <Badge variant="destructive" className="text-xs">
+                                <XCircle className="h-3 w-3 mr-1" />
+                                Out of Stock
+                            </Badge>
+                        )}
+                    </div>
 
-                <p className="text-xl font-extrabold text-primary">
-                    ₦{product.price.toLocaleString()}
-                </p>
-            </div>
+                    <p className="text-xl font-extrabold text-primary">
+                        ₦{product.price.toLocaleString()}
+                    </p>
+                </div>
+            </Link>
             <CardFooter className="p-4 bg-muted/50">
                 <Button className="w-full" disabled={!isInStock} onClick={handleAddToCart}>
                     <ShoppingCart className="mr-2 h-4 w-4" />

@@ -94,9 +94,9 @@ export default function InventoryPage() {
             <div className="flex justify-between items-center mb-6">
                  <div>
                     <h1 className="text-3xl font-bold text-primary">Inventory Management</h1>
-                    <CardDescription>
+                    <div className="text-sm text-muted-foreground">
                         Add new drugs, update stock levels, and set prices.
-                    </CardDescription>
+                    </div>
                 </div>
                 <Link href="/pharmacy/inventory/add">
                     <Button>Add New Product</Button>
