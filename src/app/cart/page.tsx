@@ -41,7 +41,7 @@ export default function CartPage() {
                     <p className="text-muted-foreground text-sm">{item.category}</p>
                     <p className="text-lg font-semibold text-accent mt-1">₦{item.price.toLocaleString()}</p>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col sm:flex-row items-center gap-4">
                     <div className="flex items-center border rounded-md">
                       <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
                         <MinusCircle className="h-5 w-5" />
@@ -64,7 +64,7 @@ export default function CartPage() {
           )}
         </CardContent>
         {cartCount > 0 && (
-          <CardFooter className="flex flex-col items-end gap-4 bg-secondary/50 p-6">
+          <CardFooter className="flex flex-col items-end gap-4 bg-muted/40 p-6">
             <div className="w-full md:w-1/3 space-y-2">
               <div className="flex justify-between text-lg">
                 <span className="text-muted-foreground">Subtotal ({cartCount} items)</span>
@@ -76,7 +76,7 @@ export default function CartPage() {
                 <span>₦{cartTotal.toLocaleString()}</span>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto md:justify-end">
+            <div className="flex flex-col sm:flex-row gap-4 w-full justify-end">
                 <Button variant="outline" onClick={clearCart}>
                     Clear Cart
                 </Button>

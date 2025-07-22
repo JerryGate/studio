@@ -23,35 +23,24 @@ const mockUsers: Record<UserRole, { email: string }> = {
     hospital: { email: 'hospital@e-pharma.com' },
 };
 
+const roleToDashboard: Record<UserRole, string> = {
+    admin: '/admin',
+    customer: '/dashboard',
+    pharmacy: '/pharmacy',
+    dispatcher: '/dispatcher',
+    hospital: '/hospital',
+}
+
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
   const [role, setRole] = useState<UserRole>('admin');
   const [showPassword, setShowPassword] = useState(false);
   
-  const handleLogin = () => {
-    const email = mockUsers[role].email;
-    login(email, role);
-    switch(role) {
-      case 'admin':
-        router.push('/admin');
-        break;
-      case 'customer':
-        router.push('/dashboard');
-        break;
-      case 'pharmacy':
-        router.push('/pharmacy');
-        break;
-      case 'dispatcher':
-        router.push('/dispatcher');
-        break;
-       case 'hospital':
-        // Assuming a hospital dashboard route exists
-        router.push('/hospital'); 
-        break;
-      default:
-        router.push('/');
-    }
+  const handleLogin = (currentRole: UserRole) => {
+    const email = mockUsers[currentRole].email;
+    login(email, currentRole);
+    router.push(roleToDashboard[currentRole] || '/');
   };
 
   const renderLoginForm = (currentRole: UserRole) => (
@@ -63,11 +52,9 @@ export default function LoginPage() {
         <div className="space-y-2">
             <div className="flex items-center justify-between">
                 <Label htmlFor={`${currentRole}-password`}>Password</Label>
-                <div className="text-sm">
-                    <a href="#" className="font-medium text-accent hover:text-accent/90">
+                <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90">
                     Forgot your password?
-                    </a>
-                </div>
+                </Link>
             </div>
             <div className="relative">
                 <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
@@ -81,7 +68,7 @@ export default function LoginPage() {
             </div>
         </div>
          <div>
-            <Button type="submit" className="w-full" onClick={handleLogin}>
+            <Button type="button" className="w-full" onClick={() => handleLogin(currentRole)}>
                 Sign in as {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
             </Button>
         </div>
@@ -90,7 +77,7 @@ export default function LoginPage() {
 
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
             <Link href="/" className="inline-block">
@@ -113,7 +100,7 @@ export default function LoginPage() {
             </CardHeader>
             <CardContent>
                 <Tabs value={role} onValueChange={(value) => setRole(value as UserRole)} className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
+                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
                         <TabsTrigger value="admin">Admin</TabsTrigger>
                         <TabsTrigger value="customer">Customer</TabsTrigger>
                         <TabsTrigger value="pharmacy">Pharmacy</TabsTrigger>

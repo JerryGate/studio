@@ -35,9 +35,9 @@ export default function RootLayout({
               <div className="px-4 sm:px-6 lg:px-8">
                 <Header />
               </div>
-              <main className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col">
                 <PageTransition>{children}</PageTransition>
-              </main>
+              </div>
               <div className="px-4 sm:px-6 lg:px-8">
                 <Footer />
               </div>

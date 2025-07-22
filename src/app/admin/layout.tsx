@@ -13,7 +13,7 @@ function AdminLayout({
     <ThemeProvider>
       <div className="flex min-h-screen">
         <AdminSidebar />
-        <main className="flex-1 p-8 bg-gray-50/50">
+        <main className="flex-1 p-8 bg-muted/40">
           {children}
         </main>
       </div>
@@ -22,4 +22,3 @@ function AdminLayout({
 }
 
 export default withAuth(AdminLayout, ['admin']);
-
