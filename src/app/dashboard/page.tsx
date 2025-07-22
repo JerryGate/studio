@@ -1,11 +1,13 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { SpendingHistoryChart } from '@/components/dashboard/spending-history-chart';
 
 export default function DashboardPage() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-primary mb-6">Welcome to your Dashboard</h1>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold text-primary">Welcome to your Dashboard</h1>
       <Card>
         <CardHeader>
           <CardTitle>Hello, Customer!</CardTitle>
@@ -18,6 +20,15 @@ export default function DashboardPage() {
             <Link href="/search">
                 <Button>Start a New Order</Button>
             </Link>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+            <CardTitle>Your Analytics</CardTitle>
+            <CardDescription>An overview of your recent activity.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <SpendingHistoryChart />
         </CardContent>
       </Card>
     </div>
