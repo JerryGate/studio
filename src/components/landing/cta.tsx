@@ -17,7 +17,7 @@ const itemVariants = {
 
 const Cta = () => {
   return (
-    <section id="contact" className="py-20 md:py-32 bg-primary/5">
+    <section id="contact" className="py-20 md:py-32 bg-secondary">
       <motion.div 
         className="container mx-auto px-4 text-center"
         initial="hidden"
@@ -33,7 +33,7 @@ const Cta = () => {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/search">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground animate-pulse">
+            <Button size="lg">
               Order Your Drugs Today
             </Button>
           </Link>

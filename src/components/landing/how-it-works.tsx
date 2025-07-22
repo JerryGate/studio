@@ -46,7 +46,7 @@ const itemVariants = {
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-20 md:py-32 bg-primary/5">
+    <section id="how-it-works" className="py-20 md:py-32 bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
             className="text-center mb-12"
@@ -75,9 +75,9 @@ const HowItWorks = () => {
         >
           {steps.map((step, index) => (
             <motion.div key={index} variants={itemVariants}>
-                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-accent h-full">
+                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-primary h-full">
                 <CardHeader>
-                    <div className="mx-auto bg-accent text-accent-foreground rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                    <div className="mx-auto bg-primary text-primary-foreground rounded-full h-16 w-16 flex items-center justify-center mb-4">
                     <step.icon className="h-8 w-8" />
                     </div>
                     <CardTitle className="font-headline text-2xl text-primary">{step.title}</CardTitle>

@@ -43,24 +43,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative py-24 md:py-40 text-center text-white overflow-hidden bg-primary">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-800 to-primary/60 animate-gradient-xy"></div>
-      <style jsx>{`
-        @keyframes gradient-xy {
-          0%, 100% {
-            background-size: 400% 400%;
-            background-position: 0% 50%;
-          }
-          50% {
-            background-size: 200% 200%;
-            background-position: 100% 50%;
-          }
-        }
-        .animate-gradient-xy {
-          animation: gradient-xy 15s ease infinite;
-        }
-      `}</style>
-      
+    <section className="relative py-24 md:py-40 text-center bg-gray-50 text-foreground">
       <motion.div 
         className="container mx-auto px-4 relative z-10"
         variants={containerVariants}
@@ -68,13 +51,13 @@ const Hero = () => {
         animate="visible"
       >
         <motion.h1 
-          className="text-4xl md:text-6xl font-extrabold font-headline mb-4 drop-shadow-lg"
+          className="text-4xl md:text-6xl font-extrabold font-headline mb-4 text-primary drop-shadow-sm"
           variants={itemVariants}
         >
           Order Quality Drugs with Fast Delivery in Nigeria
         </motion.h1>
         <motion.p 
-          className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/90 drop-shadow-md"
+          className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-muted-foreground drop-shadow-sm"
           variants={itemVariants}
         >
           Affordable, verified medications delivered to your doorstep from nearby pharmacies.
@@ -84,12 +67,12 @@ const Hero = () => {
           variants={itemVariants}
         >
           <Link href="/search">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform duration-300 shadow-lg">
+            <Button size="lg" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
               Get Started
             </Button>
           </Link>
           <Link href="/about">
-            <Button size="lg" variant="secondary" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
+            <Button size="lg" variant="outline" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
               Learn More
             </Button>
           </Link>
@@ -102,7 +85,7 @@ const Hero = () => {
             <Input
               type="text"
               placeholder="e.g., Paracetamol, Vitamin C..."
-              className="h-14 pl-12 pr-4 text-base bg-white/90 text-primary placeholder:text-muted-foreground/80 border-2 border-transparent focus:border-accent focus:ring-accent"
+              className="h-14 pl-12 pr-4 text-base bg-white text-primary placeholder:text-muted-foreground/80 border-2 border-border focus:border-primary focus:ring-primary"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
