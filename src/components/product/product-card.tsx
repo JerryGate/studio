@@ -1,3 +1,5 @@
+'use client';
+
 import { Product } from '@/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -5,13 +7,19 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle, ShoppingCart, XCircle } from 'lucide-react';
+import { useCart } from '@/contexts/cart-context';
 
 interface ProductCardProps {
     product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+    const { addToCart } = useCart();
     const isInStock = product.stock > 0;
+
+    const handleAddToCart = () => {
+        addToCart(product, 1);
+    }
 
     return (
         <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -56,7 +64,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 </p>
             </div>
             <CardFooter className="p-4 bg-gray-50/50">
-                <Button className="w-full" disabled={!isInStock}>
+                <Button className="w-full" disabled={!isInStock} onClick={handleAddToCart}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     {isInStock ? 'Add to Cart' : 'Out of Stock'}
                 </Button>

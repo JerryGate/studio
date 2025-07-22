@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useCart } from "@/contexts/cart-context";
 import { Product } from "@/types";
 import { CheckCircle, MinusCircle, PlusCircle, ShoppingCart, XCircle } from "lucide-react";
 import Image from "next/image";
@@ -26,6 +27,7 @@ const allProducts: Product[] = [
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
     const product = allProducts.find(p => p.id === params.id);
     const [quantity, setQuantity] = useState(1);
+    const { addToCart } = useCart();
     
     if (!product) {
         return (
@@ -52,6 +54,12 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             setQuantity(prev => prev - 1);
         }
     };
+    
+    const handleAddToCart = () => {
+        if (product) {
+            addToCart(product, quantity);
+        }
+    }
 
     return (
         <div className="container mx-auto px-4 py-12">
@@ -100,16 +108,16 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                             <div className="flex items-center gap-4">
                                 <p className="font-semibold">Quantity:</p>
                                 <div className="flex items-center border rounded-md">
-                                    <Button variant="ghost" size="icon" onClick={decrementQuantity} disabled={!isInStock}>
+                                    <Button variant="ghost" size="icon" onClick={decrementQuantity} disabled={!isInStock || quantity <= 1}>
                                         <MinusCircle className="h-5 w-5" />
                                     </Button>
                                     <span className="w-12 text-center font-bold text-lg">{quantity}</span>
-                                    <Button variant="ghost" size="icon" onClick={incrementQuantity} disabled={!isInStock}>
+                                    <Button variant="ghost" size="icon" onClick={incrementQuantity} disabled={!isInStock || quantity >= product.stock}>
                                         <PlusCircle className="h-5 w-5" />
                                     </Button>
                                 </div>
                             </div>
-                            <Button size="lg" className="w-full" disabled={!isInStock}>
+                            <Button size="lg" className="w-full" disabled={!isInStock} onClick={handleAddToCart}>
                                 <ShoppingCart className="mr-2 h-5 w-5" />
                                 {isInStock ? 'Add to Cart' : 'Out of Stock'}
                             </Button>
