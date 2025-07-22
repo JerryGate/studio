@@ -70,8 +70,12 @@ const Header = () => {
                   )}
               </Button>
             </Link>
-            <Button variant="ghost">Log In</Button>
-            <Button>Sign Up</Button>
+            <Link href="/login">
+                <Button variant="ghost">Log In</Button>
+            </Link>
+            <Link href="/signup">
+                <Button>Sign Up</Button>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center gap-2">
@@ -118,10 +122,14 @@ const Header = () => {
                     ))}
                   </nav>
                   <div className="p-4 border-t space-y-2">
-                    <Button variant="ghost" className="w-full">
-                      Log In
-                    </Button>
-                    <Button className="w-full">Sign Up</Button>
+                    <Link href="/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button variant="ghost" className="w-full">
+                            Log In
+                        </Button>
+                    </Link>
+                    <Link href="/signup" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button className="w-full">Sign Up</Button>
+                    </Link>
                   </div>
                 </div>
               </SheetContent>
