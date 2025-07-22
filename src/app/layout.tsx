@@ -29,11 +29,15 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <ThemeProvider>
           <CartProvider>
-            <Header />
+            <div className="px-4 sm:px-6 lg:px-8">
+              <Header />
+            </div>
             <main className="flex-1 flex flex-col">
               <PageTransition>{children}</PageTransition>
             </main>
-            <Footer />
+            <div className="px-4 sm:px-6 lg:px-8">
+              <Footer />
+            </div>
             <Toaster />
           </CartProvider>
         </ThemeProvider>

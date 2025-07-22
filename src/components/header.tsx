@@ -38,7 +38,7 @@ const Header = () => {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/80 backdrop-blur-sm shadow-md' : 'bg-transparent'
+        isScrolled ? 'bg-background/80 backdrop-blur-sm shadow-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4">
@@ -104,7 +104,7 @@ const Header = () => {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b">
                      <Logo />
-                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpe(false)}>
                       <X className="h-6 w-6" />
                       <span className="sr-only">Close menu</span>
                     </Button>
@@ -114,7 +114,7 @@ const Header = () => {
                       <Link key={link.name} href={link.href}>
                         <span
                           className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-300"
-                          onClick={() => setIsMobileMenuOpen(false)}
+                          onClick={() => setIsMobileMenuOpe(false)}
                         >
                           {link.name}
                         </span>
@@ -122,12 +122,12 @@ const Header = () => {
                     ))}
                   </nav>
                   <div className="p-4 border-t space-y-2">
-                    <Link href="/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link href="/login" className="w-full" onClick={() => setIsMobileMenuOpe(false)}>
                         <Button variant="ghost" className="w-full">
                             Log In
                         </Button>
                     </Link>
-                    <Link href="/signup" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link href="/signup" className="w-full" onClick={() => setIsMobileMenuOpe(false)}>
                         <Button className="w-full">Sign Up</Button>
                     </Link>
                   </div>
