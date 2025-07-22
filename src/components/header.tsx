@@ -33,7 +33,7 @@ const getDashboardUrl = (role: string | undefined) => {
         case 'dispatcher':
             return '/dispatcher';
         case 'hospital':
-            return '/hospital'; // Assuming a hospital dashboard exists
+            return '/hospital';
         default:
             return '/login';
     }
@@ -70,7 +70,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-20">
           <Logo />
 
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => (
               <Link key={link.name} href={link.href}>
                 <span className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
@@ -80,7 +80,7 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-2">
+          <div className="hidden lg:flex items-center space-x-2">
              <Button variant="ghost" size="icon" onClick={toggleMode}>
                 {mode === 'light' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 <span className="sr-only">Toggle theme</span>
@@ -120,7 +120,7 @@ const Header = () => {
             )}
           </div>
 
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={toggleMode}>
                 {mode === 'light' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 <span className="sr-only">Toggle theme</span>
@@ -142,7 +142,7 @@ const Header = () => {
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-xs bg-background">
+              <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b">
                      <Logo />
@@ -165,21 +165,31 @@ const Header = () => {
                   </nav>
                   <div className="p-4 border-t space-y-2">
                      {user ? (
-                        <Button variant="ghost" className="w-full" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            Log Out
-                        </Button>
-                    ) : (
                         <>
-                            <Link href="/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button variant="ghost" className="w-full">
+                           <Link href={getDashboardUrl(user?.role)} passHref>
+                                <Button variant="outline" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <User className="mr-2 h-4 w-4" />
+                                    Dashboard
+                                </Button>
+                            </Link>
+                            <Button variant="ghost" className="w-full" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
+                                <LogOut className="mr-2 h-4 w-4" />
+                                Log Out
+                            </Button>
+                        </>
+                    ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                            <Link href="/login" passHref>
+                                <Button variant="outline" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
                                     Log In
                                 </Button>
                             </Link>
-                            <Link href="/signup" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button className="w-full">Sign Up</Button>
+                            <Link href="/signup" passHref>
+                                <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Sign Up
+                                </Button>
                             </Link>
-                        </>
+                        </div>
                     )}
                   </div>
                 </div>
