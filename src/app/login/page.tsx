@@ -10,17 +10,25 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
+
+const mockUsers: Record<UserRole, { email: string }> = {
+    admin: { email: 'admin@e-pharma.com' },
+    customer: { email: 'customer@e-pharma.com' },
+    pharmacy: { email: 'pharmacy@e-pharma.com' },
+    dispatcher: { email: 'dispatcher@e-pharma.com' },
+    hospital: { email: 'hospital@e-pharma.com' },
+};
 
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState('admin@e-pharma.com');
   const [role, setRole] = useState<UserRole>('admin');
-
+  
   const handleLogin = () => {
+    const email = mockUsers[role].email;
     login(email, role);
     switch(role) {
       case 'admin':
@@ -35,10 +43,39 @@ export default function LoginPage() {
       case 'dispatcher':
         router.push('/dispatcher');
         break;
+       case 'hospital':
+        // Assuming a hospital dashboard route exists
+        router.push('/hospital'); 
+        break;
       default:
         router.push('/');
     }
   };
+
+  const renderLoginForm = (currentRole: UserRole) => (
+     <TabsContent value={currentRole} className="space-y-6">
+        <div className="space-y-2">
+            <Label htmlFor={`${currentRole}-email`}>Email address</Label>
+            <Input id={`${currentRole}-email`} type="email" value={mockUsers[currentRole].email} readOnly />
+        </div>
+        <div className="space-y-2">
+            <div className="flex items-center justify-between">
+                <Label htmlFor={`${currentRole}-password`}>Password</Label>
+                <div className="text-sm">
+                    <a href="#" className="font-medium text-accent hover:text-accent/90">
+                    Forgot your password?
+                    </a>
+                </div>
+            </div>
+            <Input id={`${currentRole}-password`} type="password" required defaultValue="password" />
+        </div>
+         <div>
+            <Button type="submit" className="w-full" onClick={handleLogin}>
+                Sign in as {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
+            </Button>
+        </div>
+     </TabsContent>
+  );
 
 
   return (
@@ -54,51 +91,30 @@ export default function LoginPage() {
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Or{' '}
             <Link href="/signup" className="font-medium text-accent hover:text-accent/90">
-              start your 14-day free trial
+              create a new account
             </Link>
           </p>
         </div>
         <Card>
             <CardHeader>
                 <CardTitle>Welcome Back!</CardTitle>
-                <CardDescription>Enter your credentials to access your account.</CardDescription>
+                <CardDescription>Select your role to sign in with mock data.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="space-y-2">
-                    <Label htmlFor="email">Email address</Label>
-                    <Input id="email" name="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                        <Label htmlFor="password">Password</Label>
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-accent hover:text-accent/90">
-                            Forgot your password?
-                            </a>
-                        </div>
-                    </div>
-                    <Input id="password" name="password" type="password" autoComplete="current-password" required defaultValue="password" />
-                </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="role">Sign in as...</Label>
-                    <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
-                        <SelectTrigger id="role">
-                            <SelectValue placeholder="Select your role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="customer">Customer/Patient</SelectItem>
-                            <SelectItem value="pharmacy">Pharmacy</SelectItem>
-                            <SelectItem value="dispatcher">Dispatcher</SelectItem>
-                            <SelectItem value="hospital">Hospital</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div>
-                    <Button type="submit" className="w-full" onClick={handleLogin}>
-                    Sign in
-                    </Button>
-                </div>
+            <CardContent>
+                <Tabs value={role} onValueChange={(value) => setRole(value as UserRole)} className="w-full">
+                    <TabsList className="grid w-full grid-cols-3">
+                        <TabsTrigger value="admin">Admin</TabsTrigger>
+                        <TabsTrigger value="customer">Customer</TabsTrigger>
+                        <TabsTrigger value="pharmacy">Pharmacy</TabsTrigger>
+                        <TabsTrigger value="dispatcher">Dispatcher</TabsTrigger>
+                        <TabsTrigger value="hospital">Hospital</TabsTrigger>
+                    </TabsList>
+                    {renderLoginForm('admin')}
+                    {renderLoginForm('customer')}
+                    {renderLoginForm('pharmacy')}
+                    {renderLoginForm('dispatcher')}
+                    {renderLoginForm('hospital')}
+                </Tabs>
             </CardContent>
         </Card>
       </div>
