@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, ShoppingCart, X, Sun, Moon, LogOut, User, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 import Logo from './logo';
 import { useCart } from '@/contexts/cart-context';
 import { Badge } from './ui/badge';
@@ -149,6 +149,9 @@ const Header = () => {
                     </Button>
                   </SheetTrigger>
                   <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
+                     <SheetHeader className="sr-only">
+                        <SheetTitle>Mobile Menu</SheetTitle>
+                     </SheetHeader>
                     <div className="flex flex-col h-full">
                       <div className="flex items-center justify-between p-4 border-b">
                          <Logo />
