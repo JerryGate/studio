@@ -80,7 +80,9 @@ export default function CartPage() {
                 <Button variant="outline" onClick={clearCart}>
                     Clear Cart
                 </Button>
-                <Button size="lg">Proceed to Checkout</Button>
+                <Link href="/checkout">
+                  <Button size="lg">Proceed to Checkout</Button>
+                </Link>
             </div>
           </CardFooter>
         )}
