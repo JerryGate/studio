@@ -6,15 +6,27 @@ const Footer = () => {
   const footerLinks = [
     {
       title: 'Company',
-      links: ['About Us', 'Services', 'Testimonials', 'Contact Us', 'FAQ'],
+      links: [
+        { name: 'Services', href: '#services' },
+        { name: 'Testimonials', href: '#testimonials' },
+        { name: 'Contact Us', href: '#contact' },
+        { name: 'FAQ', href: '#' },
+      ],
     },
     {
       title: 'Legal',
-      links: ['Terms of Service', 'Privacy Policy'],
+      links: [
+        { name: 'Terms of Service', href: '#' },
+        { name: 'Privacy Policy', href: '#' },
+      ],
     },
     {
       title: 'Get Started',
-      links: ['Register to Buy', 'Join as a Pharmacy', 'Join as a Dispatcher'],
+      links: [
+        { name: 'Register to Buy', href: '#' },
+        { name: 'Join as a Pharmacy', href: '#' },
+        { name: 'Join as a Dispatcher', href: '#' },
+      ],
     },
   ];
 
@@ -59,10 +71,10 @@ const Footer = () => {
               <h3 className="font-headline font-semibold text-primary mb-4">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((link) => (
-                  <li key={link}>
-                    <Link href="#" passHref>
+                  <li key={link.name}>
+                    <Link href={link.href} passHref>
                       <span className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer">
-                        {link}
+                        {link.name}
                       </span>
                     </Link>
                   </li>
