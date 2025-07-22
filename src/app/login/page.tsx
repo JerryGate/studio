@@ -12,16 +12,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Eye, EyeOff } from "lucide-react";
+import { UserRole } from "@/types";
+import { mockAuthUsers } from "@/lib/mock-data";
 
-type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
-
-const mockUsers: Record<UserRole, { email: string }> = {
-    admin: { email: 'admin@e-pharma.com' },
-    customer: { email: 'customer@e-pharma.com' },
-    pharmacy: { email: 'pharmacy@e-pharma.com' },
-    dispatcher: { email: 'dispatcher@e-pharma.com' },
-    hospital: { email: 'hospital@e-pharma.com' },
-};
 
 const roleToDashboard: Record<UserRole, string> = {
     admin: '/admin',
@@ -38,8 +31,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   
   const handleLogin = (currentRole: UserRole) => {
-    const email = mockUsers[currentRole].email;
-    login(email, currentRole);
+    login(currentRole);
     router.push(roleToDashboard[currentRole] || '/');
   };
 
@@ -47,7 +39,7 @@ export default function LoginPage() {
      <TabsContent value={currentRole} className="space-y-6">
         <div className="space-y-2">
             <Label htmlFor={`${currentRole}-email`}>Email address</Label>
-            <Input id={`${currentRole}-email`} type="email" value={mockUsers[currentRole].email} readOnly />
+            <Input id={`${currentRole}-email`} type="email" value={mockAuthUsers[currentRole].email} readOnly />
         </div>
         <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -80,9 +72,7 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-            <div className="inline-block">
-                <Logo />
-            </div>
+            <Logo />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
             Sign in to your account
           </h2>

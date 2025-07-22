@@ -2,19 +2,13 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
-
-interface AuthUser {
-  id: string;
-  email: string;
-  role: UserRole;
-}
+import { AuthUser, UserRole } from '@/types';
+import { mockAuthUsers } from '@/lib/mock-data';
 
 interface AuthContextType {
   user: AuthUser | null;
   loading: boolean;
-  login: (email: string, role: UserRole) => void;
+  login: (role: UserRole) => void;
   logout: () => void;
 }
 
@@ -39,9 +33,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }, []);
 
-    const login = (email: string, role: UserRole) => {
+    const login = (role: UserRole) => {
         setLoading(true);
-        const mockUser: AuthUser = { id: '123', email, role };
+        const mockUser = mockAuthUsers[role];
         sessionStorage.setItem('mock-user', JSON.stringify(mockUser));
         setUser(mockUser);
         setLoading(false);

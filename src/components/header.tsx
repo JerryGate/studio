@@ -42,6 +42,13 @@ const getDashboardUrl = (role: string | undefined) => {
     }
 }
 
+const getInitials = (name: string) => {
+    if (!name) return '';
+    const parts = name.split('@');
+    return parts[0].charAt(0).toUpperCase();
+}
+
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -101,8 +108,8 @@ const Header = () => {
                     <DropdownMenuTrigger asChild>
                          <Button variant="ghost" className="flex items-center gap-2">
                             <Avatar className="h-8 w-8">
-                                <AvatarImage src={`https://i.pravatar.cc/150?u=${user.email}`} />
-                                <AvatarFallback>{user.email.charAt(0).toUpperCase()}</AvatarFallback>
+                                <AvatarImage src={`https://i.pravatar.cc/150?u=${user.id}`} />
+                                <AvatarFallback>{getInitials(user.email)}</AvatarFallback>
                             </Avatar>
                             <span className="hidden md:inline">{user.email}</span>
                             <ChevronDown className="h-4 w-4 opacity-50" />
