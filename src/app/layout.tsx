@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { CartProvider } from '@/contexts/cart-context';
+import PageTransition from '@/components/page-transition';
 
 export const metadata: Metadata = {
   title: 'Medfast Nigeria - Quality Drugs, Fast Delivery',
@@ -24,10 +25,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased bg-background text-foreground">
+      <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <CartProvider>
           <Header />
-          <main>{children}</main>
+          <main className="flex-1 flex flex-col">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
           <Toaster />
         </CartProvider>
