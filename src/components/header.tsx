@@ -14,9 +14,11 @@ import { useAuth } from '@/contexts/auth-context';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
+  { name: 'About Us', href: '/about' },
   { name: 'Services', href: '/#services' },
-  { name: 'Contact', href: '/#contact' },
+  { name: 'Register to Buy', href: '/signup' },
+  { name: 'Testimonials', href: '/#testimonials' },
+  { name: 'Contact Us', href: '/#contact' },
   { name: 'FAQ', href: '/faq' },
 ];
 
@@ -55,7 +57,7 @@ const Header = () => {
   }, []);
 
   const navLinks = user 
-    ? [...baseNavLinks.slice(0, 3), { name: 'Dashboard', href: getDashboardUrl(user?.role) }, ...baseNavLinks.slice(3)] 
+    ? [...baseNavLinks.slice(0, 2), { name: 'Dashboard', href: getDashboardUrl(user?.role) }, ...baseNavLinks.slice(2)] 
     : baseNavLinks;
 
 

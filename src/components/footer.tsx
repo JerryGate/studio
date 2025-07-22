@@ -24,9 +24,9 @@ const Footer = () => {
     {
       title: 'Get Started',
       links: [
-        { name: 'Register to Buy', href: '#' },
-        { name: 'Join as a Pharmacy', href: '#' },
-        { name: 'Join as a Dispatcher', href: '#' },
+        { name: 'Register to Buy', href: '/signup' },
+        { name: 'Join as a Pharmacy', href: '/signup' },
+        { name: 'Join as a Dispatcher', href: '/signup' },
       ],
     },
   ];
