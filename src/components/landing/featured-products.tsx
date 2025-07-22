@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const featuredProducts: Product[] = [
-    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrl: 'https://placehold.co/300x300.png', dataAiHint: 'white pills', category: 'Pain Relief', stock: 10 },
-    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrl: 'https://placehold.co/300x300.png', dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25 },
-    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrl: 'https://placehold.co/300x300.png', dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30 },
-    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrl: 'https://placehold.co/300x300.png', dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12 },
+    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10 },
+    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25 },
+    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30 },
+    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12 },
 ];
 
 const containerVariants = {

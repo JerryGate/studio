@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Product } from '@/types';
@@ -27,7 +28,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 <CardHeader className="p-0">
                     <div className="relative aspect-square w-full">
                         <Image
-                            src={product.imageUrl}
+                            src={product.imageUrls[0]}
                             alt={product.name}
                             layout="fill"
                             objectFit="cover"

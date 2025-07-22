@@ -1,9 +1,10 @@
 
+
 export interface Product {
     id: string;
     name: string;
     price: number;
-    imageUrl: string;
+    imageUrls: string[];
     dataAiHint?: string;
     description?: string;
     category: string;
@@ -23,7 +24,7 @@ export interface AuthUser {
 }
 
 export interface Participant {
-    id: string;
+    id:string;
     name: string;
     role: UserRole;
 }

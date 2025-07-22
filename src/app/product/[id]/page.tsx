@@ -1,3 +1,4 @@
+
 'use client'
 
 import { Badge } from "@/components/ui/badge";
@@ -6,27 +7,28 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/cart-context";
 import { Product } from "@/types";
-import { CheckCircle, MinusCircle, PlusCircle, ShoppingCart, XCircle } from "lucide-react";
+import { CheckCircle, MinusCircle, PlusCircle, ShoppingCart, XCircle, ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 // Mock data - in a real app, you'd fetch this based on the `params.id`
 const allProducts: Product[] = [
-    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'white pills', category: 'Pain Relief', stock: 10, description: 'An effective pain reliever and fever reducer. Suitable for headaches, muscle aches, and colds.' },
-    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'A high-strength Vitamin C supplement to support your immune system. Effervescent tablets.' },
-    { id: '3', name: 'Amoxicillin 250mg', price: 800, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'capsules antibiotic', category: 'Antibiotics', stock: 0, description: 'A broad-spectrum antibiotic used to treat a variety of bacterial infections. Prescription required.' },
-    { id: '4', name: 'Loratadine 10mg', price: 750, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'A non-drowsy antihistamine that provides 24-hour relief from allergy symptoms.' },
-    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30, description: 'Provides relief from pain, inflammation, and fever. Ideal for period pain, dental pain, and migraines.' },
-    { id: '6', name: 'Metformin 500mg', price: 950, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Used to control high blood sugar in people with type 2 diabetes. Prescription required.' },
-    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12, description: 'A reliever inhaler for asthma symptoms, providing quick relief from breathing difficulties.' },
-    { id: '8', name: 'Cough Syrup', price: 1500, imageUrl: 'https://placehold.co/600x600.png', dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'A soothing cough syrup to relieve dry, tickly coughs. Contains honey and lemon.' },
+    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrls: ['https://placehold.co/600x600.png', 'https://placehold.co/600x600.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10, description: 'An effective pain reliever and fever reducer. Suitable for headaches, muscle aches, and colds.' },
+    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'A high-strength Vitamin C supplement to support your immune system. Effervescent tablets.' },
+    { id: '3', name: 'Amoxicillin 250mg', price: 800, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'capsules antibiotic', category: 'Antibiotics', stock: 0, description: 'A broad-spectrum antibiotic used to treat a variety of bacterial infections. Prescription required.' },
+    { id: '4', name: 'Loratadine 10mg', price: 750, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'A non-drowsy antihistamine that provides 24-hour relief from allergy symptoms.' },
+    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30, description: 'Provides relief from pain, inflammation, and fever. Ideal for period pain, dental pain, and migraines.' },
+    { id: '6', name: 'Metformin 500mg', price: 950, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Used to control high blood sugar in people with type 2 diabetes. Prescription required.' },
+    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12, description: 'A reliever inhaler for asthma symptoms, providing quick relief from breathing difficulties.' },
+    { id: '8', name: 'Cough Syrup', price: 1500, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'A soothing cough syrup to relieve dry, tickly coughs. Contains honey and lemon.' },
 ];
 
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
     const product = allProducts.find(p => p.id === params.id);
     const [quantity, setQuantity] = useState(1);
+    const [mainImageIndex, setMainImageIndex] = useState(0);
     const { addToCart } = useCart();
     
     if (!product) {
@@ -61,18 +63,43 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         }
     }
 
+    const nextImage = () => {
+        setMainImageIndex(prev => (prev + 1) % product.imageUrls.length);
+    }
+
+    const prevImage = () => {
+        setMainImageIndex(prev => (prev - 1 + product.imageUrls.length) % product.imageUrls.length);
+    }
+
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="grid md:grid-cols-2 gap-12">
                 {/* Product Image */}
-                <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg">
-                    <Image
-                        src={product.imageUrl}
-                        alt={product.name}
-                        layout="fill"
-                        objectFit="cover"
-                        data-ai-hint={product.dataAiHint}
-                    />
+                <div className="space-y-4">
+                    <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg">
+                        <Image
+                            src={product.imageUrls[mainImageIndex]}
+                            alt={product.name}
+                            layout="fill"
+                            objectFit="cover"
+                            data-ai-hint={product.dataAiHint}
+                        />
+                         {product.imageUrls.length > 1 && (
+                            <>
+                               <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white" onClick={prevImage}><ArrowLeft /></Button>
+                               <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white" onClick={nextImage}><ArrowRight /></Button>
+                            </>
+                        )}
+                    </div>
+                     {product.imageUrls.length > 1 && (
+                        <div className="grid grid-cols-5 gap-2">
+                            {product.imageUrls.map((url, index) => (
+                                <button key={index} onClick={() => setMainImageIndex(index)} className={`relative aspect-square rounded-md overflow-hidden ${index === mainImageIndex ? 'ring-2 ring-primary ring-offset-2' : ''}`}>
+                                    <Image src={url} alt={`${product.name} thumbnail ${index+1}`} layout="fill" objectFit="cover" />
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 
                 {/* Product Details */}
