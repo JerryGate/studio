@@ -1,5 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DollarSign, ShoppingCart, Users, Truck } from 'lucide-react';
+import { OverviewChart } from '@/components/admin/overview-chart';
+import { SalesByCategoryChart } from '@/components/admin/sales-by-category-chart';
+
 
 export default function AdminDashboard() {
   const stats = [
@@ -28,10 +31,12 @@ export default function AdminDashboard() {
       <div className="mt-8">
         <Card>
             <CardHeader>
-                <CardTitle>Welcome, Admin!</CardTitle>
+                <CardTitle>Platform Analytics</CardTitle>
+                <CardDescription>An overview of the platform's performance.</CardDescription>
             </CardHeader>
-            <CardContent>
-                <p>From this dashboard, you can manage all aspects of the E-pharma platform. Use the sidebar to navigate to different sections.</p>
+            <CardContent className="grid gap-8 md:grid-cols-2">
+                <OverviewChart />
+                <SalesByCategoryChart />
             </CardContent>
         </Card>
       </div>
