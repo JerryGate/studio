@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, X, Sun, Moon, LogOut } from 'lucide-react';
+import { Menu, ShoppingCart, X, Sun, Moon, LogOut, User } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import Logo from './logo';
@@ -12,14 +12,31 @@ import { Badge } from './ui/badge';
 import { useTheme } from '@/contexts/theme-context';
 import { useAuth } from '@/contexts/auth-context';
 
-const navLinks = [
+const baseNavLinks = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Services', href: '/#services' },
-  { name: 'Dashboard', href: '/dashboard' },
   { name: 'Contact', href: '/#contact' },
   { name: 'FAQ', href: '/faq' },
 ];
+
+const getDashboardUrl = (role: string | undefined) => {
+    if (!role) return '/login';
+    switch (role) {
+        case 'admin':
+            return '/admin';
+        case 'customer':
+            return '/dashboard';
+        case 'pharmacy':
+            return '/pharmacy';
+        case 'dispatcher':
+            return '/dispatcher';
+        case 'hospital':
+            return '/hospital'; // Assuming a hospital dashboard exists
+        default:
+            return '/login';
+    }
+}
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,6 +53,11 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const navLinks = user 
+    ? [...baseNavLinks.slice(0, 3), { name: 'Dashboard', href: getDashboardUrl(user?.role) }, ...baseNavLinks.slice(3)] 
+    : baseNavLinks;
+
 
   return (
     <header
@@ -73,10 +95,18 @@ const Header = () => {
               </Button>
             </Link>
             {user ? (
-                <Button variant="ghost" onClick={logout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log Out
-                </Button>
+                 <>
+                    <Link href={getDashboardUrl(user?.role)}>
+                        <Button variant="ghost">
+                            <User className="mr-2 h-4 w-4" />
+                            Dashboard
+                        </Button>
+                    </Link>
+                    <Button variant="outline" onClick={logout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Log Out
+                    </Button>
+                </>
             ) : (
                 <>
                     <Link href="/login">
