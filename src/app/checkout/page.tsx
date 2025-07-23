@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { CreditCard, MapPin, ShoppingCart, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import PaystackButton from 'react-paystack';
+import { usePaystackPayment } from 'react-paystack';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
@@ -184,6 +184,16 @@ export default function CheckoutPage() {
   
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
+  const paystackConfig = {
+      reference: new Date().getTime().toString(),
+      email: form.watch('email'),
+      amount: totalAmount * 100, // Amount in kobo
+      publicKey: paystackPublicKey || '',
+  };
+
+  const initializePayment = usePaystackPayment(paystackConfig);
+
+
   if (!paystackPublicKey) {
     return (
         <div className="container mx-auto px-4 py-12 text-center">
@@ -192,13 +202,6 @@ export default function CheckoutPage() {
         </div>
     )
   }
-  
-  const paystackConfig = {
-      reference: new Date().getTime().toString(),
-      email: form.watch('email'),
-      amount: totalAmount * 100, // Amount in kobo
-      publicKey: paystackPublicKey,
-  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -322,7 +325,6 @@ export default function CheckoutPage() {
                            onLocationSelect={handleLocationSelect}
                            key={selectedLocation ? `${selectedLocation.lat}-${selectedLocation.lng}` : 'map'}
                            initialCenter={selectedLocation || undefined}
-                           markers={selectedLocation ? [selectedLocation] : []}
                         />
                     </div>
                 </CardContent>
@@ -372,17 +374,20 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-                 <PaystackButton
-                    {...paystackConfig}
-                    onSuccess={handlePaymentSuccess}
-                    onClose={handlePaymentClose}
-                    className="w-full"
-                 >
-                    <Button size="lg" className="w-full" disabled={!form.formState.isValid || deliveryFee === null || isGeocoding}>
-                        <CreditCard className="mr-2 h-5 w-5" />
-                        Place Order & Pay
-                    </Button>
-                 </PaystackButton>
+                 <Button 
+                    size="lg" 
+                    className="w-full" 
+                    disabled={!form.formState.isValid || deliveryFee === null || isGeocoding}
+                    onClick={() => {
+                        initializePayment({
+                            onSuccess: handlePaymentSuccess,
+                            onClose: handlePaymentClose,
+                        });
+                    }}
+                >
+                    <CreditCard className="mr-2 h-5 w-5" />
+                    Place Order & Pay
+                </Button>
             </CardFooter>
           </Card>
         </div>
