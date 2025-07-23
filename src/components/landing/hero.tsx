@@ -85,7 +85,7 @@ const Hero = () => {
             <Input
               type="text"
               placeholder="e.g., Paracetamol, Vitamin C..."
-              className="h-14 pl-12 pr-4 text-base bg-white text-primary placeholder:text-muted-foreground/80 border-2 border-border focus:border-primary focus:ring-primary"
+              className="h-14 pl-12 pr-24 text-base bg-white text-primary placeholder:text-muted-foreground/80 border-2 border-border focus:border-primary focus:ring-primary"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
