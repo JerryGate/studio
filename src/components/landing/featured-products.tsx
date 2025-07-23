@@ -11,6 +11,10 @@ const featuredProducts: Product[] = [
     { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25 },
     { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30 },
     { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12 },
+    { id: '4', name: 'Loratadine 10mg', price: 750, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'Non-drowsy antihistamine.' },
+    { id: '6', name: 'Metformin 500mg', price: 950, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Controls high blood sugar.' },
+    { id: '8', name: 'Cough Syrup', price: 1500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'Soothing cough syrup.' },
+    { id: '3', name: 'Amoxicillin 250mg', price: 800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'capsules antibiotic', category: 'Antibiotics', stock: 0, description: 'Treats bacterial infections.' },
 ];
 
 const containerVariants = {
@@ -18,7 +22,7 @@ const containerVariants = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.2,
+            staggerChildren: 0.1,
         },
     },
 };
