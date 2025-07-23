@@ -2,31 +2,21 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { themes, Theme } from '@/lib/themes';
 
 const isServer = typeof window === 'undefined';
 
-const DEFAULT_THEME = {
-    primary: '222.2 47.4% 11.2%',
-    accent: '145, 58%, 59%', // This is an example, it should be set from globals
-    background: '0, 0%, 100%',
-};
+const DEFAULT_THEME_NAME = 'default';
 
 const applyTheme = (theme: Theme) => {
-    if (isServer) return;
+    if (isServer || !theme) return;
     const root = document.documentElement;
-    root.style.setProperty('--primary', theme.primary);
-    root.style.setProperty('--accent', theme.accent);
-    root.style.setProperty('--background', theme.background);
+    root.style.setProperty('--primary', theme.colors.primary);
+    root.style.setProperty('--accent', theme.colors.accent);
+    root.style.setProperty('--background', theme.colors.background);
 };
 
-
 type ThemeMode = 'light' | 'dark';
-
-interface Theme {
-  primary: string;
-  accent: string;
-  background: string;
-}
 
 interface ThemeContextType {
   theme: Theme;
@@ -38,15 +28,15 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (isServer) return DEFAULT_THEME;
+    if (isServer) return themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     try {
-        const savedTheme = localStorage.getItem('website-theme');
-        return savedTheme ? JSON.parse(savedTheme) : DEFAULT_THEME;
+        const savedThemeName = localStorage.getItem('website-theme-name');
+        const foundTheme = themes.find(t => t.name === savedThemeName);
+        return foundTheme || themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     } catch (e) {
-        return DEFAULT_THEME;
+        return themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     }
   });
 
@@ -59,7 +49,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isServer) {
         applyTheme(theme);
-        localStorage.setItem('website-theme', JSON.stringify(theme));
+        localStorage.setItem('website-theme-name', theme.name);
     }
   }, [theme]);
 
@@ -75,7 +65,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const resetTheme = () => {
-    setThemeState(DEFAULT_THEME);
+    setThemeState(themes.find(t => t.name === DEFAULT_THEME_NAME)!);
   }
 
   const toggleMode = () => {
