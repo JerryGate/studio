@@ -1,12 +1,11 @@
 
 'use client';
 
-import { useState, useEffect, useMemo, forwardRef } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from 'react-leaflet';
 import { Icon, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Loader2 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const NIGERIA_CENTER: LatLngExpression = [9.0820, 8.6753];
 
@@ -26,10 +25,11 @@ const customIcon = new Icon({
     shadowSize: [41, 41]
 });
 
-function MapEventsHandler({ onLocationSelect }: { onLocationSelect: MapProps['onLocationSelect'] }) {
+function MapEventsHandler({ onLocationSelect, setPosition }: { onLocationSelect: MapProps['onLocationSelect'], setPosition: (pos: LatLngExpression) => void }) {
     useMapEvents({
         click(e) {
             const { lat, lng } = e.latlng;
+            setPosition([lat, lng]);
             const mockAddress = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
             if (onLocationSelect) {
                 onLocationSelect({ lat, lng }, mockAddress);
@@ -39,13 +39,18 @@ function MapEventsHandler({ onLocationSelect }: { onLocationSelect: MapProps['on
     return null;
 }
 
-const MapComponent = forwardRef<HTMLDivElement, MapProps>(({ 
+function Map({ 
     onLocationSelect, 
     initialCenter = NIGERIA_CENTER, 
     markers = [], 
     interactive = true 
-}, ref) => {
+}: MapProps) {
+    const [isClient, setIsClient] = useState(false);
     const [position, setPosition] = useState<LatLngExpression | null>(null);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const center = useMemo<LatLngExpression>(() => {
         if (initialCenter && initialCenter.lat && initialCenter.lng) {
@@ -54,61 +59,37 @@ const MapComponent = forwardRef<HTMLDivElement, MapProps>(({
         return NIGERIA_CENTER;
     }, [initialCenter]);
 
-    const handleLocationSelectInternal = (location: { lat: number; lng: number }, address: string) => {
-        setPosition([location.lat, location.lng]);
-        if (onLocationSelect) {
-            onLocationSelect(location, address);
-        }
-    };
-
+    if (!isClient) {
+        return (
+            <div className="flex items-center justify-center h-full bg-muted">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <p className="ml-2">Loading Map...</p>
+            </div>
+        );
+    }
+    
     return (
-        <motion.div
-            ref={ref}
-            className="w-full h-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-        >
-            <MapContainer center={center} zoom={interactive ? 6 : 14} style={{ height: '100%', width: '100%' }}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                
-                {interactive && <MapEventsHandler onLocationSelect={handleLocationSelectInternal} />}
-                
-                {interactive && position && (
-                    <Marker position={position} icon={customIcon}>
-                         <Popup>Your selected delivery location.</Popup>
-                    </Marker>
-                )}
+        <MapContainer center={center} zoom={interactive ? 6 : 14} style={{ height: '100%', width: '100%' }}>
+            <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            
+            {interactive && <MapEventsHandler onLocationSelect={onLocationSelect} setPosition={setPosition} />}
+            
+            {interactive && position && (
+                <Marker position={position} icon={customIcon}>
+                     <Popup>Your selected delivery location.</Popup>
+                </Marker>
+            )}
 
-                {!interactive && markers.map((marker, index) => (
-                    <Marker key={index} position={[marker.lat, marker.lng]} icon={customIcon}>
-                        <Popup>Delivery Location #{index + 1}</Popup>
-                    </Marker>
-                ))}
-            </MapContainer>
-        </motion.div>
-    );
-});
-
-MapComponent.displayName = 'Map';
-
-// Client-only wrapper
-const Map = (props: MapProps) => {
-    const [isClient, setIsClient] = useState(false);
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    return isClient ? <MapComponent {...props} /> : (
-         <div className="flex items-center justify-center h-full bg-muted">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="ml-2">Loading Map...</p>
-        </div>
+            {!interactive && markers.map((marker, index) => (
+                <Marker key={index} position={[marker.lat, marker.lng]} icon={customIcon}>
+                    <Popup>Delivery Location #{index + 1}</Popup>
+                </Marker>
+            ))}
+        </MapContainer>
     );
 };
-
 
 export default Map;
