@@ -39,12 +39,12 @@ function MapEventsHandler({ onLocationSelect, setPosition }: { onLocationSelect:
     return null;
 }
 
-function Map({ 
+const Map = ({ 
     onLocationSelect, 
-    initialCenter = NIGERIA_CENTER, 
+    initialCenter,
     markers = [], 
     interactive = true 
-}: MapProps) {
+}: MapProps) => {
     const [isClient, setIsClient] = useState(false);
     const [position, setPosition] = useState<LatLngExpression | null>(null);
 
