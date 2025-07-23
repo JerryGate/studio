@@ -6,15 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CreditCard, ShoppingCart } from 'lucide-react';
+import { CreditCard, MapPin, ShoppingCart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import Map from '@/components/map';
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -23,6 +24,10 @@ const checkoutSchema = z.object({
   address: z.string().min(10, 'A detailed address is required'),
   city: z.string().min(2, 'City is required'),
   state: z.string().min(2, 'State is required'),
+  location: z.object({
+    lat: z.number(),
+    lng: z.number(),
+  }).optional(),
 });
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
@@ -30,6 +35,7 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 export default function CheckoutPage() {
   const { cartItems, cartTotal, cartCount, clearCart } = useCart();
   const { toast } = useToast();
+  const [deliveryFee, setDeliveryFee] = useState(1000); // Default fee
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -58,7 +64,6 @@ export default function CheckoutPage() {
     );
   }
   
-  const deliveryFee = 1000;
   const totalAmount = cartTotal + deliveryFee;
 
   const onSubmit = (data: CheckoutFormValues) => {
@@ -79,108 +84,113 @@ export default function CheckoutPage() {
     // router.push('/order-confirmation');
   };
 
+  // Mock distance calculation
+  const calculateDeliveryCost = (distance: number) => {
+    const costPerKm = 150; // NGN 150 per kilometer
+    return Math.round(distance * costPerKm);
+  };
+  
+  const handleLocationSelect = (location: { lat: number; lng: number }, address: string) => {
+    form.setValue('location', location);
+    form.setValue('address', address);
+
+    // Mock distance from nearest pharmacy
+    const mockDistanceInKm = Math.random() * 20;
+    const cost = calculateDeliveryCost(mockDistanceInKm);
+    setDeliveryFee(cost);
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
        <CardHeader className="px-0">
           <CardTitle className="text-3xl font-extrabold text-primary">Checkout</CardTitle>
           <CardDescription>Please fill in your details to complete your purchase.</CardDescription>
         </CardHeader>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Checkout Form */}
-        <Card>
-            <CardHeader>
-                <CardTitle>Delivery Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Full Name</FormLabel>
-                        <FormControl>
-                        <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                        <Input placeholder="you@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
-                        <FormControl>
-                        <Input placeholder="08012345678" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="address"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Delivery Address</FormLabel>
-                        <FormControl>
-                        <Textarea placeholder="123 Main Street, Garki" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <div className="flex gap-4">
-                    <FormField
-                        control={form.control}
-                        name="city"
-                        render={({ field }) => (
-                        <FormItem className="flex-1">
-                            <FormLabel>City</FormLabel>
-                            <FormControl>
-                            <Input placeholder="Abuja" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                     <FormField
-                        control={form.control}
-                        name="state"
-                        render={({ field }) => (
-                        <FormItem className="flex-1">
-                            <FormLabel>State</FormLabel>
-                            <FormControl>
-                            <Input placeholder="FCT" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                </div>
-                </form>
-            </Form>
-            </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* Checkout Form & Map */}
+        <div className="space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Delivery Information</CardTitle>
+                </CardHeader>
+                <CardContent>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <FormField
+                            control={form.control}
+                            name="address"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Delivery Address</FormLabel>
+                                <FormControl>
+                                <Input placeholder="Enter your address or click the map" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="fullName"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Full Name</FormLabel>
+                                <FormControl>
+                                <Input placeholder="John Doe" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                        <div className="flex gap-4">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                <FormItem className="flex-1">
+                                    <FormLabel>Email Address</FormLabel>
+                                    <FormControl>
+                                    <Input placeholder="you@example.com" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                             <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                <FormItem className="flex-1">
+                                    <FormLabel>Phone Number</FormLabel>
+                                    <FormControl>
+                                    <Input placeholder="08012345678" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                        </div>
+                    </form>
+                </Form>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <MapPin className="text-primary" /> Select Delivery Location on Map
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="h-96 w-full rounded-lg overflow-hidden">
+                        <Map onLocationSelect={handleLocationSelect} />
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
         
         {/* Order Summary */}
-        <div className="space-y-6">
+        <div className="space-y-6 sticky top-24">
           <Card>
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
