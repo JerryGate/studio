@@ -35,7 +35,7 @@ const checkoutSchema = z.object({
   location: z.object({
     lat: z.number(),
     lng: z.number(),
-  }),
+  }).optional(),
 });
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
@@ -46,6 +46,7 @@ export default function CheckoutPage() {
   const { toast } = useToast();
   const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
   const [isCalculatingFee, setIsCalculatingFee] = useState(false);
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number} | null>(null);
 
 
@@ -102,9 +103,11 @@ export default function CheckoutPage() {
     });
   }
 
-  const handleLocationSelect = async (location: { lat: number; lng: number }, address: string) => {
+  const handleLocationSelect = async (location: { lat: number; lng: number }, address?: string) => {
     form.setValue('location', location, { shouldValidate: true });
-    form.setValue('address', address);
+    if (address) {
+        form.setValue('address', address);
+    }
     setSelectedLocation(location);
     setIsCalculatingFee(true);
     setDeliveryFee(null);
@@ -133,6 +136,50 @@ export default function CheckoutPage() {
     } finally {
         setIsCalculatingFee(false);
     }
+  };
+
+  const handleGeocodeAddress = async () => {
+      const { address, city, state } = form.getValues();
+      if (!address || !city || !state) {
+          toast({
+              title: "Incomplete Address",
+              description: "Please fill in the address, city, and state fields.",
+              variant: "destructive",
+          });
+          return;
+      }
+      
+      const fullAddress = `${address}, ${city}, ${state}, Nigeria`;
+      setIsGeocoding(true);
+
+      try {
+          const response = await fetch('/api/geocode', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ address: fullAddress }),
+          });
+
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || 'Failed to find location');
+          }
+
+          const data = await response.json();
+          await handleLocationSelect({ lat: data.lat, lng: data.lng });
+          toast({
+              title: "Location Found!",
+              description: "The address has been pinpointed on the map."
+          });
+
+      } catch (error: any) {
+           toast({
+              title: "Geocoding Error",
+              description: error.message || "Could not find the specified address. Please try again or select on the map.",
+              variant: "destructive"
+          });
+      } finally {
+          setIsGeocoding(false);
+      }
   };
   
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
@@ -170,19 +217,6 @@ export default function CheckoutPage() {
                 <Form {...form}>
                     <form className="space-y-6">
                         <FormField
-                            control={form.control}
-                            name="address"
-                            render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Delivery Address</FormLabel>
-                                <FormControl>
-                                <Input placeholder="Enter your address or click the map" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                            )}
-                        />
-                         <FormField
                             control={form.control}
                             name="fullName"
                             render={({ field }) => (
@@ -223,6 +257,19 @@ export default function CheckoutPage() {
                                 )}
                             />
                         </div>
+                        <FormField
+                            control={form.control}
+                            name="address"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Street Address</FormLabel>
+                                <FormControl>
+                                <Input placeholder="e.g. 123 Allen Avenue" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
                          <div className="flex gap-4">
                             <FormField
                                 control={form.control}
@@ -231,7 +278,7 @@ export default function CheckoutPage() {
                                 <FormItem className="flex-1">
                                     <FormLabel>City</FormLabel>
                                     <FormControl>
-                                    <Input placeholder="e.g. Lagos" {...field} />
+                                    <Input placeholder="e.g. Ikeja" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -251,6 +298,12 @@ export default function CheckoutPage() {
                                 )}
                             />
                         </div>
+                        <div>
+                             <Button type="button" variant="outline" onClick={handleGeocodeAddress} disabled={isGeocoding}>
+                                {isGeocoding && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Find on Map
+                            </Button>
+                        </div>
                     </form>
                 </Form>
                 </CardContent>
@@ -261,11 +314,14 @@ export default function CheckoutPage() {
                     <CardTitle className="flex items-center gap-2">
                         <MapPin className="text-primary" /> Select Delivery Location on Map
                     </CardTitle>
+                     <CardDescription>Click on the map to set your delivery location, or use the "Find on Map" button above.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="h-96 w-full rounded-lg overflow-hidden">
                         <Map
                            onLocationSelect={handleLocationSelect}
+                           key={selectedLocation ? `${selectedLocation.lat}-${selectedLocation.lng}` : 'map'}
+                           initialCenter={selectedLocation || undefined}
                            markers={selectedLocation ? [selectedLocation] : []}
                         />
                     </div>
@@ -300,7 +356,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-muted-foreground">Delivery Fee</p>
-                   {isCalculatingFee ? (
+                   {isCalculatingFee || isGeocoding ? (
                        <Loader2 className="h-4 w-4 animate-spin" />
                    ) : deliveryFee !== null ? (
                        <p className="font-semibold">₦{deliveryFee.toLocaleString()}</p>
@@ -322,7 +378,7 @@ export default function CheckoutPage() {
                     onClose={handlePaymentClose}
                     className="w-full"
                  >
-                    <Button size="lg" className="w-full" disabled={!form.formState.isValid || deliveryFee === null}>
+                    <Button size="lg" className="w-full" disabled={!form.formState.isValid || deliveryFee === null || isGeocoding}>
                         <CreditCard className="mr-2 h-5 w-5" />
                         Place Order & Pay
                     </Button>

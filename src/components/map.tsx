@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import L, { LatLngExpression, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Loader2 } from 'lucide-react';
@@ -9,9 +9,9 @@ import { Loader2 } from 'lucide-react';
 const NIGERIA_CENTER: LatLngExpression = [9.0820, 8.6753];
 
 interface MapProps {
-    onLocationSelect?: (location: { lat: number, lng: number }, address: string) => void;
-    initialCenter?: { lat: number, lng: number };
-    markers?: { lat: number, lng: number }[];
+    onLocationSelect?: (location: { lat: number; lng: number }, address: string) => void;
+    initialCenter?: { lat: number; lng: number };
+    markers?: { lat: number; lng: number }[];
     interactive?: boolean;
 }
 
@@ -28,35 +28,46 @@ const customIcon = new Icon({
 const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true }: MapProps) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<L.Map | null>(null);
+    const markerRef = useRef<L.Marker | null>(null);
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
     }, []);
 
+    // Initialize map
     useEffect(() => {
         if (isClient && mapContainerRef.current && !mapRef.current) {
-            const center = initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER;
-            const zoom = initialCenter ? 14 : 6;
-
-            const map = L.map(mapContainerRef.current).setView(center, zoom);
+            const map = L.map(mapContainerRef.current, {
+                center: initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER,
+                zoom: initialCenter ? 14 : 6,
+            });
             mapRef.current = map;
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            if (interactive) {
-                map.on('click', (e) => {
+            if (interactive && onLocationSelect) {
+                map.on('click', async (e) => {
                     const { lat, lng } = e.latlng;
-                    const mockAddress = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-                    if (onLocationSelect) {
-                        onLocationSelect({ lat, lng }, mockAddress);
+                    
+                    // Basic reverse geocoding for a descriptive address
+                    let address = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+                        const data = await response.json();
+                        if(data && data.display_name) {
+                            address = data.display_name;
+                        }
+                    } catch (error) {
+                        console.error("Reverse geocoding failed:", error);
                     }
+                    onLocationSelect({ lat, lng }, address);
                 });
             }
 
-            // This is the cleanup function that will be called when the component unmounts
+            // Cleanup on unmount
             return () => {
                 if (mapRef.current) {
                     mapRef.current.remove();
@@ -64,33 +75,39 @@ const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true
                 }
             };
         }
-    }, [isClient, initialCenter, interactive, onLocationSelect]);
+    }, [isClient, interactive, onLocationSelect]);
 
+
+    // Update view and markers when props change
     useEffect(() => {
-        // Handle markers
-        if (mapRef.current) {
-            // Clear existing markers first to avoid duplicates
-            mapRef.current.eachLayer((layer) => {
-                if (layer instanceof L.Marker) {
-                    mapRef.current?.removeLayer(layer);
-                }
-            });
+        const map = mapRef.current;
+        if (map) {
+             // Center map on initialCenter or markers
+            const locationToCenter = initialCenter || (markers.length > 0 ? markers[0] : null);
+            if (locationToCenter) {
+                map.setView([locationToCenter.lat, locationToCenter.lng], 14);
+            }
 
-            // Add new markers
-            const currentMarkers = onLocationSelect ? markers : (initialCenter ? [{lat: initialCenter.lat, lng: initialCenter.lng}] : markers);
+            // Clear previous marker
+            if (markerRef.current) {
+                map.removeLayer(markerRef.current);
+                markerRef.current = null;
+            }
 
-            currentMarkers.forEach((marker, index) => {
-                if(marker.lat && marker.lng) {
-                    const popupText = onLocationSelect ? 'Your selected delivery location.' : `Delivery Location #${index + 1}`;
-                    L.marker([marker.lat, marker.lng], { icon: customIcon }).addTo(mapRef.current!)
-                        .bindPopup(popupText);
+            // Add new marker
+            if (markers.length > 0) {
+                const markerData = markers[0];
+                if (markerData.lat && markerData.lng) {
+                     const popupText = onLocationSelect ? 'Your selected delivery location.' : `Delivery Location`;
+                    const newMarker = L.marker([markerData.lat, markerData.lng], { icon: customIcon })
+                        .addTo(map)
+                        .bindPopup(popupText)
+                        .openPopup();
+                    markerRef.current = newMarker;
                 }
-            });
-             if(currentMarkers.length === 1 && currentMarkers[0].lat && currentMarkers[0].lng){
-                mapRef.current.setView([currentMarkers[0].lat, currentMarkers[0].lng], 14);
             }
         }
-    }, [markers, initialCenter, onLocationSelect]);
+    }, [initialCenter, markers, isClient, onLocationSelect]);
 
 
     if (!isClient) {
