@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, forwardRef } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from 'react-leaflet';
 import { Icon, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -26,13 +26,10 @@ const customIcon = new Icon({
     shadowSize: [41, 41]
 });
 
-// Component to handle map events for interactive maps
 function MapEventsHandler({ onLocationSelect }: { onLocationSelect: MapProps['onLocationSelect'] }) {
     useMapEvents({
         click(e) {
             const { lat, lng } = e.latlng;
-            // For simplicity, we're not doing reverse geocoding here.
-            // In a real app, you'd use a service to get the address from lat/lng.
             const mockAddress = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
             if (onLocationSelect) {
                 onLocationSelect({ lat, lng }, mockAddress);
@@ -42,18 +39,13 @@ function MapEventsHandler({ onLocationSelect }: { onLocationSelect: MapProps['on
     return null;
 }
 
-const Map = ({ 
+const MapComponent = forwardRef<HTMLDivElement, MapProps>(({ 
     onLocationSelect, 
     initialCenter = NIGERIA_CENTER, 
     markers = [], 
     interactive = true 
-}: MapProps) => {
-    const [isClient, setIsClient] = useState(false);
+}, ref) => {
     const [position, setPosition] = useState<LatLngExpression | null>(null);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     const center = useMemo<LatLngExpression>(() => {
         if (initialCenter && initialCenter.lat && initialCenter.lng) {
@@ -62,15 +54,6 @@ const Map = ({
         return NIGERIA_CENTER;
     }, [initialCenter]);
 
-    if (!isClient) {
-        return (
-            <div className="flex items-center justify-center h-full bg-muted">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p>Loading Map...</p>
-            </div>
-        );
-    }
-    
     const handleLocationSelectInternal = (location: { lat: number; lng: number }, address: string) => {
         setPosition([location.lat, location.lng]);
         if (onLocationSelect) {
@@ -80,6 +63,7 @@ const Map = ({
 
     return (
         <motion.div
+            ref={ref}
             className="w-full h-full"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -107,6 +91,24 @@ const Map = ({
             </MapContainer>
         </motion.div>
     );
+});
+
+MapComponent.displayName = 'Map';
+
+// Client-only wrapper
+const Map = (props: MapProps) => {
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    return isClient ? <MapComponent {...props} /> : (
+         <div className="flex items-center justify-center h-full bg-muted">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="ml-2">Loading Map...</p>
+        </div>
+    );
 };
+
 
 export default Map;
