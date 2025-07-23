@@ -1,9 +1,8 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from 'react-leaflet';
-import { Icon, LatLngExpression } from 'leaflet';
+import { useState, useEffect, useRef } from 'react';
+import L, { LatLngExpression, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Loader2 } from 'lucide-react';
 
@@ -25,79 +24,85 @@ const customIcon = new Icon({
     shadowSize: [41, 41]
 });
 
-function MapEventsHandler({ onLocationSelect, setPosition }: { onLocationSelect: MapProps['onLocationSelect'], setPosition: (pos: LatLngExpression) => void }) {
-    useMapEvents({
-        click(e) {
-            const { lat, lng } = e.latlng;
-            setPosition([lat, lng]);
-            const mockAddress = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-            if (onLocationSelect) {
-                onLocationSelect({ lat, lng }, mockAddress);
+const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true }: MapProps) => {
+    const mapContainerRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<L.Map | null>(null);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (isClient && mapContainerRef.current && !mapRef.current) {
+            // Initialize map only if it doesn't exist
+            const center = initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER;
+            const zoom = interactive ? 6 : 14;
+
+            const map = L.map(mapContainerRef.current).setView(center, zoom);
+            mapRef.current = map;
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            if (interactive) {
+                map.on('click', (e) => {
+                    const { lat, lng } = e.latlng;
+                    const mockAddress = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    if (onLocationSelect) {
+                        onLocationSelect({ lat, lng }, mockAddress);
+                    }
+                    // Remove previous markers and add a new one
+                    map.eachLayer((layer) => {
+                        if (layer instanceof L.Marker) {
+                            map.removeLayer(layer);
+                        }
+                    });
+                    L.marker([lat, lng], { icon: customIcon }).addTo(map)
+                        .bindPopup('Your selected delivery location.')
+                        .openPopup();
+                });
             }
-        },
-    });
-    return null;
-}
 
-const MapPlaceholder = () => {
-  return (
-    <div className="flex items-center justify-center h-full bg-muted">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="ml-2">Loading Map...</p>
-    </div>
-  )
-}
-
-const Map = ({ 
-    onLocationSelect, 
-    initialCenter,
-    markers = [], 
-    interactive = true 
-}: MapProps) => {
-    const [position, setPosition] = useState<LatLngExpression | null>(null);
-
-    const center = useMemo<LatLngExpression>(() => {
-        if (initialCenter && initialCenter.lat && initialCenter.lng) {
-            return [initialCenter.lat, initialCenter.lng];
+            // Cleanup function to run when component unmounts
+            return () => {
+                if (mapRef.current) {
+                    mapRef.current.remove();
+                    mapRef.current = null;
+                }
+            };
         }
-        return NIGERIA_CENTER;
-    }, [initialCenter]);
+    }, [isClient, initialCenter, interactive, onLocationSelect]);
 
-    const displayMap = useMemo(
-      () => (
-        <MapContainer 
-            center={center} 
-            zoom={interactive ? 6 : 14} 
-            style={{ height: '100%', width: '100%' }}
-            placeholder={<MapPlaceholder />}
-        >
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            
-            {interactive && <MapEventsHandler onLocationSelect={onLocationSelect} setPosition={setPosition} />}
-            
-            {interactive && position && (
-                <Marker position={position} icon={customIcon}>
-                     <Popup>Your selected delivery location.</Popup>
-                </Marker>
-            )}
+    useEffect(() => {
+        // Handle non-interactive markers
+        if (mapRef.current && !interactive) {
+            // Clear existing markers
+            mapRef.current.eachLayer((layer) => {
+                if (layer instanceof L.Marker) {
+                    mapRef.current?.removeLayer(layer);
+                }
+            });
+            // Add new markers
+            markers.forEach((marker, index) => {
+                L.marker([marker.lat, marker.lng], { icon: customIcon }).addTo(mapRef.current!)
+                    .bindPopup(`Delivery Location #${index + 1}`);
+            });
+        }
+    }, [markers, interactive, isClient]);
 
-            {!interactive && markers.map((marker, index) => (
-                <Marker key={index} position={[marker.lat, marker.lng]} icon={customIcon}>
-                    <Popup>Delivery Location #{index + 1}</Popup>
-                </Marker>
-            ))}
-        </MapContainer>
-      ), [center, interactive, onLocationSelect, position, markers]
-    )
-    
-    return (
-        <div className="h-full w-full">
-            {displayMap}
-        </div>
-    );
+
+    if (!isClient) {
+        return (
+            <div className="flex items-center justify-center h-full bg-muted">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <p className="ml-2">Loading Map...</p>
+            </div>
+        );
+    }
+
+    return <div ref={mapContainerRef} className="h-full w-full" />;
 };
 
 export default Map;
