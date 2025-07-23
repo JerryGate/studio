@@ -379,7 +379,7 @@ export default function CheckoutPage() {
                     className="w-full" 
                     disabled={!form.formState.isValid || deliveryFee === null || isGeocoding}
                     onClick={() => {
-                        initializePayment(handlePaymentSuccess, handlePaymentClose);
+                        initializePayment({onSuccess: handlePaymentSuccess, onClose: handlePaymentClose});
                     }}
                 >
                     <CreditCard className="mr-2 h-5 w-5" />
@@ -391,5 +391,4 @@ export default function CheckoutPage() {
       </div>
     </div>
   );
-
-    
+}
