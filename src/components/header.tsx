@@ -165,14 +165,9 @@ const Header = () => {
                     </Button>
                   </SheetTrigger>
                   <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
-                     <SheetHeader className="p-4 border-b flex flex-row items-center justify-between">
+                     <SheetHeader className="p-4 border-b">
+                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                         <Logo textClassName="inline" />
-                        <SheetClose asChild>
-                             <Button variant="ghost" size="icon">
-                              <X className="h-6 w-6" />
-                              <span className="sr-only">Close menu</span>
-                            </Button>
-                        </SheetClose>
                      </SheetHeader>
                     <div className="flex flex-col h-full">
                       <nav className="flex-1 p-4 space-y-4">
