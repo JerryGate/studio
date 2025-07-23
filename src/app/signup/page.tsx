@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,8 +8,28 @@ import { Label } from "@/components/ui/label";
 import Logo from "@/components/logo";
 import Link from "next/link";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 export default function SignupPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Simulate network request
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    setIsLoading(false);
+    toast({
+        title: "Account Created!",
+        description: "Your account has been successfully created. Please log in.",
+    });
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -28,38 +50,41 @@ export default function SignupPage() {
                 <CardTitle>Get Started</CardTitle>
                 <CardDescription>Create a new account to start using E-pharma.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-                 <div className="space-y-2">
-                    <Label htmlFor="role">I am a...</Label>
-                    <Select>
-                        <SelectTrigger id="role">
-                            <SelectValue placeholder="Select your role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="customer">Customer/Patient</SelectItem>
-                            <SelectItem value="pharmacy">Pharmacy</SelectItem>
-                            <SelectItem value="dispatcher">Dispatcher</SelectItem>
-                            <SelectItem value="hospital">Hospital</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="email">Email address</Label>
-                    <Input id="email" name="email" type="email" autoComplete="email" required />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" name="password" type="password" required />
-                </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="confirm-password">Confirm Password</Label>
-                    <Input id="confirm-password" name="confirm-password" type="password" required />
-                </div>
-                <div>
-                    <Button type="submit" className="w-full">
-                    Create Account
-                    </Button>
-                </div>
+            <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                     <div className="space-y-2">
+                        <Label htmlFor="role">I am a...</Label>
+                        <Select>
+                            <SelectTrigger id="role">
+                                <SelectValue placeholder="Select your role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="customer">Customer/Patient</SelectItem>
+                                <SelectItem value="pharmacy">Pharmacy</SelectItem>
+                                <SelectItem value="dispatcher">Dispatcher</SelectItem>
+                                <SelectItem value="hospital">Hospital</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="email">Email address</Label>
+                        <Input id="email" name="email" type="email" autoComplete="email" required />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input id="password" name="password" type="password" required />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="confirm-password">Confirm Password</Label>
+                        <Input id="confirm-password" name="confirm-password" type="password" required />
+                    </div>
+                    <div>
+                        <Button type="submit" className="w-full" disabled={isLoading}>
+                            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Create Account
+                        </Button>
+                    </div>
+                </form>
             </CardContent>
         </Card>
       </div>

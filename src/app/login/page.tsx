@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { UserRole } from "@/types";
 import { mockAuthUsers } from "@/lib/mock-data";
 
@@ -29,10 +29,15 @@ export default function LoginPage() {
   const router = useRouter();
   const [role, setRole] = useState<UserRole>('admin');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState<UserRole | null>(null);
   
-  const handleLogin = (currentRole: UserRole) => {
+  const handleLogin = async (currentRole: UserRole) => {
+    setIsLoading(currentRole);
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
     login(currentRole);
     router.push(roleToDashboard[currentRole] || '/');
+    setIsLoading(null);
   };
 
   const renderLoginForm = (currentRole: UserRole) => (
@@ -60,7 +65,8 @@ export default function LoginPage() {
             </div>
         </div>
          <div>
-            <Button type="button" className="w-full" onClick={() => handleLogin(currentRole)}>
+            <Button type="button" className="w-full" disabled={!!isLoading} onClick={() => handleLogin(currentRole)}>
+                {isLoading === currentRole && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Sign in as {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
             </Button>
         </div>
