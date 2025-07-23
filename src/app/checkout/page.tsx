@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CreditCard, MapPin, ShoppingCart } from 'lucide-react';
+import { CreditCard, MapPin, ShoppingCart, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import Map from '@/components/map';
@@ -29,7 +29,7 @@ const checkoutSchema = z.object({
   location: z.object({
     lat: z.number(),
     lng: z.number(),
-  }).optional(),
+  }),
 });
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
@@ -38,7 +38,8 @@ export default function CheckoutPage() {
   const { cartItems, cartTotal, cartCount, clearCart } = useCart();
   const router = useRouter();
   const { toast } = useToast();
-  const [deliveryFee, setDeliveryFee] = useState(1000); // Default fee
+  const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
+  const [isCalculatingFee, setIsCalculatingFee] = useState(false);
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -67,7 +68,7 @@ export default function CheckoutPage() {
     );
   }
   
-  const totalAmount = cartTotal + deliveryFee;
+  const totalAmount = cartTotal + (deliveryFee || 0);
 
   const handlePaymentSuccess = () => {
     console.log('Order placed:', {
@@ -93,20 +94,36 @@ export default function CheckoutPage() {
     });
   }
 
-  // Mock distance calculation
-  const calculateDeliveryCost = (distance: number) => {
-    const costPerKm = 150; // NGN 150 per kilometer
-    return Math.round(distance * costPerKm);
-  };
-  
-  const handleLocationSelect = (location: { lat: number; lng: number }, address: string) => {
-    form.setValue('location', location);
+  const handleLocationSelect = async (location: { lat: number; lng: number }, address: string) => {
+    form.setValue('location', location, { shouldValidate: true });
     form.setValue('address', address);
+    setIsCalculatingFee(true);
+    setDeliveryFee(null);
 
-    // Mock distance from nearest pharmacy
-    const mockDistanceInKm = Math.random() * 20;
-    const cost = calculateDeliveryCost(mockDistanceInKm);
-    setDeliveryFee(cost);
+    try {
+        const response = await fetch('/api/distance', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                destination: { lat: location.lat, lon: location.lng }
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to calculate distance');
+        }
+
+        const data = await response.json();
+        setDeliveryFee(data.deliveryCost);
+    } catch (error) {
+        toast({
+            title: "Error calculating delivery fee",
+            description: "Could not calculate delivery fee. Please try again.",
+            variant: "destructive"
+        });
+    } finally {
+        setIsCalculatingFee(false);
+    }
   };
   
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
@@ -236,9 +253,15 @@ export default function CheckoutPage() {
                   <p className="text-muted-foreground">Subtotal</p>
                   <p className="font-semibold">₦{cartTotal.toLocaleString()}</p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <p className="text-muted-foreground">Delivery Fee</p>
-                  <p className="font-semibold">₦{deliveryFee.toLocaleString()}</p>
+                   {isCalculatingFee ? (
+                       <Loader2 className="h-4 w-4 animate-spin" />
+                   ) : deliveryFee !== null ? (
+                       <p className="font-semibold">₦{deliveryFee.toLocaleString()}</p>
+                   ) : (
+                       <p className="text-sm text-muted-foreground">Select location</p>
+                   )}
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-bold text-primary">
@@ -254,7 +277,7 @@ export default function CheckoutPage() {
                     onClose={handlePaymentClose}
                     className="w-full"
                  >
-                    <Button size="lg" className="w-full" disabled={!form.formState.isValid}>
+                    <Button size="lg" className="w-full" disabled={!form.formState.isValid || deliveryFee === null}>
                         <CreditCard className="mr-2 h-5 w-5" />
                         Place Order & Pay
                     </Button>

@@ -1,12 +1,14 @@
 
 'use client';
 
-import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { useEffect, useRef, useState, use } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from 'react-leaflet';
+import { Icon, LatLngExpression } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const NIGERIA_CENTER = { lat: 9.0820, lng: 8.6753 };
+const NIGERIA_CENTER: LatLngExpression = [9.0820, 8.6753];
 
 interface MapProps {
     onLocationSelect?: (location: { lat: number, lng: number }, address: string) => void;
@@ -15,115 +17,96 @@ interface MapProps {
     interactive?: boolean;
 }
 
-const render = (status: Status) => {
-  if (status === Status.FAILURE) return <p>Error loading map</p>;
-  return (
-    <div className="flex items-center justify-center h-full">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p>Loading Map...</p>
-    </div>
-  );
-};
+const customIcon = new Icon({
+    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+    shadowSize: [41, 41]
+});
 
-const MyMapComponent = ({ 
+// Component to handle map events for interactive maps
+function MapEventsHandler({ onLocationSelect }: { onLocationSelect: MapProps['onLocationSelect'] }) {
+    const map = useMapEvents({
+        click(e) {
+            const { lat, lng } = e.latlng;
+            // For simplicity, we're not doing reverse geocoding here.
+            // In a real app, you'd use a service to get the address from lat/lng.
+            const mockAddress = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            if (onLocationSelect) {
+                onLocationSelect({ lat, lng }, mockAddress);
+            }
+        },
+    });
+    return null;
+}
+
+const Map = ({ 
     onLocationSelect, 
     initialCenter = NIGERIA_CENTER, 
     markers = [], 
     interactive = true 
 }: MapProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<google.maps.Map>();
-  const [marker, setMarker] = useState<google.maps.Marker>();
-  
-  useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {
-          center: initialCenter,
-          zoom: interactive ? 6 : 15,
-          mapTypeControl: false,
-          streetViewControl: false,
-      }));
-    }
-  }, [ref, map, initialCenter, interactive]);
+    const [isClient, setIsClient] = useState(false);
+    const [position, setPosition] = useState<LatLngExpression | null>(null);
 
-  // Handle static markers for dispatcher view
-  useEffect(() => {
-    if (map && !interactive && markers.length > 0) {
-        // Clear existing markers
-        // In a real app, you might manage multiple markers
-        markers.forEach(pos => {
-            new google.maps.Marker({
-                position: pos,
-                map: map,
-            });
-        })
-        if(markers[0]) {
-            map.setCenter(markers[0]);
-            map.setZoom(15);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    const center = useMemo<LatLngExpression>(() => {
+        if (initialCenter && initialCenter.lat && initialCenter.lng) {
+            return [initialCenter.lat, initialCenter.lng];
         }
-    }
-  }, [map, interactive, markers]);
+        return NIGERIA_CENTER;
+    }, [initialCenter]);
 
-  // Handle interactive marker for patient view
-  useEffect(() => {
-    if (map && interactive) {
-      if (!marker) {
-        const newMarker = new google.maps.Marker({
-            map,
-            draggable: true,
-            animation: google.maps.Animation.DROP,
-        });
-        setMarker(newMarker);
-      }
-      
-      const clickListener = map.addListener('click', (e: google.maps.MapMouseEvent) => {
-        if (e.latLng && marker) {
-            marker.setPosition(e.latLng);
-            map.panTo(e.latLng);
-            
-            const geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ location: e.latLng }, (results, status) => {
-                if (status === 'OK' && results && results[0]) {
-                    if (onLocationSelect) {
-                        onLocationSelect({ lat: e.latLng.lat(), lng: e.latLng.lng() }, results[0].formatted_address);
-                    }
-                }
-            });
+    if (!isClient) {
+        return (
+            <div className="flex items-center justify-center h-full bg-muted">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <p>Loading Map...</p>
+            </div>
+        );
+    }
+    
+    const handleLocationSelectInternal = (location: { lat: number; lng: number }, address: string) => {
+        setPosition([location.lat, location.lng]);
+        if (onLocationSelect) {
+            onLocationSelect(location, address);
         }
-      });
-      
-      return () => {
-          google.maps.event.removeListener(clickListener);
-      }
-    }
-  }, [map, marker, interactive, onLocationSelect]);
-  
+    };
 
-  return (
-    <motion.div 
-        ref={ref} 
-        id="map" 
-        className="w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-    />
-  );
-};
+    return (
+        <motion.div
+            className="w-full h-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
+            <MapContainer center={center} zoom={interactive ? 6 : 14} style={{ height: '100%', width: '100%' }}>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+                
+                {interactive && <MapEventsHandler onLocationSelect={handleLocationSelectInternal} />}
+                
+                {interactive && position && (
+                    <Marker position={position} icon={customIcon}>
+                         <Popup>Your selected delivery location.</Popup>
+                    </Marker>
+                )}
 
-
-const Map = (props: MapProps) => {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-  if (!apiKey) {
-    return <div className="flex items-center justify-center h-full bg-muted text-destructive">API Key is missing.</div>;
-  }
-
-  return (
-    <Wrapper apiKey={apiKey} render={render}>
-      <MyMapComponent {...props} />
-    </Wrapper>
-  );
+                {!interactive && markers.map((marker, index) => (
+                    <Marker key={index} position={[marker.lat, marker.lng]} icon={customIcon}>
+                        <Popup>Delivery Location #{index + 1}</Popup>
+                    </Marker>
+                ))}
+            </MapContainer>
+        </motion.div>
+    );
 };
 
 export default Map;
