@@ -1,17 +1,18 @@
 
 
+
 'use client'
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/cart-context";
 import { Product } from "@/types";
 import { CheckCircle, MinusCircle, PlusCircle, ShoppingCart, XCircle, ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, use } from "react";
 
 // Mock data - in a real app, you'd fetch this based on the `params.id`
 const allProducts: Product[] = [
@@ -27,7 +28,8 @@ const allProducts: Product[] = [
 
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
-    const product = allProducts.find(p => p.id === params.id);
+    const resolvedParams = use(params);
+    const product = allProducts.find(p => p.id === resolvedParams.id);
     const [quantity, setQuantity] = useState(1);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const { addToCart } = useCart();
