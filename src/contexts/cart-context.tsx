@@ -51,13 +51,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeFromCart = (productId: string) => {
-    setCartItems(prevItems => {
-        const newItems = prevItems.filter(item => item.id !== productId);
-        toast({
-            title: "Item removed",
-            description: "The item has been removed from your cart.",
-        });
-        return newItems;
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+    toast({
+        title: "Item removed",
+        description: "The item has been removed from your cart.",
     });
   };
 
