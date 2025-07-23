@@ -1,5 +1,6 @@
 
-import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher } from '@/types';
+
+import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order } from '@/types';
 
 type MockUsers = Record<UserRole, Participant>;
 
@@ -98,3 +99,13 @@ export const mockDispatchers: Dispatcher[] = [
     { id: 'DIS003', name: 'Chioma Nwosu', phone: '09011223344', vehicle: 'TVS Tricycle - LMN 456', status: 'Inactive', deliveries: 42 },
     { id: 'DIS004', name: 'Musa Aliyu', phone: '08134567890', vehicle: 'Bajaj Bike - GHI 321', status: 'Active', deliveries: 8 },
 ];
+
+export let mockOrders: Order[] = [
+    { id: 'ORD001', date: '2024-07-20', total: 3700, status: 'Delivered', items: [], customerDetails: {} },
+    { id: 'ORD002', date: '2024-07-22', total: 1500, status: 'Shipped', items: [], customerDetails: {} },
+    { id: 'ORD003', date: '2024-07-23', total: 800, status: 'Processing', items: [], customerDetails: {} },
+];
+
+export const addMockOrder = (order: Order) => {
+    mockOrders.unshift(order);
+};

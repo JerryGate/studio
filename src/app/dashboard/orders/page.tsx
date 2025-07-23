@@ -1,15 +1,16 @@
+
+
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
-const orders = [
-    { id: 'ORD001', date: '2024-07-20', total: 3700, status: 'Delivered', items: 2 },
-    { id: 'ORD002', date: '2024-07-22', total: 1500, status: 'Shipped', items: 1 },
-    { id: 'ORD003', date: '2024-07-23', total: 800, status: 'Processing', items: 1 },
-];
+import { useOrders } from '@/hooks/use-orders';
 
 export default function OrderHistoryPage() {
+    const { orders } = useOrders();
+
     return (
         <div>
             <h1 className="text-3xl font-bold text-primary mb-6">Order History</h1>
@@ -32,24 +33,32 @@ export default function OrderHistoryPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {orders.map((order) => (
-                                <TableRow key={order.id}>
-                                    <TableCell className="font-medium">{order.id}</TableCell>
-                                    <TableCell>{order.date}</TableCell>
-                                    <TableCell>₦{order.total.toLocaleString()}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={
-                                            order.status === 'Delivered' ? 'default' : 
-                                            order.status === 'Shipped' ? 'secondary' : 'outline'
-                                        }>
-                                            {order.status}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button variant="outline" size="sm">View Details</Button>
+                            {orders.length > 0 ? (
+                                orders.map((order) => (
+                                    <TableRow key={order.id}>
+                                        <TableCell className="font-medium">{order.id}</TableCell>
+                                        <TableCell>{order.date}</TableCell>
+                                        <TableCell>₦{order.total.toLocaleString()}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={
+                                                order.status === 'Delivered' ? 'default' : 
+                                                order.status === 'Shipped' ? 'secondary' : 'outline'
+                                            }>
+                                                {order.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button variant="outline" size="sm">View Details</Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="text-center h-24">
+                                        You have no orders yet.
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>

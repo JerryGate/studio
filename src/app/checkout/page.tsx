@@ -17,6 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import { useOrders } from '@/hooks/use-orders';
 
 const Map = dynamic(() => import('@/components/map'), {
   ssr: false,
@@ -40,6 +41,7 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, cartCount, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const router = useRouter();
   const { toast } = useToast();
   const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
@@ -89,10 +91,11 @@ export default function CheckoutPage() {
   const totalAmount = cartTotal + (deliveryFee || 0);
 
   const handlePaymentSuccess = () => {
-    console.log('Order placed:', {
-      customer: form.getValues(),
-      items: cartItems,
+    const customerDetails = form.getValues();
+    addOrder({
       total: totalAmount,
+      items: cartItems,
+      customerDetails,
     });
 
     toast({
@@ -411,5 +414,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-
-    

@@ -1,6 +1,7 @@
 
 
 
+
 export interface Product {
     id: string;
     name: string;
@@ -44,6 +45,18 @@ export interface Conversation {
   messages: Message[];
   subject: string;
   lastMessageAt: string;
+}
+
+// Order type
+export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+
+export interface Order {
+    id: string;
+    date: string;
+    total: number;
+    status: OrderStatus;
+    items: CartItem[];
+    customerDetails: any;
 }
 
 
