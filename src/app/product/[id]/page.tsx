@@ -1,4 +1,5 @@
 
+
 'use client'
 
 import { Badge } from "@/components/ui/badge";
@@ -80,8 +81,9 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                         <Image
                             src={product.imageUrls[mainImageIndex]}
                             alt={product.name}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover"
                             data-ai-hint={product.dataAiHint}
                         />
                          {product.imageUrls.length > 1 && (
@@ -95,7 +97,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                         <div className="grid grid-cols-5 gap-2">
                             {product.imageUrls.map((url, index) => (
                                 <button key={index} onClick={() => setMainImageIndex(index)} className={`relative aspect-square rounded-md overflow-hidden ${index === mainImageIndex ? 'ring-2 ring-primary ring-offset-2' : ''}`}>
-                                    <Image src={url} alt={`${product.name} thumbnail ${index+1}`} layout="fill" objectFit="cover" />
+                                    <Image src={url} alt={`${product.name} thumbnail ${index+1}`} fill sizes="10vw" className="object-cover" />
                                 </button>
                             ))}
                         </div>
@@ -126,9 +128,9 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                             <p className="text-3xl font-bold text-accent mb-4">
                                 ₦{product.price.toLocaleString()}
                             </p>
-                            <CardDescription className="text-base text-foreground/80">
+                            <div className="text-base text-foreground/80">
                                 {product.description}
-                            </CardDescription>
+                            </div>
                         </CardContent>
                         <CardFooter className="flex flex-col items-start gap-6">
                             <Separator />
