@@ -70,8 +70,6 @@ const Header = () => {
   const { user, logout } = useAuth();
   const pathname = usePathname();
 
-  const isDashboardRoute = pathname.startsWith('/admin') || pathname.startsWith('/dashboard') || pathname.startsWith('/pharmacy') || pathname.startsWith('/dispatcher') || pathname.startsWith('/hospital');
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -86,9 +84,10 @@ const Header = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/80 backdrop-blur-sm shadow-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8' : 'bg-transparent'
-      }`}
+      className={cn(`sticky top-0 z-50 transition-all duration-300`, 
+        isScrolled ? 'bg-background/80 backdrop-blur-sm shadow-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8' : 'bg-transparent',
+        pathname.startsWith('/admin') && 'hidden'
+      )}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -146,14 +145,24 @@ const Header = () => {
                     </DropdownMenuContent>
                  </DropdownMenu>
             ) : (
-                <div className="hidden lg:flex items-center space-x-2">
-                    <Link href="/login">
-                        <Button variant="ghost">Log In</Button>
-                    </Link>
-                    <Link href="/signup">
-                        <Button>Sign Up</Button>
-                    </Link>
-                </div>
+                <>
+                    <div className="hidden lg:flex items-center space-x-2">
+                        <Link href="/login">
+                            <Button variant="ghost">Log In</Button>
+                        </Link>
+                        <Link href="/signup">
+                            <Button>Sign Up</Button>
+                        </Link>
+                    </div>
+                     <div className="lg:hidden">
+                        <Link href="/login">
+                             <Button variant="ghost" size="icon">
+                                <User className="h-5 w-5" />
+                                <span className="sr-only">Log In</span>
+                            </Button>
+                        </Link>
+                    </div>
+                </>
             )}
           
             <div className="lg:hidden">
@@ -166,24 +175,23 @@ const Header = () => {
                   </SheetTrigger>
                   <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
                      <SheetHeader className="p-4 border-b">
-                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                         <Logo textClassName="inline" />
                      </SheetHeader>
                     <div className="flex flex-col h-full">
                       <nav className="flex-1 p-4 space-y-4">
-                        {(isDashboardRoute && user?.role === 'admin' ? dashboardNavLinks.admin : baseNavLinks).map((link) => (
-                           <Link
-                              key={link.href}
-                              href={link.href}
-                              className={cn(
-                                'flex items-center gap-3 rounded-lg px-3 py-2 text-base font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
-                                pathname === link.href && 'bg-primary/10 text-primary font-semibold'
-                              )}
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {'icon' in link && <link.icon className="h-4 w-4" />}
-                              <span>{link.label || link.name}</span>
-                            </Link>
+                        {baseNavLinks.map((link) => (
+                           <SheetClose asChild key={link.href}>
+                             <Link
+                                href={link.href}
+                                className={cn(
+                                  'flex items-center gap-3 rounded-lg px-3 py-2 text-base font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
+                                  pathname === link.href && 'bg-primary/10 text-primary font-semibold'
+                                )}
+                              >
+                                {'icon' in link && <link.icon className="h-4 w-4" />}
+                                <span>{link.label || link.name}</span>
+                              </Link>
+                           </SheetClose>
                         ))}
                       </nav>
                       <div className="p-4 border-t space-y-2">
@@ -204,24 +212,7 @@ const Header = () => {
                                     </Button>
                                 </SheetClose>
                             </>
-                        ) : (
-                            <div className="grid grid-cols-2 gap-2">
-                                <SheetClose asChild>
-                                    <Link href="/login" passHref>
-                                        <Button variant="outline" className="w-full">
-                                            Log In
-                                        </Button>
-                                    </Link>
-                                </SheetClose>
-                                <SheetClose asChild>
-                                    <Link href="/signup" passHref>
-                                      <Button className="w-full">
-                                          Sign Up
-                                      </Button>
-                                    </Link>
-                                </SheetClose>
-                            </div>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </SheetContent>
