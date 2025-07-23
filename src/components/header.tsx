@@ -147,11 +147,11 @@ const Header = () => {
             ) : (
                 <>
                     <div className="hidden lg:flex items-center space-x-2">
-                        <Link href="/login">
-                            <Button variant="ghost">Log In</Button>
-                        </Link>
-                        <Link href="/signup">
-                            <Button>Sign Up</Button>
+                         <Link href="/login">
+                             <Button variant="ghost" size="icon">
+                                <User className="h-5 w-5" />
+                                <span className="sr-only">Log In</span>
+                            </Button>
                         </Link>
                     </div>
                      <div className="lg:hidden">
@@ -175,6 +175,7 @@ const Header = () => {
                   </SheetTrigger>
                   <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
                      <SheetHeader className="p-4 border-b">
+                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                         <Logo textClassName="inline" />
                      </SheetHeader>
                     <div className="flex flex-col h-full">
@@ -212,7 +213,25 @@ const Header = () => {
                                     </Button>
                                 </SheetClose>
                             </>
-                        ) : null}
+                        ) : (
+                            <>
+                                 <SheetClose asChild>
+                                    <Link href="/login" passHref>
+                                        <Button className="w-full justify-start">
+                                            <User className="mr-2 h-4 w-4" />
+                                            Log In
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                                <SheetClose asChild>
+                                    <Link href="/signup" passHref>
+                                        <Button variant="outline" className="w-full justify-start">
+                                            Sign Up
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                            </>
+                        )}
                       </div>
                     </div>
                   </SheetContent>
