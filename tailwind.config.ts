@@ -57,8 +57,6 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        'cta-bg': '#0097A7', // Vibrant Teal
-        'cta-fg': '#FFFFFF', // White text for CTA
       },
       borderRadius: {
         lg: "var(--radius)",

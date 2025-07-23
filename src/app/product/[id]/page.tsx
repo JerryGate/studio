@@ -175,7 +175,7 @@ function ProductDetails({ id }: { id: string }) {
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
     const resolvedParams = use(params);
     return (
-      <Suspense fallback={<ProductPageSkeleton />}>
+      <Suspense key={resolvedParams.id} fallback={<ProductPageSkeleton />}>
         <ProductDetails id={resolvedParams.id} />
       </Suspense>
     );
