@@ -16,6 +16,8 @@ import { CreditCard, MapPin, ShoppingCart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import Map from '@/components/map';
+import { PaystackButton } from 'react-paystack';
+import { useRouter } from 'next/navigation';
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -34,6 +36,7 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, cartCount, clearCart } = useCart();
+  const router = useRouter();
   const { toast } = useToast();
   const [deliveryFee, setDeliveryFee] = useState(1000); // Default fee
 
@@ -66,23 +69,29 @@ export default function CheckoutPage() {
   
   const totalAmount = cartTotal + deliveryFee;
 
-  const onSubmit = (data: CheckoutFormValues) => {
-    // Here you would typically handle payment gateway integration
+  const handlePaymentSuccess = () => {
     console.log('Order placed:', {
-      customer: data,
+      customer: form.getValues(),
       items: cartItems,
       total: totalAmount,
     });
 
     toast({
         title: "Order Placed!",
-        description: "Your order has been successfully placed. We will contact you shortly."
+        description: "Your payment was successful. We will contact you shortly."
     });
 
-    // clearCart();
-    // Potentially redirect to an order confirmation page
-    // router.push('/order-confirmation');
+    clearCart();
+    router.push('/dashboard/orders');
   };
+  
+  const handlePaymentClose = () => {
+    toast({
+        title: "Payment Cancelled",
+        description: "Your payment process was cancelled.",
+        variant: "destructive"
+    });
+  }
 
   // Mock distance calculation
   const calculateDeliveryCost = (distance: number) => {
@@ -98,6 +107,19 @@ export default function CheckoutPage() {
     const mockDistanceInKm = Math.random() * 20;
     const cost = calculateDeliveryCost(mockDistanceInKm);
     setDeliveryFee(cost);
+  };
+  
+  const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+
+  if (!paystackPublicKey) {
+    return <div>Error: Paystack public key not configured.</div>
+  }
+  
+  const paystackConfig = {
+      reference: new Date().getTime().toString(),
+      email: form.watch('email'),
+      amount: totalAmount * 100, // Amount in kobo
+      publicKey: paystackPublicKey,
   };
 
   return (
@@ -115,7 +137,7 @@ export default function CheckoutPage() {
                 </CardHeader>
                 <CardContent>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <form className="space-y-6">
                         <FormField
                             control={form.control}
                             name="address"
@@ -226,10 +248,17 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-                 <Button type="submit" size="lg" className="w-full" onClick={form.handleSubmit(onSubmit)}>
-                    <CreditCard className="mr-2 h-5 w-5" />
-                    Place Order & Pay
-                </Button>
+                 <PaystackButton
+                    {...paystackConfig}
+                    onSuccess={handlePaymentSuccess}
+                    onClose={handlePaymentClose}
+                    className="w-full"
+                 >
+                    <Button size="lg" className="w-full" disabled={!form.formState.isValid}>
+                        <CreditCard className="mr-2 h-5 w-5" />
+                        Place Order & Pay
+                    </Button>
+                 </PaystackButton>
             </CardFooter>
           </Card>
         </div>
