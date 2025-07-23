@@ -18,7 +18,7 @@ export function DispatcherDeliveryChart() {
   return (
     <Card>
         <CardHeader>
-            <CardTitle className="text-xl">Recent Deliveries</CardTitle>
+            <CardTitle className="text-xl">Weekly Deliveries</CardTitle>
             <CardDescription>Number of deliveries completed in the last 7 days.</CardDescription>
         </CardHeader>
         <CardContent>
