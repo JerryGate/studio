@@ -1,5 +1,6 @@
 
 
+
 export interface Product {
     id: string;
     name: string;
@@ -44,3 +45,33 @@ export interface Conversation {
   subject: string;
   lastMessageAt: string;
 }
+
+
+// Admin types
+export type Pharmacy = {
+  id: string;
+  name: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  status: 'Approved' | 'Pending' | 'Rejected';
+  dateRegistered: string;
+};
+
+export type Patient = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  orders: number;
+  status: 'Active' | 'Inactive' | 'Suspended';
+};
+
+export type Dispatcher = {
+  id: string;
+  name: string;
+  phone: string;
+  vehicle: string;
+  status: 'Active' | 'Inactive';
+  deliveries: number;
+};

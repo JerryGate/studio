@@ -1,5 +1,6 @@
 
-import { Conversation, UserRole, Participant } from '@/types';
+
+import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher } from '@/types';
 
 type MockUsers = Record<UserRole, Participant>;
 
@@ -71,4 +72,30 @@ export const mockConversations: Conversation[] = [
        { id: 'msg10', senderId: 'pharmacy1', sender: mockUsers.pharmacy, text: 'Of course, let me prepare a quote for you.', timestamp: '2024-07-24T18:00:00.000Z' },
     ],
   },
+];
+
+
+export const mockPharmacies: Pharmacy[] = [
+    { id: 'PHM001', name: 'GoodHealth Pharmacy', contactPerson: 'John Doe', email: 'contact@goodhealth.com', phone: '08012345678', status: 'Approved', dateRegistered: '2023-01-15' },
+    { id: 'PHM002', name: 'Wellness Meds', contactPerson: 'Jane Smith', email: 'info@wellnessmeds.ng', phone: '09087654321', status: 'Pending', dateRegistered: '2023-02-20' },
+    { id: 'PHM003', name: 'City Drugs', contactPerson: 'Mike Johnson', email: 'support@citydrugs.com', phone: '07033445566', status: 'Approved', dateRegistered: '2022-11-30' },
+    { id: 'PHM004', name: 'CarePoint Pharmacy', contactPerson: 'Sarah Williams', email: 'care@carepoint.ng', phone: '08122334455', status: 'Rejected', dateRegistered: '2023-03-10' },
+    { id: 'PHM005', name: 'Nationwide Pharmacy', contactPerson: 'David Brown', email: 'hr@nationwide.com', phone: '08055667788', status: 'Approved', dateRegistered: '2021-09-01' },
+];
+
+export const mockPatients: Patient[] = [
+    { id: 'PAT001', name: 'Adebayo Adekunle', email: 'adebayo@example.com', phone: '08011223344', orders: 5, status: 'Active' },
+    { id: 'PAT002', name: 'Chidinma Okoro', email: 'chidinma@example.com', phone: '09022334455', orders: 2, status: 'Active' },
+    { id: 'PAT003', name: 'Musa Ibrahim', email: 'musa@example.com', phone: '07033445566', orders: 8, status: 'Active' },
+    { id: 'PAT004', name: 'Funke Ojo', email: 'funke@example.com', phone: '08144556677', orders: 0, status: 'Inactive' },
+    { id: 'PAT005', name: 'Emeka Nwosu', email: 'emeka@example.com', phone: '08055667788', orders: 12, status: 'Active' },
+    { id: 'PAT006', name: 'Zainab Bello', email: 'zainab@example.com', phone: '09066778899', orders: 1, status: 'Suspended' },
+];
+
+
+export const mockDispatchers: Dispatcher[] = [
+    { id: 'DIS001', name: 'Femi Adebayo', phone: '08098765432', vehicle: 'Honda Motorcycle - ABC 123', status: 'Active', deliveries: 25 },
+    { id: 'DIS002', name: 'Tunde Bakare', phone: '08023456789', vehicle: 'Suzuki Bike - XYZ 789', status: 'Active', deliveries: 15 },
+    { id: 'DIS003', name: 'Chioma Nwosu', phone: '09011223344', vehicle: 'TVS Tricycle - LMN 456', status: 'Inactive', deliveries: 42 },
+    { id: 'DIS004', name: 'Musa Aliyu', phone: '08134567890', vehicle: 'Bajaj Bike - GHI 321', status: 'Active', deliveries: 8 },
 ];
