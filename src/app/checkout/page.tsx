@@ -14,8 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CreditCard, MapPin, ShoppingCart, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
-import { usePaystackPayment } from 'react-paystack';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
@@ -23,7 +22,6 @@ const Map = dynamic(() => import('@/components/map'), {
   ssr: false,
   loading: () => <div className="h-full w-full bg-muted flex items-center justify-center"><Loader2 className="animate-spin" /></div>
 });
-
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -48,7 +46,18 @@ export default function CheckoutPage() {
   const [isCalculatingFee, setIsCalculatingFee] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [isPaystackScriptLoaded, setPaystackScriptLoaded] = useState(false);
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://js.paystack.co/v1/inline.js';
+    script.async = true;
+    script.onload = () => setPaystackScriptLoaded(true);
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -184,14 +193,26 @@ export default function CheckoutPage() {
   
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
-  const paystackConfig = {
-      reference: new Date().getTime().toString(),
-      email: form.watch('email'),
-      amount: totalAmount * 100, // Amount in kobo
-      publicKey: paystackPublicKey || '',
-  };
+  const handlePayment = () => {
+    if (!paystackPublicKey || !isPaystackScriptLoaded || !(window as any).PaystackPop) {
+        toast({
+            title: "Payment Error",
+            description: "Payment service is not available. Please try again later.",
+            variant: "destructive"
+        });
+        return;
+    }
 
-  const initializePayment = usePaystackPayment(paystackConfig);
+    const handler = (window as any).PaystackPop.setup({
+        key: paystackPublicKey,
+        email: form.getValues('email'),
+        amount: totalAmount * 100, // Amount in kobo
+        ref: new Date().getTime().toString(),
+        onClose: handlePaymentClose,
+        callback: handlePaymentSuccess
+    });
+    handler.openIframe();
+  }
 
 
   if (!paystackPublicKey) {
@@ -377,10 +398,8 @@ export default function CheckoutPage() {
                  <Button 
                     size="lg" 
                     className="w-full" 
-                    disabled={!form.formState.isValid || deliveryFee === null || isGeocoding}
-                    onClick={() => {
-                        initializePayment({onSuccess: handlePaymentSuccess, onClose: handlePaymentClose});
-                    }}
+                    disabled={!form.formState.isValid || deliveryFee === null || isGeocoding || !isPaystackScriptLoaded}
+                    onClick={handlePayment}
                 >
                     <CreditCard className="mr-2 h-5 w-5" />
                     Place Order & Pay
@@ -392,3 +411,5 @@ export default function CheckoutPage() {
     </div>
   );
 }
+
+    
