@@ -1,8 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, ShoppingCart, Users, Truck } from 'lucide-react';
 import { OverviewChart } from '@/components/admin/overview-chart';
 import { SalesByCategoryChart } from '@/components/admin/sales-by-category-chart';
-
 
 export default function AdminDashboard() {
   const stats = [
@@ -15,7 +14,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-primary mb-6">Admin Dashboard</h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -28,17 +27,9 @@ export default function AdminDashboard() {
           </Card>
         ))}
       </div>
-      <div className="mt-8">
-        <Card>
-            <CardHeader>
-                <CardTitle>Platform Analytics</CardTitle>
-                <CardDescription>An overview of the platform's performance.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-8 md:grid-cols-2">
-                <OverviewChart />
-                <SalesByCategoryChart />
-            </CardContent>
-        </Card>
+      <div className="mt-8 grid gap-8 grid-cols-1 lg:grid-cols-2">
+        <OverviewChart />
+        <SalesByCategoryChart />
       </div>
     </div>
   );
