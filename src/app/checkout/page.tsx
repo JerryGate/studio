@@ -15,9 +15,15 @@ import Link from 'next/link';
 import { CreditCard, MapPin, ShoppingCart, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import Map from '@/components/map';
 import { PaystackButton } from 'react-paystack';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import('@/components/map'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-muted flex items-center justify-center"><Loader2 className="animate-spin" /></div>
+});
+
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, 'Full name is required'),
@@ -208,6 +214,34 @@ export default function CheckoutPage() {
                                     <FormLabel>Phone Number</FormLabel>
                                     <FormControl>
                                     <Input placeholder="08012345678" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                        </div>
+                         <div className="flex gap-4">
+                            <FormField
+                                control={form.control}
+                                name="city"
+                                render={({ field }) => (
+                                <FormItem className="flex-1">
+                                    <FormLabel>City</FormLabel>
+                                    <FormControl>
+                                    <Input placeholder="e.g. Lagos" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                             <FormField
+                                control={form.control}
+                                name="state"
+                                render={({ field }) => (
+                                <FormItem className="flex-1">
+                                    <FormLabel>State</FormLabel>
+                                    <FormControl>
+                                    <Input placeholder="e.g. Lagos" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

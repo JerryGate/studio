@@ -2,8 +2,15 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import Map from '@/components/map';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Loader2 } from 'lucide-react';
+
+const Map = dynamic(() => import('@/components/map'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-muted flex items-center justify-center"><Loader2 className="animate-spin" /></div>
+});
+
 
 const mockDeliveries = [
     {
