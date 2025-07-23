@@ -4,7 +4,7 @@
 import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect, ComponentType } from 'react';
-import { Loader2 } from 'lucide-react';
+import { DashboardSkeleton } from '@/components/skeletons/dashboard-skeleton';
 
 type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
 
@@ -24,9 +24,7 @@ export function withAuth<P extends object>(
 
     if (loading || !user) {
       return (
-        <div className="flex justify-center items-center h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        <DashboardSkeleton />
       );
     }
 

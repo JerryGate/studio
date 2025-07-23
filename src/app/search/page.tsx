@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import ProductCard from '@/components/product/product-card';
 import { Product } from '@/types';
+import { ProductCardSkeleton } from '@/components/skeletons/product-card-skeleton';
 
 // Mock data, to be replaced with API call
 const allProducts: Product[] = [
@@ -28,19 +29,32 @@ const allProducts: Product[] = [
 function SearchResults() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams.get('q') || '';
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(initialQuery);
     const [sortBy, setSortBy] = useState('relevance');
     const [inStock, setInStock] = useState(false);
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-    const filteredProducts = allProducts
-        .filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        .filter(product => !inStock || product.stock > 0)
-        .sort((a, b) => {
-            if (sortBy === 'price-asc') return a.price - b.price;
-            if (sortBy === 'price-desc') return b.price - a.price;
-            if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
-            return 0; // 'relevance'
-        });
+    useEffect(() => {
+        setLoading(true);
+        // Simulate API call
+        const timer = setTimeout(() => {
+            const results = allProducts
+                .filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                .filter(product => !inStock || product.stock > 0)
+                .sort((a, b) => {
+                    if (sortBy === 'price-asc') return a.price - b.price;
+                    if (sortBy === 'price-desc') return b.price - a.price;
+                    if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
+                    return 0; // 'relevance'
+                });
+            setFilteredProducts(results);
+            setLoading(false);
+        }, 1000); // Simulate 1 second loading time
+
+        return () => clearTimeout(timer);
+    }, [searchTerm, sortBy, inStock]);
+
 
     return (
         <div className="flex flex-col md:flex-row gap-8">
@@ -96,12 +110,22 @@ function SearchResults() {
 
                 <div className="border-b pb-4 mb-6 flex justify-between items-center">
                     <p className="text-sm text-muted-foreground">
-                        Showing {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''}
-                        {searchTerm && <> for <span className="font-semibold text-primary">"{searchTerm}"</span></>}
+                        {!loading && (
+                            <>
+                                Showing {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''}
+                                {searchTerm && <> for <span className="font-semibold text-primary">"{searchTerm}"</span></>}
+                            </>
+                        )}
                     </p>
                 </div>
 
-                {filteredProducts.length > 0 ? (
+                {loading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {Array.from({ length: 6 }).map((_, index) => (
+                           <ProductCardSkeleton key={index} />
+                        ))}
+                    </div>
+                ) : filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredProducts.map(product => (
                             <ProductCard key={product.id} product={product} />
@@ -123,10 +147,35 @@ function SearchResults() {
 }
 
 
-function Loading() {
+function LoadingSkeleton() {
     return (
-        <div className="flex justify-center items-center h-96">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="flex flex-col md:flex-row gap-8">
+            <aside className="w-full md:w-1/4">
+                 <div className="sticky top-24 space-y-6">
+                     <div className="space-y-2">
+                        <Skeleton className="h-6 w-20" />
+                        <Skeleton className="h-10 w-full" />
+                     </div>
+                     <div className="space-y-2">
+                        <Skeleton className="h-6 w-24" />
+                        <div className="flex items-center gap-2">
+                            <Skeleton className="h-5 w-5" />
+                            <Skeleton className="h-5 w-20" />
+                        </div>
+                     </div>
+                 </div>
+            </aside>
+            <main className="w-full md:w-3/4">
+                 <Skeleton className="h-12 w-full mb-6" />
+                 <div className="border-b pb-4 mb-6">
+                     <Skeleton className="h-5 w-48" />
+                 </div>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                        <ProductCardSkeleton key={index} />
+                    ))}
+                 </div>
+            </main>
         </div>
     )
 }
@@ -139,10 +188,9 @@ export default function SearchPage() {
                 <p className="text-muted-foreground">Find the drugs you need from our wide selection.</p>
             </header>
             
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<LoadingSkeleton />}>
                 <SearchResults />
             </Suspense>
         </div>
     );
 }
-

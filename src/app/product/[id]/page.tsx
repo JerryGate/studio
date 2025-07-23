@@ -10,7 +10,8 @@ import { Product } from "@/types";
 import { CheckCircle, MinusCircle, PlusCircle, ShoppingCart, XCircle, ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, use } from "react";
+import { useState, use, Suspense, useEffect } from "react";
+import { ProductPageSkeleton } from "@/components/skeletons/product-page-skeleton";
 
 // Mock data - in a real app, you'd fetch this based on the `params.id`
 const allProducts: Product[] = [
@@ -24,13 +25,26 @@ const allProducts: Product[] = [
     { id: '8', name: 'Cough Syrup', price: 1500, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'A soothing cough syrup to relieve dry, tickly coughs. Contains honey and lemon.' },
 ];
 
-
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-    const resolvedParams = use(params);
-    const product = allProducts.find(p => p.id === resolvedParams.id);
+function ProductDetails({ id }: { id: string }) {
+    const [product, setProduct] = useState<Product | null>(null);
+    const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const { addToCart } = useCart();
+
+    useEffect(() => {
+        // Simulate fetching product data
+        const timer = setTimeout(() => {
+            const foundProduct = allProducts.find(p => p.id === id);
+            setProduct(foundProduct || null);
+            setLoading(false);
+        }, 1000); // Simulate 1 second loading time
+        return () => clearTimeout(timer);
+    }, [id]);
+
+    if (loading) {
+        return <ProductPageSkeleton />;
+    }
     
     if (!product) {
         return (
@@ -71,7 +85,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     const prevImage = () => {
         setMainImageIndex(prev => (prev - 1 + product.imageUrls.length) % product.imageUrls.length);
     }
-
+    
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="grid md:grid-cols-2 gap-12">
@@ -155,5 +169,14 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                 </div>
             </div>
         </div>
+    )
+}
+
+export default function ProductDetailPage({ params }: { params: { id: string } }) {
+    const resolvedParams = use(params);
+    return (
+      <Suspense fallback={<ProductPageSkeleton />}>
+        <ProductDetails id={resolvedParams.id} />
+      </Suspense>
     );
 }
