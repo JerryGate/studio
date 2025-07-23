@@ -37,7 +37,7 @@ const itemVariants = {
 
 const FeaturedProducts = () => {
   return (
-    <section className="py-16 md:py-20 bg-background">
+    <section className="py-12 md:py-16 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
             className="text-center mb-12"
