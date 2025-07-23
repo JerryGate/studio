@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import L, { LatLngExpression, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Loader2 } from 'lucide-react';
