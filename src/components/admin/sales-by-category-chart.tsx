@@ -13,7 +13,14 @@ const data = [
   { name: 'Diabetes', value: 189 },
 ];
 
-const COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))', 'hsl(var(--chart-5))'];
+const COLORS = [
+  '#1E3A8A', // Deep Blue (Primary)
+  '#22C55E', // Vibrant Green (Accent)
+  '#F59E0B', // Amber
+  '#8B5CF6', // Violet
+  '#EC4899', // Pink
+  '#3B82F6', // Blue
+];
 
 export function SalesByCategoryChart() {
   return (
@@ -34,7 +41,9 @@ export function SalesByCategoryChart() {
                     fill="#8884d8"
                     dataKey="value"
                     nameKey="name"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    stroke="hsl(var(--background))"
+                    strokeWidth={2}
+                    label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                 {data.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -43,7 +52,8 @@ export function SalesByCategoryChart() {
                 <Tooltip 
                      contentStyle={{
                         background: "hsl(var(--background))",
-                        borderColor: "hsl(var(--border))"
+                        borderColor: "hsl(var(--border))",
+                        borderRadius: "var(--radius)",
                     }}
                 />
                 <Legend />
