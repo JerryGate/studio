@@ -1,5 +1,4 @@
 
-
 import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher } from '@/types';
 
 type MockUsers = Record<UserRole, Participant>;
@@ -13,11 +12,11 @@ export const mockUsers: MockUsers = {
 };
 
 export const mockAuthUsers = {
-    admin: { id: 'admin1', email: 'admin@e-pharma.com', role: 'admin' as UserRole },
-    customer: { id: 'customer1', email: 'customer@e-pharma.com', role: 'customer' as UserRole },
-    pharmacy: { id: 'pharmacy1', email: 'pharmacy@e-pharma.com', role: 'pharmacy' as UserRole },
-    dispatcher: { id: 'dispatcher1', email: 'dispatcher@e-pharma.com', role: 'dispatcher' as UserRole },
-    hospital: { id: 'hospital1', email: 'hospital@e-pharma.com', role: 'hospital' as UserRole },
+    admin: { id: 'admin1', email: 'admin@medfast.com', role: 'admin' as UserRole },
+    customer: { id: 'customer1', email: 'customer@medfast.com', role: 'customer' as UserRole },
+    pharmacy: { id: 'pharmacy1', email: 'pharmacy@medfast.com', role: 'pharmacy' as UserRole },
+    dispatcher: { id: 'dispatcher1', email: 'dispatcher@medfast.com', role: 'dispatcher' as UserRole },
+    hospital: { id: 'hospital1', email: 'hospital@medfast.com', role: 'hospital' as UserRole },
 }
 
 

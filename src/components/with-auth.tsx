@@ -5,8 +5,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect, ComponentType } from 'react';
 import { DashboardSkeleton } from '@/components/skeletons/dashboard-skeleton';
-
-type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
+import { UserRole } from '@/types';
 
 export function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>,

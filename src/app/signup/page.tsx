@@ -48,7 +48,7 @@ export default function SignupPage() {
         <Card>
             <CardHeader>
                 <CardTitle>Get Started</CardTitle>
-                <CardDescription>Create a new account to start using E-pharma.</CardDescription>
+                <CardDescription>Create a new account to start using Medfast.</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">

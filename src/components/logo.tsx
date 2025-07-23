@@ -19,7 +19,7 @@ const Logo = ({ className, textClassName }: LogoProps) => {
           "text-2xl font-bold font-headline text-primary hidden sm:inline",
           textClassName
         )}>
-          E-pharma
+          Medfast
         </span>
       </div>
     </Link>

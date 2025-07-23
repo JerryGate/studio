@@ -1,6 +1,7 @@
 
 'use client';
 import AdminSidebar from '@/components/admin/admin-sidebar';
+import { withAuth } from '@/components/with-auth';
 import { MobileSidebar } from '@/components/admin/mobile-sidebar';
 
 
@@ -24,4 +25,4 @@ function AdminLayout({
   );
 }
 
-export default AdminLayout;
+export default withAuth(AdminLayout, ['admin']);
