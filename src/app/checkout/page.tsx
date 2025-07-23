@@ -197,6 +197,24 @@ export default function CheckoutPage() {
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
   const handlePayment = () => {
+    if (!form.formState.isValid) {
+      toast({
+        title: "Incomplete Form",
+        description: "Please fill in all the required delivery information fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (deliveryFee === null) {
+      toast({
+        title: "Location not set",
+        description: "Please use the 'Find on Map' button or click the map to set your delivery location and calculate the fee.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     if (!paystackPublicKey || !isPaystackScriptLoaded || !(window as any).PaystackPop) {
         toast({
             title: "Payment Error",
@@ -398,11 +416,11 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-                 <Button 
-                    size="lg" 
-                    className="w-full" 
-                    disabled={!form.formState.isValid || deliveryFee === null || isGeocoding || !isPaystackScriptLoaded}
+                 <Button
+                    size="lg"
+                    className="w-full"
                     onClick={handlePayment}
+                    disabled={isGeocoding || !isPaystackScriptLoaded}
                 >
                     <CreditCard className="mr-2 h-5 w-5" />
                     Place Order & Pay
