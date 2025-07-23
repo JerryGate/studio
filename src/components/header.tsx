@@ -97,9 +97,9 @@ const Header = () => {
           <nav className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => (
               <Link key={link.name} href={link.href}>
-                <span className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
+                <div className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
                   {link.name}
-                </span>
+                </div>
               </Link>
             ))}
           </nav>
@@ -189,29 +189,37 @@ const Header = () => {
                       <div className="p-4 border-t space-y-2">
                          {user ? (
                             <>
-                               <Link href={getDashboardUrl(user?.role)} passHref>
-                                    <Button variant="outline" className="w-full justify-start" onClick={() => setIsMobileMenuOpen(false)}>
-                                        <User className="mr-2 h-4 w-4" />
-                                        Dashboard
+                                <SheetClose asChild>
+                                   <Link href={getDashboardUrl(user?.role)} passHref>
+                                        <Button variant="outline" className="w-full justify-start">
+                                            <User className="mr-2 h-4 w-4" />
+                                            Dashboard
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                                <SheetClose asChild>
+                                    <Button variant="ghost" className="w-full justify-start" onClick={logout}>
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        Log Out
                                     </Button>
-                                </Link>
-                                <Button variant="ghost" className="w-full justify-start" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    Log Out
-                                </Button>
+                                </SheetClose>
                             </>
                         ) : (
                             <div className="grid grid-cols-2 gap-2">
-                                <Link href="/login" passHref>
-                                    <Button variant="outline" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                                        Log In
-                                    </Button>
-                                </Link>
-                                <Link href="/signup" passHref>
-                                    <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                                        Sign Up
-                                    </Button>
-                                </Link>
+                                <SheetClose asChild>
+                                    <Link href="/login" passHref>
+                                        <Button variant="outline" className="w-full">
+                                            Log In
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                                <SheetClose asChild>
+                                    <Link href="/signup" passHref>
+                                      <Button className="w-full">
+                                          Sign Up
+                                      </Button>
+                                    </Link>
+                                </SheetClose>
                             </div>
                         )}
                       </div>
