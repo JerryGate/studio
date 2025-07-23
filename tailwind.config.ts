@@ -15,10 +15,7 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
+        "2xl": "1280px",
       },
     },
     extend: {
@@ -60,6 +57,8 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        'cta-bg': '#0097A7', // Vibrant Teal
+        'cta-fg': '#FFFFFF', // White text for CTA
       },
       borderRadius: {
         lg: "var(--radius)",

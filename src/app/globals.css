@@ -5,23 +5,23 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* white */
-    --foreground: 222 47% 11%;
+    --background: 210 40% 98%; /* Soft White: #F8FAFC */
+    --foreground: 215 14% 34%; /* Cool Gray Text: #455A64 */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 215 14% 34%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 211 90% 53%; /* A professional but soft blue, like #4285F4 */
+    --popover-foreground: 215 14% 34%;
+    --primary: 207 82% 52%; /* Deep Trust Blue: #1E88E5 */
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96.1%; /* very light gray-blue, close to #F5F5F5 */
+    --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96.1%;
-    --muted-foreground: 220 9% 45%;
-    --accent: 145 58% 59%; /* A soft mint green, like #A5D6A7 */
+    --muted-foreground: 204 10% 60%; /* Lighter Cool Gray: #90A4AE */
+    --accent: 148 55% 82%; /* Healing Mint Green: #A7E9C4 */
     --accent-foreground: 222 47% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 214 32% 91%; /* light gray */
+    --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: hsl(var(--primary));
     --chart-1: hsl(var(--primary));
@@ -30,12 +30,12 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 210 40% 98%; /* soft white/light gray */
-    --sidebar-foreground: 222 47% 11%;
+    --sidebar-background: 210 40% 98%;
+    --sidebar-foreground: 215 14% 34%;
     --sidebar-primary: hsl(var(--primary));
     --sidebar-primary-foreground: hsl(var(--primary-foreground));
     --sidebar-accent: 210 40% 90%;
-    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-accent-foreground: 215 14% 34%;
     --sidebar-border: 214 32% 91%;
     --sidebar-ring: hsl(var(--primary));
   }
@@ -46,14 +46,14 @@
     --card-foreground: 0 0% 98%;
     --popover: 222 47% 11%;
     --popover-foreground: 0 0% 98%;
-    --primary: 211 90% 53%;
+    --primary: 207 82% 52%;
     --primary-foreground: 0 0% 100%;
     --secondary: 220 13% 18%;
     --secondary-foreground: 0 0% 98%;
     --muted: 220 13% 18%;
-    --muted-foreground: 220 9% 55%;
-    --accent: 145 58% 59%;
-    --accent-foreground: 0 0% 98%;
+    --muted-foreground: 204 10% 60%;
+    --accent: 148 55% 82%;
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 18%;
