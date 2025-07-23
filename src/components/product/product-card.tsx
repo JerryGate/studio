@@ -42,7 +42,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     <CardTitle className="text-lg font-bold mb-1 hover:text-primary">
                         {product.name}
                     </CardTitle>
-                    <CardDescription className="text-sm text-muted-foreground mb-2">{product.category}</CardDescription>
+                    <div className="text-sm text-muted-foreground mb-2">{product.category}</div>
                     
                     <div className="flex items-center gap-2 mt-auto mb-2">
                         {isInStock ? (
