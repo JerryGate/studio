@@ -45,22 +45,23 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <AuthProvider>
           <ThemeProvider>
-            <CartProvider>
-              {!isDashboardRoute && (
-                <div className="px-4 sm:px-6 lg:px-8">
-                  <Header />
+            <Toaster>
+              <CartProvider>
+                {!isDashboardRoute && (
+                  <div className="px-4 sm:px-6 lg:px-8">
+                    <Header />
+                  </div>
+                )}
+                <div className="flex-1 flex flex-col">
+                  <PageTransition>{children}</PageTransition>
                 </div>
-              )}
-              <div className="flex-1 flex flex-col">
-                <PageTransition>{children}</PageTransition>
-              </div>
-              {!isDashboardRoute && (
-                <div className="px-4 sm:px-6 lg:px-8">
-                  <Footer />
-                </div>
-              )}
-              <Toaster />
-            </CartProvider>
+                {!isDashboardRoute && (
+                  <div className="px-4 sm:px-6 lg:px-8">
+                    <Footer />
+                  </div>
+                )}
+              </CartProvider>
+            </Toaster>
           </ThemeProvider>
         </AuthProvider>
       </body>
