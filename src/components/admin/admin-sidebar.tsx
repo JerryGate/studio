@@ -26,10 +26,10 @@ export default function AdminSidebar() {
   const { logout } = useAuth();
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-background border-r">
+    <aside className="w-64 flex-shrink-0 bg-background border-r hidden md:block">
       <div className="flex flex-col h-full">
         <div className="p-4 border-b">
-          <Logo />
+          <Logo textClassName="inline" />
         </div>
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => (

@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, X, Sun, Moon, LogOut, User, ChevronDown } from 'lucide-react';
+import { Menu, ShoppingCart, X, Sun, Moon, LogOut, User, ChevronDown, LayoutDashboard } from 'lucide-react';
 import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 import Logo from './logo';
 import { useCart } from '@/contexts/cart-context';
 import { Badge } from './ui/badge';
@@ -13,7 +13,8 @@ import { useTheme } from '@/contexts/theme-context';
 import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -23,6 +24,18 @@ const baseNavLinks = [
   { name: 'Contact Us', href: '/#contact' },
   { name: 'FAQ', href: '/faq' },
 ];
+
+const dashboardNavLinks = {
+    admin: [
+        { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
+        // ... other admin links
+    ],
+    customer: [
+        { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        // ... other customer links
+    ]
+}
+
 
 const getDashboardUrl = (role: string | undefined) => {
     if (!role) return '/login';
@@ -55,6 +68,9 @@ const Header = () => {
   const { cartCount } = useCart();
   const { mode, toggleMode } = useTheme();
   const { user, logout } = useAuth();
+  const pathname = usePathname();
+
+  const isDashboardRoute = pathname.startsWith('/admin') || pathname.startsWith('/dashboard') || pathname.startsWith('/pharmacy') || pathname.startsWith('/dispatcher') || pathname.startsWith('/hospital');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -149,27 +165,30 @@ const Header = () => {
                     </Button>
                   </SheetTrigger>
                   <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
-                     <SheetHeader className="sr-only">
-                        <SheetTitle>Mobile Menu</SheetTitle>
+                     <SheetHeader className="p-4 border-b flex flex-row items-center justify-between">
+                        <Logo textClassName="inline" />
+                        <SheetClose asChild>
+                             <Button variant="ghost" size="icon">
+                              <X className="h-6 w-6" />
+                              <span className="sr-only">Close menu</span>
+                            </Button>
+                        </SheetClose>
                      </SheetHeader>
                     <div className="flex flex-col h-full">
-                      <div className="flex items-center justify-between p-4 border-b">
-                         <Logo />
-                        <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                          <X className="h-6 w-6" />
-                          <span className="sr-only">Close menu</span>
-                        </Button>
-                      </div>
                       <nav className="flex-1 p-4 space-y-4">
-                        {navLinks.map((link) => (
-                          <Link key={link.name} href={link.href}>
-                            <span
-                              className="block text-lg font-medium text-foreground hover:text-primary transition-colors duration-300"
+                        {(isDashboardRoute && user?.role === 'admin' ? dashboardNavLinks.admin : baseNavLinks).map((link) => (
+                           <Link
+                              key={link.href}
+                              href={link.href}
+                              className={cn(
+                                'flex items-center gap-3 rounded-lg px-3 py-2 text-base font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
+                                pathname === link.href && 'bg-primary/10 text-primary font-semibold'
+                              )}
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
-                              {link.name}
-                            </span>
-                          </Link>
+                              {'icon' in link && <link.icon className="h-4 w-4" />}
+                              <span>{link.label || link.name}</span>
+                            </Link>
                         ))}
                       </nav>
                       <div className="p-4 border-t space-y-2">
