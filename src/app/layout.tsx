@@ -4,7 +4,6 @@
 
 import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { CartProvider } from '@/contexts/cart-context';
@@ -12,6 +11,7 @@ import PageTransition from '@/components/page-transition';
 import { ThemeProvider } from '@/contexts/theme-context';
 import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function RootLayout({
   children,
@@ -43,27 +43,26 @@ export default function RootLayout({
         <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, medfast" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
-        <AuthProvider>
-          <ThemeProvider>
-            <Toaster>
-              <CartProvider>
-                {!isDashboardRoute && (
-                  <div className="px-4 sm:px-6 lg:px-8">
-                    <Header />
-                  </div>
-                )}
-                <div className="flex-1 flex flex-col">
-                  <PageTransition>{children}</PageTransition>
-                </div>
-                {!isDashboardRoute && (
-                  <div className="px-4 sm:px-6 lg:px-8">
-                    <Footer />
-                  </div>
-                )}
-              </CartProvider>
-            </Toaster>
-          </ThemeProvider>
-        </AuthProvider>
+            <AuthProvider>
+              <ThemeProvider>
+                  <CartProvider>
+                    {!isDashboardRoute && (
+                      <div className="px-4 sm:px-6 lg:px-8">
+                        <Header />
+                      </div>
+                    )}
+                    <div className="flex-1 flex flex-col">
+                      <PageTransition>{children}</PageTransition>
+                    </div>
+                    {!isDashboardRoute && (
+                      <div className="px-4 sm:px-6 lg:px-8">
+                        <Footer />
+                      </div>
+                    )}
+                  </CartProvider>
+              </ThemeProvider>
+            </AuthProvider>
+          <Toaster />
       </body>
     </html>
   );
