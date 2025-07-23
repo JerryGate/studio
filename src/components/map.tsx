@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from 'react-leaflet';
 import { Icon, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -28,7 +28,7 @@ const customIcon = new Icon({
 
 // Component to handle map events for interactive maps
 function MapEventsHandler({ onLocationSelect }: { onLocationSelect: MapProps['onLocationSelect'] }) {
-    const map = useMapEvents({
+    useMapEvents({
         click(e) {
             const { lat, lng } = e.latlng;
             // For simplicity, we're not doing reverse geocoding here.
