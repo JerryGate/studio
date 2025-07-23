@@ -129,7 +129,12 @@ export default function CheckoutPage() {
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
   if (!paystackPublicKey) {
-    return <div>Error: Paystack public key not configured.</div>
+    return (
+        <div className="container mx-auto px-4 py-12 text-center">
+            <h1 className="text-destructive text-2xl font-bold">Configuration Error</h1>
+            <p className="text-muted-foreground">The payment gateway is not configured. Please contact support.</p>
+        </div>
+    )
   }
   
   const paystackConfig = {
