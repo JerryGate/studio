@@ -39,18 +39,22 @@ function MapEventsHandler({ onLocationSelect, setPosition }: { onLocationSelect:
     return null;
 }
 
+const MapPlaceholder = () => {
+  return (
+    <div className="flex items-center justify-center h-full bg-muted">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="ml-2">Loading Map...</p>
+    </div>
+  )
+}
+
 const Map = ({ 
     onLocationSelect, 
     initialCenter,
     markers = [], 
     interactive = true 
 }: MapProps) => {
-    const [isClient, setIsClient] = useState(false);
     const [position, setPosition] = useState<LatLngExpression | null>(null);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     const center = useMemo<LatLngExpression>(() => {
         if (initialCenter && initialCenter.lat && initialCenter.lng) {
@@ -59,17 +63,14 @@ const Map = ({
         return NIGERIA_CENTER;
     }, [initialCenter]);
 
-    if (!isClient) {
-        return (
-            <div className="flex items-center justify-center h-full bg-muted">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-2">Loading Map...</p>
-            </div>
-        );
-    }
-    
-    return (
-        <MapContainer center={center} zoom={interactive ? 6 : 14} style={{ height: '100%', width: '100%' }}>
+    const displayMap = useMemo(
+      () => (
+        <MapContainer 
+            center={center} 
+            zoom={interactive ? 6 : 14} 
+            style={{ height: '100%', width: '100%' }}
+            placeholder={<MapPlaceholder />}
+        >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -89,6 +90,13 @@ const Map = ({
                 </Marker>
             ))}
         </MapContainer>
+      ), [center, interactive, onLocationSelect, position, markers]
+    )
+    
+    return (
+        <div className="h-full w-full">
+            {displayMap}
+        </div>
     );
 };
 
