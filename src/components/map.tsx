@@ -15,6 +15,7 @@ interface MapProps {
     interactive?: boolean;
 }
 
+// Fix for default icon issue with webpack
 const customIcon = new Icon({
     iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
     iconSize: [25, 41],
@@ -35,9 +36,8 @@ const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true
 
     useEffect(() => {
         if (isClient && mapContainerRef.current && !mapRef.current) {
-            // Initialize map only if it doesn't exist
             const center = initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER;
-            const zoom = interactive ? 6 : 14;
+            const zoom = initialCenter ? 14 : 6;
 
             const map = L.map(mapContainerRef.current).setView(center, zoom);
             mapRef.current = map;
@@ -53,19 +53,10 @@ const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true
                     if (onLocationSelect) {
                         onLocationSelect({ lat, lng }, mockAddress);
                     }
-                    // Remove previous markers and add a new one
-                    map.eachLayer((layer) => {
-                        if (layer instanceof L.Marker) {
-                            map.removeLayer(layer);
-                        }
-                    });
-                    L.marker([lat, lng], { icon: customIcon }).addTo(map)
-                        .bindPopup('Your selected delivery location.')
-                        .openPopup();
                 });
             }
 
-            // Cleanup function to run when component unmounts
+            // This is the cleanup function that will be called when the component unmounts
             return () => {
                 if (mapRef.current) {
                     mapRef.current.remove();
@@ -76,26 +67,35 @@ const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true
     }, [isClient, initialCenter, interactive, onLocationSelect]);
 
     useEffect(() => {
-        // Handle non-interactive markers
-        if (mapRef.current && !interactive) {
-            // Clear existing markers
+        // Handle markers
+        if (mapRef.current) {
+            // Clear existing markers first to avoid duplicates
             mapRef.current.eachLayer((layer) => {
                 if (layer instanceof L.Marker) {
                     mapRef.current?.removeLayer(layer);
                 }
             });
+
             // Add new markers
-            markers.forEach((marker, index) => {
-                L.marker([marker.lat, marker.lng], { icon: customIcon }).addTo(mapRef.current!)
-                    .bindPopup(`Delivery Location #${index + 1}`);
+            const currentMarkers = onLocationSelect ? markers : (initialCenter ? [{lat: initialCenter.lat, lng: initialCenter.lng}] : markers);
+
+            currentMarkers.forEach((marker, index) => {
+                if(marker.lat && marker.lng) {
+                    const popupText = onLocationSelect ? 'Your selected delivery location.' : `Delivery Location #${index + 1}`;
+                    L.marker([marker.lat, marker.lng], { icon: customIcon }).addTo(mapRef.current!)
+                        .bindPopup(popupText);
+                }
             });
+             if(currentMarkers.length === 1 && currentMarkers[0].lat && currentMarkers[0].lng){
+                mapRef.current.setView([currentMarkers[0].lat, currentMarkers[0].lng], 14);
+            }
         }
-    }, [markers, interactive, isClient]);
+    }, [markers, initialCenter, onLocationSelect]);
 
 
     if (!isClient) {
         return (
-            <div className="flex items-center justify-center h-full bg-muted">
+            <div className="flex items-center justify-center h-full w-full bg-muted">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 <p className="ml-2">Loading Map...</p>
             </div>

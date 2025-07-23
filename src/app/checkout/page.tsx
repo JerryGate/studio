@@ -46,6 +46,8 @@ export default function CheckoutPage() {
   const { toast } = useToast();
   const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
   const [isCalculatingFee, setIsCalculatingFee] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number} | null>(null);
+
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -103,6 +105,7 @@ export default function CheckoutPage() {
   const handleLocationSelect = async (location: { lat: number; lng: number }, address: string) => {
     form.setValue('location', location, { shouldValidate: true });
     form.setValue('address', address);
+    setSelectedLocation(location);
     setIsCalculatingFee(true);
     setDeliveryFee(null);
 
@@ -261,7 +264,10 @@ export default function CheckoutPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="h-96 w-full rounded-lg overflow-hidden">
-                        <Map onLocationSelect={handleLocationSelect} />
+                        <Map
+                           onLocationSelect={handleLocationSelect}
+                           markers={selectedLocation ? [selectedLocation] : []}
+                        />
                     </div>
                 </CardContent>
             </Card>
