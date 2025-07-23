@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { Product, CartItem } from '@/types';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -19,43 +19,40 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const { toast } = useToast();
 
   const addToCart = (product: Product, quantity: number) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-      if (existingItem) {
+    let message = '';
+    let type: 'default' | 'destructive' = 'default';
+
+    const existingItem = cartItems.find(item => item.id === product.id);
+
+    if (existingItem) {
         const newQuantity = existingItem.quantity + quantity;
         if (newQuantity > product.stock) {
-            toast({
-                title: "Stock limit reached",
-                description: `You cannot add more than ${product.stock} units of ${product.name}.`,
-                variant: 'destructive'
-            });
-            return prevItems;
+            message = `Stock limit reached. You cannot add more than ${product.stock} units of ${product.name}.`;
+            type = 'destructive';
+        } else {
+            setCartItems(prevItems =>
+                prevItems.map(item =>
+                    item.id === product.id ? { ...item, quantity: newQuantity } : item
+                )
+            );
+            message = `${quantity} x ${product.name} has been added.`;
         }
-        toast({
-            title: "Item updated in cart",
-            description: `${quantity} x ${product.name} has been added.`,
-        });
-        return prevItems.map(item =>
-          item.id === product.id ? { ...item, quantity: newQuantity } : item
-        );
-      } else {
-         if (quantity > product.stock) {
-            toast({
-                title: "Stock limit reached",
-                description: `You cannot add more than ${product.stock} units of ${product.name}.`,
-                variant: 'destructive'
-            });
-            return prevItems;
-         }
-        toast({
-          title: "Item added to cart",
-          description: `${quantity} x ${product.name} has been added to your cart.`,
-        });
-        return [...prevItems, { ...product, quantity }];
-      }
+    } else {
+        if (quantity > product.stock) {
+            message = `Stock limit reached. You cannot add more than ${product.stock} units of ${product.name}.`;
+            type = 'destructive';
+        } else {
+            setCartItems(prevItems => [...prevItems, { ...product, quantity }]);
+            message = `Item added to cart: ${quantity} x ${product.name}.`;
+        }
+    }
+
+    toast({
+        title: type === 'destructive' ? 'Error' : 'Success',
+        description: message,
+        variant: type,
     });
   };
 
@@ -68,30 +65,40 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
-    setCartItems(prevItems => {
-      const itemToUpdate = prevItems.find(item => item.id === productId);
-      if (!itemToUpdate) return prevItems;
+    const itemToUpdate = cartItems.find(item => item.id === productId);
+    if (!itemToUpdate) return;
+    
+    let message = '';
+    let type: 'default' | 'destructive' | null = null;
+    let shouldUpdate = true;
+    
+    if (quantity > itemToUpdate.stock) {
+        message = `Stock limit reached. You cannot have more than ${itemToUpdate.stock} units of ${itemToUpdate.name}.`;
+        type = 'destructive';
+        shouldUpdate = false;
+    }
 
-      if (quantity > itemToUpdate.stock) {
+    if (shouldUpdate) {
+        if (quantity <= 0) {
+            setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+            message = "Item removed from cart.";
+            type = 'default';
+        } else {
+            setCartItems(prevItems => 
+                prevItems.map(item =>
+                    item.id === productId ? { ...item, quantity } : item
+                )
+            );
+        }
+    }
+    
+    if (message && type) {
         toast({
-            title: "Stock limit reached",
-            description: `You cannot have more than ${itemToUpdate.stock} units of ${itemToUpdate.name}.`,
-            variant: 'destructive'
+            title: type === 'destructive' ? 'Error' : 'Success',
+            description: message,
+            variant: type,
         });
-        return prevItems;
-      }
-
-      if (quantity <= 0) {
-        toast({
-            title: "Item removed",
-            description: "The item has been removed from your cart.",
-        });
-        return prevItems.filter(item => item.id !== productId);
-      }
-      return prevItems.map(item =>
-        item.id === productId ? { ...item, quantity } : item
-      );
-    });
+    }
   };
   
   const clearCart = () => {
