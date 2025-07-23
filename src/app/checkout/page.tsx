@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { CreditCard, MapPin, ShoppingCart, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import { PaystackButton } from 'react-paystack';
+import PaystackButton from 'react-paystack';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
