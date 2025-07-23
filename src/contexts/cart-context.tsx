@@ -22,32 +22,46 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   const addToCart = (product: Product, quantity: number) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-      if (existingItem) {
-        const newQuantity = existingItem.quantity + quantity;
-        if (newQuantity > product.stock) {
-            toast({
-                title: "Stock limit reached",
-                description: `You cannot add more than ${product.stock} units of ${product.name}.`,
-                variant: 'destructive'
-            });
-            return prevItems;
-        }
+    const existingItem = cartItems.find(item => item.id === product.id);
+    
+    if (existingItem) {
+      const newQuantity = existingItem.quantity + quantity;
+      if (newQuantity > product.stock) {
         toast({
-            title: "Item updated in cart",
-            description: `${quantity} x ${product.name} has been added.`,
+          title: "Stock limit reached",
+          description: `You cannot add more than ${product.stock} units of ${product.name}.`,
+          variant: 'destructive'
         });
-        return prevItems.map(item =>
-          item.id === product.id ? { ...item, quantity: newQuantity } : item
-        );
+        return;
       }
+      
+      setCartItems(prevItems =>
+        prevItems.map(item =>
+          item.id === product.id ? { ...item, quantity: newQuantity } : item
+        )
+      );
+
+      toast({
+        title: "Item updated in cart",
+        description: `${quantity} x ${product.name} has been added.`,
+      });
+
+    } else {
+      if (quantity > product.stock) {
+        toast({
+            title: "Stock limit reached",
+            description: `You cannot add more than ${product.stock} units of ${product.name}.`,
+            variant: 'destructive'
+        });
+        return;
+      }
+
+      setCartItems(prevItems => [...prevItems, { ...product, quantity }]);
       toast({
         title: "Item added to cart",
         description: `${quantity} x ${product.name} has been added to your cart.`,
       });
-      return [...prevItems, { ...product, quantity }];
-    });
+    }
   };
 
   const removeFromCart = (productId: string) => {
@@ -59,26 +73,25 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
-    setCartItems(prevItems => {
-      const itemToUpdate = prevItems.find(item => item.id === productId);
-      if (!itemToUpdate) return prevItems;
+    const itemToUpdate = cartItems.find(item => item.id === productId);
+    if (!itemToUpdate) return;
 
-      if (quantity > itemToUpdate.stock) {
-          toast({
-              title: "Stock limit reached",
-              description: `You cannot have more than ${itemToUpdate.stock} units of ${itemToUpdate.name}.`,
-              variant: 'destructive'
-          });
-          return prevItems;
-      }
+    if (quantity > itemToUpdate.stock) {
+      toast({
+        title: "Stock limit reached",
+        description: `You cannot have more than ${itemToUpdate.stock} units of ${itemToUpdate.name}.`,
+        variant: 'destructive'
+      });
+      return;
+    }
 
-      if (quantity <= 0) {
-        return prevItems.filter(item => item.id !== productId);
-      }
-      return prevItems.map(item =>
+    if (quantity <= 0) {
+      removeFromCart(productId);
+    } else {
+       setCartItems(prevItems => prevItems.map(item =>
         item.id === productId ? { ...item, quantity } : item
-      );
-    });
+      ));
+    }
   };
   
   const clearCart = () => {
