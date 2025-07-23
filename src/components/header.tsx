@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, X, Sun, Moon, LogOut, User, ChevronDown, LayoutDashboard } from 'lucide-react';
+import { Menu, ShoppingCart, Sun, Moon, LogOut, User, ChevronDown, LayoutDashboard } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 import Logo from './logo';
@@ -22,18 +22,6 @@ const baseNavLinks = [
   { name: 'Services', href: '/#services' },
   { name: 'FAQ', href: '/faq' },
 ];
-
-const dashboardNavLinks = {
-    admin: [
-        { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
-        // ... other admin links
-    ],
-    customer: [
-        { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-        // ... other customer links
-    ]
-}
-
 
 const getDashboardUrl = (role: string | undefined) => {
     if (!role) return '/login';
@@ -131,7 +119,7 @@ const Header = () => {
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem asChild>
                              <Link href={getDashboardUrl(user?.role)}>
-                                <User className="mr-2 h-4 w-4" />
+                                <LayoutDashboard className="mr-2 h-4 w-4" />
                                 <span>Dashboard</span>
                             </Link>
                         </DropdownMenuItem>
@@ -187,8 +175,7 @@ const Header = () => {
                                   pathname === link.href && 'bg-primary/10 text-primary font-semibold'
                                 )}
                               >
-                                {'icon' in link && <link.icon className="h-4 w-4" />}
-                                <span>{link.label || link.name}</span>
+                                <span>{link.name}</span>
                               </Link>
                            </SheetClose>
                         ))}
@@ -199,7 +186,7 @@ const Header = () => {
                                 <SheetClose asChild>
                                    <Link href={getDashboardUrl(user?.role)} passHref>
                                         <Button variant="outline" className="w-full justify-start">
-                                            <User className="mr-2 h-4 w-4" />
+                                            <LayoutDashboard className="mr-2 h-4 w-4" />
                                             Dashboard
                                         </Button>
                                     </Link>

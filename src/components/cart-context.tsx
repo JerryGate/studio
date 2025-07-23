@@ -22,6 +22,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   const addToCart = (product: Product, quantity: number) => {
+    let itemAdded = false;
+    let itemUpdated = false;
+
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
       if (existingItem) {
@@ -34,20 +37,26 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             });
             return prevItems;
         }
-        toast({
-            title: "Item updated in cart",
-            description: `${quantity} x ${product.name} has been added.`,
-        });
+        itemUpdated = true;
         return prevItems.map(item =>
           item.id === product.id ? { ...item, quantity: newQuantity } : item
         );
       }
-      toast({
-        title: "Item added to cart",
-        description: `${quantity} x ${product.name} has been added to your cart.`,
-      });
+      itemAdded = true;
       return [...prevItems, { ...product, quantity }];
     });
+
+    if (itemUpdated) {
+        toast({
+            title: "Item updated in cart",
+            description: `${quantity} x ${product.name} has been added.`,
+        });
+    } else if (itemAdded) {
+        toast({
+            title: "Item added to cart",
+            description: `${quantity} x ${product.name} has been added to your cart.`,
+        });
+    }
   };
 
   const removeFromCart = (productId: string) => {

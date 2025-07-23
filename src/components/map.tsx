@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import L, { LatLngExpression, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Loader2 } from 'lucide-react';
@@ -26,7 +26,7 @@ const customIcon = new Icon({
 
 const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true }: MapProps) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
-    const [isClient, setIsClient] = useState(false);
+    const [isClient, setIsClient] = React.useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -35,28 +35,32 @@ const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true
     useEffect(() => {
         if (!isClient || !mapContainerRef.current) return;
 
-        const map = L.map(mapContainerRef.current, {
-            center: initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER,
-            zoom: initialCenter ? 14 : 6,
-        });
+        // Ensure the container is empty before initializing
+        if (mapContainerRef.current.hasChildNodes()) {
+            mapContainerRef.current.innerHTML = '';
+        }
+
+        const map = L.map(mapContainerRef.current).setView(
+            initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER,
+            initialCenter ? 14 : 6
+        );
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        let marker: L.Marker | null = null;
-        
         if (markers.length > 0) {
-            const markerData = markers[0];
-            if (markerData.lat && markerData.lng) {
-                const popupText = onLocationSelect ? 'Your selected delivery location.' : `Delivery Location`;
-                marker = L.marker([markerData.lat, markerData.lng], { icon: customIcon })
-                    .addTo(map)
-                    .bindPopup(popupText)
-                    .openPopup();
-            }
+            markers.forEach(markerData => {
+                if (markerData.lat && markerData.lng) {
+                    const popupText = onLocationSelect ? 'Your selected delivery location.' : `Delivery Location`;
+                    L.marker([markerData.lat, markerData.lng], { icon: customIcon })
+                        .addTo(map)
+                        .bindPopup(popupText)
+                        .openPopup();
+                }
+            });
         }
-
+        
         if (interactive && onLocationSelect) {
             map.on('click', async (e) => {
                 const { lat, lng } = e.latlng;
@@ -75,10 +79,11 @@ const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true
             });
         }
         
+        // Cleanup function to remove the map instance
         return () => {
             map.remove();
         };
-    }, [isClient, JSON.stringify(initialCenter), JSON.stringify(markers)]);
+    }, [isClient, JSON.stringify(initialCenter), JSON.stringify(markers), interactive, onLocationSelect]);
 
 
     if (!isClient) {

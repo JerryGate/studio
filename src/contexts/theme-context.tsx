@@ -6,8 +6,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 const isServer = typeof window === 'undefined';
 
 const DEFAULT_THEME = {
-    primary: '211, 90%, 53%',
-    accent: '145, 58%, 59%',
+    primary: '222.2 47.4% 11.2%',
+    accent: '145, 58%, 59%', // This is an example, it should be set from globals
     background: '0, 0%, 100%',
 };
 

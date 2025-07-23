@@ -139,7 +139,7 @@ function ProductDetails({ id }: { id: string }) {
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold text-accent mb-4">
+                            <p className="text-3xl font-bold text-primary mb-4">
                                 ₦{product.price.toLocaleString()}
                             </p>
                             <div className="text-base text-foreground/80">

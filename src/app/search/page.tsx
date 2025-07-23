@@ -6,13 +6,14 @@ import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, SlidersHorizontal, Loader2 } from 'lucide-react';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import ProductCard from '@/components/product/product-card';
 import { Product } from '@/types';
 import { ProductCardSkeleton } from '@/components/skeletons/product-card-skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Mock data, to be replaced with API call
 const allProducts: Product[] = [

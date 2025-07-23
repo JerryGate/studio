@@ -17,31 +17,31 @@ export function ProductPageSkeleton() {
         </div>
 
         {/* Details Skeleton */}
-        <div>
-          <Card className="border-none shadow-none">
-            <CardHeader className="space-y-4">
-              <Skeleton className="h-10 w-3/4" />
-              <div className="flex gap-2">
-                <Skeleton className="h-6 w-24 rounded-full" />
-                <Skeleton className="h-6 w-24 rounded-full" />
+        <Card className="border-none shadow-none">
+          <CardHeader className="space-y-4">
+            <Skeleton className="h-10 w-3/4" />
+            <div className="flex gap-2">
+              <Skeleton className="h-6 w-24 rounded-full" />
+              <Skeleton className="h-6 w-24 rounded-full" />
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4 pt-0">
+            <Skeleton className="h-8 w-1/3" />
+            <div className="space-y-2">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-4/6" />
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col items-start gap-6 pt-0">
+              <Skeleton className="h-px w-full" />
+              <div className="flex items-center gap-4">
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-10 w-32" />
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Skeleton className="h-8 w-1/3" />
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-4/6" />
-            </CardContent>
-            <CardFooter className="flex flex-col items-start gap-6">
-                <Skeleton className="h-px w-full" />
-                <div className="flex items-center gap-4">
-                    <Skeleton className="h-6 w-20" />
-                    <Skeleton className="h-10 w-32" />
-                </div>
-              <Skeleton className="h-12 w-full" />
-            </CardFooter>
-          </Card>
-        </div>
+            <Skeleton className="h-12 w-full" />
+          </CardFooter>
+        </Card>
       </div>
     </div>
   )
