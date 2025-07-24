@@ -8,7 +8,7 @@ export default function AboutPage() {
     <div className="bg-background text-foreground">
       <header className="py-16 md:py-24 bg-primary/5 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-primary">About Medfast</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-primary">About E-parma</h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Your trusted partner for accessible, affordable, and reliable healthcare in Nigeria.
           </p>
@@ -46,7 +46,7 @@ export default function AboutPage() {
             <div className="text-center max-w-3xl mx-auto">
                 <h2 className="text-3xl font-bold text-primary mb-4">Our Story</h2>
                 <p className="text-muted-foreground text-lg">
-                    Founded by a team of passionate healthcare professionals and tech innovators, Medfast was born out of a desire to solve a critical problem: the difficulty in accessing genuine medications quickly and safely in Nigeria. We saw the challenges - from counterfeit drugs to the logistical hurdles of reaching a pharmacy - and we knew there had to be a better way. Thus, Medfast was created as a beacon of hope and a symbol of quality healthcare for all.
+                    Founded by a team of passionate healthcare professionals and tech innovators, E-parma was born out of a desire to solve a critical problem: the difficulty in accessing genuine medications quickly and safely in Nigeria. We saw the challenges - from counterfeit drugs to the logistical hurdles of reaching a pharmacy - and we knew there had to be a better way. Thus, E-parma was created as a beacon of hope and a symbol of quality healthcare for all.
                 </p>
             </div>
           </section>

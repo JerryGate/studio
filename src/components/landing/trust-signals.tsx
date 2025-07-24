@@ -23,7 +23,7 @@ const testimonials = [
     avatar: 'AA',
     image: 'https://placehold.co/100x100.png',
     dataAiHint: 'smiling man',
-    quote: 'Medfast is a lifesaver! I got my mother’s medication delivered in under an hour. The process was so simple and the prices are great.',
+    quote: 'E-parma is a lifesaver! I got my mother’s medication delivered in under an hour. The process was so simple and the prices are great.',
   },
   {
     name: 'Chidinma Okoro',
@@ -31,7 +31,7 @@ const testimonials = [
     avatar: 'CO',
     image: 'https://placehold.co/100x100.png',
     dataAiHint: 'professional woman',
-    quote: 'As a pharmacy owner, Medfast has expanded my customer base significantly. The platform is intuitive and managing orders is a breeze.',
+    quote: 'As a pharmacy owner, E-parma has expanded my customer base significantly. The platform is intuitive and managing orders is a breeze.',
   },
   {
     name: 'Musa Ibrahim',
@@ -122,7 +122,7 @@ const TrustSignals = () => {
               Your Trust, Our Priority
             </div>
           <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary">
-            Why Nigerians Choose Medfast
+            Why Nigerians Choose E-parma
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             We are committed to providing a secure, reliable, and affordable healthcare experience.

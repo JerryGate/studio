@@ -46,7 +46,7 @@ export default function SignupPage() {
         </div>
         <Card>
             <CardHeader>
-                <CardTitle>Get Started with Medfast</CardTitle>
+                <CardTitle>Get Started with E-parma</CardTitle>
                 <CardDescription>Create an account to start ordering your medications.</CardDescription>
             </CardHeader>
             <CardContent>

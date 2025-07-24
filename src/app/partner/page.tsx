@@ -9,7 +9,7 @@ export default function PartnerPage() {
         <div className="bg-background text-foreground">
             <header className="py-16 md:py-24 bg-primary/5 text-center">
                 <div className="container mx-auto px-4">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Join the Medfast Network</h1>
+                <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Join the E-parma Network</h1>
                 <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                     Partner with us to expand your reach and contribute to accessible healthcare in Nigeria.
                 </p>
@@ -26,7 +26,7 @@ export default function PartnerPage() {
                                 </div>
                                 <CardTitle>Are you a Pharmacy?</CardTitle>
                                 <CardDescription>
-                                    Register your pharmacy on Medfast to reach more customers, manage your inventory online, and increase your sales.
+                                    Register your pharmacy on E-parma to reach more customers, manage your inventory online, and increase your sales.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex-grow flex items-center justify-center">

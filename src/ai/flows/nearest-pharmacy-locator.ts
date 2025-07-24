@@ -37,7 +37,7 @@ async (input) => {
     // TODO: Replace with actual implementation to fetch nearest pharmacy from a database or API
     // For now, return a mock pharmacy
     return {
-      pharmacyName: 'Medfast Pharmacy',
+      pharmacyName: 'E-parma Pharmacy',
       pharmacyAddress: '123 Test Street, Lagos, Nigeria',
       pharmacyPhoneNumber: '+234 800 000 0000',
     };

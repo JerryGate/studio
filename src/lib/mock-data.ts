@@ -13,11 +13,11 @@ export const mockUsers: MockUsers = {
 };
 
 export const mockAuthUsers = {
-    admin: { id: 'admin1', email: 'admin@medfast.com', role: 'admin' as UserRole },
-    customer: { id: 'customer1', email: 'customer@medfast.com', role: 'customer' as UserRole },
-    pharmacy: { id: 'pharmacy1', email: 'pharmacy@medfast.com', role: 'pharmacy' as UserRole },
-    dispatcher: { id: 'dispatcher1', email: 'dispatcher@medfast.com', role: 'dispatcher' as UserRole },
-    hospital: { id: 'hospital1', email: 'hospital@medfast.com', role: 'hospital' as UserRole },
+    admin: { id: 'admin1', email: 'admin@e-parma.com', role: 'admin' as UserRole },
+    customer: { id: 'customer1', email: 'customer@e-parma.com', role: 'customer' as UserRole },
+    pharmacy: { id: 'pharmacy1', email: 'pharmacy@e-parma.com', role: 'pharmacy' as UserRole },
+    dispatcher: { id: 'dispatcher1', email: 'dispatcher@e-parma.com', role: 'dispatcher' as UserRole },
+    hospital: { id: 'hospital1', email: 'hospital@e-parma.com', role: 'hospital' as UserRole },
 }
 
 
