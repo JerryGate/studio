@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
 
@@ -13,7 +13,7 @@ const mockImages = [
 ];
 
 const Hero = () => {
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -22,6 +22,8 @@ const Hero = () => {
                 plugins={[autoplayPlugin.current]}
                 className="w-full"
                 opts={{ loop: true }}
+                onMouseEnter={autoplayPlugin.current.stop}
+                onMouseLeave={autoplayPlugin.current.reset}
             >
                 <CarouselContent className="h-[60vh] md:h-[70vh]">
                     {mockImages.map((image, index) => (
@@ -39,6 +41,8 @@ const Hero = () => {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
+                <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-none hover:bg-black/50" />
+                <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-none hover:bg-black/50" />
             </Carousel>
         </section>
     </div>
