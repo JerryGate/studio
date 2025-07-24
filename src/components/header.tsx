@@ -49,7 +49,6 @@ const getInitials = (name: string) => {
 
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
   const { user, logout } = useAuth();
@@ -65,16 +64,6 @@ const Header = () => {
       router.push('/search');
     }
   };
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navLinks = baseNavLinks;
 
