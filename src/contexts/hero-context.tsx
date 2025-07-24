@@ -42,27 +42,21 @@ export const HeroProvider = ({ children }: { children: ReactNode }) => {
         }
     }, []);
 
-    // Effect to save images to localStorage whenever they change
-    useEffect(() => {
-        if (!isServer && isLoaded) { // Only save after initial load
-            try {
-                localStorage.setItem('hero-images', JSON.stringify(heroImages));
-            } catch (error) {
-                 if (error instanceof DOMException && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
-                    toast({
-                        title: 'Storage Limit Exceeded',
-                        description: 'Could not save new images. Please use fewer or smaller images.',
-                        variant: 'destructive',
-                    });
-                } else {
-                     console.error("Failed to save hero images to localStorage", error);
-                }
+    const setHeroImages = (images: string[]) => {
+        try {
+            localStorage.setItem('hero-images', JSON.stringify(images));
+            setHeroImagesState(images);
+        } catch (error) {
+            if (error instanceof DOMException && (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+                toast({
+                    title: 'Storage Limit Exceeded',
+                    description: 'Could not save new images. Please use fewer or smaller images.',
+                    variant: 'destructive',
+                });
+            } else {
+                 console.error("Failed to save hero images to localStorage", error);
             }
         }
-    }, [heroImages, isLoaded, toast]);
-
-    const setHeroImages = (images: string[]) => {
-        setHeroImagesState(images);
     };
     
     return (
