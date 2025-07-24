@@ -150,7 +150,7 @@ const GeolocationFeature = () => {
                 alt="Map showing pharmacy locations" 
                 layout="fill"
                 objectFit="cover"
-                data-ai-hint="abstract map"
+                data-ai-hint="map Nigeria"
                 className="transform hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-primary/20"></div>

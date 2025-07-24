@@ -38,7 +38,7 @@ const testimonials = [
     location: 'Kano',
     avatar: 'MI',
     image: 'https://placehold.co/100x100.png',
-    dataAiHint: 'happy customer',
+    dataAiHint: 'happy man',
     quote: 'Fast, reliable, and trustworthy. I no longer have to worry about fake drugs. Highly recommended for anyone in Nigeria!',
   },
   {

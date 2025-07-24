@@ -37,7 +37,7 @@ export default function AboutPage() {
                     alt="Pharmacists working" 
                     layout="fill" 
                     objectFit="cover"
-                    data-ai-hint="happy diverse people"
+                    data-ai-hint="pharmacist helping customer"
                 />
             </div>
           </section>

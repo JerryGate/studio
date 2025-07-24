@@ -7,9 +7,9 @@ import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
 
 const mockImages = [
-    { src: 'https://placehold.co/1200x600.png', hint: 'diverse people smiling' },
-    { src: 'https://placehold.co/1200x600.png', hint: 'pharmacist helping customer' },
+    { src: 'https://placehold.co/1200x600.png', hint: 'pharmacist smiling customer' },
     { src: 'https://placehold.co/1200x600.png', hint: 'delivery person motorcycle' },
+    { src: 'https://placehold.co/1200x600.png', hint: 'happy family health' },
 ];
 
 const Hero = () => {
