@@ -18,29 +18,32 @@ const navItems = [
   { href: '/dashboard/messages', icon: MessageSquare, label: 'Messages' },
 ];
 
-export default function CustomerSidebar() {
+const NavContent = () => {
   const pathname = usePathname();
   const { logout } = useAuth();
+   const checkActive = (href: string) => {
+      if (href === '/dashboard') {
+        return pathname === href;
+      }
+      return pathname.startsWith(href);
+    }
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-background border-r hidden md:flex flex-col">
-        <div className="p-4 border-b">
-          <Logo textClassName="inline" />
-        </div>
-        <nav className="flex-1 p-4 space-y-2">
-        {navItems.map((item) => (
-            <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                pathname === item.href && 'bg-primary/10 text-primary font-semibold'
-            )}
-            >
-            <item.icon className="h-4 w-4" />
-            <span>{item.label}</span>
-            </Link>
-        ))}
+    <div className="flex flex-col h-full">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+            {navItems.map((item) => (
+                <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
+                    checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
+                )}
+                >
+                <item.icon className="h-4 w-4" />
+                <span>{item.label}</span>
+                </Link>
+            ))}
         </nav>
         <div className="p-4 mt-auto border-t">
             <Separator className="my-4" />
@@ -53,6 +56,21 @@ export default function CustomerSidebar() {
                 <span>Logout</span>
             </Button>
         </div>
+    </div>
+  );
+}
+
+export default function CustomerSidebar({ isMobile = false }) {
+  if (isMobile) {
+    return <NavContent />;
+  }
+
+  return (
+    <aside className="w-full flex-shrink-0 bg-background flex flex-col h-full">
+        <div className="p-4 border-b flex items-center h-[60px]">
+          <Logo textClassName="inline" />
+        </div>
+        <NavContent />
     </aside>
   );
 }
