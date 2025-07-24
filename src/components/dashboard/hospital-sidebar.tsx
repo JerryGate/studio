@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, User, Package, Users2, MessageSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, User, Package, Users2, MessageSquare, LogOut, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/auth-context';
@@ -16,6 +16,7 @@ const navItems = [
   { href: '/hospital/orders', icon: Package, label: 'Bulk Orders' },
   { href: '/hospital/staff', icon: Users2, label: 'Manage Staff' },
   { href: '/hospital/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/hospital/settings', icon: Settings, label: 'Settings' },
 ];
 
 const NavContent = () => {

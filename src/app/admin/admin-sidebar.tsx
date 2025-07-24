@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -21,6 +21,7 @@ const navItems = [
   { href: '/admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
   { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/settings', icon: Settings, label: 'Settings' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
@@ -36,7 +37,7 @@ export const AdminNav = ({ isMobile = false }) => {
 
     return (
         <div className="flex flex-col h-full">
-            <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+            <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 {navItems.map((item) => (
                     <Link
                     key={item.href}
@@ -68,13 +69,11 @@ export const AdminNav = ({ isMobile = false }) => {
 
 export default function AdminSidebar() {
   return (
-    <aside className="w-64 flex-shrink-0 bg-background border-r hidden md:block">
-      <div className="flex flex-col h-full">
-        <div className="p-4 border-b">
-          <Logo textClassName="inline" />
-        </div>
-        <AdminNav />
+    <div className="flex flex-col h-full">
+      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+        <Logo textClassName="inline" />
       </div>
-    </aside>
+      <AdminNav />
+    </div>
   );
 }

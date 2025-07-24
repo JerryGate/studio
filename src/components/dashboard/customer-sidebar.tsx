@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, User, Package, MapPin, MessageSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, User, Package, MapPin, MessageSquare, LogOut, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/auth-context';
@@ -16,6 +16,7 @@ const navItems = [
   { href: '/dashboard/orders', icon: Package, label: 'My Orders' },
   { href: '/dashboard/tracking', icon: MapPin, label: 'Track Delivery' },
   { href: '/dashboard/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 
 const NavContent = () => {

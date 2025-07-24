@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, User, Truck, History, MessageSquare, LogOut, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, User, Truck, History, MessageSquare, LogOut, ClipboardList, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/auth-context';
@@ -18,6 +18,7 @@ const navItems = [
   { href: '/dispatcher/history', icon: History, label: 'Delivery History' },
   { href: '/dispatcher/profile', icon: User, label: 'My Profile' },
   { href: '/dispatcher/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/dispatcher/settings', icon: Settings, label: 'Settings' },
 ];
 
 const NavContent = () => {

@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, User, Package, ListPlus, MessageSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, User, Package, ListPlus, MessageSquare, LogOut, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/auth-context';
@@ -16,6 +16,7 @@ const navItems = [
   { href: '/pharmacy/inventory', icon: ListPlus, label: 'Inventory' },
   { href: '/pharmacy/orders', icon: Package, label: 'Manage Orders' },
   { href: '/pharmacy/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/pharmacy/settings', icon: Settings, label: 'Settings' },
 ];
 
 const NavContent = () => {
