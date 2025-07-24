@@ -10,7 +10,7 @@ export default function PartnerPage() {
         <div className="flex flex-col items-center justify-center min-h-screen bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-4xl space-y-8">
                 <div className="text-center">
-                    <Logo />
+                    <Logo textClassName="inline" />
                     <h1 className="mt-6 text-4xl md:text-5xl font-extrabold text-primary">Join the E-parma Network</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                         Partner with us to expand your reach and contribute to accessible healthcare in Nigeria.
