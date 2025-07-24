@@ -31,15 +31,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         <Image
                             src={product.imageUrls[0]}
                             alt={product.name}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover transform hover:scale-105 transition-transform duration-500"
                             data-ai-hint={product.dataAiHint}
-                            className="transform hover:scale-105 transition-transform duration-500"
                         />
                     </div>
                 </CardHeader>
                 <div className="p-4 flex flex-col flex-grow">
-                    <CardTitle className="text-lg font-bold mb-1 hover:text-primary min-h-[40px]">
+                    <CardTitle className="text-lg font-bold mb-1 hover:text-primary min-h-[56px]">
                         {product.name}
                     </CardTitle>
                     <div className="text-sm text-muted-foreground mb-2">{product.category}</div>
