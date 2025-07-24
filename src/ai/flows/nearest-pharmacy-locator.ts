@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A geolocation AI agent.
@@ -37,7 +38,7 @@ async (input) => {
     // TODO: Replace with actual implementation to fetch nearest pharmacy from a database or API
     // For now, return a mock pharmacy
     return {
-      pharmacyName: 'E-parma Pharmacy',
+      pharmacyName: 'E-pharma Pharmacy',
       pharmacyAddress: '123 Test Street, Lagos, Nigeria',
       pharmacyPhoneNumber: '+234 800 000 0000',
     };

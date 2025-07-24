@@ -36,12 +36,12 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
-        <title>E-parma - Quality Drugs, Fast Delivery in Nigeria</title>
+        <title>E-pharma - Quality Drugs, Fast Delivery in Nigeria</title>
         <meta
             name="description"
             content="Affordable, verified medications delivered to your doorstep from nearby pharmacies in Nigeria. Order drugs online with ease and track your delivery in real-time."
         />
-        <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, E-parma" />
+        <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, E-pharma" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <AuthProvider>

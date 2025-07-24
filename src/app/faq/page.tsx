@@ -1,12 +1,13 @@
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const faqItems = [
   {
-    question: "What is Medfast?",
-    answer: "Medfast is an online platform that connects you to verified pharmacies in Nigeria, allowing you to order authentic medications and healthcare products for fast delivery to your doorstep."
+    question: "What is E-pharma?",
+    answer: "E-pharma is an online platform that connects you to verified pharmacies in Nigeria, allowing you to order authentic medications and healthcare products for fast delivery to your doorstep."
   },
   {
-    question: "Are the medications on Medfast genuine?",
+    question: "Are the medications on E-pharma genuine?",
     answer: "Absolutely. We partner exclusively with licensed and vetted pharmacies to ensure that every product sold on our platform is 100% genuine and safe."
   },
   {

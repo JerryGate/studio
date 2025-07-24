@@ -45,7 +45,7 @@ export default function PharmacyProfilePage() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Contact Email Address</Label>
-                            <Input id="email" type="email" defaultValue="pharmacy@e-parma.com" readOnly/>
+                            <Input id="email" type="email" defaultValue="pharmacy@e-pharma.com" readOnly/>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="address">Pharmacy Address</Label>

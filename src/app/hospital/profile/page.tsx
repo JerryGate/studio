@@ -45,7 +45,7 @@ export default function HospitalProfilePage() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Email Address</Label>
-                            <Input id="email" type="email" defaultValue="hospital@e-parma.com" readOnly />
+                            <Input id="email" type="email" defaultValue="hospital@e-pharma.com" readOnly />
                         </div>
                          <div className="space-y-2">
                             <Label htmlFor="phone">Phone Number</Label>
