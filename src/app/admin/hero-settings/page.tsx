@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,18 +9,18 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { UploadCloud, X, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
-
-const initialImages = [
-    { src: 'https://placehold.co/1200x600.png', dataAiHint: 'pharmacy interior' },
-    { src: 'https://placehold.co/1200x600.png', dataAiHint: 'pharmacist smiling' },
-    { src: 'https://placehold.co/1200x600.png', dataAiHint: 'medicine packages' },
-];
+import { useHero } from '@/contexts/hero-context';
 
 export default function HeroSettingsPage() {
     const { toast } = useToast();
-    const [images, setImages] = useState(initialImages.map(img => img.src));
-    const [imagePreviews, setImagePreviews] = useState(initialImages.map(img => img.src));
-    
+    const { heroImages, setHeroImages } = useHero();
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
+    useEffect(() => {
+        // Initialize previews with images from context
+        setImagePreviews(heroImages);
+    }, [heroImages]);
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
@@ -41,12 +41,12 @@ export default function HeroSettingsPage() {
     }
 
     const handleSaveChanges = () => {
-        // In a real app, you would upload the new files and get back URLs,
-        // then save the final list of URLs to your database.
-        console.log("Saving images:", imagePreviews);
+        // In a real app, you would upload files, get URLs, and save.
+        // Here, we save the blob or existing URLs directly to our context/localStorage.
+        setHeroImages(imagePreviews);
         toast({
             title: "Hero Section Updated",
-            description: "Your new hero images have been saved.",
+            description: "Your new hero images have been saved and are now live.",
         });
     }
 
@@ -60,7 +60,7 @@ export default function HeroSettingsPage() {
                 <CardHeader>
                     <CardTitle>Manage Hero Section Images</CardTitle>
                     <CardDescription>
-                        Upload or remove images that appear in the homepage carousel.
+                        Upload or remove images that appear in the homepage carousel. Changes will be live immediately after saving.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
@@ -81,7 +81,7 @@ export default function HeroSettingsPage() {
                     </div>
 
                     <div>
-                        <h3 className="text-lg font-semibold mb-4">Current Images</h3>
+                        <h3 className="text-lg font-semibold mb-4">Current Images Preview</h3>
                         {imagePreviews.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {imagePreviews.map((preview, index) => (

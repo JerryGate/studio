@@ -12,16 +12,12 @@ import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
-
-const carouselImages = [
-    { src: 'https://placehold.co/1200x600.png', dataAiHint: 'pharmacy interior' },
-    { src: 'https://placehold.co/1200x600.png', dataAiHint: 'pharmacist smiling' },
-    { src: 'https://placehold.co/1200x600.png', dataAiHint: 'medicine packages' },
-];
+import { useHero } from '@/contexts/hero-context';
 
 const Hero = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const { heroImages } = useHero();
   const autoplayPlugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
 
   const handleSearch = (e: React.FormEvent) => {
@@ -62,15 +58,14 @@ const Hero = () => {
             opts={{ loop: true }}
         >
             <CarouselContent className="h-full">
-                {carouselImages.map((img, index) => (
+                {heroImages.map((src, index) => (
                     <CarouselItem key={index} className="h-full">
                         <div className="relative h-full w-full">
                             <Image
-                                src={img.src}
+                                src={src}
                                 alt={`Hero image ${index + 1}`}
                                 fill
                                 className="object-cover"
-                                data-ai-hint={img.dataAiHint}
                                 priority={index === 0}
                             />
                         </div>

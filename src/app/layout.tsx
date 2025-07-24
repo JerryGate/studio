@@ -11,6 +11,7 @@ import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
+import { HeroProvider } from '@/contexts/hero-context';
 
 export default function RootLayout({
   children,
@@ -47,22 +48,24 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <Toaster>
-              <CartProvider>
-                {!isDashboardRoute && !isAuthRoute && (
-                  <div className="px-4 sm:px-6 lg:px-8">
-                    <Header />
+              <HeroProvider>
+                <CartProvider>
+                  {!isDashboardRoute && !isAuthRoute && (
+                    <div className="px-4 sm:px-6 lg:px-8">
+                      <Header />
+                    </div>
+                  )}
+                  <div className="flex-1 flex flex-col">
+                    <PageTransition>{children}</PageTransition>
                   </div>
-                )}
-                <div className="flex-1 flex flex-col">
-                  <PageTransition>{children}</PageTransition>
-                </div>
-                {!isDashboardRoute && !isAuthRoute && (
-                  <div className="px-4 sm:px-6 lg:px-8">
-                    <Footer />
-                  </div>
-                )}
-                <ScrollToTopButton />
-              </CartProvider>
+                  {!isDashboardRoute && !isAuthRoute && (
+                    <div className="px-4 sm:px-6 lg:px-8">
+                      <Footer />
+                    </div>
+                  )}
+                  <ScrollToTopButton />
+                </CartProvider>
+              </HeroProvider>
             </Toaster>
           </ThemeProvider>
         </AuthProvider>
