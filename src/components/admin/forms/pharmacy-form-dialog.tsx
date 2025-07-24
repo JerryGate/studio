@@ -1,12 +1,11 @@
 
-
 'use client';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -28,9 +27,10 @@ interface PharmacyFormDialogProps {
   onClose: () => void;
   onSubmit: (data: Pharmacy | Omit<Pharmacy, 'id' | 'dateRegistered'>) => void;
   pharmacy: Pharmacy | null;
+  isViewing?: boolean;
 }
 
-export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: PharmacyFormDialogProps) {
+export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy, isViewing = false }: PharmacyFormDialogProps) {
   const form = useForm<PharmacyFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,13 +65,17 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
     onClose();
   };
 
+  const dialogTitle = isViewing ? 'View Pharmacy' : pharmacy ? 'Edit Pharmacy' : 'Add New Pharmacy';
+  const dialogDescription = isViewing ? 'Viewing details for this pharmacy.' : pharmacy ? 'Update the details for this pharmacy.' : 'Fill in the details for the new pharmacy.';
+
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{pharmacy ? 'Edit Pharmacy' : 'Add New Pharmacy'}</DialogTitle>
+          <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogDescription>
-            {pharmacy ? 'Update the details for this pharmacy.' : 'Fill in the details for the new pharmacy.'}
+            {dialogDescription}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -83,7 +87,7 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
                 <FormItem>
                   <FormLabel>Pharmacy Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="GoodHealth Pharmacy" {...field} />
+                    <Input placeholder="GoodHealth Pharmacy" {...field} disabled={isViewing} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,7 +100,7 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
                 <FormItem>
                   <FormLabel>Contact Person</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder="John Doe" {...field} disabled={isViewing} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,7 +113,7 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="contact@goodhealth.com" {...field} />
+                    <Input placeholder="contact@goodhealth.com" {...field} disabled={isViewing} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,7 +126,7 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="08012345678" {...field} />
+                    <Input placeholder="08012345678" {...field} disabled={isViewing} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -134,7 +138,7 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                   <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isViewing}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a status" />
@@ -150,10 +154,14 @@ export function PharmacyFormDialog({ isOpen, onClose, onSubmit, pharmacy }: Phar
                 </FormItem>
               )}
             />
-            <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-                <Button type="submit">{pharmacy ? 'Save Changes' : 'Add Pharmacy'}</Button>
-            </div>
+            <DialogFooter>
+                <Button type="button" variant="outline" onClick={onClose}>
+                    {isViewing ? 'Close' : 'Cancel'}
+                </Button>
+                {!isViewing && (
+                    <Button type="submit">{pharmacy ? 'Save Changes' : 'Add Pharmacy'}</Button>
+                )}
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>

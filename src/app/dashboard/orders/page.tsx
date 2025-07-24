@@ -7,9 +7,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useOrders } from '@/hooks/use-orders';
+import { useState } from 'react';
+import { OrderDetailsDialog } from '@/components/dashboard/order-details-dialog';
+import { Order } from '@/types';
 
 export default function OrderHistoryPage() {
     const { orders } = useOrders();
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+    const handleViewDetails = (order: Order) => {
+        setSelectedOrder(order);
+        setIsDetailsOpen(true);
+    };
 
     return (
         <div>
@@ -48,7 +58,7 @@ export default function OrderHistoryPage() {
                                             </Badge>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="outline" size="sm">View Details</Button>
+                                            <Button variant="outline" size="sm" onClick={() => handleViewDetails(order)}>View Details</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -63,6 +73,14 @@ export default function OrderHistoryPage() {
                     </Table>
                 </CardContent>
             </Card>
+
+            {selectedOrder && (
+                <OrderDetailsDialog 
+                    isOpen={isDetailsOpen}
+                    onClose={() => setIsDetailsOpen(false)}
+                    order={selectedOrder}
+                />
+            )}
         </div>
     );
 }

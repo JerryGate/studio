@@ -35,7 +35,7 @@ export default function PartnerPage() {
                         </CardContent>
                         <div className="p-6">
                             <Button size="lg" asChild>
-                                <Link href="#">Get Started as a Pharmacy</Link>
+                                <Link href="/partner/signup/pharmacy">Get Started as a Pharmacy</Link>
                             </Button>
                         </div>
                     </Card>
@@ -56,7 +56,7 @@ export default function PartnerPage() {
                         </CardContent>
                         <div className="p-6">
                             <Button size="lg" asChild>
-                                <Link href="#">Sign up as a Dispatcher</Link>
+                                <Link href="/partner/signup/dispatcher">Sign up as a Dispatcher</Link>
                             </Button>
                         </div>
                     </Card>

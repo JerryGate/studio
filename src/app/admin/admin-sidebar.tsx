@@ -26,6 +26,13 @@ export const AdminNav = ({ isMobile = false }) => {
     const pathname = usePathname();
     const { logout } = useAuth();
 
+    const checkActive = (href: string) => {
+      if (href === '/admin') {
+        return pathname === href;
+      }
+      return pathname.startsWith(href);
+    }
+
     return (
         <div className="flex flex-col h-full">
             <nav className="flex-1 p-4 space-y-2">
@@ -35,7 +42,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                        (pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))) && 'bg-primary/10 text-primary font-semibold'
+                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
                     )}
                     >
                     <item.icon className="h-4 w-4" />

@@ -20,25 +20,40 @@ import { DataTable } from '@/components/data-table';
 import { Pharmacy, mockPharmacies } from '@/lib/mock-data';
 import { PharmacyFormDialog } from '@/components/admin/forms/pharmacy-form-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
 
 
 export default function PharmacyManagementPage() {
     const [pharmacies, setPharmacies] = useState<Pharmacy[]>(mockPharmacies);
     const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [isViewing, setIsViewing] = useState(false);
+    const { toast } = useToast();
 
-    const handleAdd = (pharmacy: Omit<Pharmacy, 'id' | 'dateRegistered'>) => {
-        setPharmacies(prev => [...prev, { ...pharmacy, id: `PHM${prev.length + 1}`, dateRegistered: new Date().toISOString().split('T')[0] }]);
+    const handleAdd = (pharmacyData: Omit<Pharmacy, 'id' | 'dateRegistered'>) => {
+        const newPharmacy = { ...pharmacyData, id: `PHM${pharmacies.length + 101}`, dateRegistered: new Date().toISOString().split('T')[0] };
+        setPharmacies(prev => [newPharmacy, ...prev]);
+        toast({ title: 'Success', description: 'New pharmacy has been added.' });
     };
 
     const handleEdit = (pharmacy: Pharmacy) => {
         setPharmacies(prev => prev.map(p => p.id === pharmacy.id ? pharmacy : p));
+        toast({ title: 'Success', description: 'Pharmacy details have been updated.' });
     };
 
-    const openForm = (pharmacy?: Pharmacy) => {
+    const openForm = (pharmacy?: Pharmacy, viewMode = false) => {
         setSelectedPharmacy(pharmacy || null);
+        setIsViewing(viewMode);
         setIsFormOpen(true);
     };
+
+    const handleStatusChange = (pharmacyId: string, status: 'Approved' | 'Rejected') => {
+        setPharmacies(prev => prev.map(p => p.id === pharmacyId ? { ...p, status } : p));
+        toast({
+            title: 'Pharmacy Status Updated',
+            description: `Pharmacy has been ${status}.`
+        });
+    }
 
     const columns: ColumnDef<Pharmacy>[] = [
       {
@@ -79,6 +94,7 @@ export default function PharmacyManagementPage() {
         id: 'actions',
         cell: ({ row }) => {
           const pharmacy = row.original;
+          const isPending = pharmacy.status === 'Pending';
           return (
             <AlertDialog>
                 <DropdownMenu>
@@ -90,13 +106,17 @@ export default function PharmacyManagementPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => openForm(pharmacy)}>Edit Pharmacy</DropdownMenuItem>
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openForm(pharmacy, false)}>Edit Pharmacy</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openForm(pharmacy, true)}>View Details</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-green-600" onClick={() => console.log('Approving...')}>Approve</DropdownMenuItem>
-                         <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-destructive">Reject</DropdownMenuItem>
-                         </AlertDialogTrigger>
+                        {isPending && (
+                            <>
+                                <DropdownMenuItem className="text-green-600" onClick={() => handleStatusChange(pharmacy.id, 'Approved')}>Approve</DropdownMenuItem>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem className="text-destructive">Reject</DropdownMenuItem>
+                                </AlertDialogTrigger>
+                            </>
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
                 <AlertDialogContent>
@@ -110,7 +130,7 @@ export default function PharmacyManagementPage() {
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction 
                             className="bg-destructive hover:bg-destructive/90" 
-                            onClick={() => console.log(`Rejecting ${pharmacy.name}`)}
+                            onClick={() => handleStatusChange(pharmacy.id, 'Rejected')}
                         >
                             Reject
                         </AlertDialogAction>
@@ -145,6 +165,7 @@ export default function PharmacyManagementPage() {
                 onClose={() => setIsFormOpen(false)}
                 onSubmit={selectedPharmacy ? handleEdit : handleAdd}
                 pharmacy={selectedPharmacy}
+                isViewing={isViewing}
             />
         </div>
     );

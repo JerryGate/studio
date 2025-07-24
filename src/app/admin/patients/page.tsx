@@ -20,25 +20,43 @@ import { DataTable } from '@/components/data-table';
 import { Patient, mockPatients } from '@/lib/mock-data';
 import { PatientFormDialog } from '@/components/admin/forms/patient-form-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
+import { OrderHistoryDialog } from '@/components/admin/dialogs/order-history-dialog';
 
 
 export default function PatientManagementPage() {
     const [patients, setPatients] = useState<Patient[]>(mockPatients);
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const { toast } = useToast();
 
-    const handleAdd = (patient: Omit<Patient, 'id' | 'orders'>) => {
-        setPatients(prev => [...prev, { ...patient, id: `PAT${prev.length + 1}`, orders: 0 }]);
+    const handleAdd = (patientData: Omit<Patient, 'id' | 'orders'>) => {
+        const newPatient = { ...patientData, id: `PAT${patients.length + 101}`, orders: 0 }
+        setPatients(prev => [newPatient, ...prev]);
+        toast({ title: "Success", description: "New patient added successfully." });
     };
 
     const handleEdit = (patient: Patient) => {
         setPatients(prev => prev.map(p => p.id === patient.id ? patient : p));
+        toast({ title: "Success", description: "Patient details updated." });
     };
     
     const openForm = (patient?: Patient) => {
         setSelectedPatient(patient || null);
         setIsFormOpen(true);
     };
+
+    const openHistory = (patient: Patient) => {
+      setSelectedPatient(patient);
+      setIsHistoryOpen(true);
+    }
+
+    const handleSuspend = (patientId: string, currentStatus: Patient['status']) => {
+        const newStatus = currentStatus === 'Suspended' ? 'Active' : 'Suspended';
+        setPatients(prev => prev.map(p => p.id === patientId ? { ...p, status: newStatus } : p));
+        toast({ title: "Status Updated", description: `Patient account has been ${newStatus}.` });
+    }
 
     const columns: ColumnDef<Patient>[] = [
       {
@@ -75,6 +93,8 @@ export default function PatientManagementPage() {
         id: 'actions',
         cell: ({ row }) => {
           const patient = row.original;
+          const isSuspended = patient.status === 'Suspended';
+
           return (
              <AlertDialog>
                 <DropdownMenu>
@@ -87,10 +107,12 @@ export default function PatientManagementPage() {
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => openForm(patient)}>Edit Profile</DropdownMenuItem>
-                        <DropdownMenuItem>View Order History</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openHistory(patient)}>View Order History</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-destructive">Suspend Account</DropdownMenuItem>
+                            <DropdownMenuItem className={isSuspended ? 'text-green-600' : 'text-destructive'}>
+                                {isSuspended ? 'Reactivate Account' : 'Suspend Account'}
+                            </DropdownMenuItem>
                         </AlertDialogTrigger>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -98,16 +120,17 @@ export default function PatientManagementPage() {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action will suspend {patient.name}'s account. They will not be able to place new orders until their account is reactivated.
+                            This action will {isSuspended ? 'reactivate' : 'suspend'} {patient.name}'s account. 
+                            {isSuspended ? 'They will be able to place new orders again.' : 'They will not be able to place new orders until their account is reactivated.'}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction 
-                            onClick={() => console.log(`Suspending ${patient.name}`)}
-                            className="bg-destructive hover:bg-destructive/90"
+                            onClick={() => handleSuspend(patient.id, patient.status)}
+                            className={!isSuspended ? "bg-destructive hover:bg-destructive/90" : ""}
                         >
-                            Suspend
+                            {isSuspended ? 'Reactivate' : 'Suspend'}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -141,6 +164,14 @@ export default function PatientManagementPage() {
                 onSubmit={selectedPatient ? handleEdit : handleAdd}
                 patient={selectedPatient}
             />
+
+            {selectedPatient && (
+                <OrderHistoryDialog
+                    isOpen={isHistoryOpen}
+                    onClose={() => setIsHistoryOpen(false)}
+                    patientName={selectedPatient.name}
+                />
+            )}
         </div>
     );
 }
