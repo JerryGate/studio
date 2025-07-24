@@ -87,18 +87,19 @@ const Header = () => {
       )}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          <Logo />
-
-          <nav className="hidden lg:flex items-center space-x-6">
-            {navLinks.map((link) => (
-              <Link key={link.name} href={link.href}>
-                <div className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
-                  {link.name}
-                </div>
-              </Link>
-            ))}
-          </nav>
+        <div className="flex h-20 items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <Logo />
+            <nav className="hidden lg:flex items-center gap-6">
+              {navLinks.map((link) => (
+                <Link key={link.name} href={link.href}>
+                  <div className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
+                    {link.name}
+                  </div>
+                </Link>
+              ))}
+            </nav>
+          </div>
           
           <div className="hidden lg:flex flex-1 justify-center px-8">
             <form className="relative w-full max-w-md" onSubmit={handleSearch}>
@@ -116,7 +117,7 @@ const Header = () => {
             </form>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />
