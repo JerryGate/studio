@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Image as ImageIcon } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -20,6 +20,7 @@ const navItems = [
   { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
   { href: '/admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
+  { href: '/admin/hero-settings', icon: ImageIcon, label: 'Hero Settings' },
   { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
@@ -36,7 +37,7 @@ export const AdminNav = ({ isMobile = false }) => {
 
     return (
         <div className="flex flex-col h-full">
-            <nav className="flex-1 p-4 space-y-2">
+            <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
                 {navItems.map((item) => (
                     <Link
                     key={item.href}
