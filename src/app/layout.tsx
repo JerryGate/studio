@@ -11,6 +11,7 @@ import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
+import { ImageProvider } from '@/contexts/image-context';
 
 export default function RootLayout({
   children,
@@ -50,6 +51,7 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <Toaster>
+              <ImageProvider>
                 <CartProvider>
                   {!isDashboardRoute && !isAuthRoute && (
                     <div className="px-4 sm:px-6 lg:px-8">
@@ -66,6 +68,7 @@ export default function RootLayout({
                   )}
                   <ScrollToTopButton />
                 </CartProvider>
+              </ImageProvider>
             </Toaster>
           </ThemeProvider>
         </AuthProvider>

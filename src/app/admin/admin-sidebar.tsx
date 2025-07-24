@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings, Image as ImageIcon } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
@@ -18,6 +18,7 @@ const navItems = [
   { href: '/admin/reports', icon: BarChart, label: 'Reports' },
   { href: '/admin/notifications', icon: Bell, label: 'Notifications' },
   { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/admin/slider', icon: ImageIcon, label: 'Slider Images' },
   { href: '/admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
   { href: '/admin/profile', icon: UserCircle, label: 'Profile' },

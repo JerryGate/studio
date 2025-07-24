@@ -5,15 +5,20 @@ import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
-
-const mockImages = [
-    { src: 'https://placehold.co/1200x600.png', hint: 'pharmacist smiling customer' },
-    { src: 'https://placehold.co/1200x600.png', hint: 'delivery person motorcycle' },
-    { src: 'https://placehold.co/1200x600.png', hint: 'happy family health' },
-];
+import { useImageContext } from '@/contexts/image-context';
+import { Skeleton } from '../ui/skeleton';
 
 const Hero = () => {
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
+  const { sliderImages, loading } = useImageContext();
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 6000, stopOnInteraction: true }));
+
+  if (loading) {
+    return (
+        <div className="container mx-auto px-4 py-8">
+            <Skeleton className="w-full h-[60vh] md:h-[70vh] rounded-2xl" />
+        </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -26,8 +31,8 @@ const Hero = () => {
                 onMouseLeave={autoplayPlugin.current.reset}
             >
                 <CarouselContent className="h-[60vh] md:h-[70vh]">
-                    {mockImages.map((image, index) => (
-                        <CarouselItem key={index} className="h-full">
+                    {sliderImages.map((image, index) => (
+                        <CarouselItem key={image.id} className="h-full">
                             <div className="relative h-full w-full">
                                 <Image
                                     src={image.src}
