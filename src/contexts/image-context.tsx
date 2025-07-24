@@ -19,9 +19,12 @@ interface ImageContextType {
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
 const defaultImages: SliderImage[] = [
-    { id: 'default1', src: 'https://placehold.co/1200x600.png', hint: 'pharmacist smiling customer' },
-    { id: 'default2', src: 'https://placehold.co/1200x600.png', hint: 'delivery person motorcycle' },
-    { id: 'default3', src: 'https://placehold.co/1200x600.png', hint: 'happy family health' },
+    { id: 'default1', src: 'https://i.postimg.cc/w3ydbRrt/Banner1.png', hint: 'pharmacist smiling customer' },
+    { id: 'default2', src: 'https://i.postimg.cc/GBdcW3yW/Banner2.png', hint: 'delivery person motorcycle' },
+    { id: 'default3', src: 'https://i.postimg.cc/06n8PgGb/Banner3.png', hint: 'happy family health' },
+    { id: 'default4', src: 'https://i.postimg.cc/KK0yCPFT/Banner4.png', hint: 'medicine on shelf' },
+    { id: 'default5', src: 'https://i.postimg.cc/FYgvVtBD/Banner5.png', hint: 'doctor with patient' },
+    { id: 'default6', src: 'https://i.postimg.cc/0rQN5NBx/Banner6.png', hint: 'online pharmacy app' },
 ];
 
 const fileToDataUrl = (file: File): Promise<string> => {
