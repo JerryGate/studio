@@ -2,7 +2,7 @@
 'use client';
 
 import { Product } from '@/types';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
@@ -25,7 +25,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
     return (
         <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <Link href={`/product/${product.id}`} className="block">
+            <Link href={`/product/${product.id}`} className="flex flex-col flex-grow">
                 <CardHeader className="p-0">
                     <div className="relative aspect-square w-full">
                         <Image
@@ -39,11 +39,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     </div>
                 </CardHeader>
                 <div className="p-4 flex flex-col flex-grow">
-                    <CardTitle className="text-lg font-bold mb-1 hover:text-primary">
+                    <CardTitle className="text-lg font-bold mb-1 hover:text-primary min-h-[40px]">
                         {product.name}
                     </CardTitle>
                     <div className="text-sm text-muted-foreground mb-2">{product.category}</div>
                     
+                    <div className="flex-grow"></div>
+
                     <div className="flex items-center gap-2 mt-auto mb-2">
                         {isInStock ? (
                             <Badge variant="default" className="text-xs">
@@ -63,7 +65,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     </p>
                 </div>
             </Link>
-            <CardFooter className="p-4 bg-muted/50">
+            <CardFooter className="p-4 bg-muted/50 mt-auto">
                 <Button className="w-full" disabled={!isInStock} onClick={handleAddToCart}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     {isInStock ? 'Add to Cart' : 'Out of Stock'}
