@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -10,7 +11,7 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement
 }
 
-type ToastFn = (props: Omit<ToasterToast, "id">) => {
+type ToastFn = (props: Omit<ToasterToast, 'id'>) => {
   id: string
   dismiss: () => void
   update: (props: ToasterToast) => void
@@ -32,4 +33,4 @@ function useToast() {
 }
 
 export { useToast, ToastContext };
-export type { ToasterToast, ToastFn };
+export type { ToasterToast };
