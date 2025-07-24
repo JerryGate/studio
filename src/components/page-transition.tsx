@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,19 +15,20 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
         animate="animateState"
         exit="exitState"
         transition={{
-          duration: 0.75,
+          duration: 0.5,
         }}
         variants={{
           initialState: {
             opacity: 0,
-            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+            y: 20,
           },
           animateState: {
             opacity: 1,
-            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+            y: 0,
           },
           exitState: {
-            clipPath: 'polygon(50% 0, 50% 0, 50% 100%, 50% 100%)',
+            opacity: 0,
+            y: -20,
           },
         }}
         className="flex-1 flex flex-col"
