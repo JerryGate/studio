@@ -24,25 +24,23 @@ export default function HeroSettingsPage() {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
-            const newPreviews = filesArray.map(file => URL.createObjectURL(file));
-            setImagePreviews(prev => [...prev, ...newPreviews]);
+            filesArray.forEach(file => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    if (typeof reader.result === 'string') {
+                        setImagePreviews(prev => [...prev, reader.result as string]);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
         }
     };
 
     const removeImage = (index: number) => {
-        setImagePreviews(prev => {
-            const newPreviews = prev.filter((_, i) => i !== index);
-            // If it's a blob url, revoke it to free memory
-            if (imagePreviews[index].startsWith('blob:')) {
-                URL.revokeObjectURL(imagePreviews[index]);
-            }
-            return newPreviews;
-        });
+        setImagePreviews(prev => prev.filter((_, i) => i !== index));
     }
 
     const handleSaveChanges = () => {
-        // In a real app, you would upload files, get URLs, and save.
-        // Here, we save the blob or existing URLs directly to our context/localStorage.
         setHeroImages(imagePreviews);
         toast({
             title: "Hero Section Updated",
