@@ -1,10 +1,10 @@
 
 'use client';
-import AdminSidebar from '@/components/admin/admin-sidebar';
+import AdminSidebar from '@/app/admin/admin-sidebar';
 import { withAuth } from '@/components/with-auth';
 import { MobileSidebar } from '@/components/admin/mobile-sidebar';
 import { useAuth } from '@/contexts/auth-context';
-import { UserCircle } from 'lucide-react';
+import { UserCog } from 'lucide-react';
 
 
 function AdminLayout({
@@ -25,7 +25,7 @@ function AdminLayout({
               {/* Optional: Add a search bar or other header content here */}
             </div>
             <div className="flex items-center gap-2 ml-auto">
-                <UserCircle className="h-5 w-5 text-muted-foreground" />
+                <UserCog className="h-5 w-5 text-muted-foreground" />
                 <span className="text-sm">{user?.email}</span>
             </div>
           </header>

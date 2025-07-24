@@ -5,7 +5,7 @@ import { withAuth } from '@/components/with-auth';
 import { useAuth } from '@/contexts/auth-context';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, Store } from 'lucide-react';
 import Logo from '@/components/logo';
 
 const PharmacyMobileSidebar = () => (
@@ -40,7 +40,10 @@ function PharmacyDashboardLayout({
           <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
             <PharmacyMobileSidebar />
             <h1 className="flex-1 text-lg font-semibold md:text-xl">Pharmacy Dashboard</h1>
-            <div className="ml-auto text-sm text-muted-foreground">Welcome, {user?.email}</div>
+            <div className="flex items-center gap-2 ml-auto text-sm text-muted-foreground">
+                <Store className="h-5 w-5" />
+                <span>Welcome, {user?.email}</span>
+            </div>
           </header>
           <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-muted/40">
             {children}

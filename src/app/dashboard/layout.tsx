@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { MobileSidebar } from '@/components/admin/mobile-sidebar';
 import { AdminNav } from '@/components/admin/admin-sidebar';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, UserCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Logo from '@/components/logo';
 
@@ -45,7 +45,10 @@ function DashboardLayout({
             <div className="w-full flex-1">
                <h1 className="text-lg font-semibold md:text-xl">Customer Dashboard</h1>
             </div>
-            <div className="ml-auto text-sm text-muted-foreground">Welcome, {user?.email}</div>
+            <div className="flex items-center gap-2 ml-auto text-sm text-muted-foreground">
+                <UserCircle className="h-5 w-5" />
+                <span>Welcome, {user?.email}</span>
+            </div>
           </header>
           <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-muted/40">
             {children}
