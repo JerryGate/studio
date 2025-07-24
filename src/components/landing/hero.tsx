@@ -38,72 +38,74 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
-        {!isLoaded ? (
-             <Skeleton className="w-full h-full" />
-        ) : (
-            <Carousel
-                plugins={[autoplayPlugin.current]}
-                className="w-full h-full"
-                opts={{ loop: true }}
-            >
-                <CarouselContent className="h-full">
-                    {heroImages.map((src, index) => (
-                        <CarouselItem key={index} className="h-full">
-                            <div className="relative h-full w-full">
-                                <Image
-                                    src={src}
-                                    alt={`Hero image ${index + 1}`}
-                                    fill
-                                    className="object-cover"
-                                    priority={index === 0}
-                                />
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-            </Carousel>
-        )}
-
-        <div className="absolute inset-0 bg-black/50" />
-
-        <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-            <motion.div 
-                className="container mx-auto px-4 relative z-10"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <motion.h1 
-                className="text-4xl md:text-6xl font-extrabold font-headline mb-4 text-white drop-shadow-lg"
-                variants={itemVariants}
+    <div className="container mx-auto px-4 py-8">
+        <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-2xl">
+            {!isLoaded ? (
+                <Skeleton className="w-full h-full" />
+            ) : (
+                <Carousel
+                    plugins={[autoplayPlugin.current]}
+                    className="w-full h-full"
+                    opts={{ loop: true }}
                 >
-                Order Quality Drugs with Fast Delivery in Nigeria
-                </motion.h1>
-                <motion.p 
-                className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-200 drop-shadow-md"
-                variants={itemVariants}
-                >
-                Affordable, verified medications delivered to your doorstep from nearby pharmacies.
-                </motion.p>
+                    <CarouselContent className="h-full">
+                        {heroImages.map((src, index) => (
+                            <CarouselItem key={index} className="h-full">
+                                <div className="relative h-full w-full">
+                                    <Image
+                                        src={src}
+                                        alt={`Hero image ${index + 1}`}
+                                        fill
+                                        className="object-cover"
+                                        priority={index === 0}
+                                    />
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
+            )}
+
+            <div className="absolute inset-0 bg-black/50" />
+
+            <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                 <motion.div 
-                className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                variants={itemVariants}
+                    className="container mx-auto px-4 relative z-10"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
                 >
-                <Link href="/search">
-                    <Button size="lg" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
-                    Get Started
-                    </Button>
-                </Link>
-                <Link href="/about">
-                    <Button size="lg" variant="outline" className="transform hover:scale-105 transition-transform duration-300 shadow-lg bg-white/20 border-white text-white hover:bg-white/30">
-                    Learn More
-                    </Button>
-                </Link>
+                    <motion.h1 
+                    className="text-4xl md:text-6xl font-extrabold font-headline mb-4 text-white drop-shadow-lg"
+                    variants={itemVariants}
+                    >
+                    Order Quality Drugs with Fast Delivery in Nigeria
+                    </motion.h1>
+                    <motion.p 
+                    className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-200 drop-shadow-md"
+                    variants={itemVariants}
+                    >
+                    Affordable, verified medications delivered to your doorstep from nearby pharmacies.
+                    </motion.p>
+                    <motion.div 
+                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                    variants={itemVariants}
+                    >
+                    <Link href="/search">
+                        <Button size="lg" className="transform hover:scale-105 transition-transform duration-300 shadow-lg">
+                        Get Started
+                        </Button>
+                    </Link>
+                    <Link href="/about">
+                        <Button size="lg" variant="outline" className="transform hover:scale-105 transition-transform duration-300 shadow-lg bg-white/20 border-white text-white hover:bg-white/30">
+                        Learn More
+                        </Button>
+                    </Link>
+                    </motion.div>
                 </motion.div>
-            </motion.div>
-        </div>
-    </section>
+            </div>
+        </section>
+    </div>
   );
 };
 
