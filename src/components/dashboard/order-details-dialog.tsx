@@ -59,11 +59,11 @@ export function OrderDetailsDialog({ isOpen, onClose, order }: OrderDetailsDialo
                  <h4 className="font-semibold mb-2">Order Summary</h4>
                  <div className="flex justify-between">
                      <span>Subtotal</span>
-                     <span>₦{(order.total - (order.customerDetails?.deliveryFee || 0)).toLocaleString()}</span>
+                     <span>₦{(order.total - order.customerDetails.deliveryFee).toLocaleString()}</span>
                  </div>
                  <div className="flex justify-between">
                      <span>Delivery Fee</span>
-                     <span>₦{(order.customerDetails?.deliveryFee || 0).toLocaleString()}</span>
+                     <span>₦{(order.customerDetails.deliveryFee).toLocaleString()}</span>
                  </div>
                  <Separator />
                   <div className="flex justify-between font-bold text-lg">

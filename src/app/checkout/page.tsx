@@ -110,7 +110,7 @@ export default function CheckoutPage() {
     addOrder({
       total: totalAmount,
       items: cartItems,
-      customerDetails: { ...customerDetails, deliveryFee },
+      customerDetails: { ...customerDetails, deliveryFee: deliveryFee || 0 },
     });
 
     toast({

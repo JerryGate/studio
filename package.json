@@ -71,7 +71,6 @@
     "@types/react": "^18",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
-    "@tanstack/react-table": "^8.19.2",
     "@types/leaflet": "^1.9.12",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",

@@ -47,13 +47,27 @@ export interface Conversation {
 // Order type
 export type OrderStatus = 'Pending Approval' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
+interface CustomerDetails {
+    fullName: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    deliveryFee: number;
+    location?: {
+        lat: number;
+        lng: number;
+    };
+}
+
 export interface Order {
     id: string;
     date: string;
     total: number;
     status: OrderStatus;
     items: CartItem[];
-    customerDetails: any;
+    customerDetails: CustomerDetails;
 }
 
 

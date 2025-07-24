@@ -3,8 +3,6 @@
 import CustomerSidebar from '@/components/dashboard/customer-sidebar';
 import { withAuth } from '@/components/with-auth';
 import { useAuth } from '@/contexts/auth-context';
-import { MobileSidebar } from '@/components/admin/mobile-sidebar';
-import { AdminNav } from '@/components/admin/admin-sidebar';
 import { Button } from '@/components/ui/button';
 import { Menu, UserCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
