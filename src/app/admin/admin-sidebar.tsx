@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
-import { Separator } from '../ui/separator';
+import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/auth-context';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { href: '/admin', icon: Home, label: 'Dashboard' },
