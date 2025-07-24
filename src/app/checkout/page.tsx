@@ -95,7 +95,7 @@ export default function CheckoutPage() {
     addOrder({
       total: totalAmount,
       items: cartItems,
-      customerDetails,
+      customerDetails: { ...customerDetails, deliveryFee },
     });
 
     toast({
@@ -274,7 +274,7 @@ export default function CheckoutPage() {
                             </FormItem>
                             )}
                         />
-                        <div className="flex gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4">
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -315,7 +315,7 @@ export default function CheckoutPage() {
                             </FormItem>
                             )}
                         />
-                         <div className="flex gap-4">
+                         <div className="flex flex-col sm:flex-row gap-4">
                             <FormField
                                 control={form.control}
                                 name="city"

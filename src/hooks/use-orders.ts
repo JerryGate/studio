@@ -2,8 +2,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Order, CartItem } from '@/types';
-import { mockOrders, addMockOrder } from '@/lib/mock-data';
+import { Order, CartItem, OrderStatus } from '@/types';
+import { mockOrders, addMockOrder, updateMockOrderStatus } from '@/lib/mock-data';
 
 // This is a simplified state management solution for mock data.
 // In a real app, you would use a more robust solution like React Context with a reducer,
@@ -18,12 +18,17 @@ export const useOrders = () => {
             ...newOrderData,
             id: `ORD${Math.floor(Math.random() * 10000).toString().padStart(3, '0')}`,
             date: new Date().toISOString().split('T')[0],
-            status: 'Processing',
+            status: 'Pending Approval',
         };
         addMockOrder(newOrder);
         // Update state to trigger re-render in components using this hook
         setOrders([...mockOrders]); 
     };
+    
+    const updateOrderStatus = (orderId: string, status: OrderStatus) => {
+        updateMockOrderStatus(orderId, status);
+        setOrders([...mockOrders]);
+    }
 
-    return { orders, addOrder };
+    return { orders, addOrder, updateOrderStatus };
 };

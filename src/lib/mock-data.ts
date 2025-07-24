@@ -1,6 +1,5 @@
 
-
-import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order } from '@/types';
+import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order, OrderStatus } from '@/types';
 
 type MockUsers = Record<UserRole, Participant>;
 
@@ -101,11 +100,18 @@ export const mockDispatchers: Dispatcher[] = [
 ];
 
 export let mockOrders: Order[] = [
-    { id: 'ORD001', date: '2024-07-20', total: 3700, status: 'Delivered', items: [], customerDetails: {} },
-    { id: 'ORD002', date: '2024-07-22', total: 1500, status: 'Shipped', items: [], customerDetails: {} },
-    { id: 'ORD003', date: '2024-07-23', total: 800, status: 'Processing', items: [], customerDetails: {} },
+    { id: 'ORD001', date: '2024-07-20', total: 3700, status: 'Delivered', items: [], customerDetails: { fullName: 'Adebayo Adekunle', address: '123 Test Street' } },
+    { id: 'ORD002', date: '2024-07-22', total: 1500, status: 'Shipped', items: [], customerDetails: { fullName: 'Chidinma Okoro', address: '456 Example Ave' } },
+    { id: 'ORD003', date: '2024-07-23', total: 800, status: 'Processing', items: [], customerDetails: { fullName: 'Musa Ibrahim', address: '789 Sample Road' } },
 ];
 
 export const addMockOrder = (order: Order) => {
     mockOrders.unshift(order);
+};
+
+export const updateMockOrderStatus = (orderId: string, status: OrderStatus) => {
+    const orderIndex = mockOrders.findIndex(o => o.id === orderId);
+    if (orderIndex > -1) {
+        mockOrders[orderIndex].status = status;
+    }
 };

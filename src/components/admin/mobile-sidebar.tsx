@@ -11,12 +11,12 @@ export const MobileSidebar = () => {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
+                <Button variant="ghost" size="icon" className="shrink-0 md:hidden">
+                    <Menu className="h-5 w-5" />
                     <span className="sr-only">Toggle Menu</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="p-0 w-64">
+            <SheetContent side="left" className="p-0 flex flex-col">
                 <div className="p-4 border-b">
                     <Logo textClassName="inline" />
                 </div>

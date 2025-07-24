@@ -1,8 +1,4 @@
 
-
-
-
-
 export interface Product {
     id: string;
     name: string;
@@ -49,7 +45,7 @@ export interface Conversation {
 }
 
 // Order type
-export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+export type OrderStatus = 'Pending Approval' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
 export interface Order {
     id: string;

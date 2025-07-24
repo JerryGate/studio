@@ -3,16 +3,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, User, Truck, History, MessageSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, User, Truck, History, MessageSquare, LogOut, ClipboardList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/auth-context';
+import Logo from '../logo';
+import { Button } from '../ui/button';
+
 
 const navItems = [
   { href: '/dispatcher', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/dispatcher/profile', icon: User, label: 'My Profile' },
+  { href: '/dispatcher/assignments', icon: ClipboardList, label: 'New Assignments' },
   { href: '/dispatcher/deliveries', icon: Truck, label: 'Active Deliveries' },
   { href: '/dispatcher/history', icon: History, label: 'Delivery History' },
+  { href: '/dispatcher/profile', icon: User, label: 'My Profile' },
   { href: '/dispatcher/messages', icon: MessageSquare, label: 'Messages' },
 ];
 
@@ -21,9 +25,11 @@ export default function DispatcherSidebar() {
   const { logout } = useAuth();
 
   return (
-    <aside className="w-64 flex-shrink-0">
-        <div className="sticky top-24">
-            <nav className="flex flex-col gap-2">
+     <aside className="w-64 flex-shrink-0 bg-background border-r hidden md:flex flex-col">
+        <div className="p-4 border-b">
+          <Logo textClassName="inline" />
+        </div>
+        <nav className="flex-1 p-4 space-y-2">
             {navItems.map((item) => (
                 <Link
                 key={item.href}
@@ -38,15 +44,16 @@ export default function DispatcherSidebar() {
                 </Link>
             ))}
             </nav>
+        <div className="p-4 mt-auto border-t">
             <Separator className="my-4" />
-            <Link
-                href="/"
+            <Button
+                variant="ghost"
                 onClick={logout}
-                className='flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-destructive hover:bg-destructive/10'
+                className='w-full justify-start flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-destructive hover:bg-destructive/10'
             >
                 <LogOut className="h-4 w-4" />
                 <span>Logout</span>
-            </Link>
+            </Button>
         </div>
     </aside>
   );
