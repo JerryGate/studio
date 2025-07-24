@@ -26,7 +26,7 @@ export default function RootLayout({
     pathname.startsWith('/dispatcher') ||
     pathname.startsWith('/hospital');
     
-  const isPartnerAuthRoute = pathname.startsWith('/partner');
+  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/partner');
 
   return (
     <html lang="en" className="scroll-smooth">
@@ -49,7 +49,7 @@ export default function RootLayout({
           <ThemeProvider>
             <Toaster>
               <CartProvider>
-                {!isDashboardRoute && !isPartnerAuthRoute && (
+                {!isDashboardRoute && !isAuthRoute && (
                   <div className="px-4 sm:px-6 lg:px-8">
                     <Header />
                   </div>
@@ -57,7 +57,7 @@ export default function RootLayout({
                 <div className="flex-1 flex flex-col">
                   <PageTransition>{children}</PageTransition>
                 </div>
-                {!isDashboardRoute && !isPartnerAuthRoute && (
+                {!isDashboardRoute && !isAuthRoute && (
                   <div className="px-4 sm:px-6 lg:px-8">
                     <Footer />
                   </div>
