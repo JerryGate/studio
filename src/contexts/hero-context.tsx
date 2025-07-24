@@ -15,25 +15,36 @@ const defaultImages = [
 interface HeroContextType {
   heroImages: string[];
   setHeroImages: (images: string[]) => void;
+  isLoaded: boolean;
 }
 
 const HeroContext = createContext<HeroContextType | undefined>(undefined);
 
 export const HeroProvider = ({ children }: { children: ReactNode }) => {
     const { toast } = useToast();
-    const [heroImages, setHeroImagesState] = useState<string[]>(() => {
-        if (isServer) return defaultImages;
-        try {
-            const savedImages = localStorage.getItem('hero-images');
-            return savedImages ? JSON.parse(savedImages) : defaultImages;
-        } catch (e) {
-            console.error("Failed to parse hero images from localStorage", e);
-            return defaultImages;
-        }
-    });
+    const [heroImages, setHeroImagesState] = useState<string[]>(defaultImages);
+    const [isLoaded, setIsLoaded] = useState(false);
 
+    // Effect to load images from localStorage on the client side
     useEffect(() => {
         if (!isServer) {
+            try {
+                const savedImages = localStorage.getItem('hero-images');
+                if (savedImages) {
+                    setHeroImagesState(JSON.parse(savedImages));
+                }
+            } catch (e) {
+                console.error("Failed to parse hero images from localStorage", e);
+                setHeroImagesState(defaultImages);
+            } finally {
+                setIsLoaded(true);
+            }
+        }
+    }, []);
+
+    // Effect to save images to localStorage whenever they change
+    useEffect(() => {
+        if (!isServer && isLoaded) { // Only save after initial load
             try {
                 localStorage.setItem('hero-images', JSON.stringify(heroImages));
             } catch (error) {
@@ -48,14 +59,14 @@ export const HeroProvider = ({ children }: { children: ReactNode }) => {
                 }
             }
         }
-    }, [heroImages, toast]);
+    }, [heroImages, isLoaded, toast]);
 
     const setHeroImages = (images: string[]) => {
         setHeroImagesState(images);
     };
     
     return (
-        <HeroContext.Provider value={{ heroImages, setHeroImages }}>
+        <HeroContext.Provider value={{ heroImages, setHeroImages, isLoaded }}>
             {children}
         </HeroContext.Provider>
     );
