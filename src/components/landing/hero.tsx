@@ -8,12 +8,11 @@ import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
-import { Skeleton } from '../ui/skeleton';
 
 const mockImages = [
-    'https://placehold.co/1200x600.png',
-    'https://placehold.co/1200x600.png',
-    'https://placehold.co/1200x600.png',
+    { src: 'https://placehold.co/1200x600.png', hint: 'diverse people smiling' },
+    { src: 'https://placehold.co/1200x600.png', hint: 'pharmacist helping customer' },
+    { src: 'https://placehold.co/1200x600.png', hint: 'delivery person motorcycle' },
 ];
 
 const Hero = () => {
@@ -49,15 +48,16 @@ const Hero = () => {
                 opts={{ loop: true }}
             >
                 <CarouselContent className="h-full">
-                    {mockImages.map((src, index) => (
+                    {mockImages.map((image, index) => (
                         <CarouselItem key={index} className="h-full">
                             <div className="relative h-full w-full">
                                 <Image
-                                    src={src}
+                                    src={image.src}
                                     alt={`Hero image ${index + 1}`}
                                     fill
                                     className="object-cover"
                                     priority={index === 0}
+                                    data-ai-hint={image.hint}
                                 />
                             </div>
                         </CarouselItem>
