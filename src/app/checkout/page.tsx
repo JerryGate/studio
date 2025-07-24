@@ -155,7 +155,7 @@ export default function CheckoutPage() {
       if (!address || !city || !state) {
           toast({
               title: "Incomplete Address",
-              description: "Please fill in the address, city, and state fields.",
+              description: "Please fill in the address, city, and state fields to find your location.",
               variant: "destructive",
           });
           return;
@@ -420,7 +420,7 @@ export default function CheckoutPage() {
                     size="lg"
                     className="w-full"
                     onClick={handlePayment}
-                    disabled={isGeocoding || !isPaystackScriptLoaded}
+                    disabled={isCalculatingFee || isGeocoding || !isPaystackScriptLoaded || deliveryFee === null}
                 >
                     <CreditCard className="mr-2 h-5 w-5" />
                     Place Order & Pay
