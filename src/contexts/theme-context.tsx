@@ -23,7 +23,7 @@ interface ThemeContextType {
   setTheme: (theme: Theme) => void;
   resetTheme: () => void;
   mode: ThemeMode;
-  toggleMode: () => void;
+  setMode: (mode: ThemeMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -40,11 +40,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   });
 
-  const [mode, setMode] = useState<ThemeMode>(() => {
-      if (isServer) return 'light';
-      const savedMode = localStorage.getItem('theme-mode') as ThemeMode;
-      return savedMode || 'light';
-  });
+  const [mode, setMode] = useState<ThemeMode>('light');
 
   useEffect(() => {
     if (!isServer) {
@@ -68,12 +64,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(themes.find(t => t.name === DEFAULT_THEME_NAME)!);
   }
 
-  const toggleMode = () => {
-      setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
-  }
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, toggleMode }}>
+    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, setMode }}>
       {children}
     </ThemeContext.Provider>
   );

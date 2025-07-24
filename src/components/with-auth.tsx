@@ -20,19 +20,31 @@ export function withAuth<P extends object>(
     useEffect(() => {
       if (loading) return;
 
-      const isAllowed = user && allowedRoles.includes(user.role);
-
-      if (!isAllowed) {
-        // If the intended role is a partner role, redirect to the partner login page.
-        // Otherwise, redirect to the standard customer login page.
+      if (!user) {
+        // If the user is not logged in, determine where to redirect them.
         const isPartnerRoute = allowedRoles.some(role => partnerRoles.includes(role));
         if (isPartnerRoute) {
-            router.push('/partner/login');
+            router.replace('/partner/login');
         } else {
-            router.push('/login');
+            router.replace('/login');
         }
+        return;
       }
-    }, [user, loading, router]);
+      
+      const isAllowed = allowedRoles.includes(user.role);
+      if (!isAllowed) {
+        // If the user is logged in but has the wrong role, redirect to their own dashboard.
+        const dashboardUrl = {
+          admin: '/admin',
+          customer: '/dashboard',
+          pharmacy: '/pharmacy',
+          dispatcher: '/dispatcher',
+          hospital: '/hospital',
+        }[user.role];
+        router.replace(dashboardUrl);
+      }
+
+    }, [user, loading, router, allowedRoles]);
 
     if (loading || !user || !allowedRoles.includes(user.role)) {
       return (

@@ -12,6 +12,7 @@ import { ThemeProvider } from '@/contexts/theme-context';
 import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
+import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
 
 export default function RootLayout({
   children,
@@ -62,6 +63,7 @@ export default function RootLayout({
                     <Footer />
                   </div>
                 )}
+                <ScrollToTopButton />
               </CartProvider>
             </Toaster>
           </ThemeProvider>

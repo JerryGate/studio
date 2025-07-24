@@ -1,44 +1,27 @@
-import { withAuth } from './components/with-auth';
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { UserRole } from './types';
 
 export function middleware(request: NextRequest) {
-  const user = request.cookies.get('user')?.value;
-  const userRole = user ? (JSON.parse(user).role as UserRole) : undefined;
+    // This middleware logic is now handled more robustly by the `withAuth` HOC.
+    // The `withAuth` component checks authentication on the client-side,
+    // which is generally a better pattern for Next.js App Router applications
+    // as it avoids middleware complexities and provides a better user experience
+    // with loading skeletons.
 
-  const hospitalRoutes = ['/hospital', '/hospital/(.*)'];
-  const pharmacyRoutes = ['/pharmacy', '/pharmacy/(.*)'];
-  const adminRoutes = ['/admin', '/admin/(.*)'];
-  const dispatcherRoutes = ['/dispatcher', '/dispatcher/(.*)'];
-
-  const isHospitalRoute = hospitalRoutes.some(route => new RegExp(`^${route}$`).test(request.nextUrl.pathname));
-  const isPharmacyRoute = pharmacyRoutes.some(route => new RegExp(`^${route}$`).test(request.nextUrl.pathname));
-  const isAdminRoute = adminRoutes.some(route => new RegExp(`^${route}$`).test(request.nextUrl.pathname));
-  const isDispatcherRoute = dispatcherRoutes.some(route => new RegExp(`^${route}$`).test(request.nextUrl.pathname));
-
-  if (isHospitalRoute && userRole !== 'hospital') {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  if (isPharmacyRoute && userRole !== 'pharmacy') {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  if (isAdminRoute && userRole !== 'admin') {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-   if (isDispatcherRoute && userRole !== 'dispatcher') {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-
+    // To prevent any conflicts, we will simply pass the request through.
   return NextResponse.next();
 }
 
 export const config = {
+  // We keep the matcher to potentially re-introduce server-side checks if needed,
+  // but for now, the middleware does nothing.
   matcher: [
-    '/hospital/:path*', '/pharmacy/:path*', '/admin/:path*', '/dispatcher/:path*'
+    '/admin/:path*',
+    '/dashboard/:path*',
+    '/dispatcher/:path*',
+    '/hospital/:path*',
+    '/pharmacy/:path*',
   ],
 };

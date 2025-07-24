@@ -9,7 +9,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose 
 import Logo from './logo';
 import { useCart } from '@/contexts/cart-context';
 import { Badge } from './ui/badge';
-import { useTheme } from '@/contexts/theme-context';
 import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -52,7 +51,6 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
-  const { mode, toggleMode } = useTheme();
   const { user, logout } = useAuth();
   const pathname = usePathname();
 
@@ -90,10 +88,6 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-2">
-             <Button variant="ghost" size="icon" onClick={toggleMode}>
-                {mode === 'light' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                <span className="sr-only">Toggle theme</span>
-            </Button>
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />
