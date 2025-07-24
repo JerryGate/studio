@@ -13,7 +13,7 @@ const mockImages = [
 ];
 
 const Hero = () => {
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
   return (
     <div className="container mx-auto px-4 py-8">
