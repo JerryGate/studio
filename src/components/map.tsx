@@ -8,11 +8,11 @@ import { Loader2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle } from 'lucide-react';
 
-const NIGERIA_CENTER = { lat: 9.0820, lon: 8.6753 }; // Note: Mapillary uses lon, not lng
+const NIGERIA_CENTER = { lat: 9.0820, lng: 8.6753 };
 
 interface MapProps {
-    onLocationSelect?: (location: { lat: number; lng: number }, address: string) => void;
-    initialCenter?: { lat: number; lng: number }; // lng will be converted to lon
+    onLocationSelect?: (location: { lat: number; lng: number }) => void;
+    initialCenter?: { lat: number; lng: number };
     interactive?: boolean;
 }
 
@@ -42,27 +42,28 @@ const Map = ({ onLocationSelect, initialCenter, interactive = true }: MapProps) 
             container: mapContainerRef.current,
         });
 
-        const centerPoint = initialCenter 
-            ? { lat: initialCenter.lat, lon: initialCenter.lng } 
-            : NIGERIA_CENTER;
+        const centerPoint = initialCenter || NIGERIA_CENTER;
 
         viewer.moveTo(centerPoint)
-            .then((node) => {
+            .then(() => {
                 setStatus('loaded');
-                console.log('Moved to node:', node.id);
             })
             .catch((e) => {
                 console.error('Failed to move to location:', e);
-                setError('No street-level imagery found for this location. Please try another area.');
-                setStatus('error');
+                // Gracefully attempt to find the closest image if direct moveTo fails
+                viewer?.moveCloseTo(centerPoint.lat, centerPoint.lng)
+                    .then(() => setStatus('loaded'))
+                    .catch(err => {
+                        console.error('Failed to find close image:', err);
+                        setError('No street-level imagery found for this location. Please try another area.');
+                        setStatus('error');
+                    });
             });
         
         if (interactive && onLocationSelect) {
             viewer.on('position', (event) => {
                 const { lat, lng } = event.latLon;
-                // For simplicity, we won't do reverse geocoding here as it's not a primary feature of MapillaryJS click events.
-                const address = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-                onLocationSelect({ lat, lng }, address);
+                onLocationSelect({ lat, lng });
             });
         }
 

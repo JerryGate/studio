@@ -12,12 +12,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CreditCard, MapPin, ShoppingCart, Loader2 } from 'lucide-react';
+import { CreditCard, MapPin, ShoppingCart, Loader2, LogIn } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useOrders } from '@/hooks/use-orders';
+import { useAuth } from '@/contexts/auth-context';
 
 const Map = dynamic(() => import('@/components/map'), {
   ssr: false,
@@ -42,6 +43,7 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 export default function CheckoutPage() {
   const { cartItems, cartTotal, cartCount, clearCart } = useCart();
   const { addOrder } = useOrders();
+  const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
@@ -64,14 +66,27 @@ export default function CheckoutPage() {
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      fullName: '',
-      email: '',
+      fullName: user?.email.split('@')[0] || '',
+      email: user?.email || '',
       phone: '',
       address: '',
       city: '',
       state: '',
     },
   });
+
+  useEffect(() => {
+    if (user) {
+        form.reset({
+            fullName: form.getValues('fullName') || user.email.split('@')[0],
+            email: form.getValues('email') || user.email,
+            phone: form.getValues('phone') || '',
+            address: form.getValues('address') || '',
+            city: form.getValues('city') || '',
+            state: form.getValues('state') || '',
+        })
+    }
+  }, [user, form]);
 
   if (cartCount === 0) {
     return (
@@ -115,11 +130,8 @@ export default function CheckoutPage() {
     });
   }
 
-  const handleLocationSelect = async (location: { lat: number; lng: number }, address?: string) => {
+  const handleLocationSelect = async (location: { lat: number; lng: number }) => {
     form.setValue('location', location, { shouldValidate: true });
-    if (address) {
-        form.setValue('address', address);
-    }
     setSelectedLocation(location);
     setIsCalculatingFee(true);
     setDeliveryFee(null);
@@ -197,6 +209,21 @@ export default function CheckoutPage() {
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
   const handlePayment = () => {
+     if (!user) {
+        toast({
+            title: "Authentication Required",
+            description: "Please log in to your account to complete your purchase.",
+            variant: 'destructive',
+            action: (
+                <Button variant="secondary" onClick={() => router.push('/login')}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Login
+                </Button>
+            )
+        });
+        return;
+    }
+
     if (!form.formState.isValid) {
       toast({
         title: "Incomplete Form",
