@@ -29,50 +29,43 @@ export default function PartnerLoginPage() {
   const router = useRouter();
   const [role, setRole] = useState<UserRole>('admin');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState<UserRole | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   
-  const handleLogin = async (currentRole: UserRole) => {
-    setIsLoading(currentRole);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    login(currentRole);
-    router.push(roleToDashboard[currentRole] || '/');
-    setIsLoading(null);
+    login(role);
+    router.push(roleToDashboard[role] || '/');
+    setIsLoading(false);
   };
 
-  const renderLoginForm = (currentRole: UserRole) => (
-     <form onSubmit={(e) => { e.preventDefault(); handleLogin(currentRole); }}>
-        <TabsContent value={currentRole} className="space-y-6">
-            <div className="space-y-2">
-                <Label htmlFor={`${currentRole}-email`}>Email address</Label>
-                <Input id={`${currentRole}-email`} type="email" value={mockAuthUsers[currentRole].email} readOnly />
+  const renderFormContent = (currentRole: UserRole) => (
+    <TabsContent value={currentRole} className="space-y-6">
+        <div className="space-y-2">
+            <Label htmlFor={`${currentRole}-email`}>Email address</Label>
+            <Input id={`${currentRole}-email`} type="email" defaultValue={mockAuthUsers[currentRole].email} readOnly />
+        </div>
+        <div className="space-y-2">
+            <div className="flex items-center justify-between">
+                <Label htmlFor={`${currentRole}-password`}>Password</Label>
+                <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90">
+                    Forgot your password?
+                </Link>
             </div>
-            <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                    <Label htmlFor={`${currentRole}-password`}>Password</Label>
-                    <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90">
-                        Forgot your password?
-                    </Link>
-                </div>
-                <div className="relative">
-                    <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
-                    >
-                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    </button>
-                </div>
+            <div className="relative">
+                <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
+                <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
             </div>
-            <div>
-                <Button type="submit" className="w-full" disabled={!!isLoading}>
-                    {isLoading === currentRole && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Sign in as {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
-                </Button>
-            </div>
-        </TabsContent>
-     </form>
+        </div>
+    </TabsContent>
   );
 
 
@@ -97,6 +90,7 @@ export default function PartnerLoginPage() {
                 <CardDescription>Select your role to sign in to your dashboard.</CardDescription>
             </CardHeader>
             <CardContent>
+              <form onSubmit={handleLogin}>
                 <Tabs value={role} onValueChange={(value) => setRole(value as UserRole)} className="w-full">
                     <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
                         <TabsTrigger value="admin">Admin</TabsTrigger>
@@ -104,11 +98,18 @@ export default function PartnerLoginPage() {
                         <TabsTrigger value="dispatcher">Dispatcher</TabsTrigger>
                         <TabsTrigger value="hospital">Hospital</TabsTrigger>
                     </TabsList>
-                    {renderLoginForm('admin')}
-                    {renderLoginForm('pharmacy')}
-                    {renderLoginForm('dispatcher')}
-                    {renderLoginForm('hospital')}
+                    {renderFormContent('admin')}
+                    {renderFormContent('pharmacy')}
+                    {renderFormContent('dispatcher')}
+                    {renderFormContent('hospital')}
                 </Tabs>
+                 <div className="mt-6">
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Sign in as {role.charAt(0).toUpperCase() + role.slice(1)}
+                    </Button>
+                </div>
+              </form>
             </CardContent>
         </Card>
       </div>
