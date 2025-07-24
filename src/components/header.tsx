@@ -81,8 +81,7 @@ const Header = () => {
 
   return (
     <header
-      className={cn(`sticky top-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-sm`, 
-        isScrolled ? 'shadow-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8' : '',
+      className={cn(`sticky top-0 z-50 transition-all duration-300 bg-background shadow-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8`, 
         pathname.startsWith('/admin') && 'hidden'
       )}
     >
