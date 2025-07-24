@@ -2,95 +2,100 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import L, { LatLngExpression, Icon } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import { Viewer } from 'mapillary-js';
+import 'mapillary-js/dist/mapillary.css';
 import { Loader2 } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { AlertCircle } from 'lucide-react';
 
-const NIGERIA_CENTER: LatLngExpression = [9.0820, 8.6753];
+const NIGERIA_CENTER = { lat: 9.0820, lon: 8.6753 }; // Note: Mapillary uses lon, not lng
 
 interface MapProps {
     onLocationSelect?: (location: { lat: number; lng: number }, address: string) => void;
-    initialCenter?: { lat: number; lng: number };
-    markers?: { lat: number; lng: number }[];
+    initialCenter?: { lat: number; lng: number }; // lng will be converted to lon
     interactive?: boolean;
 }
 
-const customIcon = new Icon({
-    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-    shadowSize: [41, 41]
-});
-
-const Map = ({ onLocationSelect, initialCenter, markers = [], interactive = true }: MapProps) => {
+const Map = ({ onLocationSelect, initialCenter, interactive = true }: MapProps) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const [isClient, setIsClient] = React.useState(false);
+    const [status, setStatus] = React.useState<'loading' | 'loaded' | 'error'>('loading');
+    const [error, setError] = React.useState<string | null>(null);
+
+    const mapillaryKey = process.env.NEXT_PUBLIC_MAPILLARY_ACCESS_TOKEN;
 
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     useEffect(() => {
-        if (!isClient || !mapContainerRef.current) return;
-
-        // Ensure the container is empty before initializing
-        if (mapContainerRef.current.hasChildNodes()) {
-            mapContainerRef.current.innerHTML = '';
+        if (!isClient || !mapContainerRef.current || !mapillaryKey) {
+            if (isClient && !mapillaryKey) {
+                setError('Mapillary Access Token is not configured.');
+                setStatus('error');
+            }
+            return;
         }
 
-        const map = L.map(mapContainerRef.current).setView(
-            initialCenter ? [initialCenter.lat, initialCenter.lng] : NIGERIA_CENTER,
-            initialCenter ? 16 : 6 // Increased zoom level for better detail
-        );
+        let viewer: Viewer | null = new Viewer({
+            accessToken: mapillaryKey,
+            container: mapContainerRef.current,
+        });
 
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-        }).addTo(map);
+        const centerPoint = initialCenter 
+            ? { lat: initialCenter.lat, lon: initialCenter.lng } 
+            : NIGERIA_CENTER;
 
-        if (markers.length > 0) {
-            markers.forEach(markerData => {
-                if (markerData.lat && markerData.lng) {
-                    const popupText = onLocationSelect ? 'Your selected delivery location.' : `Delivery Location`;
-                    L.marker([markerData.lat, markerData.lng], { icon: customIcon })
-                        .addTo(map)
-                        .bindPopup(popupText)
-                        .openPopup();
-                }
+        viewer.moveTo(centerPoint)
+            .then((node) => {
+                setStatus('loaded');
+                console.log('Moved to node:', node.id);
+            })
+            .catch((e) => {
+                console.error('Failed to move to location:', e);
+                setError('No street-level imagery found for this location. Please try another area.');
+                setStatus('error');
             });
-        }
         
         if (interactive && onLocationSelect) {
-            map.on('click', async (e) => {
-                const { lat, lng } = e.latlng;
-
-                let address = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-                try {
-                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-                    const data = await response.json();
-                    if (data && data.display_name) {
-                        address = data.display_name;
-                    }
-                } catch (error) {
-                    console.error("Reverse geocoding failed:", error);
-                }
+            viewer.on('position', (event) => {
+                const { lat, lng } = event.latLon;
+                // For simplicity, we won't do reverse geocoding here as it's not a primary feature of MapillaryJS click events.
+                const address = `Selected location at ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
                 onLocationSelect({ lat, lng }, address);
             });
         }
-        
+
+
         // Cleanup function to remove the map instance
         return () => {
-            map.remove();
+            if (viewer) {
+                viewer.remove();
+                viewer = null;
+            }
         };
-    }, [isClient, JSON.stringify(initialCenter), JSON.stringify(markers), interactive, onLocationSelect]);
+    }, [isClient, mapillaryKey, initialCenter, interactive, onLocationSelect]);
 
 
-    if (!isClient) {
+    if (!isClient || status === 'loading') {
         return (
             <div className="flex items-center justify-center h-full w-full bg-muted">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-2">Loading Map...</p>
+                <p className="ml-2">Loading Street View...</p>
+            </div>
+        );
+    }
+
+     if (status === 'error') {
+        return (
+            <div className="flex items-center justify-center h-full w-full bg-muted p-4">
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Map Error</AlertTitle>
+                    <AlertDescription>
+                        {error || 'Could not load the map.'}
+                    </AlertDescription>
+                </Alert>
             </div>
         );
     }
