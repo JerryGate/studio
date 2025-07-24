@@ -8,13 +8,16 @@ import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
-import { useHero } from '@/contexts/hero-context';
 import { Skeleton } from '../ui/skeleton';
 
-const Hero = () => {
-  const { heroImages, isLoaded } = useHero();
-  const autoplayPlugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
+const mockImages = [
+    'https://placehold.co/1200x600.png',
+    'https://placehold.co/1200x600.png',
+    'https://placehold.co/1200x600.png',
+];
 
+const Hero = () => {
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -40,31 +43,27 @@ const Hero = () => {
   return (
     <div className="container mx-auto px-4 py-8">
         <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-2xl">
-            {!isLoaded ? (
-                <Skeleton className="w-full h-full" />
-            ) : (
-                <Carousel
-                    plugins={[autoplayPlugin.current]}
-                    className="w-full h-full"
-                    opts={{ loop: true }}
-                >
-                    <CarouselContent className="h-full">
-                        {heroImages.map((src, index) => (
-                            <CarouselItem key={index} className="h-full">
-                                <div className="relative h-full w-full">
-                                    <Image
-                                        src={src}
-                                        alt={`Hero image ${index + 1}`}
-                                        fill
-                                        className="object-cover"
-                                        priority={index === 0}
-                                    />
-                                </div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </Carousel>
-            )}
+            <Carousel
+                plugins={[autoplayPlugin.current]}
+                className="w-full h-full"
+                opts={{ loop: true }}
+            >
+                <CarouselContent className="h-full">
+                    {mockImages.map((src, index) => (
+                        <CarouselItem key={index} className="h-full">
+                            <div className="relative h-full w-full">
+                                <Image
+                                    src={src}
+                                    alt={`Hero image ${index + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    priority={index === 0}
+                                />
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+            </Carousel>
 
             <div className="absolute inset-0 bg-black/50" />
 
