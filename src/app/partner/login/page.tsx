@@ -41,36 +41,38 @@ export default function PartnerLoginPage() {
   };
 
   const renderLoginForm = (currentRole: UserRole) => (
-     <TabsContent value={currentRole} className="space-y-6">
-        <div className="space-y-2">
-            <Label htmlFor={`${currentRole}-email`}>Email address</Label>
-            <Input id={`${currentRole}-email`} type="email" value={mockAuthUsers[currentRole].email} readOnly />
-        </div>
-        <div className="space-y-2">
-            <div className="flex items-center justify-between">
-                <Label htmlFor={`${currentRole}-password`}>Password</Label>
-                <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90">
-                    Forgot your password?
-                </Link>
+     <form onSubmit={(e) => { e.preventDefault(); handleLogin(currentRole); }}>
+        <TabsContent value={currentRole} className="space-y-6">
+            <div className="space-y-2">
+                <Label htmlFor={`${currentRole}-email`}>Email address</Label>
+                <Input id={`${currentRole}-email`} type="email" value={mockAuthUsers[currentRole].email} readOnly />
             </div>
-            <div className="relative">
-                <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
-                <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
-                >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
+            <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                    <Label htmlFor={`${currentRole}-password`}>Password</Label>
+                    <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90">
+                        Forgot your password?
+                    </Link>
+                </div>
+                <div className="relative">
+                    <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                    >
+                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                </div>
             </div>
-        </div>
-         <div>
-            <Button type="button" className="w-full" disabled={!!isLoading} onClick={() => handleLogin(currentRole)}>
-                {isLoading === currentRole && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Sign in as {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
-            </Button>
-        </div>
-     </TabsContent>
+            <div>
+                <Button type="submit" className="w-full" disabled={!!isLoading}>
+                    {isLoading === currentRole && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Sign in as {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
+                </Button>
+            </div>
+        </TabsContent>
+     </form>
   );
 
 

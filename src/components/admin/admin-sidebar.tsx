@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -20,15 +20,22 @@ const navItems = [
   { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
   { href: '/admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
+  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
     const pathname = usePathname();
     const { logout } = useAuth();
-    const Wrapper = isMobile ? 'div' : 'nav';
+
+    const checkActive = (href: string) => {
+      if (href === '/admin') {
+        return pathname === href;
+      }
+      return pathname.startsWith(href);
+    }
 
     return (
-        <Wrapper className="flex flex-col h-full">
+        <div className="flex flex-col h-full">
             <nav className="flex-1 p-4 space-y-2">
                 {navItems.map((item) => (
                     <Link
@@ -36,7 +43,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                        pathname === item.href && 'bg-primary/10 text-primary font-semibold'
+                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
                     )}
                     >
                     <item.icon className="h-4 w-4" />
@@ -55,7 +62,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     <span>Logout</span>
                 </Button>
             </div>
-        </Wrapper>
+        </div>
     )
 }
 

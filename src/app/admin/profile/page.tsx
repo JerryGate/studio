@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function DispatcherProfilePage() {
+export default function AdminProfilePage() {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,30 +29,26 @@ export default function DispatcherProfilePage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Dispatcher Profile</h1>
-             <form onSubmit={handleSubmit}>
+            <h1 className="text-3xl font-bold text-primary mb-6">Admin Profile</h1>
+            <form onSubmit={handleSubmit}>
                 <Card>
                     <CardHeader>
                         <CardTitle>Your Information</CardTitle>
                         <CardDescription>
-                            Keep your personal details up to date.
+                            Manage your account settings.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="fullName">Full Name</Label>
-                            <Input id="fullName" defaultValue="Femi Adebayo" />
+                            <Input id="fullName" defaultValue="Admin User" />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="phone">Phone Number</Label>
-                            <Input id="phone" type="tel" defaultValue="08098765432" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="vehicle">Vehicle Information</Label>
-                            <Input id="vehicle" defaultValue="Honda Motorcycle - ABC 123" />
+                            <Label htmlFor="email">Email Address</Label>
+                            <Input id="email" type="email" defaultValue="admin@e-parma.com" readOnly />
                         </div>
                         <Button type="submit" disabled={isLoading}>
-                            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Save Changes
                         </Button>
                     </CardContent>
