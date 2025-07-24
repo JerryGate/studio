@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // This would typically be a database call to find the nearest partner pharmacy.
 // For this example, we'll use a fixed location in Lagos.
 const NEAREST_PHARMACY_LOCATION = { lat: 6.5244, lon: 3.3792 }; // Mock pharmacy in Lagos
-const DELIVERY_COST_PER_METER = 0.1; // NGN 100 per KM
+const DELIVERY_COST_PER_METER = 0.01; // NGN 10 per KM
 
 export async function POST(req: NextRequest) {
   const { destination } = await req.json(); // { lat, lon }
