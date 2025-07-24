@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Logo from "@/components/logo";
 import Link from "next/link";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
@@ -36,7 +35,7 @@ export default function SignupPage() {
         <div className="text-center">
             <Logo />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
-            Create your account
+            Create your Customer Account
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Already have an account?{' '}
@@ -47,25 +46,11 @@ export default function SignupPage() {
         </div>
         <Card>
             <CardHeader>
-                <CardTitle>Get Started</CardTitle>
-                <CardDescription>Create a new account to start using Medfast.</CardDescription>
+                <CardTitle>Get Started with Medfast</CardTitle>
+                <CardDescription>Create an account to start ordering your medications.</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                     <div className="space-y-2">
-                        <Label htmlFor="role">I am a...</Label>
-                        <Select>
-                            <SelectTrigger id="role">
-                                <SelectValue placeholder="Select your role" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="customer">Customer/Patient</SelectItem>
-                                <SelectItem value="pharmacy">Pharmacy</SelectItem>
-                                <SelectItem value="dispatcher">Dispatcher</SelectItem>
-                                <SelectItem value="hospital">Hospital</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
                     <div className="space-y-2">
                         <Label htmlFor="email">Email address</Label>
                         <Input id="email" name="email" type="email" autoComplete="email" required />
@@ -83,6 +68,12 @@ export default function SignupPage() {
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Create Account
                         </Button>
+                    </div>
+                     <div className="text-center text-sm text-muted-foreground pt-4 border-t">
+                        Are you a Pharmacy or Dispatcher?{' '}
+                        <Link href="/partner" className="font-medium text-accent hover:text-accent/90">
+                        Register here
+                        </Link>
                     </div>
                 </form>
             </CardContent>

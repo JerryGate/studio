@@ -24,8 +24,8 @@ const Footer = () => {
     {
       title: 'Get Started',
       links: [
-        { name: 'Join as a Pharmacy', href: '/signup' },
-        { name: 'Join as a Dispatcher', href: '/signup' },
+        { name: 'Create a Customer Account', href: '/signup' },
+        { name: 'Partner with Us', href: '/partner' },
       ],
     },
   ];
@@ -88,6 +88,9 @@ const Footer = () => {
           <p>&copy; {new Date().getFullYear()} Medfast. All rights reserved.</p>
           <p className="mt-2">
             Contact: <a href="mailto:support@medfast.com" className="hover:text-primary">support@medfast.com</a> | <a href="tel:+234123456789" className="hover:text-primary">+234-123-456-789</a>
+          </p>
+           <p className="mt-2">
+            <Link href="/partner/login" className="hover:text-primary">Partner Login</Link>
           </p>
         </div>
       </div>
