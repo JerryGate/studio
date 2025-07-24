@@ -3,10 +3,6 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
@@ -16,19 +12,9 @@ import { useHero } from '@/contexts/hero-context';
 import { Skeleton } from '../ui/skeleton';
 
 const Hero = () => {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
   const { heroImages, isLoaded } = useHero();
   const autoplayPlugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    } else {
-      router.push('/search');
-    }
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -52,7 +38,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden">
+    <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
         {!isLoaded ? (
              <Skeleton className="w-full h-full" />
         ) : (
@@ -114,24 +100,6 @@ const Hero = () => {
                     Learn More
                     </Button>
                 </Link>
-                </motion.div>
-                <motion.div 
-                className="mt-12 max-w-xl mx-auto"
-                variants={itemVariants}
-                >
-                <form className="relative" onSubmit={handleSearch}>
-                    <Input
-                    type="text"
-                    placeholder="e.g., Paracetamol, Vitamin C..."
-                    className="h-14 pl-12 pr-24 text-base bg-white/90 text-primary placeholder:text-muted-foreground/80 border-2 border-border focus:border-primary focus:ring-primary"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
-                    <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-10">
-                        Search
-                    </Button>
-                </form>
                 </motion.div>
             </motion.div>
         </div>

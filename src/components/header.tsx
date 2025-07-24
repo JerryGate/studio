@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, Sun, Moon, LogOut, User, ChevronDown, LayoutDashboard } from 'lucide-react';
+import { Menu, ShoppingCart, User, ChevronDown, LayoutDashboard, LogOut, Search } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 import Logo from './logo';
@@ -12,8 +12,9 @@ import { Badge } from './ui/badge';
 import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { Input } from './ui/input';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -53,6 +54,18 @@ const Header = () => {
   const { cartCount } = useCart();
   const { user, logout } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push('/search');
+    }
+  };
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,6 +99,22 @@ const Header = () => {
               </Link>
             ))}
           </nav>
+          
+          <div className="hidden lg:flex flex-1 justify-center px-8">
+            <form className="relative w-full max-w-md" onSubmit={handleSearch}>
+                <Input
+                type="text"
+                placeholder="e.g., Paracetamol, Vitamin C..."
+                className="h-10 pl-10 pr-20 text-sm bg-background/80 border-border/80 focus:border-primary focus:ring-primary"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Button type="submit" size="sm" className="absolute right-1 top-1/2 -translate-y-1/2 h-8">
+                    Search
+                </Button>
+            </form>
+          </div>
 
           <div className="flex items-center space-x-2">
             <Link href="/cart">
