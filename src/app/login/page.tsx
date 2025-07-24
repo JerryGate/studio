@@ -36,7 +36,7 @@ export default function LoginPage() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     login(currentRole);
     router.push(roleToDashboard[currentRole] || '/');
-    setIsLoading(null);
+    setIsLoading(false);
   };
 
   return (
