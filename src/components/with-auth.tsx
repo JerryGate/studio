@@ -7,6 +7,8 @@ import { useEffect, ComponentType } from 'react';
 import { DashboardSkeleton } from '@/components/skeletons/dashboard-skeleton';
 import { UserRole } from '@/types';
 
+const partnerRoles: UserRole[] = ['admin', 'pharmacy', 'dispatcher', 'hospital'];
+
 export function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>,
   allowedRoles: UserRole[]
@@ -16,23 +18,26 @@ export function withAuth<P extends object>(
     const router = useRouter();
 
     useEffect(() => {
-      if (!loading && (!user || !allowedRoles.includes(user.role))) {
-        router.push('/login');
+      if (loading) return;
+
+      const isAllowed = user && allowedRoles.includes(user.role);
+
+      if (!isAllowed) {
+        // If the intended role is a partner role, redirect to the partner login page.
+        // Otherwise, redirect to the standard customer login page.
+        const isPartnerRoute = allowedRoles.some(role => partnerRoles.includes(role));
+        if (isPartnerRoute) {
+            router.push('/partner/login');
+        } else {
+            router.push('/login');
+        }
       }
     }, [user, loading, router]);
 
-    if (loading || !user) {
+    if (loading || !user || !allowedRoles.includes(user.role)) {
       return (
         <DashboardSkeleton />
       );
-    }
-
-    if (!allowedRoles.includes(user.role)) {
-      return (
-         <div className="flex justify-center items-center h-screen">
-            <p>You do not have permission to view this page. Redirecting...</p>
-        </div>
-      )
     }
 
     return <WrappedComponent {...props} />;
