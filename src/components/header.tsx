@@ -172,19 +172,19 @@ const Header = () => {
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
-                     <SheetHeader className="p-4 border-b">
+                  <SheetContent side="bottom" className="w-full bg-background p-0 h-auto rounded-t-2xl">
+                     <SheetHeader className="p-4 flex flex-col items-center">
+                        <div className="w-12 h-1.5 rounded-full bg-muted-foreground/30 mb-2" />
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                        <Logo textClassName="inline" />
                      </SheetHeader>
-                    <div className="flex flex-col h-full">
-                      <nav className="flex-1 p-4 space-y-4">
+                    <div className="flex flex-col">
+                      <nav className="p-4 space-y-2">
                         {baseNavLinks.map((link) => (
                            <SheetClose asChild key={link.href}>
                              <Link
                                 href={link.href}
                                 className={cn(
-                                  'flex items-center gap-3 rounded-lg px-3 py-2 text-base font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
+                                  'flex items-center gap-3 rounded-lg px-3 py-3 text-lg font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
                                   pathname === link.href && 'bg-primary/10 text-primary font-semibold'
                                 )}
                               >
@@ -198,15 +198,15 @@ const Header = () => {
                             <>
                                 <SheetClose asChild>
                                    <Link href={getDashboardUrl(user?.role)} passHref>
-                                        <Button variant="outline" className="w-full justify-start">
-                                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                                        <Button variant="outline" className="w-full justify-start text-base py-6">
+                                            <LayoutDashboard className="mr-2 h-5 w-5" />
                                             Dashboard
                                         </Button>
                                     </Link>
                                 </SheetClose>
                                 <SheetClose asChild>
-                                    <Button variant="ghost" className="w-full justify-start" onClick={logout}>
-                                        <LogOut className="mr-2 h-4 w-4" />
+                                    <Button variant="ghost" className="w-full justify-start text-base py-6" onClick={logout}>
+                                        <LogOut className="mr-2 h-5 w-5" />
                                         Log Out
                                     </Button>
                                 </SheetClose>
@@ -215,15 +215,15 @@ const Header = () => {
                             <>
                                  <SheetClose asChild>
                                     <Link href="/login" passHref>
-                                        <Button className="w-full justify-start">
-                                            <User className="mr-2 h-4 w-4" />
+                                        <Button className="w-full justify-start text-base py-6">
+                                            <User className="mr-2 h-5 w-5" />
                                             Log In
                                         </Button>
                                     </Link>
                                 </SheetClose>
                                 <SheetClose asChild>
                                     <Link href="/signup" passHref>
-                                        <Button variant="outline" className="w-full justify-start">
+                                        <Button variant="outline" className="w-full justify-start text-base py-6">
                                             Sign Up
                                         </Button>
                                     </Link>
