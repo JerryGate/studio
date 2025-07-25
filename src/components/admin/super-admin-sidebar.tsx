@@ -12,16 +12,16 @@ import { Button } from '../ui/button';
 
 const navItems = [
   { href: '/admin/super-admin', icon: Home, label: 'Dashboard' },
-  { href: '/admin/pharmacies', icon: Store, label: 'Pharmacies' },
-  { href: '/admin/patients', icon: Users, label: 'Patients' },
-  { href: '/admin/dispatchers', icon: Truck, label: 'Dispatchers' },
-  { href: '/admin/reports', icon: BarChart, label: 'Reports' },
-  { href: '/admin/performance', icon: LifeBuoy, label: 'Performance' },
-  { href: '/admin/notifications', icon: Bell, label: 'Notifications' },
-  { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
-  { href: '#', icon: Shield, label: 'Manage Admins' }, // Placeholder
-  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
-  { href: '/admin/settings', icon: Settings, label: 'Settings' },
+  { href: '/admin/super-admin/pharmacies', icon: Store, label: 'Pharmacies' },
+  { href: '/admin/super-admin/patients', icon: Users, label: 'Patients' },
+  { href: '/admin/super-admin/dispatchers', icon: Truck, label: 'Dispatchers' },
+  { href: '/admin/super-admin/reports', icon: BarChart, label: 'Reports' },
+  { href: '/admin/super-admin/performance', icon: LifeBuoy, label: 'Performance' },
+  { href: '/admin/super-admin/notifications', icon: Bell, label: 'Notifications' },
+  { href: '/admin/super-admin/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '#', icon: Shield, label: 'Manage Admins' },
+  { href: '/admin/super-admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/super-admin/settings', icon: Settings, label: 'Settings' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
@@ -44,7 +44,8 @@ export const AdminNav = ({ isMobile = false }) => {
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
+                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold',
+                        item.href === '#' && 'cursor-not-allowed opacity-50'
                     )}
                     >
                     <item.icon className="h-4 w-4" />

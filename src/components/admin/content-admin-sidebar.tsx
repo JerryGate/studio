@@ -15,7 +15,7 @@ const navItems = [
   { href: '/admin/content-admin/slider', icon: ImageIcon, label: 'Slider Images' },
   { href: '/admin/content-admin/blog', icon: Newspaper, label: 'Blog Posts' },
   { href: '#', icon: FileUp, label: 'Document Uploads' },
-  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/content-admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {

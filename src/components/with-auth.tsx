@@ -47,7 +47,7 @@ export function withAuth<P extends object>(
           pharmacy: '/pharmacy',
           dispatcher: '/dispatcher',
           hospital: '/hospital',
-        }[user.role];
+        }[user.role as keyof typeof dashboardUrl];
         router.replace(dashboardUrl || '/');
       }
 

@@ -24,27 +24,15 @@ export default function AdminRedirectLayout({
     const isLoginPage = pathname === '/admin/login';
     const userIsAdmin = user && adminRoles.includes(user.role);
 
-    if (userIsAdmin && isLoginPage) {
-        // If logged-in admin is on login page, redirect to their dashboard
-        const dashboardUrl = {
-            'super-admin': '/admin/super-admin',
-            'finance-admin': '/admin/finance-admin',
-            'content-admin': '/admin/content-admin',
-        }[user.role as keyof typeof adminRoles];
-        
-        router.replace(dashboardUrl || '/admin/super-admin');
-        return;
-    }
-    
+    // If not an admin and not on the login page, redirect to login
     if (!userIsAdmin && !isLoginPage) {
-        // If not an admin and not on the login page, redirect to login
         router.replace('/admin/login');
         return;
     }
     
-    // This handles the case where a user might land on `/admin` directly
-    if (userIsAdmin && pathname === '/admin') {
-         const dashboardUrl = {
+    // If logged-in admin is on login page OR lands on `/admin` directly, redirect to their dashboard
+    if (userIsAdmin && (isLoginPage || pathname === '/admin')) {
+        const dashboardUrl = {
             'super-admin': '/admin/super-admin',
             'finance-admin': '/admin/finance-admin',
             'content-admin': '/admin/content-admin',
@@ -54,7 +42,7 @@ export default function AdminRedirectLayout({
 
   }, [user, loading, router, pathname]);
   
-  // Show skeleton if loading, or if user is being redirected away from a protected route
+  // Show skeleton if loading, or if user is not an admin and not on the login page
   if (loading || (!user && pathname !== '/admin/login')) {
       return <DashboardSkeleton />;
   }

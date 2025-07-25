@@ -1,6 +1,5 @@
 
 'use client';
-import { withAuth } from '@/components/with-auth';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -17,7 +16,7 @@ const getInitials = (name: string) => {
     return parts[0].charAt(0).toUpperCase();
 }
 
-function FinanceAdminLayout({
+export default function FinanceAdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -63,7 +62,7 @@ function FinanceAdminLayout({
                 <DropdownMenuLabel>Finance Admin Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/profile">
+                  <Link href="/admin/finance-admin/profile">
                     <UserCog className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </Link>
@@ -83,5 +82,3 @@ function FinanceAdminLayout({
       </div>
   );
 }
-
-export default withAuth(FinanceAdminLayout, ['finance-admin']);
