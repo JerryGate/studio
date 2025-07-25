@@ -15,6 +15,7 @@ import { Product } from '@/types';
 import { ProductCardSkeleton } from '@/components/skeletons/product-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { allProducts } from '@/lib/mock-data';
+import { DrugInteractionChecker } from '@/components/drug-interaction-checker';
 
 
 function SearchResults() {
@@ -50,40 +51,43 @@ function SearchResults() {
     return (
         <div className="flex flex-col md:flex-row gap-8">
             {/* Filters Sidebar */}
-            <aside className="w-full md:w-1/4">
-                <div className="sticky top-24">
-                    <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                        <SlidersHorizontal className="h-5 w-5" />
-                        Filters
-                    </h3>
-                    <div className="space-y-6">
-                        <div>
-                            <Label htmlFor="sort" className="font-semibold">Sort by</Label>
-                            <Select value={sortBy} onValueChange={setSortBy}>
-                                <SelectTrigger id="sort" className="w-full mt-2">
-                                    <SelectValue placeholder="Sort by" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="relevance">Relevance</SelectItem>
-                                    <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                                    <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                                    <SelectItem value="name-asc">Name: A to Z</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div>
-                            <h4 className="font-semibold mb-2">Availability</h4>
-                            <div className="flex items-center space-x-2">
-                                <Checkbox id="in-stock" checked={inStock} onCheckedChange={(checked) => setInStock(!!checked)} />
-                                <Label htmlFor="in-stock" className="font-normal">In Stock Only</Label>
+            <aside className="w-full md:w-1/4 lg:w-1/5">
+                <div className="sticky top-24 space-y-8">
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                            <SlidersHorizontal className="h-5 w-5" />
+                            Filters
+                        </h3>
+                        <div className="space-y-6">
+                            <div>
+                                <Label htmlFor="sort" className="font-semibold">Sort by</Label>
+                                <Select value={sortBy} onValueChange={setSortBy}>
+                                    <SelectTrigger id="sort" className="w-full mt-2">
+                                        <SelectValue placeholder="Sort by" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="relevance">Relevance</SelectItem>
+                                        <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                                        <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                                        <SelectItem value="name-asc">Name: A to Z</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold mb-2">Availability</h4>
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox id="in-stock" checked={inStock} onCheckedChange={(checked) => setInStock(!!checked)} />
+                                    <Label htmlFor="in-stock" className="font-normal">In Stock Only</Label>
+                                </div>
                             </div>
                         </div>
                     </div>
+                     <DrugInteractionChecker />
                 </div>
             </aside>
 
             {/* Main Content */}
-            <main className="w-full md:w-3/4">
+            <main className="w-full md:w-3/4 lg:w-4/5">
                 <div className="mb-6">
                     <form onSubmit={(e) => { e.preventDefault(); }}>
                         <div className="relative">
@@ -114,13 +118,13 @@ function SearchResults() {
                 </div>
 
                 {loading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {Array.from({ length: 6 }).map((_, index) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {Array.from({ length: 8 }).map((_, index) => (
                            <ProductCardSkeleton key={index} />
                         ))}
                     </div>
                 ) : filteredProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {filteredProducts.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}
@@ -174,7 +178,7 @@ function LoadingSkeleton() {
     )
 }
 
-export default function SearchPage() {
+function SearchPageContent() {
     return (
         <div className="container mx-auto px-4 py-8">
             <header className="mb-8">
@@ -182,9 +186,15 @@ export default function SearchPage() {
                 <p className="text-muted-foreground">Find the drugs you need from our wide selection.</p>
             </header>
             
-            <Suspense fallback={<LoadingSkeleton />}>
-                <SearchResults />
-            </Suspense>
+            <SearchResults />
         </div>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<LoadingSkeleton />}>
+            <SearchPageContent />
+        </Suspense>
     );
 }
