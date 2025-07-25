@@ -9,17 +9,41 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, UploadCloud, X } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AddBlogPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setImages(prev => [...prev, ...filesArray]);
+
+      const newPreviews = filesArray.map(file => URL.createObjectURL(file));
+      setImagePreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => {
+        const newPreviews = prev.filter((_, i) => i !== index);
+        // Clean up the object URL to avoid memory leaks
+        URL.revokeObjectURL(imagePreviews[index]);
+        return newPreviews;
+    });
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // In a real app, you would send this data to your backend
+    // In a real app, you would upload the files in `images` state to your storage
+    // and save the URLs with the blog post.
     setTimeout(() => {
         toast({
             title: "Blog Post Created!",
@@ -44,16 +68,45 @@ export default function AddBlogPage() {
               <Label htmlFor="title">Post Title</Label>
               <Input id="title" placeholder="e.g., 10 Tips for a Healthier Lifestyle" required />
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
-                    <Input id="category" placeholder="e.g., Health Tips" required />
-                </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="image-url">Image URL</Label>
-                    <Input id="image-url" placeholder="https://placehold.co/800x400.png" required />
-                </div>
+            <div className="space-y-2">
+                <Label htmlFor="category">Category</Label>
+                <Input id="category" placeholder="e.g., Health Tips" required />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="post-images">Blog Post Images</Label>
+              <label htmlFor="post-images" className="block border-2 border-dashed border-muted-foreground/50 rounded-lg p-8 text-center cursor-pointer hover:bg-muted/50 transition-colors">
+                  <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                  <p className="mt-4 text-muted-foreground">Click to select files or drag & drop</p>
+                  <Input 
+                      id="post-images"
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={handleImageChange}
+                  />
+              </label>
+              {imagePreviews.length > 0 && (
+                <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index} className="relative group">
+                      <Image src={preview} alt={`Preview ${index + 1}`} width={150} height={150} className="rounded-md aspect-square object-cover" />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => removeImage(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="content">Content</Label>
               <Textarea id="content" rows={15} placeholder="Write your blog post content here..." required />
