@@ -9,6 +9,7 @@ import GeolocationFeature from '@/components/landing/geolocation-feature';
 import Cta from '@/components/landing/cta';
 import FeaturedProducts from '@/components/landing/featured-products';
 import { MobileSearch } from '@/components/mobile-search';
+import TopPharmacies from '@/components/landing/top-pharmacies';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <MobileSearch />
         <FeaturedProducts />
         <Services />
+        <TopPharmacies />
         <HowItWorks />
         <TrustSignals />
         <GeolocationFeature />
