@@ -47,6 +47,8 @@ export interface Conversation {
 // Order type
 export type OrderStatus = 'Pending Approval' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
+export type PaymentMethod = 'paystack' | 'delivery';
+
 interface CustomerDetails {
     fullName: string;
     email: string;
@@ -55,6 +57,7 @@ interface CustomerDetails {
     city: string;
     state: string;
     deliveryFee: number;
+    paymentMethod: PaymentMethod;
     location?: {
         lat: number;
         lng: number;

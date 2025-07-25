@@ -12,13 +12,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CreditCard, MapPin, ShoppingCart, Loader2, LogIn } from 'lucide-react';
+import { CreditCard, MapPin, ShoppingCart, Loader2, LogIn, Truck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useOrders } from '@/hooks/use-orders';
 import { useAuth } from '@/contexts/auth-context';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const Map = dynamic(() => import('@/components/map'), {
   ssr: false,
@@ -32,6 +33,9 @@ const checkoutSchema = z.object({
   address: z.string().min(10, 'A detailed address is required'),
   city: z.string().min(2, 'City is required'),
   state: z.string().min(2, 'State is required'),
+  paymentMethod: z.enum(['paystack', 'delivery'], {
+    required_error: "You need to select a payment method.",
+  }),
   location: z.object({
     lat: z.number(),
     lng: z.number(),
@@ -48,6 +52,7 @@ export default function CheckoutPage() {
   const { toast } = useToast();
   const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
   const [isCalculatingFee, setIsCalculatingFee] = useState(false);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{lat: number, lng: number} | null>(null);
   const [isPaystackScriptLoaded, setPaystackScriptLoaded] = useState(false);
@@ -84,6 +89,7 @@ export default function CheckoutPage() {
             address: form.getValues('address') || '',
             city: form.getValues('city') || '',
             state: form.getValues('state') || '',
+            paymentMethod: form.getValues('paymentMethod')
         })
     }
   }, [user, form]);
@@ -105,22 +111,25 @@ export default function CheckoutPage() {
   
   const totalAmount = cartTotal + (deliveryFee || 0);
 
-  const handlePaymentSuccess = () => {
+  const placeOrder = (paymentSuccessful: boolean) => {
+    setIsPlacingOrder(true);
     const customerDetails = form.getValues();
     addOrder({
       total: totalAmount,
       items: cartItems,
       customerDetails: { ...customerDetails, deliveryFee: deliveryFee || 0 },
+      paymentMethod: customerDetails.paymentMethod,
     });
 
     toast({
         title: "Order Placed!",
-        description: "Your payment was successful. We will contact you shortly."
+        description: paymentSuccessful ? "Your payment was successful. We will contact you shortly." : "Your order has been placed. Please prepare for payment on delivery."
     });
 
     clearCart();
     router.push('/dashboard/orders');
-  };
+    setIsPlacingOrder(false);
+  }
   
   const handlePaymentClose = () => {
     toast({
@@ -208,8 +217,8 @@ export default function CheckoutPage() {
   
   const paystackPublicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
-  const handlePayment = () => {
-     if (!user) {
+  const onSubmit = (values: CheckoutFormValues) => {
+    if (!user) {
         toast({
             title: "Authentication Required",
             description: "Please log in to your account to complete your purchase.",
@@ -224,15 +233,6 @@ export default function CheckoutPage() {
         return;
     }
 
-    if (!form.formState.isValid) {
-      toast({
-        title: "Incomplete Form",
-        description: "Please fill in all the required delivery information fields.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     if (deliveryFee === null) {
       toast({
         title: "Location not set",
@@ -242,26 +242,29 @@ export default function CheckoutPage() {
       return;
     }
     
-    if (!paystackPublicKey || !isPaystackScriptLoaded || !(window as any).PaystackPop) {
-        toast({
-            title: "Payment Error",
-            description: "Payment service is not available. Please try again later.",
-            variant: "destructive"
+    if (values.paymentMethod === 'paystack') {
+        if (!paystackPublicKey || !isPaystackScriptLoaded || !(window as any).PaystackPop) {
+            toast({
+                title: "Payment Error",
+                description: "Online payment service is not available. Please try again later or choose 'Pay on Delivery'.",
+                variant: "destructive"
+            });
+            return;
+        }
+
+        const handler = (window as any).PaystackPop.setup({
+            key: paystackPublicKey,
+            email: values.email,
+            amount: totalAmount * 100, // Amount in kobo
+            ref: new Date().getTime().toString(),
+            onClose: handlePaymentClose,
+            callback: () => placeOrder(true)
         });
-        return;
+        handler.openIframe();
+    } else if (values.paymentMethod === 'delivery') {
+        placeOrder(false);
     }
-
-    const handler = (window as any).PaystackPop.setup({
-        key: paystackPublicKey,
-        email: form.getValues('email'),
-        amount: totalAmount * 100, // Amount in kobo
-        ref: new Date().getTime().toString(),
-        onClose: handlePaymentClose,
-        callback: handlePaymentSuccess
-    });
-    handler.openIframe();
   }
-
 
   if (!paystackPublicKey) {
     return (
@@ -278,7 +281,8 @@ export default function CheckoutPage() {
           <CardTitle className="text-3xl font-extrabold text-primary">Checkout</CardTitle>
           <CardDescription>Please fill in your details to complete your purchase.</CardDescription>
         </CardHeader>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Checkout Form & Map */}
         <div className="space-y-8">
             <Card>
@@ -286,8 +290,7 @@ export default function CheckoutPage() {
                     <CardTitle>Delivery Information</CardTitle>
                 </CardHeader>
                 <CardContent>
-                <Form {...form}>
-                    <form className="space-y-6">
+                    <div className="space-y-6">
                         <FormField
                             control={form.control}
                             name="fullName"
@@ -376,8 +379,7 @@ export default function CheckoutPage() {
                                 Find on Map
                             </Button>
                         </div>
-                    </form>
-                </Form>
+                    </div>
                 </CardContent>
             </Card>
 
@@ -441,21 +443,57 @@ export default function CheckoutPage() {
                   <p>₦{totalAmount.toLocaleString()}</p>
                 </div>
               </div>
+               <Separator />
+               <FormField
+                  control={form.control}
+                  name="paymentMethod"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="font-semibold">Select Payment Method</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                              <RadioGroupItem value="paystack" />
+                            </FormControl>
+                            <FormLabel className="font-normal flex items-center gap-2">
+                                <CreditCard className="h-5 w-5" /> Pay Online with Paystack
+                            </FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                              <RadioGroupItem value="delivery" />
+                            </FormControl>
+                            <FormLabel className="font-normal flex items-center gap-2">
+                                <Truck className="h-5 w-5" /> Pay on Delivery
+                            </FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
             </CardContent>
             <CardFooter>
                  <Button
+                    type="submit"
                     size="lg"
                     className="w-full"
-                    onClick={handlePayment}
-                    disabled={isCalculatingFee || isGeocoding || !isPaystackScriptLoaded || deliveryFee === null}
+                    disabled={isCalculatingFee || isGeocoding || isPlacingOrder || deliveryFee === null || !form.getValues('paymentMethod')}
                 >
-                    <CreditCard className="mr-2 h-5 w-5" />
-                    Place Order & Pay
+                    {isPlacingOrder && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Place Order
                 </Button>
             </CardFooter>
           </Card>
         </div>
-      </div>
+      </form>
+      </Form>
     </div>
   );
 }
