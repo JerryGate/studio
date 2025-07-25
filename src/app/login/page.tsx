@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import Logo from "@/components/logo";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { UserRole } from "@/types";
@@ -26,6 +26,7 @@ const roleToDashboard: Record<UserRole, string> = {
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -35,9 +36,13 @@ export default function LoginPage() {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     login(currentRole);
-    router.push(roleToDashboard[currentRole] || '/');
+
+    const redirectUrl = searchParams.get('redirect');
+    router.push(redirectUrl || roleToDashboard[currentRole] || '/');
     setIsLoading(false);
   };
+
+  const redirectParam = searchParams.get('redirect') ? `?redirect=${searchParams.get('redirect')}` : '';
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
@@ -49,7 +54,7 @@ export default function LoginPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Or{' '}
-            <Link href="/signup" className="font-medium text-accent hover:text-accent/90">
+            <Link href={`/signup${redirectParam}`} className="font-medium text-accent hover:text-accent/90">
               create a new account
             </Link>
           </p>

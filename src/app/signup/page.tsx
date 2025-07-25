@@ -10,10 +10,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +31,13 @@ export default function SignupPage() {
         title: "Account Created!",
         description: "Your account has been successfully created. Please log in.",
     });
+
+    const redirectUrl = searchParams.get('redirect');
+    // After signup, redirect to login page, which will then handle the final redirect
+    router.push(`/login${redirectUrl ? `?redirect=${redirectUrl}` : ''}`);
   };
+
+  const redirectParam = searchParams.get('redirect') ? `?redirect=${searchParams.get('redirect')}` : '';
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
@@ -39,7 +49,7 @@ export default function SignupPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/login" className="font-medium text-accent hover:text-accent/90">
+            <Link href={`/login${redirectParam}`} className="font-medium text-accent hover:text-accent/90">
               Sign in
             </Link>
           </p>

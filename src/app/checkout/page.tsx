@@ -215,7 +215,7 @@ export default function CheckoutPage() {
             description: "Please log in to your account to complete your purchase.",
             variant: 'destructive',
             action: (
-                <Button variant="secondary" onClick={() => router.push('/login')}>
+                <Button variant="secondary" onClick={() => router.push('/login?redirect=/checkout')}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Login
                 </Button>
