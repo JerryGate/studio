@@ -63,7 +63,7 @@ function SuperAdminLayout({
                 <DropdownMenuLabel>Super Admin Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/super-admin/profile">
+                  <Link href="/admin/profile">
                     <UserCog className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </Link>

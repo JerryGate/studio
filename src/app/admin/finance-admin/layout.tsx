@@ -63,7 +63,7 @@ function FinanceAdminLayout({
                 <DropdownMenuLabel>Finance Admin Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/finance-admin/profile">
+                  <Link href="/admin/profile">
                     <UserCog className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </Link>

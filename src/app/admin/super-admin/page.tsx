@@ -2,7 +2,7 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { DollarSign, ShoppingCart, Users, Truck } from 'lucide-react';
+import { DollarSign, ShoppingCart, Users, Store } from 'lucide-react';
 import { OverviewChart } from '@/components/admin/overview-chart';
 import { SalesByCategoryChart } from '@/components/admin/sales-by-category-chart';
 
@@ -11,7 +11,7 @@ export default function SuperAdminDashboard() {
     { title: 'Total Revenue', value: '₦1,250,000', icon: DollarSign },
     { title: 'Total Orders', value: '830', icon: ShoppingCart },
     { title: 'Total Patients', value: '1,500', icon: Users },
-    { title: 'Total Pharmacies', value: '5', icon: Truck },
+    { title: 'Total Pharmacies', value: '5', icon: Store },
   ];
 
   return (

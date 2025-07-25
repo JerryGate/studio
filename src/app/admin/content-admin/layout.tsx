@@ -63,7 +63,7 @@ function ContentAdminLayout({
                 <DropdownMenuLabel>Content Admin Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/content-admin/profile">
+                  <Link href="/admin/profile">
                     <UserCog className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </Link>
