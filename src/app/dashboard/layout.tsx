@@ -4,9 +4,18 @@ import CustomerSidebar from '@/components/dashboard/customer-sidebar';
 import { withAuth } from '@/components/with-auth';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
-import { Menu, UserCircle } from 'lucide-react';
+import { Menu, UserCircle, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Logo from '@/components/logo';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
+
+const getInitials = (name: string) => {
+    if (!name) return '';
+    const parts = name.split('@');
+    return parts[0].charAt(0).toUpperCase();
+}
 
 const CustomerMobileSidebar = () => (
     <Sheet>
@@ -31,7 +40,7 @@ function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   return (
       <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
         <div className="hidden border-r bg-muted/40 md:block">
@@ -43,10 +52,39 @@ function DashboardLayout({
             <div className="w-full flex-1">
                <h1 className="text-lg font-semibold md:text-xl">Customer Dashboard</h1>
             </div>
-            <div className="flex items-center gap-2 ml-auto text-sm text-muted-foreground">
-                <UserCircle className="h-5 w-5" />
-                <span>Welcome, {user?.email}</span>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="ghost" className="relative flex items-center gap-2">
+                   <Avatar className="h-8 w-8">
+                      <AvatarImage src={`https://i.pravatar.cc/150?u=${user?.id}`} />
+                      <AvatarFallback>{getInitials(user?.email || '')}</AvatarFallback>
+                    </Avatar>
+                    <span className="hidden sm:inline">{user?.email}</span>
+                    <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/profile">
+                    <UserCircle className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </header>
           <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-muted/40">
             {children}
