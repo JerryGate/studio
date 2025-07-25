@@ -5,17 +5,17 @@
 
 @layer base {
   :root {
-    --background: 240 10% 99%;
+    --background: 0 0% 100%;
     --foreground: 240 5% 10%;
     
-    --card: 240 10% 99%;
+    --card: 0 0% 100%;
     --card-foreground: 240 5% 10%;
     
-    --popover: 240 10% 99%;
+    --popover: 0 0% 100%;
     --popover-foreground: 240 5% 10%;
     
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 20% 98%;
+    --primary: 326 100% 47%; /* Vibrant Pink/Red */
+    --primary-foreground: 0 0% 100%;
     
     --secondary: 240 5% 96%;
     --secondary-foreground: 240 5% 10%;
@@ -23,7 +23,7 @@
     --muted: 240 5% 96%;
     --muted-foreground: 240 4% 46%;
     
-    --accent: 142 76% 36%;
+    --accent: 221 83% 53%; /* Deep Blue */
     --accent-foreground: 210 20% 98%;
     
     --destructive: 0 84% 60%;
@@ -31,7 +31,7 @@
     
     --border: 240 6% 90%;
     --input: 240 6% 90%;
-    --ring: 221 83% 53%;
+    --ring: 326 100% 47%;
     
     --radius: 0.5rem;
 
@@ -52,8 +52,8 @@
     --popover: 240 5% 10%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 210 20% 98%;
-    --primary-foreground: 221 83% 53%;
+    --primary: 326 100% 47%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 240 4% 16%;
     --secondary-foreground: 210 20% 98%;
@@ -61,7 +61,7 @@
     --muted: 240 4% 16%;
     --muted-foreground: 240 4% 65%;
 
-    --accent: 142 76% 36%;
+    --accent: 221 83% 53%;
     --accent-foreground: 210 20% 98%;
 
     --destructive: 0 63% 31%;
@@ -69,7 +69,7 @@
 
     --border: 240 4% 16%;
     --input: 240 4% 16%;
-    --ring: 212 76% 51%;
+    --ring: 326 100% 47%;
 
     --chart-1: hsl(var(--primary));
     --chart-2: hsl(var(--accent));

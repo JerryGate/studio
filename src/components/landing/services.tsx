@@ -1,29 +1,28 @@
 
 'use client';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { HeartPulse, Store, Bike, UserCog, ArrowRight } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { HeartPulse, Store, Bike, UserCog } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const services = [
   {
     icon: HeartPulse,
-    role: 'Patients',
+    role: 'For Patients',
     description: 'Order drugs, track deliveries, and view your complete purchase history with ease.',
   },
   {
     icon: Store,
-    role: 'Pharmacies',
+    role: 'For Pharmacies',
     description: 'Upload your drug inventory, manage sales, and efficiently fulfill incoming orders.',
   },
   {
     icon: Bike,
-    role: 'Dispatchers',
+    role: 'For Dispatchers',
     description: 'Receive real-time pickup notifications and track your deliveries seamlessly.',
   },
   {
     icon: UserCog,
-    role: 'Admins',
+    role: 'For Admins',
     description: 'Oversee the entire platform, managing pharmacies, patients, and transactions.',
   },
 ];
@@ -51,7 +50,7 @@ const itemVariants = {
 
 const Services = () => {
   return (
-    <section id="services" className="py-20 md:py-32 bg-background">
+    <section id="services" className="py-20 md:py-24 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
             className="text-center mb-12"
@@ -60,15 +59,9 @@ const Services = () => {
             viewport={{ once: true, amount: 0.5 }}
             variants={itemVariants}
         >
-           <div className="inline-block bg-primary/10 text-primary font-semibold py-1 px-3 rounded-full text-sm mb-4">
-              Our Ecosystem
-            </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary">
-            A Platform for Everyone
+          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-accent">
+            Experts in Every Aspect of Service
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            We connect all stakeholders in the pharmaceutical chain to create a seamless and efficient experience for getting medication in Nigeria.
-          </p>
         </motion.div>
 
         <motion.div 
@@ -80,21 +73,16 @@ const Services = () => {
         >
           {services.map((service) => (
              <motion.div key={service.role} variants={itemVariants}>
-                <Card className="flex flex-col shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full">
-                <CardHeader className="flex-row items-center gap-4">
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg transition-colors duration-300">
-                        <service.icon className="h-6 w-6" />
+                <Card className="text-center shadow-none border-none group">
+                <CardHeader>
+                    <div className="mx-auto bg-primary/10 text-primary rounded-full h-20 w-20 flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                        <service.icon className="h-10 w-10" />
                     </div>
-                    <CardTitle className="font-headline text-2xl">{service.role}</CardTitle>
+                    <CardTitle className="font-headline text-xl text-accent">{service.role}</CardTitle>
                 </CardHeader>
                 <CardContent className="flex-grow">
-                    <CardDescription>{service.description}</CardDescription>
+                    <p className="text-muted-foreground">{service.description}</p>
                 </CardContent>
-                <CardFooter>
-                    <Button variant="link" className="p-0 text-primary group">
-                    Learn More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                </CardFooter>
                 </Card>
             </motion.div>
           ))}

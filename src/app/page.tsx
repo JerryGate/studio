@@ -8,7 +8,6 @@ import TrustSignals from '@/components/landing/trust-signals';
 import GeolocationFeature from '@/components/landing/geolocation-feature';
 import Cta from '@/components/landing/cta';
 import FeaturedProducts from '@/components/landing/featured-products';
-import { MobileSearch } from '@/components/mobile-search';
 import TopPharmacies from '@/components/landing/top-pharmacies';
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <Hero />
-        <MobileSearch />
         <FeaturedProducts />
         <Services />
         <TopPharmacies />

@@ -55,10 +55,7 @@ const HowItWorks = () => {
             viewport={{ once: true, amount: 0.5 }}
             variants={itemVariants}
         >
-           <div className="inline-block bg-primary/10 text-primary font-semibold py-1 px-3 rounded-full text-sm mb-4">
-              Easy as 1-2-3
-            </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary">
+          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-accent">
             Get Your Medication in Three Simple Steps
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -75,12 +72,12 @@ const HowItWorks = () => {
         >
           {steps.map((step, index) => (
             <motion.div key={index} variants={itemVariants}>
-                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-t-4 border-primary h-full">
+                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border-2 border-transparent hover:border-primary h-full">
                 <CardHeader>
                     <div className="mx-auto bg-primary text-primary-foreground rounded-full h-16 w-16 flex items-center justify-center mb-4">
                     <step.icon className="h-8 w-8" />
                     </div>
-                    <CardTitle className="font-headline text-2xl text-primary">{step.title}</CardTitle>
+                    <CardTitle className="font-headline text-2xl text-accent">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">{step.description}</p>
