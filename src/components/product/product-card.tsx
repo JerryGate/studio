@@ -1,14 +1,16 @@
 
 'use client';
 
+import { useState } from 'react';
 import { Product } from '@/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckCircle, ShoppingCart, XCircle } from 'lucide-react';
+import { CheckCircle, Minus, Plus, ShoppingCart, XCircle } from 'lucide-react';
 import { useCart } from '@/contexts/cart-context';
+import { motion } from 'framer-motion';
 
 interface ProductCardProps {
     product: Product;
@@ -16,39 +18,64 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
     const { addToCart } = useCart();
+    const [quantity, setQuantity] = useState(1);
     const isInStock = product.stock > 0;
 
     const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        addToCart(product, 1);
-    }
+        addToCart(product, quantity);
+    };
+
+    const handleQuantityChange = (amount: number) => {
+        setQuantity(prev => {
+            const newQuantity = prev + amount;
+            if (newQuantity < 1) return 1;
+            if (newQuantity > product.stock) return product.stock;
+            return newQuantity;
+        });
+    };
 
     return (
-        <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <Link href={`/product/${product.id}`} className="flex flex-col flex-grow">
-                <CardHeader className="p-0">
-                    <div className="relative aspect-square w-full">
-                        <Image
-                            src={product.imageUrls[0]}
-                            alt={product.name}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover transform hover:scale-105 transition-transform duration-500"
-                            data-ai-hint={product.dataAiHint}
-                        />
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            whileHover="hover"
+            className="h-full"
+        >
+            <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group">
+                 <Link href={`/product/${product.id}`} className="block">
+                    <CardHeader className="p-0 border-b">
+                        <motion.div 
+                            className="relative aspect-square w-full"
+                            variants={{ hover: { scale: 1.05 } }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Image
+                                src={product.imageUrls[0]}
+                                alt={product.name}
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                className="object-cover"
+                                data-ai-hint={product.dataAiHint}
+                            />
+                        </motion.div>
+                    </CardHeader>
+                </Link>
+                <CardContent className="p-4 flex flex-col flex-grow">
+                     <div className="flex-grow">
+                        <CardTitle className="text-lg font-bold mb-1 hover:text-primary min-h-[50px] leading-tight">
+                            <Link href={`/product/${product.id}`}>
+                                {product.name}
+                            </Link>
+                        </CardTitle>
+                        {product.dosage && (
+                            <p className="text-sm text-muted-foreground mb-2">{product.dosage}</p>
+                        )}
                     </div>
-                </CardHeader>
-                <div className="p-4 flex flex-col flex-grow">
-                    <CardTitle className="text-lg font-bold mb-1 hover:text-primary min-h-[56px]">
-                        {product.name}
-                    </CardTitle>
-                    <div className="text-sm text-muted-foreground mb-2">{product.category}</div>
-                    
-                    <div className="flex-grow"></div>
-
-                    <div className="flex items-center gap-2 mt-auto mb-2">
+                     <div className="flex items-center gap-2 mt-2 mb-2">
                         {isInStock ? (
-                            <Badge variant="default" className="text-xs">
+                            <Badge variant="secondary" className="text-xs text-green-700 bg-green-100 border-green-200">
                                 <CheckCircle className="h-3 w-3 mr-1" />
                                 In Stock
                             </Badge>
@@ -60,18 +87,28 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         )}
                     </div>
 
-                    <p className="text-xl font-extrabold text-primary">
+                    <p className="text-xl font-extrabold text-primary mb-3">
                         ₦{product.price.toLocaleString()}
                     </p>
-                </div>
-            </Link>
-            <CardFooter className="p-4 bg-muted/50 mt-auto">
-                <Button className="w-full" disabled={!isInStock} onClick={handleAddToCart}>
-                    <ShoppingCart className="mr-2 h-4 w-4" />
-                    {isInStock ? 'Add to Cart' : 'Out of Stock'}
-                </Button>
-            </CardFooter>
-        </Card>
+
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center border rounded-md">
+                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleQuantityChange(-1)} disabled={!isInStock || quantity <= 1}>
+                                <Minus className="h-4 w-4" />
+                            </Button>
+                            <span className="w-8 text-center font-bold text-base">{quantity}</span>
+                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleQuantityChange(1)} disabled={!isInStock || quantity >= product.stock}>
+                                <Plus className="h-4 w-4" />
+                            </Button>
+                        </div>
+                        <Button className="flex-1" disabled={!isInStock} onClick={handleAddToCart}>
+                            <ShoppingCart className="mr-2 h-4 w-4" />
+                            Add
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        </motion.div>
     );
 };
 

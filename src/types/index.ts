@@ -8,6 +8,7 @@ export interface Product {
     description?: string;
     category: string;
     stock: number;
+    dosage?: string;
 }
 
 export interface CartItem extends Product {

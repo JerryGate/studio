@@ -1,5 +1,5 @@
 
-import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order, OrderStatus, BlogPost } from '@/types';
+import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order, OrderStatus, BlogPost, Product } from '@/types';
 
 type MockUsers = Record<UserRole, Participant>;
 
@@ -214,4 +214,15 @@ export const mockBlogPosts: BlogPost[] = [
     content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
     comments: []
   },
+];
+
+export const allProducts: Product[] = [
+    { id: '1', name: 'Paracetamol', dosage: '500mg', price: 500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10, description: 'An effective pain reliever and fever reducer.' },
+    { id: '2', name: 'Vitamin C', dosage: '1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'Supports immune system.' },
+    { id: '3', name: 'Amoxicillin', dosage: '250mg', price: 800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'antibiotic capsules', category: 'Antibiotics', stock: 0, description: 'Treats bacterial infections.' },
+    { id: '4', name: 'Loratadine', dosage: '10mg', price: 750, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'Non-drowsy antihistamine.' },
+    { id: '5', name: 'Ibuprofen', dosage: '200mg', price: 600, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30, description: 'Provides relief from pain, inflammation, and fever.' },
+    { id: '6', name: 'Metformin', dosage: '500mg', price: 950, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Controls high blood sugar.' },
+    { id: '7', name: 'Salbutamol Inhaler', dosage: '100mcg', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12, description: 'Quick relief for asthma symptoms.' },
+    { id: '8', name: 'Cough Syrup', dosage: '100ml', price: 1500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'Soothing cough syrup.' },
 ];

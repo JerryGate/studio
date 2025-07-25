@@ -14,18 +14,8 @@ import ProductCard from '@/components/product/product-card';
 import { Product } from '@/types';
 import { ProductCardSkeleton } from '@/components/skeletons/product-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
+import { allProducts } from '@/lib/mock-data';
 
-// Mock data, to be replaced with API call
-const allProducts: Product[] = [
-    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10, description: 'An effective pain reliever and fever reducer.' },
-    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'Supports immune system.' },
-    { id: '3', name: 'Amoxicillin 250mg', price: 800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'antibiotic capsules', category: 'Antibiotics', stock: 0, description: 'Treats bacterial infections.' },
-    { id: '4', name: 'Loratadine 10mg', price: 750, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'Non-drowsy antihistamine.' },
-    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30, description: 'Provides relief from pain, inflammation, and fever.' },
-    { id: '6', name: 'Metformin 500mg', price: 950, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Controls high blood sugar.' },
-    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12, description: 'Quick relief for asthma symptoms.' },
-    { id: '8', name: 'Cough Syrup', price: 1500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'Soothing cough syrup.' },
-];
 
 function SearchResults() {
     const searchParams = useSearchParams();

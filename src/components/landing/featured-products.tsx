@@ -5,13 +5,9 @@ import ProductCard from '@/components/product/product-card';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { allProducts } from '@/lib/mock-data';
 
-const featuredProducts: Product[] = [
-    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10 },
-    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25 },
-    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30 },
-    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12 },
-];
+const featuredProducts = allProducts.slice(0, 4);
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -37,7 +33,7 @@ const itemVariants = {
 
 const FeaturedProducts = () => {
   return (
-    <section className="py-20 md:py-24 bg-secondary">
+    <section className="py-20 md:py-24 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
             className="text-center mb-12"
@@ -54,16 +50,14 @@ const FeaturedProducts = () => {
           </p>
         </motion.div>
         <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={containerVariants}
         >
           {featuredProducts.map((product) => (
-            <motion.div key={product.id} variants={itemVariants}>
-              <ProductCard product={product} />
-            </motion.div>
+             <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>
         <div className="text-center mt-16">

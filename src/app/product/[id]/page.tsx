@@ -12,18 +12,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, Suspense, useEffect } from "react";
 import { ProductPageSkeleton } from "@/components/skeletons/product-page-skeleton";
+import { allProducts } from "@/lib/mock-data";
 
-// Mock data - in a real app, you'd fetch this based on the `params.id`
-const allProducts: Product[] = [
-    { id: '1', name: 'Paracetamol 500mg', price: 500, imageUrls: ['https://placehold.co/600x600.png', 'https://placehold.co/600x600.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10, description: 'An effective pain reliever and fever reducer. Suitable for headaches, muscle aches, and colds.' },
-    { id: '2', name: 'Vitamin C 1000mg', price: 1200, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'A high-strength Vitamin C supplement to support your immune system. Effervescent tablets.' },
-    { id: '3', name: 'Amoxicillin 250mg', price: 800, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'antibiotic capsules', category: 'Antibiotics', stock: 0, description: 'A broad-spectrum antibiotic used to treat a variety of bacterial infections. Prescription required.' },
-    { id: '4', name: 'Loratadine 10mg', price: 750, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'A non-drowsy antihistamine that provides 24-hour relief from allergy symptoms.' },
-    { id: '5', name: 'Ibuprofen 200mg', price: 600, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30, description: 'Provides relief from pain, inflammation, and fever. Ideal for period pain, dental pain, and migraines.' },
-    { id: '6', name: 'Metformin 500mg', price: 950, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Used to control high blood sugar in people with type 2 diabetes. Prescription required.' },
-    { id: '7', name: 'Salbutamol Inhaler', price: 2500, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12, description: 'A reliever inhaler for asthma symptoms, providing quick relief from breathing difficulties.' },
-    { id: '8', name: 'Cough Syrup', price: 1500, imageUrls: ['https://placehold.co/600x600.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'A soothing cough syrup to relieve dry, tickly coughs. Contains honey and lemon.' },
-];
 
 function ProductDetails({ id }: { id: string }) {
     const [product, setProduct] = useState<Product | null>(null);
@@ -123,15 +113,18 @@ function ProductDetails({ id }: { id: string }) {
                     <Card className="border-none shadow-none">
                         <CardHeader>
                             <CardTitle className="text-4xl font-extrabold text-primary">{product.name}</CardTitle>
-                            <div className="flex items-center gap-2 pt-2">
+                            <div className="flex items-center gap-4 pt-2">
                                 <Badge variant="secondary">{product.category}</Badge>
-                                {isInStock ? (
-                                    <Badge variant="default">
+                                 {product.dosage && <Badge variant="outline">{product.dosage}</Badge>}
+                            </div>
+                            <div className="pt-2">
+                                 {isInStock ? (
+                                    <Badge variant="default" className="text-sm">
                                         <CheckCircle className="h-4 w-4 mr-1" />
                                         In Stock
                                     </Badge>
                                 ) : (
-                                    <Badge variant="destructive">
+                                    <Badge variant="destructive" className="text-sm">
                                         <XCircle className="h-4 w-4 mr-1" />
                                         Out of Stock
                                     </Badge>
