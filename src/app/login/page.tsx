@@ -1,6 +1,7 @@
 
 'use client';
 
+import { Suspense } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,13 +20,16 @@ import Image from "next/image";
 
 const roleToDashboard: Record<UserRole, string> = {
     admin: '/admin',
+    'super-admin': '/admin/super-admin',
+    'finance-admin': '/admin/finance-admin',
+    'content-admin': '/admin/content-admin',
     customer: '/dashboard',
     pharmacy: '/pharmacy',
     dispatcher: '/dispatcher',
     hospital: '/hospital',
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -80,7 +84,7 @@ export default function LoginPage() {
                     <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} className="space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="customer-email">Email address</Label>
-                            <Input id="customer-email" type="email" value={mockAuthUsers.customer.email} readOnly />
+                            <Input id="customer-email" type="email" defaultValue={mockAuthUsers.customer.email} readOnly />
                         </div>
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
@@ -125,4 +129,12 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
+    </Suspense>
+  )
 }

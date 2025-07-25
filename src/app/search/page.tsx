@@ -51,7 +51,7 @@ function SearchResults() {
                 });
             setFilteredProducts(results);
             setLoading(false);
-        }, 1000); // Simulate 1 second loading time
+        }, 500); // Simulate 0.5 second loading time
 
         return () => clearTimeout(timer);
     }, [searchTerm, sortBy, inStock]);
@@ -117,6 +117,9 @@ function SearchResults() {
                                 {searchTerm && <> for <span className="font-semibold text-primary">"{searchTerm}"</span></>}
                             </>
                         )}
+                         {loading && (
+                            <Skeleton className="h-5 w-48" />
+                         )}
                     </p>
                 </div>
 
