@@ -1,6 +1,7 @@
 
 'use client';
 
+import { Suspense } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -29,7 +30,7 @@ const roleToDashboard: Record<UserRole, string> = {
     hospital: '/hospital',
 }
 
-export default function AdminLoginPage() {
+function LoginContent() {
   const { login } = useAuth();
   const router = useRouter();
   const [role, setRole] = useState<UserRole>('super-admin');
@@ -132,4 +133,13 @@ export default function AdminLoginPage() {
       </div>
     </div>
   );
+}
+
+
+export default function AdminLoginPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginContent />
+        </Suspense>
+    )
 }

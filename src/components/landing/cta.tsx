@@ -29,7 +29,7 @@ const Cta = () => {
           Ready to Take Control of Your Health?
         </h2>
         <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-8">
-          Join thousands of Nigerians who trust E-pharma for their medication needs. Fast, reliable, and always affordable.
+          Join thousands of Nigerians who trust Medfast for their medication needs. Fast, reliable, and always affordable.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/search">

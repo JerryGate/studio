@@ -96,7 +96,7 @@ export default function AdminProfilePage() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Email Address</Label>
-                            <Input id="email" type="email" defaultValue="admin@e-pharma.com" readOnly />
+                            <Input id="email" type="email" defaultValue="super@medfast.com" readOnly />
                         </div>
                         <Button type="submit" disabled={isLoading}>
                              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

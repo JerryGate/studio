@@ -1,57 +1,147 @@
 
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import { useImageContext } from '@/contexts/image-context';
+import { Skeleton } from '../ui/skeleton';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+
+const HeroSkeleton = () => (
+    <div className="relative w-full h-[70vh] md:h-[80vh] bg-muted">
+        <Skeleton className="h-full w-full" />
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="text-center p-4">
+                <Skeleton className="h-12 w-96 max-w-full mx-auto" />
+                <Skeleton className="h-6 w-80 max-w-full mx-auto mt-4" />
+                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Skeleton className="h-12 w-40" />
+                    <Skeleton className="h-12 w-40" />
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
 
 const Hero = () => {
-  return (
-    <section className="relative w-full h-[70vh] md:h-[80vh] bg-black">
-      <Image
-        src="https://images.unsplash.com/photo-1576091160399-112BA8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaGFybWFjeSUyMGhlYWx0aGNhcmUlMjB0ZWFtfGVufDB8fHx8MTc1MzQ4NTkwNHww&ixlib=rb-4.0.3&q=80&w=1080"
-        alt="Healthcare professionals"
-        fill
-        className="object-cover opacity-40"
-        priority
-        data-ai-hint="healthcare team"
-      />
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <motion.div
-          className="text-center text-white p-4"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <h1 className="text-4xl md:text-6xl font-extrabold font-headline drop-shadow-lg">
-            Your Health Hub, Delivered.
-          </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-md">
-            E-Pharma is a health hub offering retail pharmaceutical services, medical services, and household daily needs.
-          </p>
-          <motion.div
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          >
-            <Link href="/about">
-              <Button size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-black">
-                About Us
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button size="lg">
-                Contact Us
-              </Button>
-            </Link>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
+    const { sliderImages, loading } = useImageContext();
+    const [api, setApi] = React.useState<CarouselApi>();
+    const [current, setCurrent] = React.useState(0);
+    
+    const plugin = React.useRef(
+        Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+    );
+
+    React.useEffect(() => {
+        if (!api) return;
+        setCurrent(api.selectedScrollSnap());
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap());
+        });
+    }, [api]);
+
+    const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
+    const scrollNext = useCallback(() => api?.scrollNext(), [api]);
+
+    if (loading) {
+        return <HeroSkeleton />;
+    }
+
+    return (
+        <section className="relative w-full h-[70vh] md:h-[80vh] group">
+            <Carousel
+                setApi={setApi}
+                plugins={[plugin.current]}
+                className="w-full h-full"
+                opts={{ loop: true }}
+            >
+                <CarouselContent className="h-full">
+                    {sliderImages.map((image, index) => (
+                        <CarouselItem key={image.id} className="h-full">
+                            <div className="relative h-full w-full">
+                                <Image
+                                    src={image.src}
+                                    alt={image.headline}
+                                    fill
+                                    className="object-cover"
+                                    priority={index === 0}
+                                    data-ai-hint={image.hint}
+                                />
+                                <div className="absolute inset-0 bg-black/50" />
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                    <AnimatePresence mode="wait">
+                         <motion.div
+                            key={current}
+                            className="text-center text-white p-4"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -20, opacity: 0 }}
+                            transition={{ duration: 0.5, ease: "circOut" }}
+                        >
+                            <h1 className="text-4xl md:text-6xl font-extrabold font-headline drop-shadow-lg">
+                                {sliderImages[current]?.headline || "Quality Drugs, Delivered Fast."}
+                            </h1>
+                            <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-md">
+                                {sliderImages[current]?.description || "Your trusted source for verified medications from local pharmacies in Nigeria."}
+                            </p>
+                            <motion.div
+                                className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                            >
+                                <Link href={sliderImages[current]?.ctaLink || "/search"}>
+                                    <Button size="lg">
+                                       {sliderImages[current]?.ctaText || "Start Shopping"}
+                                    </Button>
+                                </Link>
+                            </motion.div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
+                {/* Navigation Arrows */}
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-black/30 text-white hover:bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={scrollPrev}
+                >
+                    <ArrowLeft />
+                </Button>
+                 <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-black/30 text-white hover:bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={scrollNext}
+                >
+                    <ArrowRight />
+                </Button>
+
+                {/* Navigation Dots */}
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                    {sliderImages.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => api?.scrollTo(index)}
+                            className={`h-3 w-3 rounded-full transition-all ${current === index ? 'w-6 bg-white' : 'bg-white/50'}`}
+                        />
+                    ))}
+                </div>
+            </Carousel>
+        </section>
+    );
 };
 
 export default Hero;

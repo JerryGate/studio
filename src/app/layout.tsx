@@ -40,12 +40,12 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin=""/>
-        <title>E-pharma - Quality Drugs, Fast Delivery in Nigeria</title>
+        <title>Medfast Nigeria - Quality Drugs, Fast Delivery</title>
         <meta
             name="description"
             content="Affordable, verified medications delivered to your doorstep from nearby pharmacies in Nigeria. Order drugs online with ease and track your delivery in real-time."
         />
-        <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, E-pharma" />
+        <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, Medfast" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <AuthProvider>

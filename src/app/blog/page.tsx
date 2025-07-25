@@ -71,7 +71,7 @@ export default function BlogPage() {
                 <div className="container mx-auto px-4">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Our Blog</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                        Stay informed with the latest health tips, news, and updates from the E-pharma team.
+                        Stay informed with the latest health tips, news, and updates from the Medfast team.
                     </p>
                 </div>
             </header>
