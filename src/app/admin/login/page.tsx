@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
 
                     <div className="space-y-2">
                         <Label htmlFor="email">Email address</Label>
-                        <Input id="email" type="email" defaultValue={mockAuthUsers[role].email} readOnly />
+                        <Input id="email" type="email" defaultValue={mockAuthUsers[role].email} readOnly key={role} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="password">Password</Label>

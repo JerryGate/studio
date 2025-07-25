@@ -6,9 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, ComponentType } from 'react';
 import { DashboardSkeleton } from '@/components/skeletons/dashboard-skeleton';
 import { UserRole } from '@/types';
+import { adminRoles } from '@/lib/mock-data';
 
-const partnerRoles: UserRole[] = ['admin', 'pharmacy', 'dispatcher', 'hospital'];
-const adminRoles: UserRole[] = ['super-admin', 'finance-admin', 'content-admin'];
+const partnerRoles: UserRole[] = ['pharmacy', 'dispatcher', 'hospital'];
+
 
 export function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>,
@@ -24,11 +25,10 @@ export function withAuth<P extends object>(
       if (!user) {
         // If the user is not logged in, determine where to redirect them.
         const isAdminRoute = allowedRoles.some(role => adminRoles.includes(role));
-        const isPartnerRoute = allowedRoles.some(role => partnerRoles.includes(role));
         
         if (isAdminRoute) {
             router.replace('/admin/login');
-        } else if (isPartnerRoute) {
+        } else if (allowedRoles.some(role => partnerRoles.includes(role))) {
             router.replace('/partner/login');
         } else {
             router.replace('/login');
@@ -40,7 +40,6 @@ export function withAuth<P extends object>(
       if (!isAllowed) {
         // If the user is logged in but has the wrong role, redirect to their own dashboard.
         const dashboardUrl = {
-          admin: '/admin',
           'super-admin': '/admin/super-admin',
           'finance-admin': '/admin/finance-admin',
           'content-admin': '/admin/content-admin',
@@ -49,7 +48,7 @@ export function withAuth<P extends object>(
           dispatcher: '/dispatcher',
           hospital: '/hospital',
         }[user.role];
-        router.replace(dashboardUrl);
+        router.replace(dashboardUrl || '/');
       }
 
     }, [user, loading, router, allowedRoles]);

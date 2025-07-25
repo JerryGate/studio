@@ -6,9 +6,12 @@ import { usePathname } from 'next/navigation';
 import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '../ui/separator';
 import { useAuth } from '@/contexts/auth-context';
-import { Button } from '@/components/ui/button';
+import { Button } from '../ui/button';
+
+// This component is being deprecated in favor of role-specific sidebars (SuperAdminSidebar, etc.)
+// but is kept for now to avoid breaking imports. It can be removed later.
 
 const navItems = [
   { href: '/admin', icon: Home, label: 'Dashboard' },

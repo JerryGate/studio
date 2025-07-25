@@ -3,6 +3,8 @@ import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Ord
 
 type MockUsers = Record<UserRole, Participant>;
 
+export const adminRoles: UserRole[] = ['super-admin', 'finance-admin', 'content-admin'];
+
 export const mockUsers: MockUsers = {
     admin: { id: 'admin1', name: 'Admin User', role: 'admin' },
     customer: { id: 'customer1', name: 'John Doe', role: 'customer' },

@@ -1,7 +1,6 @@
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { UserRole } from './types';
 
 export function middleware(request: NextRequest) {
     // This middleware logic is now handled more robustly by the `withAuth` HOC.

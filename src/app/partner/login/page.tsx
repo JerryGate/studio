@@ -17,7 +17,7 @@ import { mockAuthUsers } from "@/lib/mock-data";
 
 
 const roleToDashboard: Record<UserRole, string> = {
-    admin: '/admin',
+    admin: '/admin/super-admin', // Default admin to super-admin
     'super-admin': '/admin/super-admin',
     'finance-admin': '/admin/finance-admin',
     'content-admin': '/admin/content-admin',
