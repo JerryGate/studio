@@ -44,12 +44,12 @@ export const MobileSearch = () => {
                     <Input
                         type="text"
                         placeholder="e.g., Paracetamol, Vitamin C..."
-                        className="h-12 pl-12 pr-24 text-base"
+                        className="h-14 pl-12 pr-24 text-lg rounded-lg shadow-lg"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
-                    <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 h-10">
+                    <Button type="submit" size="lg" className="absolute right-2 top-1/2 -translate-y-1/2 h-12">
                         Search
                     </Button>
                 </form>

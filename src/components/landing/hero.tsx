@@ -15,14 +15,6 @@ const Hero = () => {
   const { sliderImages, loading } = useImageContext();
   const autoplayPlugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
-  const handleMouseEnter = React.useCallback(() => {
-    autoplayPlugin.current.stop();
-  }, []);
-
-  const handleMouseLeave = React.useCallback(() => {
-    autoplayPlugin.current.reset();
-  }, []);
-
   if (loading) {
     return (
         <div className="container mx-auto px-4 py-8">
@@ -33,13 +25,15 @@ const Hero = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-        <section className="relative w-full overflow-hidden rounded-2xl shadow-lg h-[60vh] md:h-[70vh]">
+        <section 
+            className="relative w-full overflow-hidden rounded-2xl shadow-lg h-[60vh] md:h-[70vh]"
+            onMouseEnter={autoplayPlugin.current.stop}
+            onMouseLeave={autoplayPlugin.current.reset}
+        >
             <Carousel
                 plugins={[autoplayPlugin.current]}
                 className="w-full h-full"
                 opts={{ loop: true }}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
             >
                 <CarouselContent className="h-full">
                     {sliderImages.map((image, index) => (
