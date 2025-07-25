@@ -39,7 +39,7 @@ export default function ReportsPage() {
     
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Transaction Reports</h1>
+            <h1 className="text-3xl font-bold text-primary mb-6">Transactions & Reports</h1>
             <div className="grid gap-6 md:grid-cols-2">
                 <Card>
                     <CardHeader>
@@ -66,7 +66,7 @@ export default function ReportsPage() {
                     <CardHeader>
                         <CardTitle>Generated Report</CardTitle>
                         <CardDescription>
-                           This is a sample report. In a real application, this data would be dynamically generated based on your selection.
+                           This is a sample report of all platform transactions. In a real application, this data would be dynamically generated based on your selection.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
