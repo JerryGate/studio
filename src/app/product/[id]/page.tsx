@@ -10,7 +10,7 @@ import { Product } from "@/types";
 import { CheckCircle, MinusCircle, PlusCircle, ShoppingCart, XCircle, ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, use, Suspense, useEffect } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { ProductPageSkeleton } from "@/components/skeletons/product-page-skeleton";
 
 // Mock data - in a real app, you'd fetch this based on the `params.id`
@@ -173,10 +173,9 @@ function ProductDetails({ id }: { id: string }) {
 }
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
-    const resolvedParams = use(params);
     return (
-      <Suspense key={resolvedParams.id} fallback={<ProductPageSkeleton />}>
-        <ProductDetails id={resolvedParams.id} />
+      <Suspense key={params.id} fallback={<ProductPageSkeleton />}>
+        <ProductDetails id={params.id} />
       </Suspense>
     );
 }
