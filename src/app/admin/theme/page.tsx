@@ -1,69 +1,13 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useTheme } from '@/contexts/theme-context';
-import { CheckCircle, Palette, ArrowLeft } from 'lucide-react';
-import { themes } from '@/lib/themes';
-import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
+import ThemeSettings from "@/components/admin/theme-settings";
 
 export default function ThemeSettingsPage() {
-    const { theme, setTheme, resetTheme } = useTheme();
-    const router = useRouter();
-
     return (
-        <div>
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-2">
-                    <Palette className="h-8 w-8 text-primary" />
-                    <h1 className="text-3xl font-bold text-primary">Theme Settings</h1>
-                </div>
-                 <Button variant="outline" onClick={() => router.back()}>
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back
-                </Button>
-            </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Select a Website Theme</CardTitle>
-                    <CardDescription>
-                        Choose a predefined color scheme for the website. Changes will be applied globally.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                       {themes.map((t) => (
-                           <div key={t.name} className="space-y-2">
-                               <h3 className="text-lg font-semibold">{t.label}</h3>
-                               <button 
-                                    onClick={() => setTheme(t)}
-                                    className={cn(
-                                        "w-full h-24 rounded-lg border-2 p-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 relative",
-                                        theme.name === t.name ? 'border-primary' : 'border-border'
-                                    )}
-                                >
-                                    <div className="flex h-full w-full rounded-md overflow-hidden">
-                                        <div style={{ backgroundColor: `hsl(${t.colors.primary})` }} className="h-full w-1/2"></div>
-                                        <div style={{ backgroundColor: `hsl(${t.colors.accent})` }} className="h-full w-1/4"></div>
-                                        <div style={{ backgroundColor: `hsl(${t.colors.background})` }} className="h-full w-1/4 border-l border-border"></div>
-                                    </div>
-                                     {theme.name === t.name && (
-                                        <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
-                                            <CheckCircle className="h-8 w-8 text-primary" />
-                                        </div>
-                                    )}
-                                </button>
-                           </div>
-                       ))}
-                    </div>
-
-                     <div className="flex gap-4 pt-4 border-t">
-                        <Button size="lg" variant="outline" onClick={resetTheme}>Reset to Default</Button>
-                    </div>
-                </CardContent>
-            </Card>
+        <div className="container mx-auto py-10">
+            <h1 className="text-3xl font-bold text-primary mb-6">Theme Settings</h1>
+            <ThemeSettings />
         </div>
     );
 }

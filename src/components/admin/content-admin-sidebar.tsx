@@ -12,7 +12,6 @@ import { Button } from '../ui/button';
 
 const navItems = [
   { href: '/admin/content-admin', icon: Home, label: 'Dashboard' },
-  { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
   { href: '/admin/content-admin/slider', icon: ImageIcon, label: 'Slider Images' },
   { href: '/admin/content-admin/blog', icon: Newspaper, label: 'Blog Posts' },
   { href: '#', icon: FileUp, label: 'Document Uploads' },
