@@ -97,7 +97,7 @@ const Services = () => {
         >
           {services.map((service) => (
              <motion.div key={service.title} variants={itemVariants}>
-                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col">
+                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group">
                 <CardHeader>
                     <div className="mx-auto bg-primary/10 text-primary rounded-full h-20 w-20 flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                         <service.icon className="h-10 w-10" />

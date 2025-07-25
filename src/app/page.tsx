@@ -15,10 +15,10 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <Hero />
-        <FeaturedProducts />
         <Services />
-        <TopPharmacies />
+        <FeaturedProducts />
         <HowItWorks />
+        <TopPharmacies />
         <TrustSignals />
         <GeolocationFeature />
         <Cta />
