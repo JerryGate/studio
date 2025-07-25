@@ -10,6 +10,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function DispatcherSignupPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,24 +31,24 @@ export default function DispatcherSignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
+    <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
+      <div className="flex items-center justify-center py-12">
+        <motion.div 
+            className="mx-auto grid w-[350px] gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+          <div className="grid gap-2 text-center">
             <Logo center iconSize="h-10 w-10" textSize="text-4xl" textClassName="inline" />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
-            Become a Dispatcher
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
-            <Link href="/partner/login" className="font-medium text-accent hover:text-accent/90">
-              Sign in
-            </Link>
-          </p>
-        </div>
-        <Card>
+            <h1 className="text-3xl font-bold text-primary mt-4">Become a Dispatcher</h1>
+             <p className="text-balance text-muted-foreground">
+              Fill in your details to join our delivery network.
+            </p>
+          </div>
+          <Card className="shadow-lg">
             <CardHeader>
                 <CardTitle>Dispatcher Registration</CardTitle>
-                <CardDescription>Fill in your details to join our delivery network.</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -79,6 +81,23 @@ export default function DispatcherSignupPage() {
                 </form>
             </CardContent>
         </Card>
+        <div className="mt-4 text-center text-sm">
+            Already have an account?{" "}
+            <Link href="/partner/login" className="underline text-accent">
+              Sign in
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+      <div className="hidden bg-muted lg:block overflow-hidden">
+        <Image
+          src="https://placehold.co/1200x1200.png"
+          alt="Dispatcher on a bike"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.3] dark:grayscale transition-transform duration-500 hover:scale-105"
+          data-ai-hint="delivery motorcycle"
+        />
       </div>
     </div>
   );

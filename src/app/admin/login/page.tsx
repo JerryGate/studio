@@ -14,6 +14,8 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { UserRole } from "@/types";
 import { mockAuthUsers } from "@/lib/mock-data";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 
 const roleToDashboard: Record<UserRole, string> = {
@@ -47,24 +49,30 @@ export default function AdminLoginPage() {
   const adminRoles: UserRole[] = ['super-admin', 'finance-admin', 'content-admin'];
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
+    <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
+      <div className="flex items-center justify-center py-12">
+        <motion.div 
+            className="mx-auto grid w-[350px] gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+          <div className="grid gap-2 text-center">
             <Logo center iconSize="h-10 w-10" textSize="text-4xl" textClassName="inline" />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
-            Admin Portal
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Not an admin?{' '}
-            <Link href="/partner/login" className="font-medium text-accent hover:text-accent/90">
-              Login as a partner
-            </Link>
-          </p>
-        </div>
-        <Card>
+            <h1 className="text-3xl font-bold text-primary mt-4">Admin Portal</h1>
+            <p className="text-balance text-muted-foreground">
+              Select your role and enter your credentials to sign in.
+            </p>
+             <p className="text-center text-sm text-muted-foreground">
+                Not an admin?{' '}
+                <Link href="/partner/login" className="font-medium text-accent hover:text-accent/90 underline">
+                Login as a partner
+                </Link>
+            </p>
+          </div>
+          <Card className="shadow-lg">
             <CardHeader>
                 <CardTitle>Admin Sign In</CardTitle>
-                <CardDescription>Select your role and enter your credentials.</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleLogin} className="space-y-6">
@@ -110,6 +118,17 @@ export default function AdminLoginPage() {
                 </form>
             </CardContent>
         </Card>
+        </motion.div>
+      </div>
+      <div className="hidden bg-muted lg:block overflow-hidden">
+        <Image
+          src="https://placehold.co/1200x1200.png"
+          alt="Admin at work"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.3] dark:grayscale transition-transform duration-500 hover:scale-105"
+          data-ai-hint="admin dashboard"
+        />
       </div>
     </div>
   );

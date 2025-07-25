@@ -14,6 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { UserRole } from "@/types";
 import { mockAuthUsers } from "@/lib/mock-data";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 
 const roleToDashboard: Record<UserRole, string> = {
@@ -53,7 +55,7 @@ export default function PartnerLoginPage() {
         <div className="space-y-2">
             <div className="flex items-center justify-between">
                 <Label htmlFor={`${currentRole}-password`}>Password</Label>
-                <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90">
+                <Link href="#" className="text-sm font-medium text-accent hover:text-accent/90 underline">
                     Forgot your password?
                 </Link>
             </div>
@@ -73,26 +75,29 @@ export default function PartnerLoginPage() {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-muted/40 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-lg space-y-8">
-        <div className="text-center">
-            <Logo center iconSize="h-10 w-10" textSize="text-4xl" textClassName="inline" />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
-            Partner Login
-          </h2>
-           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Not a partner?{' '}
-            <Link href="/login" className="font-medium text-accent hover:text-accent/90">
-              Sign in as a customer
-            </Link>
-          </p>
-        </div>
-        <Card>
-            <CardHeader>
-                <CardTitle>Welcome Back!</CardTitle>
-                <CardDescription>Select your role to sign in to your dashboard.</CardDescription>
-            </CardHeader>
-            <CardContent>
+     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
+      <div className="flex items-center justify-center py-12">
+        <motion.div 
+            className="mx-auto grid w-[380px] gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+          <div className="grid gap-2 text-center">
+             <Logo center iconSize="h-10 w-10" textSize="text-4xl" textClassName="inline" />
+            <h1 className="text-3xl font-bold text-primary mt-4">Partner Login</h1>
+            <p className="text-balance text-muted-foreground">
+                Select your role to sign in to your dashboard.
+            </p>
+              <p className="text-center text-sm text-muted-foreground">
+                Not a partner?{' '}
+                <Link href="/login" className="font-medium text-accent hover:text-accent/90 underline">
+                Sign in as a customer
+                </Link>
+            </p>
+          </div>
+          <Card className="shadow-lg">
+              <CardContent className="pt-6">
               <form onSubmit={handleLogin}>
                 <Tabs value={role} onValueChange={(value) => setRole(value as UserRole)} className="w-full">
                     <TabsList className="grid w-full grid-cols-3">
@@ -110,15 +115,26 @@ export default function PartnerLoginPage() {
                         Sign in as {role.charAt(0).toUpperCase() + role.slice(1)}
                     </Button>
                 </div>
-                 <div className="text-center text-sm text-muted-foreground mt-4 pt-4 border-t">
-                    Are you an Admin?{' '}
-                    <Link href="/admin/login" className="font-medium text-accent hover:text-accent/90">
-                       Admin Login
-                    </Link>
-                </div>
               </form>
             </CardContent>
         </Card>
+        <div className="text-center text-sm text-muted-foreground">
+            Are you an Admin?{' '}
+            <Link href="/admin/login" className="font-medium text-accent hover:text-accent/90 underline">
+                Admin Login
+            </Link>
+        </div>
+        </motion.div>
+      </div>
+       <div className="hidden bg-muted lg:block overflow-hidden">
+        <Image
+          src="https://placehold.co/1200x1200.png"
+          alt="Pharmacy interior"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.3] dark:grayscale transition-transform duration-500 hover:scale-105"
+          data-ai-hint="pharmacist smiling"
+        />
       </div>
     </div>
   );
