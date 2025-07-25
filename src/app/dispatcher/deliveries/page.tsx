@@ -1,41 +1,36 @@
-
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import dynamic from 'next/dynamic';
 import { Loader2 } from 'lucide-react';
+import { useOrders } from '@/hooks/use-orders';
+import { Order } from '@/types';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 const Map = dynamic(() => import('@/components/map'), {
   ssr: false,
   loading: () => <div className="h-full w-full bg-muted flex items-center justify-center"><Loader2 className="animate-spin" /></div>
 });
 
-
-const mockDeliveries = [
-    {
-        id: 'ORD001',
-        patient: 'Adebayo Adekunle',
-        address: '123 Allen Avenue, Ikeja, Lagos',
-        location: { lat: 6.6018, lng: 3.3515 }, // Ikeja
-    },
-    {
-        id: 'ORD002',
-        patient: 'Chidinma Okoro',
-        address: '456 Ademola Adetokunbo Crescent, Wuse II, Abuja',
-        location: { lat: 9.0765, lng: 7.4913 }, // Abuja
-    },
-     {
-        id: 'ORD003',
-        patient: 'Musa Ibrahim',
-        address: '789 Aba Road, Port Harcourt',
-        location: { lat: 4.8156, lng: 7.0498 }, // Port Harcourt
-    },
-];
-
-
 export default function ActiveDeliveriesPage() {
-    const [selectedDelivery, setSelectedDelivery] = useState(mockDeliveries[0]);
+    const { orders, updateOrderStatus } = useOrders();
+    const { toast } = useToast();
+    const activeDeliveries = orders.filter(o => o.status === 'Shipped');
+    const [selectedDelivery, setSelectedDelivery] = useState<Order | null>(activeDeliveries.length > 0 ? activeDeliveries[0] : null);
+
+    const handleMarkAsDelivered = (orderId: string) => {
+        updateOrderStatus(orderId, 'Delivered');
+        toast({
+            title: "Delivery Complete!",
+            description: `Order #${orderId} has been marked as delivered.`
+        });
+        // Select the next delivery in the list or null if it was the last one
+        const remainingDeliveries = activeDeliveries.filter(d => d.id !== orderId);
+        setSelectedDelivery(remainingDeliveries.length > 0 ? remainingDeliveries[0] : null);
+    }
     
     return (
         <div>
@@ -46,21 +41,26 @@ export default function ActiveDeliveriesPage() {
                         <CardHeader>
                             <CardTitle>Your Assigned Deliveries</CardTitle>
                             <CardDescription>
-                                These are the orders you need to pick up and deliver.
+                                These are the orders you need to deliver.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-2">
-                               {mockDeliveries.map(delivery => (
+                               {activeDeliveries.length > 0 ? activeDeliveries.map(delivery => (
                                    <div 
                                         key={delivery.id} 
-                                        className={`p-3 rounded-md cursor-pointer ${selectedDelivery.id === delivery.id ? 'bg-primary/10' : ''}`}
+                                        className={cn(
+                                            "p-3 rounded-md cursor-pointer border",
+                                            selectedDelivery?.id === delivery.id ? 'bg-primary/10 border-primary' : 'hover:bg-muted/50'
+                                        )}
                                         onClick={() => setSelectedDelivery(delivery)}
                                     >
-                                       <p className="font-bold">{delivery.patient}</p>
-                                       <p className="text-sm text-muted-foreground">{delivery.address}</p>
+                                       <p className="font-bold">{delivery.id} - {delivery.customerDetails.fullName}</p>
+                                       <p className="text-sm text-muted-foreground">{delivery.customerDetails.address}</p>
                                    </div>
-                               ))}
+                               )) : (
+                                 <p className="text-muted-foreground text-center p-4">No active deliveries.</p>
+                               )}
                             </div>
                         </CardContent>
                     </Card>
@@ -70,17 +70,27 @@ export default function ActiveDeliveriesPage() {
                         <CardHeader>
                             <CardTitle>Delivery Location</CardTitle>
                             <CardDescription>
-                                Map view of the selected delivery address.
+                                {selectedDelivery ? `Map view for order #${selectedDelivery.id}` : 'Select a delivery to see the location.'}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="h-96 w-full rounded-lg overflow-hidden">
-                                <Map
-                                    interactive={false}
-                                    initialCenter={selectedDelivery.location}
-                                    markers={[selectedDelivery.location]}
-                                />
-                            </div>
+                           {selectedDelivery ? (
+                                <>
+                                    <div className="h-96 w-full rounded-lg overflow-hidden mb-4">
+                                        <Map
+                                            key={selectedDelivery.id}
+                                            interactive={false}
+                                            initialCenter={selectedDelivery.customerDetails.location}
+                                            markers={selectedDelivery.customerDetails.location ? [selectedDelivery.customerDetails.location] : undefined}
+                                        />
+                                    </div>
+                                    <Button onClick={() => handleMarkAsDelivered(selectedDelivery.id)}>Mark as Delivered</Button>
+                                </>
+                           ) : (
+                                <div className="h-96 flex items-center justify-center bg-muted rounded-lg">
+                                    <p className="text-muted-foreground">No delivery selected.</p>
+                                </div>
+                           )}
                         </CardContent>
                     </Card>
                 </div>
