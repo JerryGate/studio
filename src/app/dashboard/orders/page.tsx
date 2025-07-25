@@ -10,16 +10,41 @@ import { useOrders } from '@/hooks/use-orders';
 import { useState } from 'react';
 import { OrderDetailsDialog } from '@/components/dashboard/order-details-dialog';
 import { Order } from '@/types';
+import { FeedbackDialog } from '@/components/dashboard/feedback-dialog';
+import { useToast } from '@/hooks/use-toast';
 
 export default function OrderHistoryPage() {
-    const { orders } = useOrders();
+    const { orders, updateOrderStatus } = useOrders();
+    const { toast } = useToast();
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
     const handleViewDetails = (order: Order) => {
         setSelectedOrder(order);
         setIsDetailsOpen(true);
     };
+
+    const handleConfirmDelivery = (orderId: string) => {
+        updateOrderStatus(orderId, 'Delivered');
+        setIsDetailsOpen(false);
+        // Find the order that was just confirmed to pass to feedback dialog
+        const confirmedOrder = orders.find(o => o.id === orderId);
+        setSelectedOrder(confirmedOrder || null);
+        setIsFeedbackOpen(true);
+         toast({
+            title: "Order Confirmed!",
+            description: "Thank you for confirming your delivery.",
+        });
+    }
+
+    const handleFeedbackSubmit = () => {
+        setIsFeedbackOpen(false);
+        toast({
+            title: "Feedback Submitted",
+            description: "Thank you for your valuable feedback!",
+        });
+    }
 
     return (
         <div>
@@ -79,6 +104,16 @@ export default function OrderHistoryPage() {
                     isOpen={isDetailsOpen}
                     onClose={() => setIsDetailsOpen(false)}
                     order={selectedOrder}
+                    onConfirmDelivery={handleConfirmDelivery}
+                />
+            )}
+
+            {selectedOrder && (
+                <FeedbackDialog
+                    isOpen={isFeedbackOpen}
+                    onClose={() => setIsFeedbackOpen(false)}
+                    order={selectedOrder}
+                    onSubmit={handleFeedbackSubmit}
                 />
             )}
         </div>

@@ -8,14 +8,16 @@ import { Order } from '@/types';
 import Image from 'next/image';
 import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
+import { CheckCircle } from 'lucide-react';
 
 interface OrderDetailsDialogProps {
   isOpen: boolean;
   onClose: () => void;
   order: Order;
+  onConfirmDelivery: (orderId: string) => void;
 }
 
-export function OrderDetailsDialog({ isOpen, onClose, order }: OrderDetailsDialogProps) {
+export function OrderDetailsDialog({ isOpen, onClose, order, onConfirmDelivery }: OrderDetailsDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
@@ -59,11 +61,11 @@ export function OrderDetailsDialog({ isOpen, onClose, order }: OrderDetailsDialo
                  <h4 className="font-semibold mb-2">Order Summary</h4>
                  <div className="flex justify-between">
                      <span>Subtotal</span>
-                     <span>₦{(order.total - order.customerDetails.deliveryFee).toLocaleString()}</span>
+                     <span>₦{(order.total - (order.customerDetails.deliveryFee || 0)).toLocaleString()}</span>
                  </div>
                  <div className="flex justify-between">
                      <span>Delivery Fee</span>
-                     <span>₦{(order.customerDetails.deliveryFee).toLocaleString()}</span>
+                     <span>₦{(order.customerDetails.deliveryFee || 0).toLocaleString()}</span>
                  </div>
                  <Separator />
                   <div className="flex justify-between font-bold text-lg">
@@ -85,6 +87,12 @@ export function OrderDetailsDialog({ isOpen, onClose, order }: OrderDetailsDialo
         </div>
          <DialogFooter>
             <Button variant="outline" onClick={onClose}>Close</Button>
+            {order.status === 'Shipped' && (
+                <Button onClick={() => onConfirmDelivery(order.id)}>
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                    Confirm Delivery & Leave Feedback
+                </Button>
+            )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

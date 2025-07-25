@@ -13,7 +13,10 @@ export default function MessagesPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">My Messages</h1>
+            <h1 className="text-3xl font-bold text-primary mb-2">My Messages</h1>
+            <p className="text-muted-foreground mb-6">
+                Communicate directly with pharmacies or contact our support team here to raise a ticket for any issues.
+            </p>
             <MessagingSystem currentUser={user} />
         </div>
     );
