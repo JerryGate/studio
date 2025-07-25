@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, User, Tag } from 'lucide-react';
@@ -9,9 +9,21 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { mockBlogPosts } from '@/lib/mock-data';
+import { BlogPost } from '@/types';
+import { CommentSection } from '@/components/blog/comment-section';
 
 function PostDetails({ slug }: { slug: string }) {
-    const post = mockBlogPosts.find(p => p.slug === slug);
+    const [post, setPost] = useState<BlogPost | undefined>(undefined);
+
+    useEffect(() => {
+        const foundPost = mockBlogPosts.find(p => p.slug === slug);
+        setPost(foundPost);
+    }, [slug]);
+
+    if (post === undefined) {
+        // Still loading, can show a skeleton here or just wait for the outer one
+        return null; 
+    }
 
     if (!post) {
         notFound();
@@ -56,13 +68,7 @@ function PostDetails({ slug }: { slug: string }) {
 
                     <Separator className="my-16" />
 
-                    {/* Comments Section Placeholder */}
-                    <div className="max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold text-primary mb-8">Comments</h2>
-                        <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
-                            <p>Comments feature coming soon.</p>
-                        </div>
-                    </div>
+                    <CommentSection postId={post.id} initialComments={post.comments} />
                 </div>
             </main>
         </article>

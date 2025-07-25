@@ -103,6 +103,14 @@ export type Dispatcher = {
   deliveries: number;
 };
 
+export interface Comment {
+  id: string;
+  author: string;
+  authorAvatarUrl: string;
+  date: string;
+  text: string;
+}
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -115,4 +123,5 @@ export interface BlogPost {
   dataAiHint?: string;
   excerpt: string;
   content: string;
+  comments: Comment[];
 }

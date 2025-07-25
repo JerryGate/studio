@@ -136,7 +136,11 @@ export const mockBlogPosts: BlogPost[] = [
     imageUrl: 'https://placehold.co/800x400.png',
     dataAiHint: 'fresh fruits vegetables',
     excerpt: 'Discover ten simple yet effective strategies to strengthen your immune system using natural methods, from dietary changes to lifestyle adjustments...',
-    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
+    comments: [
+      { id: 'c1-1', author: 'Adebayo Adekunle', authorAvatarUrl: 'https://i.pravatar.cc/150?u=PAT001', date: 'July 29, 2024', text: 'Great tips! Very helpful for the season.' },
+      { id: 'c1-2', author: 'Chidinma Okoro', authorAvatarUrl: 'https://i.pravatar.cc/150?u=PAT002', date: 'July 29, 2024', text: 'Thanks for sharing this valuable information.' },
+    ]
   },
   {
     id: '2',
@@ -149,7 +153,8 @@ export const mockBlogPosts: BlogPost[] = [
     imageUrl: 'https://placehold.co/800x400.png',
     dataAiHint: 'pills pillbox',
     excerpt: 'Learn about common drug interactions that can affect your health. Always consult your pharmacist before taking new medications...',
-    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
+    comments: []
   },
   {
     id: '3',
@@ -162,7 +167,10 @@ export const mockBlogPosts: BlogPost[] = [
     imageUrl: 'https://placehold.co/800x400.png',
     dataAiHint: 'glass of water',
     excerpt: 'Staying hydrated is crucial, especially in a warm climate like Nigeria. We explore the benefits of drinking enough water and tips to stay hydrated...',
-    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
+    comments: [
+       { id: 'c3-1', author: 'Musa Ibrahim', authorAvatarUrl: 'https://i.pravatar.cc/150?u=PAT003', date: 'July 23, 2024', text: 'A good reminder for all of us.' },
+    ]
   },
     {
     id: '4',
@@ -175,7 +183,8 @@ export const mockBlogPosts: BlogPost[] = [
     imageUrl: 'https://placehold.co/800x400.png',
     dataAiHint: 'person sneezing flowers',
     excerpt: 'The rainy season can bring on allergies. Here are some tips to manage your symptoms and find relief during allergy season in Nigeria...',
-    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
+    comments: []
   },
   {
     id: '5',
@@ -188,7 +197,8 @@ export const mockBlogPosts: BlogPost[] = [
     imageUrl: 'https://placehold.co/800x400.png',
     dataAiHint: 'pharmacist checking medicine',
     excerpt: 'Learn how our verification process and direct partnerships with licensed pharmacies are helping to ensure you only receive authentic medications...',
-    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
+    comments: []
   },
    {
     id: '6',
@@ -201,6 +211,7 @@ export const mockBlogPosts: BlogPost[] = [
     imageUrl: 'https://placehold.co/800x400.png',
     dataAiHint: 'blood glucose monitor',
     excerpt: 'A comprehensive guide for individuals living with diabetes in Nigeria, covering diet, medication, and lifestyle choices for better health management...',
-    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.',
+    comments: []
   },
 ];
