@@ -19,12 +19,12 @@ interface ImageContextType {
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
 const defaultImages: SliderImage[] = [
-    { id: 'default1', src: 'https://i.postimg.cc/w3ydbRrt/Banner1.png', hint: 'pharmacist smiling customer' },
-    { id: 'default2', src: 'https://i.postimg.cc/GBdcW3yW/Banner2.png', hint: 'delivery person motorcycle' },
-    { id: 'default3', src: 'https://i.postimg.cc/06n8PgGb/Banner3.png', hint: 'happy family health' },
-    { id: 'default4', src: 'https://i.postimg.cc/KK0yCPFT/Banner4.png', hint: 'medicine on shelf' },
-    { id: 'default5', src: 'https://i.postimg.cc/FYgvVtBD/Banner5.png', hint: 'doctor with patient' },
-    { id: 'default6', src: 'https://i.postimg.cc/0rQN5NBx/Banner6.png', hint: 'online pharmacy app' },
+    { id: 'default1', src: 'https://images.unsplash.com/photo-1719319567807-65f3118334c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwaGFybWFjaXN0JTIwc21pbGluZyUyMGN1c3RvbWVyfGVufDB8fHx8MTc1MzQ4MzQ0N3ww&ixlib=rb-4.1.0&q=80&w=1080', hint: 'pharmacist smiling customer' },
+    { id: 'default2', src: 'https://images.unsplash.com/photo-1645097539346-2c141ad78edc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZWxpdmVyeSUyMHBlcnNvbiUyMG1vdG9yY3ljbGV8ZW58MHx8fHwxNzUzNDgzNDQ2fDA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'delivery person motorcycle' },
+    { id: 'default3', src: 'https://images.unsplash.com/photo-1578496780896-7081cc23c111?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxoYXBweSUyMGZhbWlseSUyMGhlYWx0aHxlbnwwfHx8fDE3NTM0ODM0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'happy family health' },
+    { id: 'default4', src: 'https://images.unsplash.com/photo-1684014450286-9d990b02058a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtZWRpY2luZSUyMG9uJTIwc2hlbGZ8ZW58MHx8fHwxNzUzNDgzNDQ2fDA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'medicine on shelf' },
+    { id: 'default5', src: 'https://images.unsplash.com/photo-1642844613096-7b743b7d9915?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkb2N0b3IlMjB3aXRoJTIwcGF0aWVudHxlbnwwfHx8fDE3NTM0ODM0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'doctor with patient' },
+    { id: 'default6', src: 'https://images.unsplash.com/photo-1705988142466-e468bc654eeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvbmxpbmUlMjBwaGFybWFjeSUyMGFwcHxlbnwwfHx8fDE3NTM0ODM0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'online pharmacy app' },
 ];
 
 const fileToDataUrl = (file: File): Promise<string> => {
