@@ -11,7 +11,7 @@ export default function PartnerPage() {
             <div className="w-full max-w-4xl space-y-8">
                 <div className="text-center">
                     <Logo center iconSize="h-12 w-12" textSize="text-5xl" textClassName="inline" />
-                    <h1 className="mt-6 text-4xl md:text-5xl font-extrabold text-primary">Join the Medfast Network</h1>
+                    <h1 className="mt-6 text-4xl md:text-5xl font-extrabold text-primary">Join the E-pharma Network</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                         Partner with us to expand your reach and contribute to accessible healthcare in Nigeria.
                     </p>
@@ -25,7 +25,7 @@ export default function PartnerPage() {
                             </div>
                             <CardTitle>Are you a Pharmacy?</CardTitle>
                             <CardDescription>
-                                Register your pharmacy on Medfast to reach more customers, manage your inventory online, and increase your sales.
+                                Register your pharmacy on E-pharma to reach more customers, manage your inventory online, and increase your sales.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="flex-grow flex items-center justify-center">

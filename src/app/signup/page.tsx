@@ -47,7 +47,7 @@ function SignupContent() {
       <div className="hidden bg-muted lg:block overflow-hidden">
         <Image
           src="https://placehold.co/1200x1200.png"
-          alt="Person holding a smartphone with the Medfast app"
+          alt="Person holding a smartphone with the E-pharma app"
           width="1920"
           height="1080"
           className="h-full w-full object-cover dark:brightness-[0.3] dark:grayscale transition-transform duration-500 hover:scale-105"

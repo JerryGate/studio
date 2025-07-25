@@ -17,14 +17,14 @@ export const mockUsers: MockUsers = {
 };
 
 export const mockAuthUsers = {
-    admin: { id: 'admin1', email: 'admin@medfast.com', role: 'admin' as UserRole },
-    customer: { id: 'customer1', email: 'customer@medfast.com', role: 'customer' as UserRole },
-    pharmacy: { id: 'pharmacy1', email: 'pharmacy@medfast.com', role: 'pharmacy' as UserRole },
-    dispatcher: { id: 'dispatcher1', email: 'dispatcher@medfast.com', role: 'dispatcher' as UserRole },
-    hospital: { id: 'hospital1', email: 'hospital@medfast.com', role: 'hospital' as UserRole },
-    'super-admin': { id: 'superadmin1', email: 'super@medfast.com', role: 'super-admin' as UserRole },
-    'finance-admin': { id: 'financeadmin1', email: 'finance@medfast.com', role: 'finance-admin' as UserRole },
-    'content-admin': { id: 'contentadmin1', email: 'content@medfast.com', role: 'content-admin' as UserRole },
+    admin: { id: 'admin1', email: 'admin@e-pharma.com', role: 'admin' as UserRole },
+    customer: { id: 'customer1', email: 'customer@e-pharma.com', role: 'customer' as UserRole },
+    pharmacy: { id: 'pharmacy1', email: 'pharmacy@e-pharma.com', role: 'pharmacy' as UserRole },
+    dispatcher: { id: 'dispatcher1', email: 'dispatcher@e-pharma.com', role: 'dispatcher' as UserRole },
+    hospital: { id: 'hospital1', email: 'hospital@e-pharma.com', role: 'hospital' as UserRole },
+    'super-admin': { id: 'superadmin1', email: 'super@e-pharma.com', role: 'super-admin' as UserRole },
+    'finance-admin': { id: 'financeadmin1', email: 'finance@e-pharma.com', role: 'finance-admin' as UserRole },
+    'content-admin': { id: 'contentadmin1', email: 'content@e-pharma.com', role: 'content-admin' as UserRole },
 }
 
 
@@ -188,9 +188,9 @@ export const mockBlogPosts: BlogPost[] = [
   },
   {
     id: '5',
-    title: 'How Medfast is Fighting Counterfeit Drugs',
+    title: 'How E-pharma is Fighting Counterfeit Drugs',
     slug: 'fighting-counterfeit-drugs',
-    author: 'Medfast Team',
+    author: 'E-pharma Team',
     publishedDate: 'July 15, 2024',
     category: 'Pharmacy News',
     status: 'Published',

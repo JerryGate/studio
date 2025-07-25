@@ -27,7 +27,7 @@ const Logo = ({ className, textClassName, iconSize = 'h-6 w-6', textSize = 'text
           textSize,
           textClassName
         )}>
-          Medfast
+          E-pharma
         </span>
       </div>
     </Link>

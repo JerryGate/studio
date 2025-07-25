@@ -36,6 +36,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = (role: UserRole) => {
         setLoading(true);
         const mockUser = mockAuthUsers[role];
+        if (!mockUser) {
+            console.error(`No mock user found for role: ${role}`);
+            setLoading(false);
+            return;
+        }
         sessionStorage.setItem('mock-user', JSON.stringify(mockUser));
         setUser(mockUser);
         setLoading(false);
