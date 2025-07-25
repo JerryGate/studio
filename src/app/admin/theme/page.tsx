@@ -4,18 +4,26 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/contexts/theme-context';
-import { CheckCircle, Paintbrush, Palette } from 'lucide-react';
+import { CheckCircle, Palette, ArrowLeft } from 'lucide-react';
 import { themes } from '@/lib/themes';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export default function ThemeSettingsPage() {
     const { theme, setTheme, resetTheme } = useTheme();
+    const router = useRouter();
 
     return (
         <div>
-            <div className="flex items-center gap-2 mb-6">
-                <Palette className="h-8 w-8 text-primary" />
-                <h1 className="text-3xl font-bold text-primary">Theme Settings</h1>
+            <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-2">
+                    <Palette className="h-8 w-8 text-primary" />
+                    <h1 className="text-3xl font-bold text-primary">Theme Settings</h1>
+                </div>
+                 <Button variant="outline" onClick={() => router.back()}>
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back
+                </Button>
             </div>
             <Card>
                 <CardHeader>
