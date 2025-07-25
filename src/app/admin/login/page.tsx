@@ -50,6 +50,16 @@ export default function AdminLoginPage() {
 
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
+      <div className="hidden bg-muted lg:block overflow-hidden">
+        <Image
+          src="https://placehold.co/1200x1200.png"
+          alt="Admin at work"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.3] dark:grayscale transition-transform duration-500 hover:scale-105"
+          data-ai-hint="admin dashboard"
+        />
+      </div>
       <div className="flex items-center justify-center py-12">
         <motion.div 
             className="mx-auto grid w-[350px] gap-6"
@@ -119,16 +129,6 @@ export default function AdminLoginPage() {
             </CardContent>
         </Card>
         </motion.div>
-      </div>
-      <div className="hidden bg-muted lg:block overflow-hidden">
-        <Image
-          src="https://placehold.co/1200x1200.png"
-          alt="Admin at work"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.3] dark:grayscale transition-transform duration-500 hover:scale-105"
-          data-ai-hint="admin dashboard"
-        />
       </div>
     </div>
   );
