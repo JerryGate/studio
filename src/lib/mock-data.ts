@@ -9,6 +9,9 @@ export const mockUsers: MockUsers = {
     pharmacy: { id: 'pharmacy1', name: 'GoodHealth Pharmacy', role: 'pharmacy' },
     dispatcher: { id: 'dispatcher1', name: 'Femi Adebayo', role: 'dispatcher' },
     hospital: { id: 'hospital1', name: 'General Hospital', role: 'hospital' },
+    'super-admin': { id: 'superadmin1', name: 'Super Admin', role: 'super-admin' },
+    'finance-admin': { id: 'financeadmin1', name: 'Finance Admin', role: 'finance-admin' },
+    'content-admin': { id: 'contentadmin1', name: 'Content Admin', role: 'content-admin' },
 };
 
 export const mockAuthUsers = {
@@ -17,6 +20,9 @@ export const mockAuthUsers = {
     pharmacy: { id: 'pharmacy1', email: 'pharmacy@e-pharma.com', role: 'pharmacy' as UserRole },
     dispatcher: { id: 'dispatcher1', email: 'dispatcher@e-pharma.com', role: 'dispatcher' as UserRole },
     hospital: { id: 'hospital1', email: 'hospital@e-pharma.com', role: 'hospital' as UserRole },
+    'super-admin': { id: 'superadmin1', email: 'super@e-pharma.com', role: 'super-admin' as UserRole },
+    'finance-admin': { id: 'financeadmin1', email: 'finance@e-pharma.com', role: 'finance-admin' as UserRole },
+    'content-admin': { id: 'contentadmin1', email: 'content@e-pharma.com', role: 'content-admin' as UserRole },
 }
 
 
@@ -100,9 +106,9 @@ export const mockDispatchers: Dispatcher[] = [
 ];
 
 export let mockOrders: Order[] = [
-    { id: 'ORD001', date: '2024-07-20', total: 3700, status: 'Delivered', items: [], customerDetails: { fullName: 'Adebayo Adekunle', address: '123 Test Street' } },
-    { id: 'ORD002', date: '2024-07-22', total: 1500, status: 'Shipped', items: [], customerDetails: { fullName: 'Chidinma Okoro', address: '456 Example Ave' } },
-    { id: 'ORD003', date: '2024-07-23', total: 800, status: 'Processing', items: [], customerDetails: { fullName: 'Musa Ibrahim', address: '789 Sample Road' } },
+    { id: 'ORD001', date: '2024-07-20', total: 3700, status: 'Delivered', items: [], customerDetails: { fullName: 'Adebayo Adekunle', email: '', phone: '', address: '123 Test Street', city: '', state: '', deliveryFee: 0, paymentMethod: 'paystack' } },
+    { id: 'ORD002', date: '2024-07-22', total: 1500, status: 'Shipped', items: [], customerDetails: { fullName: 'Chidinma Okoro', email: '', phone: '', address: '456 Example Ave', city: '', state: '', deliveryFee: 0, paymentMethod: 'paystack' } },
+    { id: 'ORD003', date: '2024-07-23', total: 800, status: 'Processing', items: [], customerDetails: { fullName: 'Musa Ibrahim', email: '', phone: '', address: '789 Sample Road', city: '', state: '', deliveryFee: 0, paymentMethod: 'paystack' } },
 ];
 
 export const addMockOrder = (order: Order) => {

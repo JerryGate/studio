@@ -8,6 +8,7 @@ import { DashboardSkeleton } from '@/components/skeletons/dashboard-skeleton';
 import { UserRole } from '@/types';
 
 const partnerRoles: UserRole[] = ['admin', 'pharmacy', 'dispatcher', 'hospital'];
+const adminRoles: UserRole[] = ['super-admin', 'finance-admin', 'content-admin'];
 
 export function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>,
@@ -22,8 +23,12 @@ export function withAuth<P extends object>(
 
       if (!user) {
         // If the user is not logged in, determine where to redirect them.
+        const isAdminRoute = allowedRoles.some(role => adminRoles.includes(role));
         const isPartnerRoute = allowedRoles.some(role => partnerRoles.includes(role));
-        if (isPartnerRoute) {
+        
+        if (isAdminRoute) {
+            router.replace('/admin/login');
+        } else if (isPartnerRoute) {
             router.replace('/partner/login');
         } else {
             router.replace('/login');
@@ -36,6 +41,9 @@ export function withAuth<P extends object>(
         // If the user is logged in but has the wrong role, redirect to their own dashboard.
         const dashboardUrl = {
           admin: '/admin',
+          'super-admin': '/admin/super-admin',
+          'finance-admin': '/admin/finance-admin',
+          'content-admin': '/admin/content-admin',
           customer: '/dashboard',
           pharmacy: '/pharmacy',
           dispatcher: '/dispatcher',

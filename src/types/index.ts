@@ -14,7 +14,7 @@ export interface CartItem extends Product {
     quantity: number;
 }
 
-export type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital';
+export type UserRole = 'customer' | 'admin' | 'pharmacy' | 'dispatcher' | 'hospital' | 'super-admin' | 'finance-admin' | 'content-admin';
 
 export interface AuthUser {
   id: string;

@@ -18,6 +18,9 @@ import { mockAuthUsers } from "@/lib/mock-data";
 
 const roleToDashboard: Record<UserRole, string> = {
     admin: '/admin',
+    'super-admin': '/admin/super-admin',
+    'finance-admin': '/admin/finance-admin',
+    'content-admin': '/admin/content-admin',
     customer: '/dashboard',
     pharmacy: '/pharmacy',
     dispatcher: '/dispatcher',
@@ -27,7 +30,7 @@ const roleToDashboard: Record<UserRole, string> = {
 export default function PartnerLoginPage() {
   const { login } = useAuth();
   const router = useRouter();
-  const [role, setRole] = useState<UserRole>('admin');
+  const [role, setRole] = useState<UserRole>('pharmacy');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -75,7 +78,7 @@ export default function PartnerLoginPage() {
         <div className="text-center">
             <Logo center iconSize="h-10 w-10" textSize="text-4xl" textClassName="inline" />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
-            Partner & Admin Login
+            Partner Login
           </h2>
            <p className="mt-2 text-center text-sm text-muted-foreground">
             Not a partner?{' '}
@@ -92,13 +95,11 @@ export default function PartnerLoginPage() {
             <CardContent>
               <form onSubmit={handleLogin}>
                 <Tabs value={role} onValueChange={(value) => setRole(value as UserRole)} className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
-                        <TabsTrigger value="admin">Admin</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-3">
                         <TabsTrigger value="pharmacy">Pharmacy</TabsTrigger>
                         <TabsTrigger value="dispatcher">Dispatcher</TabsTrigger>
                         <TabsTrigger value="hospital">Hospital</TabsTrigger>
                     </TabsList>
-                    {renderFormContent('admin')}
                     {renderFormContent('pharmacy')}
                     {renderFormContent('dispatcher')}
                     {renderFormContent('hospital')}
@@ -108,6 +109,12 @@ export default function PartnerLoginPage() {
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Sign in as {role.charAt(0).toUpperCase() + role.slice(1)}
                     </Button>
+                </div>
+                 <div className="text-center text-sm text-muted-foreground mt-4 pt-4 border-t">
+                    Are you an Admin?{' '}
+                    <Link href="/admin/login" className="font-medium text-accent hover:text-accent/90">
+                       Admin Login
+                    </Link>
                 </div>
               </form>
             </CardContent>

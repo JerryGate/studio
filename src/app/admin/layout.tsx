@@ -1,73 +1,47 @@
 
 'use client';
-import AdminSidebar from '@/app/admin/admin-sidebar';
-import { withAuth } from '@/components/with-auth';
-import { MobileSidebar } from '@/components/admin/mobile-sidebar';
+
 import { useAuth } from '@/contexts/auth-context';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ChevronDown, LogOut, UserCog } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { DashboardSkeleton } from '@/components/skeletons/dashboard-skeleton';
 
-const getInitials = (name: string) => {
-    if (!name) return '';
-    const parts = name.split('@');
-    return parts[0].charAt(0).toUpperCase();
-}
-
-
-function AdminLayout({
+// This is a top-level layout for /admin.
+// It will redirect to the correct admin dashboard or the admin login page.
+export default function AdminRedirectLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-    const { user, logout } = useAuth();
-  return (
-      <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <div className="hidden border-r bg-muted/40 md:block">
-            <AdminSidebar />
-        </div>
-        <div className="flex flex-col">
-          <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-            <MobileSidebar />
-            <div className="w-full flex-1">
-              {/* Optional: Add a search bar or other header content here */}
-            </div>
-             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative flex items-center gap-2">
-                   <Avatar className="h-8 w-8">
-                      <AvatarImage src={`https://i.pravatar.cc/150?u=${user?.id}`} />
-                      <AvatarFallback>{getInitials(user?.email || '')}</AvatarFallback>
-                    </Avatar>
-                    <span>{user?.email}</span>
-                    <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>Admin Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/admin/profile">
-                    <UserCog className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </header>
-          <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-muted/40">
-            {children}
-          </main>
-        </div>
-      </div>
-  );
-}
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
-export default withAuth(AdminLayout, ['admin']);
+  useEffect(() => {
+    if (loading) return;
+
+    if (!user || !user.role.includes('admin')) {
+      router.replace('/admin/login');
+      return;
+    }
+    
+    // Redirect to the appropriate dashboard based on role
+    const adminDashboardMap = {
+      'super-admin': '/admin/super-admin',
+      'finance-admin': '/admin/finance-admin',
+      'content-admin': '/admin/content-admin',
+    };
+
+    const dashboardUrl = adminDashboardMap[user.role as keyof typeof adminDashboardMap];
+
+    if (dashboardUrl) {
+      router.replace(dashboardUrl);
+    } else {
+       // Fallback for generic 'admin' role or if something is wrong
+       router.replace('/partner/login');
+    }
+
+  }, [user, loading, router]);
+  
+  // Show a skeleton while loading/redirecting
+  return <DashboardSkeleton />;
+}
