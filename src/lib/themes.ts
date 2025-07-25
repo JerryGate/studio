@@ -64,4 +64,49 @@ export const themes: Theme[] = [
       background: '0 0% 99%',
     },
   },
+  {
+    name: 'amethyst',
+    label: 'Amethyst',
+    colors: {
+      primary: '270 60% 55%', // Purple
+      accent: '50 95% 60%', // Yellow
+      background: '270 20% 99%',
+    },
+  },
+  {
+    name: 'ocean',
+    label: 'Ocean',
+    colors: {
+      primary: '210 80% 50%', // Deep Blue
+      accent: '180 70% 45%', // Cyan
+      background: '210 30% 98%',
+    },
+  },
+  {
+    name: 'sunset',
+    label: 'Sunset',
+    colors: {
+      primary: '25 90% 55%', // Orange
+      accent: '330 85% 65%', // Pink
+      background: '30 100% 98%',
+    },
+  },
+  {
+    name: 'forest',
+    label: 'Forest',
+    colors: {
+      primary: '120 40% 30%', // Dark Green
+      accent: '90 30% 55%', // Light Green
+      background: '120 10% 98%',
+    },
+  },
+  {
+    name: 'slate',
+    label: 'Slate',
+    colors: {
+      primary: '220 20% 35%', // Dark Slate Blue
+      accent: '220 15% 65%', // Lighter Slate
+      background: '220 10% 99%',
+    },
+  },
 ];

@@ -24,10 +24,10 @@ export const AdminNav = ({ isMobile = false }) => {
     const { logout } = useAuth();
 
     const checkActive = (href: string) => {
-      if (href === '/admin/content-admin') {
-        return pathname === href;
+      if (href === '/admin/content-admin' && pathname === href) {
+        return true;
       }
-       return pathname.startsWith(href) && href !== '#';
+      return href !== '/admin/content-admin' && pathname.startsWith(href) && href !== '#';
     }
 
     return (
