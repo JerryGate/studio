@@ -10,7 +10,7 @@ export default function ContentAdminDashboard() {
   const managementAreas = [
     { title: 'Manage Themes', description: 'Change website colors and fonts.', href: '/admin/theme', icon: Palette },
     { title: 'Manage Slider Images', description: 'Upload or remove homepage slider images.', href: '/admin/content-admin/slider', icon: ImageIcon },
-    { title: 'Blog Posts', description: 'Create, edit, and publish articles.', href: '#', icon: Newspaper },
+    { title: 'Blog Posts', description: 'Create, edit, and publish articles.', href: '/admin/content-admin/blog', icon: Newspaper },
     { title: 'Document Uploads', description: 'Manage pharmacy licenses and other documents.', href: '#', icon: FileUp },
   ];
 
@@ -38,7 +38,7 @@ export default function ContentAdminDashboard() {
             </CardHeader>
             <CardContent>
               <Link href={area.href}>
-                <Button>Manage {area.title}</Button>
+                <Button>Manage {area.title.replace('Manage ', '')}</Button>
               </Link>
             </CardContent>
           </Card>

@@ -102,3 +102,17 @@ export type Dispatcher = {
   status: 'Active' | 'Inactive';
   deliveries: number;
 };
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  author: string;
+  publishedDate: string;
+  category: string;
+  status: 'Published' | 'Draft';
+  imageUrl: string;
+  dataAiHint?: string;
+  excerpt: string;
+  content: string;
+}

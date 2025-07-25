@@ -1,5 +1,5 @@
 
-import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order, OrderStatus } from '@/types';
+import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order, OrderStatus, BlogPost } from '@/types';
 
 type MockUsers = Record<UserRole, Participant>;
 
@@ -123,3 +123,84 @@ export const updateMockOrderStatus = (orderId: string, status: OrderStatus) => {
         mockOrders[orderIndex].status = status;
     }
 };
+
+export const mockBlogPosts: BlogPost[] = [
+  {
+    id: '1',
+    title: '10 Simple Ways to Boost Your Immune System Naturally',
+    slug: 'boost-immune-system-naturally',
+    author: 'Dr. Aisha Bello',
+    publishedDate: 'July 28, 2024',
+    category: 'Health Tips',
+    status: 'Published',
+    imageUrl: 'https://placehold.co/800x400.png',
+    dataAiHint: 'fresh fruits vegetables',
+    excerpt: 'Discover ten simple yet effective strategies to strengthen your immune system using natural methods, from dietary changes to lifestyle adjustments...',
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+  },
+  {
+    id: '2',
+    title: 'Understanding Common Drug Interactions',
+    slug: 'common-drug-interactions',
+    author: 'Pharmacist Tunde Adeoye',
+    publishedDate: 'July 25, 2024',
+    category: 'Pharmacy News',
+    status: 'Published',
+    imageUrl: 'https://placehold.co/800x400.png',
+    dataAiHint: 'pills pillbox',
+    excerpt: 'Learn about common drug interactions that can affect your health. Always consult your pharmacist before taking new medications...',
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+  },
+  {
+    id: '3',
+    title: 'The Importance of Hydration for Your Health in Nigeria',
+    slug: 'hydration-importance-nigeria',
+    author: 'Dr. Aisha Bello',
+    publishedDate: 'July 22, 2024',
+    category: 'Wellness',
+    status: 'Published',
+    imageUrl: 'https://placehold.co/800x400.png',
+    dataAiHint: 'glass of water',
+    excerpt: 'Staying hydrated is crucial, especially in a warm climate like Nigeria. We explore the benefits of drinking enough water and tips to stay hydrated...',
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+  },
+    {
+    id: '4',
+    title: 'Navigating Seasonal Allergies in Lagos',
+    slug: 'seasonal-allergies-lagos',
+    author: 'Pharmacist Tunde Adeoye',
+    publishedDate: 'July 19, 2024',
+    category: 'Health Tips',
+    status: 'Published',
+    imageUrl: 'https://placehold.co/800x400.png',
+    dataAiHint: 'person sneezing flowers',
+    excerpt: 'The rainy season can bring on allergies. Here are some tips to manage your symptoms and find relief during allergy season in Nigeria...',
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+  },
+  {
+    id: '5',
+    title: 'How E-pharma is Fighting Counterfeit Drugs',
+    slug: 'fighting-counterfeit-drugs',
+    author: 'E-pharma Team',
+    publishedDate: 'July 15, 2024',
+    category: 'Pharmacy News',
+    status: 'Published',
+    imageUrl: 'https://placehold.co/800x400.png',
+    dataAiHint: 'pharmacist checking medicine',
+    excerpt: 'Learn how our verification process and direct partnerships with licensed pharmacies are helping to ensure you only receive authentic medications...',
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+  },
+   {
+    id: '6',
+    title: 'A Guide to Managing Diabetes',
+    slug: 'managing-diabetes-guide',
+    author: 'Dr. Aisha Bello',
+    publishedDate: 'July 12, 2024',
+    category: 'Wellness',
+    status: 'Draft',
+    imageUrl: 'https://placehold.co/800x400.png',
+    dataAiHint: 'blood glucose monitor',
+    excerpt: 'A comprehensive guide for individuals living with diabetes in Nigeria, covering diet, medication, and lifestyle choices for better health management...',
+    content: 'Full content of the blog post goes here. This would be a longer text, possibly formatted with Markdown.'
+  },
+];
