@@ -15,7 +15,7 @@ const navItems = [
   { href: '/admin/reports', icon: BarChart, label: 'Transaction Reports' },
   { href: '#', icon: Landmark, label: 'Manage Payouts' }, // Placeholder
   { href: '#', icon: AlertTriangle, label: 'Disputes & Refunds' }, // Placeholder
-  { href: '/admin/finance-admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
@@ -34,7 +34,7 @@ export const AdminNav = ({ isMobile = false }) => {
             <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 {navItems.map((item) => (
                     <Link
-                    key={item.href}
+                    key={item.label}
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',

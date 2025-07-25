@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, UserCircle, Shield } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, UserCircle, Shield, Settings } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -20,7 +20,8 @@ const navItems = [
   { href: '/admin/notifications', icon: Bell, label: 'Notifications' },
   { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
   { href: '#', icon: Shield, label: 'Manage Admins' }, // Placeholder
-  { href: '/admin/super-admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/settings', icon: Settings, label: 'Settings' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
@@ -39,7 +40,7 @@ export const AdminNav = ({ isMobile = false }) => {
             <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 {navItems.map((item) => (
                     <Link
-                    key={item.href}
+                    key={item.label}
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',

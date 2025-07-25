@@ -13,10 +13,10 @@ import { Button } from '../ui/button';
 const navItems = [
   { href: '/admin/content-admin', icon: Home, label: 'Dashboard' },
   { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
-  { href: '#', icon: ImageIcon, label: 'Slider Images' },
+  { href: '/admin/content-admin/slider', icon: ImageIcon, label: 'Slider Images' },
   { href: '#', icon: Newspaper, label: 'Blog Posts' },
   { href: '#', icon: FileUp, label: 'Document Uploads' },
-  { href: '/admin/content-admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
@@ -35,7 +35,7 @@ export const AdminNav = ({ isMobile = false }) => {
             <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 {navItems.map((item) => (
                     <Link
-                    key={item.href}
+                    key={item.label}
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
