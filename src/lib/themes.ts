@@ -5,18 +5,14 @@ export interface Theme {
         primary: string; // HSL format "H S% L%"
         accent: string;  // HSL format "H S% L%"
     };
-    fonts?: {
-        body: string;
-        headings: string;
-    }
 }
 
 export const THEMES: Theme[] = [
     {
         name: 'Default',
         colors: {
-            primary: '221 83% 53%', // Soft Blue
-            accent: '158 44% 48%', // Emerald Green
+            primary: '217 91% 60%', // Soft Blue #3B82F6
+            accent: '158 82% 42%', // Emerald Green #10B981
         },
     },
     {
@@ -37,7 +33,7 @@ export const THEMES: Theme[] = [
         name: 'Lush Forest',
         colors: {
             primary: '158 82% 21%', // #065F46
-            accent: '157 81% 82%', // #A7F3D0
+            accent: '99 57% 55%', // Lime Green #84CC16
         },
     },
     {
@@ -58,7 +54,7 @@ export const THEMES: Theme[] = [
         name: 'Coral Breeze',
         colors: {
             primary: '0 84% 60%', // #EF4444
-            accent: '0 95% 88%',  // #FECACA
+            accent: '180 100% 40%', // #00CED1
         },
     },
     {

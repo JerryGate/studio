@@ -15,15 +15,14 @@ import { Input } from '../ui/input';
 import { useRouter } from 'next/navigation';
 
 const HeroSkeleton = () => (
-    <div className="relative w-full h-[70vh] md:h-[80vh] bg-muted">
+    <div className="relative w-full h-[80vh] md:h-[90vh] bg-muted">
         <Skeleton className="h-full w-full" />
         <div className="absolute inset-0 flex items-center justify-center z-10">
             <div className="text-center p-4">
-                <Skeleton className="h-12 w-96 max-w-full mx-auto" />
-                <Skeleton className="h-6 w-80 max-w-full mx-auto mt-4" />
-                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Skeleton className="h-12 w-40" />
-                    <Skeleton className="h-12 w-40" />
+                <Skeleton className="h-16 w-96 max-w-full mx-auto" />
+                <Skeleton className="h-8 w-80 max-w-full mx-auto mt-6" />
+                <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Skeleton className="h-14 w-48" />
                 </div>
             </div>
         </div>
@@ -48,12 +47,12 @@ const SearchBar = () => {
             <Input
                 type="text"
                 placeholder="Search for drugs, vitamins, and more..."
-                className="h-14 text-lg pl-12 pr-24 rounded-full shadow-lg"
+                className="h-16 text-lg pl-14 pr-28 rounded-full shadow-lg border-2 border-transparent focus-visible:ring-primary focus-visible:border-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
-            <Button type="submit" size="lg" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
+            <Button type="submit" size="lg" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-12 px-8">
                 Search
             </Button>
         </form>
@@ -66,7 +65,7 @@ const Hero = () => {
     const [current, setCurrent] = React.useState(0);
     
     const plugin = React.useRef(
-        Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+        Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
     );
 
     React.useEffect(() => {
@@ -105,7 +104,7 @@ const Hero = () => {
                                         priority={index === 0}
                                         data-ai-hint={image.hint}
                                     />
-                                    <div className="absolute inset-0 bg-black/50" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
                                 </div>
                             </CarouselItem>
                         ))}
@@ -115,29 +114,25 @@ const Hero = () => {
                         <AnimatePresence mode="wait">
                              <motion.div
                                 key={current}
-                                className="text-center text-white p-4"
+                                className="text-center text-white p-4 max-w-4xl"
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -20, opacity: 0 }}
                                 transition={{ duration: 0.5, ease: "circOut" }}
                             >
-                                <h1 className="text-4xl md:text-6xl font-extrabold font-headline drop-shadow-lg">
+                                <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold font-headline drop-shadow-lg">
                                     {sliderImages[current]?.headline || "Quality Drugs, Delivered Fast."}
                                 </h1>
-                                <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-md">
+                                <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-md">
                                     {sliderImages[current]?.description || "Your trusted source for verified medications from local pharmacies in Nigeria."}
                                 </p>
                                 <motion.div
-                                    className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+                                    className="mt-10"
                                     initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                                 >
-                                    <Link href={sliderImages[current]?.ctaLink || "/search"}>
-                                        <Button size="lg">
-                                           {sliderImages[current]?.ctaText || "Start Shopping"}
-                                        </Button>
-                                    </Link>
+                                   <SearchBar />
                                 </motion.div>
                             </motion.div>
                         </AnimatePresence>
@@ -167,15 +162,11 @@ const Hero = () => {
                             <button
                                 key={index}
                                 onClick={() => api?.scrollTo(index)}
-                                className={`h-3 w-3 rounded-full transition-all ${current === index ? 'w-6 bg-white' : 'bg-white/50'}`}
+                                className={`h-2 w-2 rounded-full transition-all duration-300 ${current === index ? 'w-6 bg-white' : 'bg-white/50'}`}
                             />
                         ))}
                     </div>
                 </Carousel>
-            </div>
-             {/* Search bar for smaller screens */}
-            <div className="lg:hidden container mx-auto px-4 py-6 bg-background">
-                <SearchBar />
             </div>
         </section>
     );

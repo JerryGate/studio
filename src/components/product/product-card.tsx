@@ -11,10 +11,23 @@ import Link from 'next/link';
 import { CheckCircle, Minus, Plus, ShoppingCart, XCircle } from 'lucide-react';
 import { useCart } from '@/contexts/cart-context';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
     product: Product;
 }
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.5,
+            ease: "easeOut"
+        },
+    },
+};
 
 const ProductCard = ({ product }: ProductCardProps) => {
     const { addToCart } = useCart();
@@ -37,13 +50,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            variants={itemVariants}
             whileHover="hover"
             className="h-full"
         >
-            <Card className="flex flex-col h-full overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 relative group border-0 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2">
+            <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-white border-0 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 rounded-lg">
                  <Link href={`/product/${product.id}`} className="block focus:outline-none">
                     <CardHeader className="p-0">
                         <motion.div 
@@ -59,6 +70,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                                 className="object-cover"
                                 data-ai-hint={product.dataAiHint}
                             />
+                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </motion.div>
                     </CardHeader>
                 </Link>

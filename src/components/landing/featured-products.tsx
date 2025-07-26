@@ -15,6 +15,7 @@ const containerVariants = {
         opacity: 1,
         transition: {
             staggerChildren: 0.1,
+            delayChildren: 0.2
         },
     },
 };
@@ -26,6 +27,7 @@ const itemVariants = {
         opacity: 1,
         transition: {
             duration: 0.5,
+            ease: "easeOut"
         },
     },
 };
@@ -33,24 +35,24 @@ const itemVariants = {
 
 const FeaturedProducts = () => {
   return (
-    <section className="py-20 md:py-24 bg-background">
+    <section className="py-20 md:py-28 bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
-            className="text-center mb-12"
+            className="text-center mb-16"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.5 }}
             variants={itemVariants}
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-accent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-headline text-primary">
             Featured Products
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Check out some of our most popular medications and health products.
           </p>
         </motion.div>
         <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -62,7 +64,7 @@ const FeaturedProducts = () => {
         </motion.div>
         <div className="text-center mt-16">
             <Link href="/search">
-                <Button size="lg" variant="outline">
+                <Button size="lg">
                     View All Products
                 </Button>
             </Link>

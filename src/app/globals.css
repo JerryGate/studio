@@ -7,11 +7,11 @@
   :root {
     --background-hue: 220;
     --background-saturation: 14%;
-    --background-lightness: 98%;
+    --background-lightness: 98%; /* hsl(220, 14%, 98%) -> #F9FAFB */
     
     --foreground-hue: 221;
     --foreground-saturation: 22%;
-    --foreground-lightness: 20%;
+    --foreground-lightness: 20%; /* hsl(221, 22%, 20%) -> #2A303F */
     
     --primary-hue: 221;
     --primary-saturation: 83%;
@@ -65,7 +65,7 @@
     --ring-saturation: 83%;
     --ring-lightness: 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem; /* Increased for a softer look */
     
     --background: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
     --foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
@@ -99,9 +99,8 @@
   }
 }
 
-
 .animated-gradient-text {
-  background: linear-gradient(-45deg, hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness)), hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness)), hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness)), hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness)));
+  background: linear-gradient(-45deg, hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness)), hsl(var(--accent-hue), var(--accent-saturation), var(--accent-lightness)), hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness)), hsl(var(--accent-hue), var(--accent-saturation), var(--accent-lightness)));
   background-size: 300%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -135,4 +134,3 @@
     --tw-prose-th-borders: hsl(var(--border));
     --tw-prose-td-borders: hsl(var(--border));
 }
-

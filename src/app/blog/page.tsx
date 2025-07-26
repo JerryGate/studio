@@ -8,47 +8,78 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Calendar, User } from 'lucide-react';
+import { Search, Calendar, User, ArrowRight } from 'lucide-react';
 import { mockBlogPosts } from '@/lib/mock-data';
 import { BlogPost } from '@/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
-const BlogCard = ({ post }: { post: BlogPost }) => {
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+    },
+};
+
+const BlogCard = ({ post, isFeatured = false }: { post: BlogPost, isFeatured?: boolean }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -5, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" }}
-      className="h-full"
+      variants={itemVariants}
+      whileHover={{ y: -5, boxShadow: "0px 20px 25px -5px rgba(0,0,0,0.1), 0px 10px 10px -5px rgba(0,0,0,0.04)" }}
+      className={cn("h-full", isFeatured && 'lg:col-span-2 lg:row-span-2')}
     >
-      <Card className="flex flex-col h-full overflow-hidden rounded-lg">
-        <Link href={`/blog/${post.slug}`} className="block">
-          <div className="relative aspect-video">
-            <Image src={post.imageUrl} alt={post.title} fill className="object-cover" data-ai-hint={post.dataAiHint} />
+      <Card className="flex flex-col h-full overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300">
+        <Link href={`/blog/${post.slug}`} className="block group">
+          <div className={cn("relative", isFeatured ? "aspect-video lg:aspect-[2/1]" : "aspect-video")}>
+            <Image src={post.imageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={post.dataAiHint} />
+             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </div>
+           {isFeatured && (
+                <div className="absolute bottom-0 p-6 text-white">
+                     <CardTitle className="text-2xl md:text-4xl font-extrabold">{post.title}</CardTitle>
+                     <p className="mt-2 text-sm md:text-base line-clamp-2">{post.excerpt}</p>
+                </div>
+           )}
         </Link>
-        <CardHeader>
-          <CardTitle>
-            <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors">
-              {post.title}
-            </Link>
-          </CardTitle>
-          <CardDescription>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
-                <span className="flex items-center gap-1"><User className="h-3 w-3" /> {post.author}</span>
-                <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {post.publishedDate}</span>
-            </div>
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <p className="text-sm text-muted-foreground leading-relaxed">{post.excerpt}</p>
-        </CardContent>
-        <CardFooter>
-            <Link href={`/blog/${post.slug}`} className="w-full">
-                <Button variant="outline" className="w-full">Read More</Button>
-            </Link>
-        </CardFooter>
+        {!isFeatured && (
+            <>
+                <CardHeader>
+                  <CardTitle>
+                    <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors leading-tight text-xl">
+                      {post.title}
+                    </Link>
+                  </CardTitle>
+                  <CardDescription>
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
+                        <span className="flex items-center gap-1"><User className="h-3 w-3" /> {post.author}</span>
+                        <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {post.publishedDate}</span>
+                    </div>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">{post.excerpt}</p>
+                </CardContent>
+                <CardFooter>
+                    <Link href={`/blog/${post.slug}`} className="w-full">
+                        <Button variant="link" className="p-0 text-accent group">
+                            Read More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </Link>
+                </CardFooter>
+            </>
+        )}
       </Card>
     </motion.div>
   );
@@ -64,12 +95,15 @@ export default function BlogPage() {
     const filteredPosts = mockBlogPosts
         .filter(post => post.title.toLowerCase().includes(searchTerm.toLowerCase()))
         .filter(post => category === 'all' || post.category === category);
+    
+    const featuredPost = filteredPosts[0];
+    const otherPosts = filteredPosts.slice(1);
 
     return (
         <div>
-            <header className="py-16 md:py-24 bg-primary/5 text-center">
+            <header className="py-20 md:py-28 bg-primary/5 text-center">
                 <div className="container mx-auto px-4">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Our Blog</h1>
+                    <h1 className="text-4xl md:text-6xl font-extrabold text-primary">E-pharma Blog</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                         Stay informed with the latest health tips, news, and updates from the E-pharma team.
                     </p>
@@ -80,16 +114,16 @@ export default function BlogPage() {
                 {/* Search and Filter */}
                 <div className="mb-12 flex flex-col md:flex-row gap-4">
                     <div className="relative flex-grow">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
                             placeholder="Search articles..."
-                            className="pl-10 h-11"
+                            className="pl-12 h-12 rounded-full"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
                      <Select value={category} onValueChange={setCategory}>
-                        <SelectTrigger className="w-full md:w-[180px] h-11">
+                        <SelectTrigger className="w-full md:w-[200px] h-12 rounded-full">
                             <SelectValue placeholder="All Categories" />
                         </SelectTrigger>
                         <SelectContent>
@@ -104,11 +138,17 @@ export default function BlogPage() {
 
                 {/* Blog Posts Grid */}
                  {filteredPosts.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredPosts.map(post => (
+                    <motion.div 
+                        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {featuredPost && <BlogCard post={featuredPost} isFeatured />}
+                        {otherPosts.map(post => (
                             <BlogCard key={post.id} post={post} />
                         ))}
-                    </div>
+                    </motion.div>
                 ) : (
                     <div className="text-center py-16">
                         <h3 className="text-2xl font-semibold">No Posts Found</h3>
