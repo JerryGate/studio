@@ -16,6 +16,7 @@ import { ShopByCategory } from '@/components/shop-by-category';
 import { BestSellers } from '@/components/best-sellers';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent } from '@/components/ui/card';
+import { WhatsAppCta } from '@/components/whatsapp-cta';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -80,6 +81,7 @@ export default function Home() {
         <TrustSignals />
         <GeolocationFeature />
         <Cta />
+        <WhatsAppCta />
       </main>
     </div>
   );
