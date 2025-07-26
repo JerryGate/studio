@@ -15,11 +15,11 @@
     
     --primary-hue: 221;
     --primary-saturation: 83%;
-    --primary-lightness: 53%;
+    --primary-lightness: 53%; /* Deep Blue from preloader - approx hsl(221, 83%, 53%) -> #1E3A8A */
 
-    --accent-hue: 158;
-    --accent-saturation: 44%;
-    --accent-lightness: 48%;
+    --accent-hue: 145;
+    --accent-saturation: 63%;
+    --accent-lightness: 49%; /* Vibrant Green from preloader - approx hsl(145, 63%, 49%) -> #22C55E */
 
     --primary-foreground-hue: 210;
     --primary-foreground-saturation: 20%;

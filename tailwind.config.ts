@@ -30,32 +30,32 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness))",
+          foreground: "hsl(var(--primary-foreground-hue), var(--primary-foreground-saturation), var(--primary-foreground-lightness))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "hsl(var(--secondary-hue), var(--secondary-saturation), var(--secondary-lightness))",
+          foreground: "hsl(var(--secondary-foreground-hue), var(--secondary-foreground-saturation), var(--secondary-foreground-lightness))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "hsl(var(--destructive-hue), var(--destructive-saturation), var(--destructive-lightness))",
+          foreground: "hsl(var(--destructive-foreground-hue), var(--destructive-foreground-saturation), var(--destructive-foreground-lightness))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "hsl(var(--muted-hue), var(--muted-saturation), var(--muted-lightness))",
+          foreground: "hsl(var(--muted-foreground-hue), var(--muted-foreground-saturation), var(--muted-foreground-lightness))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "hsl(var(--accent-hue), var(--accent-saturation), var(--accent-lightness))",
+          foreground: "hsl(var(--accent-foreground-hue), var(--accent-foreground-saturation), var(--accent-foreground-lightness))",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "hsl(var(--popover-hue, var(--background-hue)), var(--popover-saturation, var(--background-saturation)), var(--popover-lightness, 100%))",
+          foreground: "hsl(var(--popover-foreground-hue, var(--foreground-hue)), var(--popover-foreground-saturation, var(--foreground-saturation)), var(--popover-foreground-lightness, var(--foreground-lightness)))",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "hsl(var(--card-hue, var(--background-hue)), var(--card-saturation, var(--background-saturation)), 100%)",
+          foreground: "hsl(var(--card-foreground-hue, var(--foreground-hue)), var(--card-foreground-saturation, var(--card-foreground-lightness, var(--foreground-lightness)))",
         },
       },
       borderRadius: {
