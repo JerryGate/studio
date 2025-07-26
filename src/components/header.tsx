@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
+import { Separator } from './ui/separator';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -195,7 +196,8 @@ const Header = () => {
                            </SheetClose>
                         ))}
                       </nav>
-                      <div className="p-4 border-t space-y-2">
+                       <Separator className="my-4" />
+                      <div className="p-4 space-y-2">
                          {user ? (
                             <>
                                 <SheetClose asChild>
