@@ -4,7 +4,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useTheme } from '@/contexts/theme-context';
-import { THEMES } from '@/lib/themes';
+import { THEMES, HSLColor } from '@/lib/themes';
 
 const data = [
   { name: 'Pain Relief', value: 400 },
@@ -15,13 +15,8 @@ const data = [
   { name: 'Diabetes', value: 189 },
 ];
 
-const parseHsl = (hslString: string): { h: number, s: number, l: number } => {
-    const [h, s, l] = hslString.split(' ').map(val => parseFloat(val.replace('%', '')));
-    return { h, s, l };
-}
-
-const generateColors = (baseColor: string, count: number) => {
-    const { h, s, l } = parseHsl(baseColor);
+const generateColors = (baseColor: HSLColor, count: number) => {
+    const { h, s, l } = baseColor;
     const colors = [];
     for (let i = 0; i < count; i++) {
         const lightness = l - (i * 5);
@@ -33,7 +28,7 @@ const generateColors = (baseColor: string, count: number) => {
 export function SalesByCategoryChart() {
   const { theme } = useTheme();
   const themeColors = generateColors(theme.colors.primary, data.length);
-  const accentColor = `hsl(${theme.colors.accent})`;
+  const accentColor = `hsl(${theme.colors.accent.h}, ${theme.colors.accent.s}%, ${theme.colors.accent.l}%)`;
   const finalColors = [accentColor, ...themeColors.slice(1)];
 
   return (
