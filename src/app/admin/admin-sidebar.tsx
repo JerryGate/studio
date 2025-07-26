@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, UserCircle, Settings, Shield } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -22,7 +22,7 @@ const navItems = [
   { href: '/admin/super-admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/super-admin/notifications', icon: Bell, label: 'Notifications' },
   { href: '/admin/super-admin/messages', icon: MessageSquare, label: 'Messages' },
-  { href: '/admin/super-admin/manage-admins', icon: Shield, label: 'Manage Admins' },
+  { href: '/admin/super-admin/manage-admins', icon: Palette, label: 'Manage Admins' },
   { href: '/admin/super-admin/profile', icon: UserCircle, label: 'Profile' },
   { href: '/admin/super-admin/settings', icon: Settings, label: 'Settings' },
 ];

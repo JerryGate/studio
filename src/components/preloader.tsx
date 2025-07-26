@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -68,7 +69,7 @@ const Preloader = () => {
                 ease: "circOut"
             }}
         >
-          E-pharma
+          Medfast
         </motion.span>
       </div>
     </motion.div>

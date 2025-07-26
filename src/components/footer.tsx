@@ -86,9 +86,9 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} E-pharma. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Medfast. All rights reserved.</p>
           <p className="mt-2">
-            Contact: <a href="mailto:support@e-pharma.com" className="hover:text-primary">support@e-pharma.com</a> | <a href="tel:+234123456789" className="hover:text-primary">+234-123-456-789</a>
+            Contact: <a href="mailto:support@medfast.com" className="hover:text-primary">support@medfast.com</a> | <a href="tel:+234123456789" className="hover:text-primary">+234-123-456-789</a>
           </p>
            <p className="mt-2">
             <Link href="/partner/login" className="hover:text-primary">Partner Login</Link>

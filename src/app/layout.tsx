@@ -25,10 +25,9 @@ export default function RootLayout({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate initial loading time
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5500); // Adjust time as needed
+    }, 5500); 
 
     return () => clearTimeout(timer);
   }, []);
@@ -55,12 +54,12 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin=""/>
-        <title>E-pharma Nigeria - Quality Drugs, Fast Delivery</title>
+        <title>Medfast Nigeria - Quality Drugs, Fast Delivery</title>
         <meta
             name="description"
             content="Affordable, verified medications delivered to your doorstep from nearby pharmacies in Nigeria. Order drugs online with ease and track your delivery in real-time."
         />
-        <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, E-pharma Nigeria" />
+        <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, Medfast Nigeria" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
           <AuthProvider>

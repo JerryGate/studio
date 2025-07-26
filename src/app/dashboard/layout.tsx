@@ -10,6 +10,7 @@ import Logo from '@/components/logo';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const getInitials = (name: string) => {
     if (!name) return '';
@@ -52,6 +53,7 @@ function DashboardLayout({
             <div className="w-full flex-1">
                <h1 className="text-lg font-semibold md:text-xl">Customer Dashboard</h1>
             </div>
+            <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                  <Button variant="ghost" className="relative flex items-center gap-2">

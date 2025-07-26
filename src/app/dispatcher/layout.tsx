@@ -10,6 +10,7 @@ import Logo from '@/components/logo';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const getInitials = (name: string) => {
     if (!name) return '';
@@ -49,6 +50,7 @@ function DispatcherDashboardLayout({
            <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
              <DispatcherMobileSidebar />
              <h1 className="flex-1 text-lg font-semibold md:text-xl">Dispatcher Dashboard</h1>
+             <ThemeToggle />
              <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative flex items-center gap-2">
