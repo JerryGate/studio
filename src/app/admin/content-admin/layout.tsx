@@ -38,7 +38,7 @@ export default function ContentAdminLayout({
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="p-0 flex flex-col">
-                    <div className="p-4 border-b">
+                    <div className="p-4">
                         <Logo textClassName="inline" />
                     </div>
                    <ContentAdminSidebar isMobile />
@@ -75,7 +75,7 @@ export default function ContentAdminLayout({
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-          <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-muted/40">
+          <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-background">
             {children}
           </main>
         </div>

@@ -93,7 +93,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("react-icons")],
 } satisfies Config
 
 export default config

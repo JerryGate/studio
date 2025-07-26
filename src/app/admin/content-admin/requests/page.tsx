@@ -54,7 +54,7 @@ export default function SpecialRequestsPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-primary">Special Recommendations</h1>
+                    <h1 className="text-3xl font-bold animated-gradient-text">Special Recommendations</h1>
                     <p className="text-muted-foreground">Review and respond to customer requests for product recommendations.</p>
                 </div>
             </div>

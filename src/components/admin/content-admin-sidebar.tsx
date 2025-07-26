@@ -48,7 +48,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     </Link>
                 ))}
             </nav>
-            <div className="p-4 mt-auto border-t">
+            <div className="p-4 mt-auto">
                 <Separator className="my-4" />
                 <Button
                     variant="ghost"

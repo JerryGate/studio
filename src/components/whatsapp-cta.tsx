@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { motion } from 'framer-motion';
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 export function WhatsAppCta() {
     return (
@@ -18,8 +19,10 @@ export function WhatsAppCta() {
             <Button
                 asChild
                 size="icon"
-                className="w-16 h-16 rounded-full shadow-lg"
-                style={{ backgroundColor: '#25D366' }}
+                className={cn(
+                  "w-16 h-16 rounded-full shadow-lg text-white hover:bg-[#25D366]/90",
+                  "bg-[#25D366]"
+                 )}
             >
                 <Link href="https://wa.me/2340000000000" target="_blank" rel="noopener noreferrer">
                     <FaWhatsapp className="h-8 w-8 text-white" />

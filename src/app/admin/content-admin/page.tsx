@@ -17,7 +17,7 @@ export default function ContentAdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-primary">Content Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold animated-gradient-text">Content Admin Dashboard</h1>
       <Card>
         <CardHeader>
             <CardTitle>Welcome, Content Admin!</CardTitle>
