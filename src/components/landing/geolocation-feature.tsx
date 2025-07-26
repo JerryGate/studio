@@ -93,7 +93,7 @@ const GeolocationFeature = () => {
             <div className="inline-block bg-accent/10 text-accent font-semibold py-1 px-3 rounded-full text-sm mb-4">
               Smart & Fast
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold font-headline animated-gradient-text mb-4">
               Find a Pharmacy in Seconds
             </h2>
             <p className="text-lg text-muted-foreground mb-8">

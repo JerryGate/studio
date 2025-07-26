@@ -34,7 +34,7 @@ function PostDetails({ slug }: { slug: string }) {
             <header className="py-16 md:py-24 bg-primary/5 text-center">
                 <div className="container mx-auto px-4">
                     <Badge variant="secondary" className="mb-4">{post.category}</Badge>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-primary max-w-3xl mx-auto">{post.title}</h1>
+                    <h1 className="text-4xl md:text-5xl font-extrabold animated-gradient-text max-w-3xl mx-auto">{post.title}</h1>
                     <div className="mt-6 flex items-center justify-center gap-6 text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <User className="h-4 w-4" />

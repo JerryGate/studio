@@ -49,7 +49,7 @@ export default function ProfilePage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">My Profile</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">My Profile</h1>
             <form onSubmit={handleSubmit}>
                 <Card>
                     <CardHeader>

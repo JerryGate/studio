@@ -42,7 +42,7 @@ export default function DeliveryTrackingPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Track Delivery</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">Track Delivery</h1>
             <Card>
                 <CardHeader>
                     <CardTitle>Track Your Order</CardTitle>

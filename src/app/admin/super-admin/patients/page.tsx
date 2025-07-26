@@ -144,7 +144,7 @@ export default function PatientManagementPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-primary">Patient Management</h1>
+                    <h1 className="text-3xl font-bold animated-gradient-text">Patient Management</h1>
                     <p className="text-muted-foreground">Manage all patients using the platform.</p>
                 </div>
                 <Button onClick={() => openForm()}>Add New Patient</Button>

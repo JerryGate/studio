@@ -108,7 +108,7 @@ function SearchResults() {
                         {!loading && (
                             <>
                                 Showing {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''}
-                                {searchTerm && <> for <span className="font-semibold text-primary">"{searchTerm}"</span></>}
+                                {searchTerm && <> for <span className="font-semibold animated-gradient-text">"{searchTerm}"</span></>}
                             </>
                         )}
                          {loading && (
@@ -182,7 +182,7 @@ function SearchPageContent() {
     return (
         <div className="container mx-auto px-4 py-8">
             <header className="mb-8">
-                <h1 className="text-3xl font-bold text-primary mb-2">Search for Medications</h1>
+                <h1 className="text-3xl font-bold animated-gradient-text mb-2">Search for Medications</h1>
                 <p className="text-muted-foreground">Find the drugs you need from our wide selection.</p>
             </header>
             

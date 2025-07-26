@@ -7,7 +7,7 @@ import { SpendingHistoryChart } from '@/components/dashboard/spending-history-ch
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-primary">Welcome to your Dashboard</h1>
+      <h1 className="text-3xl font-bold animated-gradient-text">Welcome to your Dashboard</h1>
       <Card>
         <CardHeader>
           <CardTitle>Hello, Customer!</CardTitle>

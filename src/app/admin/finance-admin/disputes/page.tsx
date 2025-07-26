@@ -31,7 +31,7 @@ export const columns: ColumnDef<Dispute>[] = [
 export default function DisputesPage() {
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Disputes & Refunds</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">Disputes & Refunds</h1>
             <Card>
                 <CardHeader>
                     <CardTitle>Manage Disputes</CardTitle>

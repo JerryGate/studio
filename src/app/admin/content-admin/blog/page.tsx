@@ -116,7 +116,7 @@ export default function BlogManagementPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                  <div>
-                    <h1 className="text-3xl font-bold text-primary">Blog Management</h1>
+                    <h1 className="text-3xl font-bold animated-gradient-text">Blog Management</h1>
                     <div className="text-sm text-muted-foreground">
                         Create, edit, and manage all blog posts for the website.
                     </div>

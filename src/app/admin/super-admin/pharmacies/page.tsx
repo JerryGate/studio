@@ -146,7 +146,7 @@ export default function PharmacyManagementPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-primary">Pharmacy Management</h1>
+                    <h1 className="text-3xl font-bold animated-gradient-text">Pharmacy Management</h1>
                     <p className="text-muted-foreground">Manage all registered pharmacies on the platform.</p>
                 </div>
                 <Button onClick={() => openForm()}>Add New Pharmacy</Button>

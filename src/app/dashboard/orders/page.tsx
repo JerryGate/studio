@@ -48,7 +48,7 @@ export default function OrderHistoryPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Order History</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">Order History</h1>
             <Card>
                 <CardHeader>
                     <CardTitle>My Orders</CardTitle>

@@ -16,7 +16,7 @@ export default function CartPage() {
     <div className="container mx-auto px-4 py-12">
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl font-extrabold text-primary">Your Shopping Cart</CardTitle>
+          <CardTitle className="text-3xl font-extrabold animated-gradient-text">Your Shopping Cart</CardTitle>
         </CardHeader>
         <CardContent>
           {cartCount === 0 ? (
@@ -72,7 +72,7 @@ export default function CartPage() {
                 <span className="font-semibold">₦{cartTotal.toLocaleString()}</span>
               </div>
               <Separator />
-              <div className="flex justify-between text-xl font-bold text-primary">
+              <div className="flex justify-between text-xl font-bold animated-gradient-text">
                 <span>Total</span>
                 <span>₦{cartTotal.toLocaleString()}</span>
               </div>

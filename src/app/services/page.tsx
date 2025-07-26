@@ -134,7 +134,7 @@ const ServicesPage = () => {
                 className="py-20 md:py-32 bg-primary/5 text-center"
             >
                 <div className="container mx-auto px-4">
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-primary">Our E-Pharmacy Services</h1>
+                    <h1 className="text-4xl md:text-6xl font-extrabold animated-gradient-text">Our E-Pharmacy Services</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                         Affordable, Quality Healthcare at Your Fingertips. Everything you need, all in one place.
                     </p>
@@ -196,7 +196,7 @@ const ServicesPage = () => {
                         viewport={{ once: true, amount: 0.5 }}
                         variants={itemVariants}
                     >
-                        <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary">
+                        <h2 className="text-3xl md:text-4xl font-extrabold font-headline animated-gradient-text">
                             What Our Users Are Saying
                         </h2>
                         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">

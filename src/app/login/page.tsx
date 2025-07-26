@@ -71,7 +71,7 @@ function LoginContent() {
         >
           <div className="grid gap-2 text-center">
              <Logo center iconSize="h-10 w-10" textSize="text-4xl" textClassName="inline" />
-            <h1 className="text-3xl font-bold text-primary mt-4">Welcome Back!</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mt-4">Welcome Back!</h1>
             <p className="text-balance text-muted-foreground">
               Enter your credentials to access your account
             </p>

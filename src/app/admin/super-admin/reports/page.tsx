@@ -39,7 +39,7 @@ export default function ReportsPage() {
     
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Transactions & Reports</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">Transactions & Reports</h1>
             <div className="grid gap-6 md:grid-cols-2">
                 <Card>
                     <CardHeader>

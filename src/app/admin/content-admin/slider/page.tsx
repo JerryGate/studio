@@ -80,7 +80,7 @@ export default function SliderManagementPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Manage Homepage Slider</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">Manage Homepage Slider</h1>
             <Card className="mb-8">
                 <CardHeader>
                     <CardTitle>Image Upload</CardTitle>

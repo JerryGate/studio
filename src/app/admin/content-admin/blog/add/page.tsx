@@ -56,7 +56,7 @@ export default function AddBlogPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-primary mb-6">Add New Blog Post</h1>
+      <h1 className="text-3xl font-bold animated-gradient-text mb-6">Add New Blog Post</h1>
       <Card>
         <CardHeader>
           <CardTitle>Post Details</CardTitle>

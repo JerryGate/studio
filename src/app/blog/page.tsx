@@ -103,7 +103,7 @@ export default function BlogPage() {
         <div>
             <header className="py-20 md:py-28 bg-primary/5 text-center">
                 <div className="container mx-auto px-4">
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-primary">E-pharma Blog</h1>
+                    <h1 className="text-4xl md:text-6xl font-extrabold animated-gradient-text">E-pharma Blog</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                         Stay informed with the latest health tips, news, and updates from the E-pharma team.
                     </p>

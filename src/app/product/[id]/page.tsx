@@ -112,7 +112,7 @@ function ProductDetails({ id }: { id: string }) {
                 <div>
                     <Card className="border-none shadow-none">
                         <CardHeader>
-                            <CardTitle className="text-4xl font-extrabold text-primary">{product.name}</CardTitle>
+                            <CardTitle className="text-4xl font-extrabold animated-gradient-text">{product.name}</CardTitle>
                             <div className="flex items-center gap-4 pt-2">
                                 <Badge variant="secondary">{product.category}</Badge>
                                  {product.dosage && <Badge variant="outline">{product.dosage}</Badge>}
@@ -132,7 +132,7 @@ function ProductDetails({ id }: { id: string }) {
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold text-primary mb-4">
+                            <p className="text-3xl font-bold animated-gradient-text mb-4">
                                 ₦{product.price.toLocaleString()}
                             </p>
                             <div className="text-base text-foreground/80">

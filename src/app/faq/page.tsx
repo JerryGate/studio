@@ -33,7 +33,7 @@ export default function FaqPage() {
     <div className="bg-background text-foreground">
       <header className="py-16 md:py-24 bg-primary/5 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Frequently Asked Questions</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold animated-gradient-text">Frequently Asked Questions</h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Have questions? We've got answers. Find the information you need below.
           </p>

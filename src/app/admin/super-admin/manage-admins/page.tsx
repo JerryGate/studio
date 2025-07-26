@@ -84,7 +84,7 @@ export default function ManageAdminsPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                  <div>
-                    <h1 className="text-3xl font-bold text-primary">Manage Admins</h1>
+                    <h1 className="text-3xl font-bold animated-gradient-text">Manage Admins</h1>
                     <p className="text-muted-foreground">Add, edit, or suspend administrator accounts.</p>
                 </div>
                 <Button>Add New Admin</Button>

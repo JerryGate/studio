@@ -1,8 +1,7 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '../ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -38,7 +37,7 @@ const itemVariants = {
 
 const TopPharmacies = () => {
   return (
-    <section className="py-20 md:py-32 bg-secondary">
+    <section className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
             className="text-center mb-12"
@@ -47,10 +46,10 @@ const TopPharmacies = () => {
             viewport={{ once: true, amount: 0.5 }}
             variants={itemVariants}
         >
-          <div className="inline-block bg-primary/10 text-primary font-semibold py-1 px-3 rounded-full text-sm mb-4">
+          <div className="inline-block bg-accent/10 text-accent font-semibold py-1 px-3 rounded-full text-sm mb-4">
               Trusted Partners
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary">
+          <h2 className="text-3xl md:text-4xl font-extrabold font-headline animated-gradient-text">
             Top-Rated Pharmacies
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -58,7 +57,7 @@ const TopPharmacies = () => {
           </p>
         </motion.div>
         <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -66,33 +65,35 @@ const TopPharmacies = () => {
         >
           {topPharmacies.map((pharmacy) => (
             <motion.div key={pharmacy.name} variants={itemVariants}>
-              <Card className="overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group rounded-xl">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={pharmacy.image}
-                    alt={pharmacy.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    data-ai-hint={pharmacy.dataAiHint}
-                  />
-                </div>
-                <CardContent className="p-6 flex-grow flex flex-col">
-                    <CardTitle className="text-xl mb-2">{pharmacy.name}</CardTitle>
-                    <div className="flex items-center text-muted-foreground text-sm">
-                        <MapPin className="h-4 w-4 mr-2 shrink-0" />
-                        <span>{pharmacy.location}</span>
-                    </div>
-                    <div className="flex items-center text-amber-500 my-4">
-                        <Star className="h-5 w-5 mr-1 fill-current" />
-                        <span className="font-bold text-base">{pharmacy.rating} / 5.0</span>
-                    </div>
-                    <div className="mt-auto">
-                        <Button variant="outline" className="w-full group/button">
-                           View Products <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
-                        </Button>
-                    </div>
-                </CardContent>
-              </Card>
+                <Link href="#" passHref>
+                    <Card className="overflow-hidden bg-background/50 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group rounded-xl">
+                        <div className="relative aspect-[4/3] overflow-hidden">
+                            <Image
+                                src={pharmacy.image}
+                                alt={pharmacy.name}
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                data-ai-hint={pharmacy.dataAiHint}
+                            />
+                        </div>
+                        <CardContent className="p-6 flex-grow flex flex-col">
+                            <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">{pharmacy.name}</CardTitle>
+                            <div className="flex items-center text-muted-foreground text-sm mb-3">
+                                <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                                <span>{pharmacy.location}</span>
+                            </div>
+                            <div className="flex items-center text-amber-500">
+                                <Star className="h-5 w-5 mr-1 fill-current" />
+                                <span className="font-bold text-base text-foreground">{pharmacy.rating} / 5.0</span>
+                            </div>
+                            <div className="mt-auto pt-4">
+                                <div className="text-primary font-semibold flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    View Products <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

@@ -278,7 +278,7 @@ export default function CheckoutPage() {
   return (
     <div className="container mx-auto px-4 py-12">
        <CardHeader className="px-0">
-          <CardTitle className="text-3xl font-extrabold text-primary">Checkout</CardTitle>
+          <CardTitle className="text-3xl font-extrabold animated-gradient-text">Checkout</CardTitle>
           <CardDescription>Please fill in your details to complete your purchase.</CardDescription>
         </CardHeader>
       <Form {...form}>
@@ -438,7 +438,7 @@ export default function CheckoutPage() {
                    )}
                 </div>
                 <Separator />
-                <div className="flex justify-between text-lg font-bold text-primary">
+                <div className="flex justify-between text-lg font-bold animated-gradient-text">
                   <p>Total</p>
                   <p>₦{totalAmount.toLocaleString()}</p>
                 </div>

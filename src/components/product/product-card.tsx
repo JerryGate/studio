@@ -99,7 +99,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         )}
                     </div>
 
-                    <p className="text-2xl font-bold text-primary mb-4">
+                    <p className="text-2xl font-bold animated-gradient-text mb-4">
                         ₦{product.price.toLocaleString()}
                     </p>
 

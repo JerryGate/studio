@@ -82,7 +82,7 @@ const Services = () => {
             viewport={{ once: true, amount: 0.5 }}
             variants={itemVariants}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-headline text-primary">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-headline animated-gradient-text">
             Everything You Need, All In One Place
           </h2>
            <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">

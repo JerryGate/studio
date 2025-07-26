@@ -121,7 +121,7 @@ const TrustSignals = () => {
            <div className="inline-block bg-accent/10 text-accent font-semibold py-1 px-3 rounded-full text-sm mb-4">
               Your Trust, Our Priority
             </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary">
+          <h2 className="text-3xl md:text-4xl font-extrabold font-headline animated-gradient-text">
             Why Nigerians Choose E-pharma
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">

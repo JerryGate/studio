@@ -25,7 +25,7 @@ const Cta = () => {
         viewport={{ once: true, amount: 0.5 }}
         variants={itemVariants}
       >
-        <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-primary mb-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold font-headline animated-gradient-text mb-4">
           Ready to Take Control of Your Health?
         </h2>
         <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-8">

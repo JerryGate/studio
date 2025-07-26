@@ -9,7 +9,7 @@ export default function AboutPage() {
     <div className="bg-background text-foreground">
       <header className="py-16 md:py-24 bg-primary/5 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-primary">About E-pharma</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold animated-gradient-text">About E-pharma</h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Your trusted partner for accessible, affordable, and reliable healthcare in Nigeria.
           </p>
@@ -22,11 +22,11 @@ export default function AboutPage() {
           {/* Mission and Vision Section */}
           <section className="grid md:grid-cols-2 gap-12 items-center mb-24">
             <div>
-              <h2 className="text-3xl font-bold text-primary mb-4">Our Mission</h2>
+              <h2 className="text-3xl font-bold animated-gradient-text mb-4">Our Mission</h2>
               <p className="text-muted-foreground text-lg mb-6">
                 To bridge the gap in healthcare by providing a seamless platform that connects Nigerians to verified pharmacies, ensuring swift access to authentic medications. We are committed to revolutionizing pharmacy services through technology, making healthcare more convenient and reliable for everyone.
               </p>
-              <h2 className="text-3xl font-bold text-primary mb-4">Our Vision</h2>
+              <h2 className="text-3xl font-bold animated-gradient-text mb-4">Our Vision</h2>
               <p className="text-muted-foreground text-lg">
                 To be Nigeria's leading e-pharmacy platform, renowned for our unwavering commitment to quality, affordability, and speedy delivery. We envision a future where every Nigerian can access essential medicines with just a few clicks, empowering them to live healthier lives.
               </p>
@@ -45,7 +45,7 @@ export default function AboutPage() {
           {/* Our Story Section */}
           <section className="mb-24">
             <div className="text-center max-w-3xl mx-auto">
-                <h2 className="text-3xl font-bold text-primary mb-4">Our Story</h2>
+                <h2 className="text-3xl font-bold animated-gradient-text mb-4">Our Story</h2>
                 <p className="text-muted-foreground text-lg">
                     Founded by a team of passionate healthcare professionals and tech innovators, E-pharma was born out of a desire to solve a critical problem: the difficulty in accessing genuine medications quickly and safely in Nigeria. We saw the challenges - from counterfeit drugs to the logistical hurdles of reaching a pharmacy - and we knew there had to be a better way. Thus, E-pharma was created as a beacon of hope and a symbol of quality healthcare for all.
                 </p>
@@ -54,7 +54,7 @@ export default function AboutPage() {
 
           {/* Core Values Section */}
           <section>
-            <h2 className="text-3xl font-bold text-primary text-center mb-12">Our Core Values</h2>
+            <h2 className="text-3xl font-bold animated-gradient-text text-center mb-12">Our Core Values</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="text-center">
                 <CardHeader>

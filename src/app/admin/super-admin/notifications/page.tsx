@@ -44,7 +44,7 @@ export default function NotificationsPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold text-primary mb-6">Email Notifications</h1>
+            <h1 className="text-3xl font-bold animated-gradient-text mb-6">Email Notifications</h1>
             <Card>
                 <CardHeader>
                     <CardTitle>Send a Notification</CardTitle>
