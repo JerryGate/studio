@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings, Shield } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -22,7 +22,7 @@ const navItems = [
   { href: '/admin/super-admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/super-admin/notifications', icon: Bell, label: 'Notifications' },
   { href: '/admin/super-admin/messages', icon: MessageSquare, label: 'Messages' },
-  { href: '/admin/super-admin/manage-admins', icon: Palette, label: 'Manage Admins' },
+  { href: '/admin/super-admin/manage-admins', icon: Shield, label: 'Manage Admins' },
   { href: '/admin/super-admin/profile', icon: UserCircle, label: 'Profile' },
   { href: '/admin/super-admin/settings', icon: Settings, label: 'Settings' },
 ];
@@ -73,8 +73,8 @@ export const AdminNav = ({ isMobile = false }) => {
 
 export default function AdminSidebar() {
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+    <div className="flex flex-col h-full bg-muted/40">
+      <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6">
         <Logo textClassName="inline" />
       </div>
       <AdminNav />

@@ -1,12 +1,11 @@
 
 import { Conversation, UserRole, Participant, Pharmacy, Patient, Dispatcher, Order, OrderStatus, BlogPost, Product } from '@/types';
 
-type MockUsers = Record<UserRole, Participant>;
+type MockUsers = Record<Exclude<UserRole, 'admin'>, Participant>;
 
 export const adminRoles: UserRole[] = ['super-admin', 'finance-admin', 'content-admin'];
 
 export const mockUsers: MockUsers = {
-    admin: { id: 'admin1', name: 'Admin User', role: 'admin' },
     customer: { id: 'customer1', name: 'John Doe', role: 'customer' },
     pharmacy: { id: 'pharmacy1', name: 'GoodHealth Pharmacy', role: 'pharmacy' },
     dispatcher: { id: 'dispatcher1', name: 'Femi Adebayo', role: 'dispatcher' },
@@ -17,7 +16,6 @@ export const mockUsers: MockUsers = {
 };
 
 export const mockAuthUsers = {
-    admin: { id: 'admin1', email: 'admin@e-pharma.com', role: 'admin' as UserRole },
     customer: { id: 'customer1', email: 'customer@e-pharma.com', role: 'customer' as UserRole },
     pharmacy: { id: 'pharmacy1', email: 'pharmacy@e-pharma.com', role: 'pharmacy' as UserRole },
     dispatcher: { id: 'dispatcher1', email: 'dispatcher@e-pharma.com', role: 'dispatcher' as UserRole },

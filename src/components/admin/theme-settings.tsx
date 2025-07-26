@@ -64,6 +64,10 @@ export default function ThemeSettings() {
       });
     };
 
+    const getHslString = (hslObj: {h: number, s: number, l: number}) => {
+        return `hsl(${Math.round(hslObj.h)}, ${Math.round(hslObj.s * 100)}%, ${Math.round(hslObj.l * 100)}%)`;
+    }
+
     return (
         <div className="space-y-8">
             <Card>
@@ -90,8 +94,8 @@ export default function ThemeSettings() {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="flex gap-2">
-                                                <div className="h-8 w-8 rounded-full border" style={{ backgroundColor: `hsl(${t.colors.primary})`}} />
-                                                <div className="h-8 w-8 rounded-full border" style={{ backgroundColor: `hsl(${t.colors.accent})`}} />
+                                                <div className="h-8 w-8 rounded-full border" style={{ backgroundColor: getHslString(t.colors.primary)}} />
+                                                <div className="h-8 w-8 rounded-full border" style={{ backgroundColor: getHslString(t.colors.accent)}} />
                                             </div>
                                         </CardContent>
                                     </Card>
@@ -119,9 +123,9 @@ export default function ThemeSettings() {
                             color={hslToHex(customColors.primary.h, customColors.primary.s, customColors.primary.l)}
                             onChangeComplete={(color) => handleCustomColorChange('primary', color)}
                             presetColors={THEMES.map(t => hslToHex(
-                                parseInt(t.colors.primary.split(' ')[0]),
-                                parseInt(t.colors.primary.split(' ')[1].replace('%','')),
-                                parseInt(t.colors.primary.split(' ')[2].replace('%',''))
+                                t.colors.primary.h,
+                                t.colors.primary.s,
+                                t.colors.primary.l
                             ))}
                         />
                     </div>
@@ -131,9 +135,9 @@ export default function ThemeSettings() {
                             color={hslToHex(customColors.accent.h, customColors.accent.s, customColors.accent.l)}
                             onChangeComplete={(color) => handleCustomColorChange('accent', color)}
                             presetColors={THEMES.map(t => hslToHex(
-                                parseInt(t.colors.accent.split(' ')[0]),
-                                parseInt(t.colors.accent.split(' ')[1].replace('%','')),
-                                parseInt(t.colors.accent.split(' ')[2].replace('%',''))
+                                t.colors.accent.h,
+                                t.colors.accent.s,
+                                t.colors.accent.l
                             ))}
                         />
                     </div>

@@ -25,6 +25,7 @@ export default function RootLayout({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Ensure the preloader runs for at least the animation duration.
     const timer = setTimeout(() => {
       setLoading(false);
     }, 7000); 
@@ -64,8 +65,8 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <AuthProvider>
           <ThemeProvider>
-            <Toaster>
-              <ImageProvider>
+            <ImageProvider>
+                <Toaster>
                   <CartProvider>
                       <AnimatePresence mode="wait">
                         {loading && <Preloader />}
@@ -89,8 +90,8 @@ export default function RootLayout({
                           <ScrollToTopButton />
                       </div>
                   </CartProvider>
-              </ImageProvider>
-            </Toaster>
+                </Toaster>
+            </ImageProvider>
           </ThemeProvider>
           </AuthProvider>
       </body>
