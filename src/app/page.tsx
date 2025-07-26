@@ -1,3 +1,4 @@
+
 'use client';
 
 import Hero from '@/components/landing/hero';
@@ -13,6 +14,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
 import { allProducts } from '@/lib/mock-data';
 import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
+import TopPharmacies from '@/components/landing/top-pharmacies';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
