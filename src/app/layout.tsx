@@ -6,7 +6,6 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { CartProvider } from '@/contexts/cart-context';
 import PageTransition from '@/components/page-transition';
-import { ThemeProvider } from '@/contexts/theme-context';
 import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
@@ -63,7 +62,6 @@ export default function RootLayout({
         <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, Medfast Nigeria" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
-        <ThemeProvider>
           <AuthProvider>
             <Toaster>
               <ImageProvider>
@@ -91,7 +89,6 @@ export default function RootLayout({
               </ImageProvider>
             </Toaster>
           </AuthProvider>
-        </ThemeProvider>
       </body>
     </html>
   );
