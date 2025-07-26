@@ -70,7 +70,7 @@ export default function Home() {
                     Explore our wide range of products tailored to your health needs.
                   </p>
                 </motion.div>
-                 <Card className="shadow-lg">
+                 <Card className="shadow-lg bg-card">
                     <CardContent className="p-6 md:p-8">
                         <CategorySlider />
                     </CardContent>

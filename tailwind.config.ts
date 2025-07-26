@@ -76,11 +76,22 @@ const config = {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+         "pulse": {
+          "0%, 100%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 0 0 hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness), 0.7)"
+          },
+          "70%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 0 10px hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness), 0)"
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-in-out",
+        "pulse": "pulse 2s infinite",
       },
     },
   },

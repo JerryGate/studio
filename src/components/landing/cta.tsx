@@ -33,7 +33,7 @@ const Cta = () => {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/search">
-            <Button size="lg">
+            <Button size="lg" className="animate-pulse">
               Order Your Drugs Today
             </Button>
           </Link>
