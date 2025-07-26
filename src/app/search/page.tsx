@@ -113,17 +113,16 @@ function SearchResults() {
                     </form>
                 </div>
                 <div className="border-b pb-4 mb-6 flex justify-between items-center">
-                    <p className="text-sm text-muted-foreground">
-                        {!loading && (
+                    <div className="text-sm text-muted-foreground">
+                        {loading ? (
+                             <Skeleton className="h-5 w-48" />
+                        ) : (
                             <>
                                 Showing {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''}
                                 {searchTerm && <> for <span className="font-semibold animated-gradient-text">"{searchTerm}"</span></>}
                             </>
                         )}
-                         {loading && (
-                            <Skeleton className="h-5 w-48" />
-                         )}
-                    </p>
+                    </div>
                 </div>
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
