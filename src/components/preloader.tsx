@@ -9,14 +9,14 @@ const Preloader = () => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: 'easeInOut' }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-primary"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
     >
       <div className="relative flex items-center justify-center">
         {/* Pulsating Waves */}
         {[...Array(4)].map((_, i) => (
             <motion.div
                 key={i}
-                className="absolute rounded-full border border-primary-foreground/30"
+                className="absolute rounded-full border border-primary/30"
                 initial={{ scale: 0, opacity: 1, width: '112px', height: '112px' }}
                 animate={{
                     scale: 2.5,
@@ -42,19 +42,19 @@ const Preloader = () => {
             >
             {/* Outer circle */}
             <motion.div
-                className="absolute inset-0 rounded-full border-2 border-primary-foreground/50"
+                className="absolute inset-0 rounded-full border-2 border-primary/50"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
             />
             {/* Middle circle */}
             <motion.div
-                className="absolute inset-2 rounded-full border-2 border-primary-foreground/70"
+                className="absolute inset-2 rounded-full border-2 border-primary/70"
                 animate={{ rotate: -360 }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
             />
             {/* Inner circle */}
             <motion.div
-                className="absolute inset-4 rounded-full border-2 border-primary-foreground"
+                className="absolute inset-4 rounded-full border-2 border-primary"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
             />

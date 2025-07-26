@@ -5,77 +5,88 @@ export interface Theme {
         primary: string; // HSL format "H S% L%"
         accent: string;  // HSL format "H S% L%"
     };
+    fonts?: {
+        body: string;
+        headings: string;
+    }
 }
 
 export const THEMES: Theme[] = [
     {
         name: 'Default',
         colors: {
-            primary: '221 65% 32%', // Deep Blue
-            accent: '142 60% 45%', // Vibrant Green
+            primary: '221 83% 53%', // Soft Blue
+            accent: '158 44% 48%', // Emerald Green
         },
     },
     {
-        name: 'Ocean Breeze',
+        name: 'Coastal Calm',
         colors: {
-            primary: '210 33% 32%', // Navy Blue
-            accent: '177 47% 48%', // Teal
+            primary: '210 100% 39%', // #1E90FF
+            accent: '180 100% 40%',  // #00CED1
         },
     },
     {
-        name: 'Sunset Glow',
+        name: 'Warm Sunset',
         colors: {
             primary: '27 82% 53%', // Orange
-            accent: '339 90% 86%', // Pink
+            accent: '0 100% 71%',  // #FF6B6B
         },
     },
     {
-        name: 'Forest Green',
+        name: 'Lush Forest',
         colors: {
-            primary: '158 45% 28%', // Dark Green
-            accent: '78 68% 82%', // Beige
+            primary: '158 82% 21%', // #065F46
+            accent: '157 81% 82%', // #A7F3D0
         },
     },
     {
-        name: 'Midnight Sky',
+        name: 'Night Pulse',
         colors: {
-            primary: '260 67% 35%', // Dark Purple
-            accent: '210 17% 82%', // Silver
+            primary: '273 66% 36%', // #6B21A8
+            accent: '276 94% 87%', // #D8B4FE
         },
     },
     {
-        name: 'Urban Chic',
+        name: 'Urban Slate',
         colors: {
-            primary: '210 15% 23%', // Charcoal
-            accent: '42 69% 51%', // Mustard
+            primary: '215 15% 34%', // #4B5563
+            accent: '39 92% 58%',  // #F59E0B
         },
     },
     {
-        name: 'Coral Reef',
+        name: 'Coral Breeze',
         colors: {
-            primary: '0 89% 65%', // Coral
-            accent: '175 58% 53%', // Turquoise
+            primary: '0 84% 60%', // #EF4444
+            accent: '0 95% 88%',  // #FECACA
         },
     },
     {
-        name: 'Golden Hour',
+        name: 'Golden Serenity',
         colors: {
-            primary: '38 74% 43%', // Gold
-            accent: '0 54% 33%', // Maroon
+            primary: '33 93% 43%', // #D97706
+            accent: '45 96% 65%',  // #FCD34D
         },
     },
     {
-        name: 'Serenity',
+        name: 'Sky Haven',
         colors: {
-            primary: '207 72% 57%', // Soft Blue
-            accent: '260 78% 77%', // Lavender
+            primary: '217 91% 60%', // #3B82F6
+            accent: '208 93% 77%',  // #93C5FD
         },
     },
     {
-        name: 'Earth Tones',
+        name: 'Earthy Harmony',
         colors: {
-            primary: '25 76% 28%', // Brown
-            accent: '91 16% 60%', // Sage
+            primary: '27 34% 36%',  // #7F5539
+            accent: '32 37% 74%',  // #D9C2A6
+        },
+    },
+    {
+        name: 'Mint Fresh',
+        colors: {
+            primary: '173 82% 40%', // #14B8A6
+            accent: '170 79% 69%',  // #5EEAD4
         },
     },
 ];

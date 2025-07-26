@@ -3,6 +3,8 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useTheme } from '@/contexts/theme-context';
+import { THEMES } from '@/lib/themes';
 
 const data = [
   { name: 'Pain Relief', value: 400 },
@@ -13,16 +15,27 @@ const data = [
   { name: 'Diabetes', value: 189 },
 ];
 
-const COLORS = [
-  '#1E3A8A', // Deep Blue (Primary)
-  '#22C55E', // Vibrant Green (Accent)
-  '#F59E0B', // Amber
-  '#8B5CF6', // Violet
-  '#EC4899', // Pink
-  '#3B82F6', // Blue
-];
+const parseHsl = (hslString: string): { h: number, s: number, l: number } => {
+    const [h, s, l] = hslString.split(' ').map(val => parseFloat(val.replace('%', '')));
+    return { h, s, l };
+}
+
+const generateColors = (baseColor: string, count: number) => {
+    const { h, s, l } = parseHsl(baseColor);
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+        const lightness = l - (i * 5);
+        colors.push(`hsl(${h}, ${s}%, ${lightness}%)`);
+    }
+    return colors;
+}
 
 export function SalesByCategoryChart() {
+  const { theme } = useTheme();
+  const themeColors = generateColors(theme.colors.primary, data.length);
+  const accentColor = `hsl(${theme.colors.accent})`;
+  const finalColors = [accentColor, ...themeColors.slice(1)];
+
   return (
      <Card>
         <CardHeader>
@@ -46,7 +59,7 @@ export function SalesByCategoryChart() {
                     label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                 {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={finalColors[index % finalColors.length]} />
                 ))}
                 </Pie>
                 <Tooltip 
@@ -56,7 +69,7 @@ export function SalesByCategoryChart() {
                         borderRadius: "var(--radius)",
                     }}
                 />
-                <Legend />
+                <Legend wrapperStyle={{ color: "hsl(var(--foreground))" }} />
             </PieChart>
             </ResponsiveContainer>
         </CardContent>

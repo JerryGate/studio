@@ -3,6 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { THEMES, Theme } from '@/lib/themes';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface HSLColor {
   h: number;
@@ -26,68 +27,14 @@ const parseHsl = (hslString: string): HSLColor => {
     return { h, s, l };
 }
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, _setTheme] = useState<Theme>(THEMES[0]); // Default to the first theme
-  const [customColors, setCustomColors] = useState<{primary: HSLColor, accent: HSLColor}>({
-    primary: parseHsl(THEMES[0].colors.primary),
-    accent: parseHsl(THEMES[0].colors.accent),
-  });
-
-  useEffect(() => {
-    const savedThemeName = localStorage.getItem('theme') || THEMES[0].name.toLowerCase();
-    const savedTheme = THEMES.find(t => t.name.toLowerCase() === savedThemeName) || THEMES[0];
-    const savedCustomPrimary = localStorage.getItem('custom-primary');
-    const savedCustomAccent = localStorage.getItem('custom-accent');
-
-    if (savedThemeName === 'custom' && savedCustomPrimary && savedCustomAccent) {
-      const primary = JSON.parse(savedCustomPrimary);
-      const accent = JSON.parse(savedCustomAccent);
-      _setTheme({ name: 'Custom', colors: { primary: `${primary.h} ${primary.s}% ${primary.l}%`, accent: `${accent.h} ${accent.s}% ${accent.l}%` } });
-      setCustomColors({ primary, accent });
-    } else {
-      _setTheme(savedTheme);
-    }
-  }, []);
-
-  const setTheme = (themeName: string) => {
-    if (themeName === 'custom') {
-      const customTheme: Theme = {
-          name: 'Custom',
-          colors: {
-              primary: `${customColors.primary.h} ${customColors.primary.s}% ${customColors.primary.l}%`,
-              accent: `${customColors.accent.h} ${customColors.accent.s}% ${customColors.accent.l}%`,
-          }
-      };
-      _setTheme(customTheme);
-      localStorage.setItem('theme', 'custom');
-      localStorage.setItem('custom-primary', JSON.stringify(customColors.primary));
-      localStorage.setItem('custom-accent', JSON.stringify(customColors.accent));
-    } else {
-      const newTheme = THEMES.find(t => t.name.toLowerCase() === themeName.toLowerCase());
-      if (newTheme) {
-        _setTheme(newTheme);
-        localStorage.setItem('theme', newTheme.name.toLowerCase());
-      }
-    }
-  };
-  
-  const setCustomColor = (colorType: 'primary' | 'accent', color: HSLColor) => {
-    setCustomColors(prev => {
-        const newColors = { ...prev, [colorType]: color };
-        localStorage.setItem('custom-primary', JSON.stringify(newColors.primary));
-        localStorage.setItem('custom-accent', JSON.stringify(newColors.accent));
-        return newColors;
-    });
-  };
-
-  useEffect(() => {
+const applyThemeToDom = (themeToApply: Theme, customColors: { primary: HSLColor, accent: HSLColor }) => {
     const root = document.documentElement;
-    const colors = theme.name.toLowerCase() === 'custom'
+    const colors = themeToApply.name.toLowerCase() === 'custom'
       ? {
           primary: `${customColors.primary.h} ${customColors.primary.s}% ${customColors.primary.l}%`,
           accent: `${customColors.accent.h} ${customColors.accent.s}% ${customColors.accent.l}%`,
         }
-      : theme.colors;
+      : themeToApply.colors;
 
     const primaryHsl = parseHsl(colors.primary);
     const accentHsl = parseHsl(colors.accent);
@@ -102,12 +49,89 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     root.style.setProperty('--accent-hue', String(accentHsl.h));
     root.style.setProperty('--accent-saturation', `${accentHsl.s}%`);
     root.style.setProperty('--accent-lightness', `${accentHsl.l}%`);
+}
 
-  }, [theme, customColors]);
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [theme, _setTheme] = useState<Theme>(THEMES[0]);
+  const [themeKey, setThemeKey] = useState(0);
+  const [customColors, setCustomColors] = useState<{primary: HSLColor, accent: HSLColor}>({
+    primary: parseHsl(THEMES[0].colors.primary),
+    accent: parseHsl(THEMES[0].colors.accent),
+  });
+
+  useEffect(() => {
+    const savedThemeName = localStorage.getItem('theme') || THEMES[0].name.toLowerCase();
+    const savedCustomPrimary = localStorage.getItem('custom-primary');
+    const savedCustomAccent = localStorage.getItem('custom-accent');
+
+    if (savedThemeName === 'custom' && savedCustomPrimary && savedCustomAccent) {
+      try {
+        const primary = JSON.parse(savedCustomPrimary);
+        const accent = JSON.parse(savedCustomAccent);
+        const customTheme = { name: 'Custom', colors: { primary: `${primary.h} ${primary.s}% ${primary.l}%`, accent: `${accent.h} ${accent.s}% ${accent.l}%` } };
+        _setTheme(customTheme);
+        setCustomColors({ primary, accent });
+        applyThemeToDom(customTheme, { primary, accent });
+      } catch (e) {
+        _setTheme(THEMES[0]);
+        applyThemeToDom(THEMES[0], customColors);
+      }
+    } else {
+      const savedTheme = THEMES.find(t => t.name.toLowerCase() === savedThemeName) || THEMES[0];
+      _setTheme(savedTheme);
+      applyThemeToDom(savedTheme, customColors);
+    }
+    setThemeKey(prev => prev + 1);
+  }, []);
+
+  const setTheme = (themeName: string) => {
+    let newTheme: Theme;
+    if (themeName === 'custom') {
+      newTheme = {
+          name: 'Custom',
+          colors: {
+              primary: `${customColors.primary.h} ${customColors.primary.s}% ${customColors.primary.l}%`,
+              accent: `${customColors.accent.h} ${customColors.accent.s}% ${customColors.accent.l}%`,
+          }
+      };
+      localStorage.setItem('theme', 'custom');
+    } else {
+      newTheme = THEMES.find(t => t.name.toLowerCase() === themeName.toLowerCase()) || THEMES[0];
+      localStorage.setItem('theme', newTheme.name.toLowerCase());
+      localStorage.removeItem('custom-primary');
+      localStorage.removeItem('custom-accent');
+    }
+     _setTheme(newTheme);
+     applyThemeToDom(newTheme, newTheme.name.toLowerCase() === 'custom' ? customColors : { primary: parseHsl(newTheme.colors.primary), accent: parseHsl(newTheme.colors.accent) });
+     setThemeKey(prev => prev + 1);
+  };
+  
+  const setCustomColor = (colorType: 'primary' | 'accent', color: HSLColor) => {
+    const newCustomColors = { ...customColors, [colorType]: color };
+    setCustomColors(newCustomColors);
+    localStorage.setItem('custom-primary', JSON.stringify(newCustomColors.primary));
+    localStorage.setItem('custom-accent', JSON.stringify(newCustomColors.accent));
+    
+    const customTheme = { name: 'Custom', colors: { primary: `${newCustomColors.primary.h} ${newCustomColors.primary.s}% ${newCustomColors.primary.l}%`, accent: `${newCustomColors.accent.h} ${newCustomColors.accent.s}% ${newCustomColors.accent.l}%` } };
+    _setTheme(customTheme);
+    localStorage.setItem('theme', 'custom');
+    applyThemeToDom(customTheme, newCustomColors);
+    setThemeKey(prev => prev + 1);
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, customColors, setCustomColor }}>
-      {children}
+       <AnimatePresence mode="wait">
+            <motion.div
+                key={themeKey}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                {children}
+            </motion.div>
+        </AnimatePresence>
     </ThemeContext.Provider>
   );
 };

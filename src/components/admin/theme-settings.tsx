@@ -9,9 +9,9 @@ import { cn } from '@/lib/utils';
 import { CheckCircle, Palette } from 'lucide-react';
 import * as React from 'react';
 import { Label } from '../ui/label';
-import { Input } from '../ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { ColorResult, SketchPicker } from 'react-color';
+import { motion } from 'framer-motion';
 
 const hslToHex = (h: number, s: number, l: number): string => {
   l /= 100;
@@ -26,21 +26,43 @@ const hslToHex = (h: number, s: number, l: number): string => {
   return `#${f(0)}${f(8)}${f(4)}`;
 };
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.05,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+    },
+};
+
 export default function ThemeSettings() {
     const { theme, setTheme, setCustomColor, customColors } = useTheme();
     const { toast } = useToast();
     
-    const handleCustomColorChange = (colorType: 'primary' | 'accent', color: ColorResult) => {
-      setCustomColor(colorType, color.hsl);
-      setTheme('custom');
-    };
-
-    const handleSaveCustom = () => {
+    const handleThemeSelect = (themeName: string) => {
+        setTheme(themeName);
         toast({
-            title: 'Custom Theme Saved',
-            description: 'Your custom color selections have been applied.'
+            title: 'Theme Updated!',
+            description: `The "${themeName}" theme has been applied.`
         });
     }
+
+    const handleCustomColorChange = (colorType: 'primary' | 'accent', color: ColorResult) => {
+      setCustomColor(colorType, color.hsl);
+      toast({
+        title: 'Custom Color Updated',
+        description: `Your custom ${colorType} color has been applied.`,
+      });
+    };
 
     return (
         <div className="space-y-8">
@@ -49,25 +71,34 @@ export default function ThemeSettings() {
                     <CardTitle>Predefined Themes</CardTitle>
                     <CardDescription>Select a theme to instantly change the look and feel of the entire website.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {THEMES.map((t) => (
-                         <button key={t.name} onClick={() => setTheme(t.name.toLowerCase())}>
-                            <Card className={cn("cursor-pointer hover:shadow-lg transition-shadow", theme.name === t.name && "ring-2 ring-primary")}>
-                                <CardHeader>
-                                    <div className="flex justify-between items-center">
-                                        <CardTitle className="text-base">{t.name}</CardTitle>
-                                        {theme.name === t.name && <CheckCircle className="h-5 w-5 text-primary" />}
-                                    </div>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex gap-2">
-                                        <div className="h-8 w-8 rounded-full" style={{ backgroundColor: `hsl(${t.colors.primary})`}} />
-                                        <div className="h-8 w-8 rounded-full" style={{ backgroundColor: `hsl(${t.colors.accent})`}} />
-                                    </div>
-                                </CardContent>
-                            </Card>
-                         </button>
-                    ))}
+                <CardContent>
+                    <motion.div 
+                        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {THEMES.map((t) => (
+                            <motion.div key={t.name} variants={itemVariants}>
+                                <button onClick={() => handleThemeSelect(t.name.toLowerCase())} className="w-full text-left">
+                                    <Card className={cn("cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1", theme.name === t.name && "ring-2 ring-primary")}>
+                                        <CardHeader>
+                                            <div className="flex justify-between items-start">
+                                                <CardTitle className="text-base">{t.name}</CardTitle>
+                                                {theme.name === t.name && <CheckCircle className="h-5 w-5 text-primary shrink-0" />}
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="flex gap-2">
+                                                <div className="h-8 w-8 rounded-full border" style={{ backgroundColor: `hsl(${t.colors.primary})`}} />
+                                                <div className="h-8 w-8 rounded-full border" style={{ backgroundColor: `hsl(${t.colors.accent})`}} />
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </button>
+                            </motion.div>
+                        ))}
+                    </motion.div>
                 </CardContent>
             </Card>
             
@@ -78,15 +109,15 @@ export default function ThemeSettings() {
                         Custom Theme
                     </CardTitle>
                     <CardDescription>
-                        Create your own theme by picking custom colors. Your custom theme will be applied automatically.
+                        Create your own theme by picking custom colors. Your custom theme will be applied automatically when you select a color.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                        <Label>Primary Color</Label>
+                        <Label className="font-semibold text-lg">Primary Color</Label>
                         <SketchPicker
                             color={hslToHex(customColors.primary.h, customColors.primary.s, customColors.primary.l)}
-                            onChange={(color) => handleCustomColorChange('primary', color)}
+                            onChangeComplete={(color) => handleCustomColorChange('primary', color)}
                             presetColors={THEMES.map(t => hslToHex(
                                 parseInt(t.colors.primary.split(' ')[0]),
                                 parseInt(t.colors.primary.split(' ')[1].replace('%','')),
@@ -95,10 +126,10 @@ export default function ThemeSettings() {
                         />
                     </div>
                      <div className="space-y-4">
-                        <Label>Accent Color</Label>
+                        <Label className="font-semibold text-lg">Accent Color</Label>
                          <SketchPicker
                             color={hslToHex(customColors.accent.h, customColors.accent.s, customColors.accent.l)}
-                            onChange={(color) => handleCustomColorChange('accent', color)}
+                            onChangeComplete={(color) => handleCustomColorChange('accent', color)}
                             presetColors={THEMES.map(t => hslToHex(
                                 parseInt(t.colors.accent.split(' ')[0]),
                                 parseInt(t.colors.accent.split(' ')[1].replace('%','')),

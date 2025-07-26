@@ -5,23 +5,30 @@
 
 @layer base {
   :root {
-    --background-hue: 240;
-    --background-saturation: 5%;
-    --background-lightness: 96%;
-    --foreground-hue: 224;
-    --foreground-saturation: 71%;
-    --foreground-lightness: 4%;
+    --background-hue: 220;
+    --background-saturation: 14%;
+    --background-lightness: 98%;
+    
+    --foreground-hue: 221;
+    --foreground-saturation: 22%;
+    --foreground-lightness: 20%;
     
     --primary-hue: 221;
-    --primary-saturation: 65%;
-    --primary-lightness: 32%;
+    --primary-saturation: 83%;
+    --primary-lightness: 53%;
+
+    --accent-hue: 158;
+    --accent-saturation: 44%;
+    --accent-lightness: 48%;
+
     --primary-foreground-hue: 210;
     --primary-foreground-saturation: 20%;
     --primary-foreground-lightness: 98%;
-
+    
     --secondary-hue: 220;
     --secondary-saturation: 13%;
     --secondary-lightness: 91%;
+    
     --secondary-foreground-hue: 224;
     --secondary-foreground-saturation: 71%;
     --secondary-foreground-lightness: 4%;
@@ -29,13 +36,11 @@
     --muted-hue: 220;
     --muted-saturation: 13%;
     --muted-lightness: 91%;
+    
     --muted-foreground-hue: 220;
     --muted-foreground-saturation: 9%;
     --muted-foreground-lightness: 46%;
 
-    --accent-hue: 142;
-    --accent-saturation: 60%;
-    --accent-lightness: 45%;
     --accent-foreground-hue: 210;
     --accent-foreground-saturation: 20%;
     --accent-foreground-lightness: 98%;
@@ -43,29 +48,30 @@
     --destructive-hue: 0;
     --destructive-saturation: 84%;
     --destructive-lightness: 60%;
+    
     --destructive-foreground-hue: 210;
     --destructive-foreground-saturation: 20%;
     --destructive-foreground-lightness: 98%;
 
     --border-hue: 220;
     --border-saturation: 13%;
-    --border-lightness: 91%;
+    --border-lightness: 88%;
 
     --input-hue: 220;
     --input-saturation: 13%;
-    --input-lightness: 91%;
+    --input-lightness: 88%;
 
     --ring-hue: 221;
-    --ring-saturation: 65%;
-    --ring-lightness: 32%;
+    --ring-saturation: 83%;
+    --ring-lightness: 53%;
 
     --radius: 0.5rem;
     
     --background: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
     --foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
-    --card: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
+    --card: hsl(var(--background-hue), var(--background-saturation), 100%);
     --card-foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
-    --popover: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
+    --popover: hsl(var(--background-hue), var(--background-saturation), 100%);
     --popover-foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
     --primary: hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness));
     --primary-foreground: hsl(var(--primary-foreground-hue), var(--primary-foreground-saturation), var(--primary-foreground-lightness));
@@ -110,3 +116,23 @@
   50% { background-position: 100% 50%; }
   100% { background-position: 0px 50%; }
 }
+
+.prose {
+    --tw-prose-body: hsl(var(--foreground));
+    --tw-prose-headings: hsl(var(--primary));
+    --tw-prose-lead: hsl(var(--muted-foreground));
+    --tw-prose-links: hsl(var(--accent));
+    --tw-prose-bold: hsl(var(--foreground));
+    --tw-prose-counters: hsl(var(--muted-foreground));
+    --tw-prose-bullets: hsl(var(--muted-foreground));
+    --tw-prose-hr: hsl(var(--border));
+    --tw-prose-quotes: hsl(var(--foreground));
+    --tw-prose-quote-borders: hsl(var(--border));
+    --tw-prose-captions: hsl(var(--muted-foreground));
+    --tw-prose-code: hsl(var(--foreground));
+    --tw-prose-pre-code: hsl(var(--muted));
+    --tw-prose-pre-bg: hsl(var(--muted));
+    --tw-prose-th-borders: hsl(var(--border));
+    --tw-prose-td-borders: hsl(var(--border));
+}
+

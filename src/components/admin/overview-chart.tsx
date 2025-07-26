@@ -25,16 +25,16 @@ export function OverviewChart() {
             <ResponsiveContainer width="100%" height={350}>
                  <ComposedChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis yAxisId="left" stroke="hsl(var(--primary))" label={{ value: 'Revenue (₦)', angle: -90, position: 'insideLeft' }} />
-                    <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--accent))" label={{ value: 'Orders', angle: -90, position: 'insideRight' }} />
+                    <XAxis dataKey="name" stroke="hsl(var(--foreground))" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="left" stroke="hsl(var(--primary))" tick={{ fill: 'hsl(var(--muted-foreground))' }} label={{ value: 'Revenue (₦)', angle: -90, position: 'insideLeft', fill: 'hsl(var(--primary))' }} />
+                    <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--accent))" tick={{ fill: 'hsl(var(--muted-foreground))' }} label={{ value: 'Orders', angle: -90, position: 'insideRight', fill: 'hsl(var(--accent))' }} />
                     <Tooltip 
                         contentStyle={{
                             background: "hsl(var(--background))",
                             borderColor: "hsl(var(--border))"
                         }}
                     />
-                    <Legend />
+                    <Legend wrapperStyle={{ color: "hsl(var(--foreground))" }} />
                     <Bar yAxisId="left" dataKey="revenue" fill="hsl(var(--primary))" name="Revenue" />
                     <Line yAxisId="right" type="monotone" dataKey="orders" stroke="hsl(var(--accent))" name="Orders" />
                 </ComposedChart>
