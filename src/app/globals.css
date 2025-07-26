@@ -98,6 +98,12 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     line-height: 1.5;
   }
+  .card {
+    @apply border-0 shadow-md transition-shadow duration-300;
+  }
+  .card:hover {
+    @apply shadow-xl;
+  }
 }
 
 .animated-gradient-text {
@@ -135,4 +141,3 @@
     --tw-prose-th-borders: hsl(var(--border));
     --tw-prose-td-borders: hsl(var(--border));
 }
-
