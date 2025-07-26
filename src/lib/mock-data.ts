@@ -215,12 +215,43 @@ export const mockBlogPosts: BlogPost[] = [
 ];
 
 export const allProducts: Product[] = [
-    { id: '1', name: 'Paracetamol', dosage: '500mg', price: 500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 10, description: 'An effective pain reliever and fever reducer.' },
-    { id: '2', name: 'Vitamin C', dosage: '1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'Supports immune system.' },
-    { id: '3', name: 'Amoxicillin', dosage: '250mg', price: 800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'antibiotic capsules', category: 'Antibiotics', stock: 0, description: 'Treats bacterial infections.' },
-    { id: '4', name: 'Loratadine', dosage: '10mg', price: 750, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'Non-drowsy antihistamine.' },
+    // Pain Relief
+    { id: '1', name: 'Paracetamol', dosage: '500mg', price: 500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'white pills', category: 'Pain Relief', stock: 50, description: 'An effective pain reliever and fever reducer.' },
     { id: '5', name: 'Ibuprofen', dosage: '200mg', price: 600, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'painkillers tablets', category: 'Pain Relief', stock: 30, description: 'Provides relief from pain, inflammation, and fever.' },
-    { id: '6', name: 'Metformin', dosage: '500mg', price: 950, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'diabetes medication', category: 'Diabetes', stock: 8, description: 'Controls high blood sugar.' },
-    { id: '7', name: 'Salbutamol Inhaler', dosage: '100mcg', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Asthma', stock: 12, description: 'Quick relief for asthma symptoms.' },
-    { id: '8', name: 'Cough Syrup', dosage: '100ml', price: 1500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'Soothing cough syrup.' },
+    { id: '9', name: 'Diclofenac Gel', dosage: '1%', price: 1500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'topical gel', category: 'Pain Relief', stock: 20, description: 'Topical gel for muscle and joint pain.' },
+    { id: '10', name: 'Aspirin', dosage: '75mg', price: 400, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'heart medication', category: 'Pain Relief', stock: 40, description: 'Low-dose aspirin for cardiovascular protection.' },
+
+    // Vitamins
+    { id: '2', name: 'Vitamin C', dosage: '1000mg', price: 1200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'orange tablets', category: 'Vitamins', stock: 25, description: 'Supports immune system and provides antioxidant benefits.' },
+    { id: '11', name: 'Vitamin D3', dosage: '2000IU', price: 1800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'vitamin capsules', category: 'Vitamins', stock: 18, description: 'Essential for bone health and immune function.' },
+    { id: '12', name: 'B-Complex', dosage: '100 tablets', price: 2200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'multivitamin bottle', category: 'Vitamins', stock: 15, description: 'Helps with energy metabolism and nervous system health.' },
+    { id: '13', name: 'Zinc Tablets', dosage: '50mg', price: 900, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'mineral supplements', category: 'Vitamins', stock: 35, description: 'Supports immune function and skin health.' },
+
+    // Antibiotics
+    { id: '3', name: 'Amoxicillin', dosage: '250mg', price: 800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'antibiotic capsules', category: 'Antibiotics', stock: 0, description: 'Broad-spectrum antibiotic for bacterial infections.' },
+    { id: '14', name: 'Ciprofloxacin', dosage: '500mg', price: 1100, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'infection medication', category: 'Antibiotics', stock: 10, description: 'Used to treat a variety of bacterial infections.' },
+    { id: '15', name: 'Azithromycin', dosage: '500mg', price: 2000, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'zithromax pills', category: 'Antibiotics', stock: 7, description: 'Effective for respiratory and skin infections.' },
+
+    // Allergy
+    { id: '4', name: 'Loratadine', dosage: '10mg', price: 750, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'allergy medicine', category: 'Allergy', stock: 15, description: 'Non-drowsy antihistamine for allergy relief.' },
+    { id: '16', name: 'Cetirizine', dosage: '10mg', price: 650, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'zyrtec tablets', category: 'Allergy', stock: 22, description: 'Provides 24-hour relief from allergy symptoms.' },
+    { id: '17', name: 'Nasal Spray', dosage: '60 sprays', price: 2100, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'nasal spray bottle', category: 'Allergy', stock: 13, description: 'For the relief of nasal congestion due to allergies.' },
+
+    // Chronic Care
+    { id: '6', name: 'Metformin', dosage: '500mg', price: 950, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'diabetes medication', category: 'Chronic Care', stock: 8, description: 'First-line medication for the treatment of type 2 diabetes.' },
+    { id: '7', name: 'Salbutamol Inhaler', dosage: '100mcg', price: 2500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'asthma inhaler', category: 'Chronic Care', stock: 12, description: 'Quick relief for asthma and COPD symptoms.' },
+    { id: '18', name: 'Amlodipine', dosage: '5mg', price: 700, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'blood pressure pills', category: 'Chronic Care', stock: 28, description: 'Used to treat high blood pressure and chest pain (angina).' },
+    { id: '19', name: 'Lisinopril', dosage: '10mg', price: 850, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'hypertension drug', category: 'Chronic Care', stock: 21, description: 'ACE inhibitor used to treat high blood pressure.' },
+
+    // Cold & Flu
+    { id: '8', name: 'Cough Syrup', dosage: '100ml', price: 1500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'liquid medicine', category: 'Cold & Flu', stock: 5, description: 'Soothing cough syrup for dry and chesty coughs.' },
+    { id: '20', name: 'Cold & Flu Tablets', dosage: '24 tabs', price: 1300, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'flu medicine box', category: 'Cold & Flu', stock: 19, description: 'Multi-symptom relief from cold and flu.' },
+    { id: '21', name: 'Nasal Decongestant', dosage: '15ml', price: 900, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'nose drops', category: 'Cold & Flu', stock: 14, description: 'Provides fast relief for a blocked nose.' },
+
+    // Skin & Beauty
+    { id: '22', name: 'Sunscreen SPF 50+', dosage: '50ml', price: 4500, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'sunscreen tube', category: 'Skin & Beauty', stock: 25, description: 'Broad-spectrum UVA/UVB protection.' },
+    { id: '23', name: 'Acne Treatment Cream', dosage: '30g', price: 2800, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'face cream jar', category: 'Skin & Beauty', stock: 16, description: 'Contains benzoyl peroxide to treat acne.' },
+    { id: '24', name: 'Moisturizing Lotion', dosage: '250ml', price: 3200, imageUrls: ['https://placehold.co/300x300.png'], dataAiHint: 'lotion bottle', category: 'Skin & Beauty', stock: 30, description: 'For dry and sensitive skin, fragrance-free.' },
 ];
+
+    
