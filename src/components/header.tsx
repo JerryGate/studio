@@ -84,7 +84,7 @@ const Header = () => {
         <div className="flex h-20 items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <Logo />
-            <nav className="hidden lg:flex items-center gap-6">
+             <nav className="hidden lg:flex items-center gap-6">
               {navLinks.map((link) => (
                 <Link key={link.name} href={link.href}>
                   <div className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
@@ -95,23 +95,20 @@ const Header = () => {
             </nav>
           </div>
           
-          <div className="hidden lg:flex flex-1 justify-center px-8">
-            <form className="relative w-full max-w-md" onSubmit={handleSearch}>
-                <Input
-                type="text"
-                placeholder="e.g., Paracetamol, Vitamin C..."
-                className="h-10 pl-10 pr-20 text-sm bg-background/80 border-border/80 focus:border-primary focus:ring-primary"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Button type="submit" size="sm" className="absolute right-1 top-1/2 -translate-y-1/2 h-8">
-                    Search
-                </Button>
-            </form>
-          </div>
-
           <div className="flex items-center gap-2">
+             <div className="hidden lg:flex">
+                <form className="relative w-full max-w-sm" onSubmit={handleSearch}>
+                    <Input
+                    type="text"
+                    placeholder="e.g., Paracetamol..."
+                    className="h-10 pl-10 pr-4 text-sm bg-background/80 border-border/80 focus:border-primary focus:ring-primary"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                </form>
+             </div>
+
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />
