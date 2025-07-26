@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Pill } from 'lucide-react';
+import { HeartPulse } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface LogoProps {
@@ -20,7 +20,7 @@ const Logo = ({ className, textClassName, iconSize = 'h-6 w-6', textSize = 'text
         className
       )}>
         <div className="bg-primary text-primary-foreground p-2 rounded-lg">
-          <Pill className={cn(iconSize)} />
+          <HeartPulse className={cn(iconSize)} />
         </div>
         <span className={cn(
           "font-bold font-headline text-primary hidden sm:inline",
