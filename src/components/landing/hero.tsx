@@ -104,7 +104,7 @@ const Hero = () => {
                                         priority={index === 0}
                                         data-ai-hint={image.hint}
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                                 </div>
                             </CarouselItem>
                         ))}
@@ -120,10 +120,10 @@ const Hero = () => {
                                 exit={{ y: -20, opacity: 0 }}
                                 transition={{ duration: 0.5, ease: "circOut" }}
                             >
-                                <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold font-headline drop-shadow-lg">
+                                <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold font-headline [text-shadow:0_4px_12px_rgba(0,0,0,0.5)]">
                                     {sliderImages[current]?.headline || "Quality Drugs, Delivered Fast."}
                                 </h1>
-                                <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-md">
+                                <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
                                     {sliderImages[current]?.description || "Your trusted source for verified medications from local pharmacies in Nigeria."}
                                 </p>
                                 <motion.div
