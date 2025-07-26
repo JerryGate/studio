@@ -50,7 +50,7 @@ export default function PartnerLoginPage() {
     <TabsContent value={currentRole} className="space-y-6">
         <div className="space-y-2">
             <Label htmlFor={`${currentRole}-email`}>Email address</Label>
-            <Input id={`${currentRole}-email`} type="email" defaultValue={mockAuthUsers[currentRole].email} readOnly />
+            <Input id={`${currentRole}-email`} type="email" defaultValue={mockAuthUsers[currentRole].email} readOnly className="bg-secondary/50 border-0" />
         </div>
         <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -60,7 +60,7 @@ export default function PartnerLoginPage() {
                 </Link>
             </div>
             <div className="relative">
-                <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10" />
+                <Input id={`${currentRole}-password`} type={showPassword ? "text" : "password"} required defaultValue="password" className="pr-10 bg-secondary/50 border-0" />
                 <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -106,7 +106,7 @@ export default function PartnerLoginPage() {
                 </Link>
             </p>
           </div>
-          <Card className="shadow-lg">
+          <Card className="shadow-lg border-0">
               <CardContent className="pt-6">
               <form onSubmit={handleLogin}>
                 <Tabs value={role} onValueChange={(value) => setRole(value as UserRole)} className="w-full">
