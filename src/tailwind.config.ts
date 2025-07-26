@@ -55,7 +55,7 @@ const config = {
         },
         card: {
           DEFAULT: "hsl(var(--card-hue, var(--background-hue)), var(--card-saturation, var(--background-saturation)), 100%)",
-          foreground: "hsl(var(--card-foreground-hue, var(--foreground-hue)), var(--card-foreground-saturation, var(--foreground-saturation)), var(--card-foreground-lightness, var(--foreground-lightness)))",
+          foreground: "hsl(var(--card-foreground-hue, var(--foreground-hue)), var(--card-foreground-saturation, var(--card-foreground-lightness, var(--foreground-lightness)))",
         },
         emergency: {
           DEFAULT: "#ef4444",
@@ -94,6 +94,9 @@ const config = {
             boxShadow: "0 0 0 10px hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness), 0)"
           },
         },
+        "border-spin": {
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -101,6 +104,7 @@ const config = {
         "fade-in": "fade-in 0.5s ease-in-out",
         "pulse-red": "pulse-red 2s infinite",
         "pulse": "pulse 2s infinite",
+        "border-spin": 'border-spin 4s linear infinite',
       },
     },
   },

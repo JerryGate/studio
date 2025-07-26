@@ -141,3 +141,13 @@
     --tw-prose-th-borders: hsl(var(--border));
     --tw-prose-td-borders: hsl(var(--border));
 }
+
+.animated-border-button {
+  @apply relative rounded-lg p-px;
+  background-image: conic-gradient(from 180deg at 50% 50%, hsl(var(--primary)) 0deg, hsl(var(--accent)) 180deg, hsl(var(--primary)) 360deg);
+  animation: border-spin 4s linear infinite;
+}
+
+.animated-border-button > * {
+  @apply h-full w-full rounded-[7px];
+}

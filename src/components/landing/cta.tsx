@@ -32,11 +32,13 @@ const Cta = () => {
           Join thousands of Nigerians who trust E-pharma for their medication needs. Fast, reliable, and always affordable.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/search">
-            <Button size="lg" className="animate-pulse">
-              Order Your Drugs Today
-            </Button>
-          </Link>
+          <div className="animated-border-button">
+              <Link href="/search">
+                <Button size="lg">
+                  Order Your Drugs Today
+                </Button>
+              </Link>
+          </div>
           <Link href="/partner">
             <Button size="lg" variant="outline">
               Join as a Pharmacy/Dispatcher
