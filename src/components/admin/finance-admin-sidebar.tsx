@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { Home, BarChart, Power, UserCircle, Landmark, AlertTriangle } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
-import { Separator } from '../ui/separator';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '../ui/button';
 
@@ -47,7 +46,6 @@ export const AdminNav = ({ isMobile = false }) => {
                 ))}
             </nav>
             <div className="p-4 mt-auto border-t">
-                <Separator className="my-4" />
                 <Button
                     variant="ghost"
                     onClick={logout}

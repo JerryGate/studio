@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, UserCircle, Shield, Settings, Palette, FileUp, Image as ImageIcon, Sparkles, Landmark, AlertTriangle } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
-import { Separator } from '../ui/separator';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '../ui/button';
 
