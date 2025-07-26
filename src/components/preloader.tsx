@@ -69,7 +69,7 @@ const Preloader = () => {
                 ease: "circOut"
             }}
         >
-          Medfast
+          E-pharma
         </motion.span>
       </div>
     </motion.div>

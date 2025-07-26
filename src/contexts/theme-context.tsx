@@ -63,7 +63,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const resetTheme = () => {
-    setThemeState(themes.find(t => t.name === DEFAULT_THEME_NAME)!);
+    const defaultTheme = themes.find(t => t.name === 'default')!;
+    setThemeState(defaultTheme);
   }
 
   return (

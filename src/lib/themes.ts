@@ -12,20 +12,20 @@ export interface Theme {
 export const themes: Theme[] = [
   {
     name: 'default',
-    label: 'Default',
-    colors: {
-        primary: '221 83% 53%', // Blue
-        accent: '142 76% 36%',  // Green
-        background: '240 10% 99%',
-    },
-  },
-  {
-    name: 'teal',
     label: 'Teal',
     colors: {
       primary: '174 76% 42%', // Teal
       accent: '204 90% 54%', // Light Blue
       background: '180 15% 98%',
+    },
+  },
+  {
+    name: 'classic',
+    label: 'Classic',
+    colors: {
+        primary: '221 83% 53%', // Blue
+        accent: '142 76% 36%',  // Green
+        background: '240 10% 99%',
     },
   },
   {

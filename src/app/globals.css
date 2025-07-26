@@ -5,16 +5,16 @@
 
 @layer base {
   :root {
-    --background: hsl(var(--background-hue, 220) var(--background-saturation, 10%) var(--background-lightness, 99%));
+    --background: hsl(var(--background-hue, 240) var(--background-saturation, 10%) var(--background-lightness, 99%));
     --foreground: hsl(224 71.4% 4.1%);
 
-    --card: hsl(var(--background-hue, 220) var(--background-saturation, 10%) var(--background-lightness, 99%));
+    --card: hsl(var(--background-hue, 240) var(--background-saturation, 10%) var(--background-lightness, 99%));
     --card-foreground: hsl(224 71.4% 4.1%);
 
-    --popover: hsl(var(--background-hue, 220) var(--background-saturation, 10%) var(--background-lightness, 99%));
+    --popover: hsl(var(--background-hue, 240) var(--background-saturation, 10%) var(--background-lightness, 99%));
     --popover-foreground: hsl(224 71.4% 4.1%);
 
-    --primary: hsl(var(--primary-hue, 221) var(--primary-saturation, 83%) var(--primary-lightness, 53%));
+    --primary: hsl(var(--primary-hue, 174) var(--primary-saturation, 76%) var(--primary-lightness, 42%));
     --primary-foreground: hsl(210 20% 98%);
 
     --secondary: hsl(220 14.3% 95.9%);
@@ -23,7 +23,7 @@
     --muted: hsl(220 14.3% 95.9%);
     --muted-foreground: hsl(220 8.9% 46.1%);
     
-    --accent: hsl(var(--accent-hue, 142) var(--accent-saturation, 76%) var(--accent-lightness, 36%));
+    --accent: hsl(var(--accent-hue, 204) var(--accent-saturation, 90%) var(--accent-lightness, 54%));
     --accent-foreground: hsl(210 20% 98%);
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +31,7 @@
 
     --border: hsl(220 13% 91%);
     --input: hsl(220 13% 91%);
-    --ring: hsl(var(--primary-hue, 221) var(--primary-saturation, 83%) var(--primary-lightness, 53%));
+    --ring: hsl(var(--primary-hue, 174) var(--primary-saturation, 76%) var(--primary-lightness, 42%));
     
     --radius: 0.5rem;
   }
