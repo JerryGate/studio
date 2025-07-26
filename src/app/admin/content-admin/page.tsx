@@ -15,39 +15,34 @@ export default function ContentAdminDashboard() {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="lg:col-span-2 space-y-6">
-        <h1 className="text-3xl font-bold text-primary">Content Admin Dashboard</h1>
-        <Card>
-          <CardHeader>
-              <CardTitle>Welcome, Content Admin!</CardTitle>
-              <CardDescription>Manage all website content, uploads, and visual settings from this portal.</CardDescription>
-          </CardHeader>
-        </Card>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold text-primary">Content Admin Dashboard</h1>
+      <Card>
+        <CardHeader>
+            <CardTitle>Welcome, Content Admin!</CardTitle>
+            <CardDescription>Manage all website content and uploads from this portal.</CardDescription>
+        </CardHeader>
+      </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {managementAreas.map((area) => (
-            <Card key={area.title}>
-              <CardHeader>
-                <div className='flex items-center gap-4'>
-                  <area.icon className="h-8 w-8 text-primary" />
-                  <div>
-                      <CardTitle>{area.title}</CardTitle>
-                      <CardDescription>{area.description}</CardDescription>
-                  </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {managementAreas.map((area) => (
+          <Card key={area.title}>
+            <CardHeader>
+              <div className='flex items-center gap-4'>
+                <area.icon className="h-8 w-8 text-primary" />
+                <div>
+                    <CardTitle>{area.title}</CardTitle>
+                    <CardDescription>{area.description}</CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <Link href={area.href}>
-                  <Button>Manage {area.title.replace('Manage ', '')}</Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-      <div className="lg:col-span-1">
-        <ThemeSettings />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Link href={area.href}>
+                <Button>Manage {area.title.replace('Manage ', '')}</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );
