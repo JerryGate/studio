@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, Suspense, useEffect } from 'react';
@@ -211,16 +212,14 @@ function SearchPageContent() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-             {!hasCategory && (
-                <header className="mb-8 space-y-4">
-                    <h1 className="text-4xl font-extrabold animated-gradient-text">Order Medications</h1>
-                    <p className="text-lg text-muted-foreground">Find drugs, check for interactions, or request special recommendations.</p>
-                    <div className="flex flex-wrap gap-4 pt-4">
-                       <EmergencyRequestModal />
-                       <PrescriptionUploadModal />
-                    </div>
-                </header>
-            )}
+             <header className="mb-8 space-y-4">
+                <h1 className="text-4xl font-extrabold animated-gradient-text">Order Medications</h1>
+                <p className="text-lg text-muted-foreground">Find drugs, check for interactions, or request special recommendations.</p>
+                <div className="flex flex-wrap gap-4 pt-4">
+                   <EmergencyRequestModal />
+                   <PrescriptionUploadModal />
+                </div>
+            </header>
 
             <div className="space-y-16">
                  <SearchResults />
