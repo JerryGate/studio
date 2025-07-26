@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Banknote, ShieldCheck, Users } from 'lucide-react';
+import { Banknote, ShieldCheck, Users, Star } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Autoplay from "embla-carousel-autoplay"
@@ -105,7 +105,7 @@ const itemVariants = {
 
 const TrustSignals = () => {
     const plugin = React.useRef(
-        Autoplay({ delay: 2000, stopOnInteraction: true })
+        Autoplay({ delay: 5000, stopOnInteraction: true })
     );
 
   return (
@@ -160,33 +160,36 @@ const TrustSignals = () => {
                     align: 'start',
                     loop: true,
                 }}
-                className="w-full max-w-4xl mx-auto"
+                className="w-full max-w-5xl mx-auto"
             >
-            <CarouselContent>
+            <CarouselContent className="-ml-4">
                 {testimonials.map((testimonial, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1">
-                    <Card className="h-full flex flex-col justify-between shadow-lg transition-shadow duration-300 hover:shadow-xl">
-                        <CardContent className="p-6">
-                        <p className="text-muted-foreground mb-6">"{testimonial.quote}"</p>
-                        <div className="flex items-center">
-                            <Avatar>
-                            <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.dataAiHint} />
-                            <AvatarFallback>{testimonial.avatar}</AvatarFallback>
-                            </Avatar>
-                            <div className="ml-4">
-                            <p className="font-semibold text-primary">{testimonial.name}</p>
-                            <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                            </div>
-                        </div>
-                        </CardContent>
-                    </Card>
+                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1 h-full">
+                        <Card className="h-full flex flex-col justify-between shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-secondary border-0">
+                            <CardContent className="p-6 text-center flex flex-col flex-grow">
+                                <div className="flex justify-center mb-4">
+                                    {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />)}
+                                </div>
+                                <p className="text-muted-foreground mb-6 text-base flex-grow">"{testimonial.quote}"</p>
+                                <div className="flex items-center justify-center">
+                                    <Avatar>
+                                    <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.dataAiHint} />
+                                    <AvatarFallback>{testimonial.avatar}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="ml-4">
+                                    <p className="font-semibold text-primary">{testimonial.name}</p>
+                                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="hidden sm:flex left-[-1rem]" />
+            <CarouselNext className="hidden sm:flex right-[-1rem]" />
             </Carousel>
         </motion.div>
       </div>
