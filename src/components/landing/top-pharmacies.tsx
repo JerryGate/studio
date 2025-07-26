@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Star, MapPin } from 'lucide-react';
+import { Star, MapPin, ArrowRight } from 'lucide-react';
 
 const topPharmacies = [
     { name: 'GoodHealth Pharmacy', location: 'Ikeja, Lagos', rating: 4.8, image: 'https://placehold.co/400x300.png', dataAiHint: 'modern pharmacy interior' },
@@ -66,34 +66,32 @@ const TopPharmacies = () => {
         >
           {topPharmacies.map((pharmacy) => (
             <motion.div key={pharmacy.name} variants={itemVariants}>
-              <Card className="overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col">
-                <div className="relative aspect-video">
+              <Card className="overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group rounded-xl">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={pharmacy.image}
                     alt={pharmacy.name}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     data-ai-hint={pharmacy.dataAiHint}
                   />
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-xl">{pharmacy.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow space-y-2">
-                    <div className="flex items-center text-muted-foreground">
-                        <MapPin className="h-4 w-4 mr-2" />
+                <CardContent className="p-6 flex-grow flex flex-col">
+                    <CardTitle className="text-xl mb-2">{pharmacy.name}</CardTitle>
+                    <div className="flex items-center text-muted-foreground text-sm">
+                        <MapPin className="h-4 w-4 mr-2 shrink-0" />
                         <span>{pharmacy.location}</span>
                     </div>
-                    <div className="flex items-center text-amber-500">
-                        <Star className="h-4 w-4 mr-2 fill-current" />
-                        <span className="font-bold">{pharmacy.rating} / 5.0</span>
+                    <div className="flex items-center text-amber-500 my-4">
+                        <Star className="h-5 w-5 mr-1 fill-current" />
+                        <span className="font-bold text-base">{pharmacy.rating} / 5.0</span>
+                    </div>
+                    <div className="mt-auto">
+                        <Button variant="outline" className="w-full group/button">
+                           View Products <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
+                        </Button>
                     </div>
                 </CardContent>
-                <div className="p-4 mt-auto">
-                    <Button variant="outline" className="w-full">
-                        View Products
-                    </Button>
-                </div>
               </Card>
             </motion.div>
           ))}

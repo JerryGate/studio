@@ -98,24 +98,24 @@ const Services = () => {
             variants={containerVariants}
         >
           {services.map((service) => (
-             <motion.div key={service.title} variants={itemVariants}>
-                <Card className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group bg-white border">
-                <CardHeader>
-                    <div className="mx-auto bg-primary/10 text-primary rounded-full h-20 w-20 flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-                        <service.icon className="h-10 w-10" />
+             <motion.div key={service.title} variants={itemVariants} className="h-full">
+                <Card className="text-center bg-white shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group border-0 rounded-xl overflow-hidden">
+                    <CardHeader className="p-8">
+                        <div className="mx-auto bg-primary/10 text-primary rounded-full h-20 w-20 flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                            <service.icon className="h-10 w-10" />
+                        </div>
+                        <CardTitle className="font-headline text-xl text-primary">{service.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-8 flex-grow">
+                        <p className="text-muted-foreground">{service.description}</p>
+                    </CardContent>
+                     <div className="p-8 mt-auto">
+                        <Button variant="link" asChild className="text-accent text-base p-0">
+                            <Link href="/services">
+                                Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                        </Button>
                     </div>
-                    <CardTitle className="font-headline text-xl text-primary">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                    <p className="text-muted-foreground">{service.description}</p>
-                </CardContent>
-                 <div className="p-6 mt-auto">
-                    <Button variant="link" asChild className="text-accent">
-                        <Link href="/services">
-                            Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </div>
                 </Card>
             </motion.div>
           ))}
