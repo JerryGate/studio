@@ -15,6 +15,7 @@ import { Suspense, useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from '@/contexts/theme-context';
+import { SettingsProvider } from '@/contexts/settings-context';
 
 export default function RootLayout({
   children,
@@ -65,33 +66,35 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
         <AuthProvider>
           <ThemeProvider>
-            <ImageProvider>
-                <Toaster>
-                  <CartProvider>
-                      <AnimatePresence mode="wait">
-                        {loading && <Preloader />}
-                      </AnimatePresence>
-                      <div className="flex-1 flex flex-col" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
-                          {!isDashboardRoute && !isAuthRoute && (
-                            <div className="px-4 sm:px-6 lg:px-8">
-                              <Header />
+            <SettingsProvider>
+              <ImageProvider>
+                  <Toaster>
+                    <CartProvider>
+                        <AnimatePresence mode="wait">
+                          {loading && <Preloader />}
+                        </AnimatePresence>
+                        <div className="flex-1 flex flex-col" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
+                            {!isDashboardRoute && !isAuthRoute && (
+                              <div className="px-4 sm:px-6 lg:px-8">
+                                <Header />
+                              </div>
+                            )}
+                            <div className="flex-1 flex flex-col">
+                              <Suspense>
+                                <PageTransition>{children}</PageTransition>
+                              </Suspense>
                             </div>
-                          )}
-                          <div className="flex-1 flex flex-col">
-                            <Suspense>
-                              <PageTransition>{children}</PageTransition>
-                            </Suspense>
-                          </div>
-                          {!isDashboardRoute && !isAuthRoute && (
-                            <div className="px-4 sm:px-6 lg:px-8">
-                              <Footer />
-                            </div>
-                          )}
-                          <ScrollToTopButton />
-                      </div>
-                  </CartProvider>
-                </Toaster>
-            </ImageProvider>
+                            {!isDashboardRoute && !isAuthRoute && (
+                              <div className="px-4 sm:px-6 lg:px-8">
+                                <Footer />
+                              </div>
+                            )}
+                            <ScrollToTopButton />
+                        </div>
+                    </CartProvider>
+                  </Toaster>
+              </ImageProvider>
+            </SettingsProvider>
           </ThemeProvider>
           </AuthProvider>
       </body>
