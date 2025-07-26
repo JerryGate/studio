@@ -53,27 +53,28 @@ export const AdminNav = ({ isMobile = false }) => {
     return (
         <div className="flex flex-col h-full">
             <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
-                {navSections.map(section => (
-                    <div key={section.name} className="space-y-2">
-                        <h4 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{section.name}</h4>
-                        {section.items.map((item) => (
-                            <Link
-                            key={item.label}
-                            href={item.href}
-                            className={cn(
-                                'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                                checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
-                            )}
-                            >
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.label}</span>
-                            </Link>
-                        ))}
+                {navSections.map((section, sectionIndex) => (
+                    <div key={section.name} className={cn(sectionIndex > 0 && "pt-4 mt-4 border-t border-border/50")}>
+                        <h4 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{section.name}</h4>
+                        <div className="space-y-1">
+                            {section.items.map((item) => (
+                                <Link
+                                key={item.label}
+                                href={item.href}
+                                className={cn(
+                                    'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
+                                    checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
+                                )}
+                                >
+                                <item.icon className="h-4 w-4" />
+                                <span>{item.label}</span>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </nav>
             <div className="p-4 mt-auto border-t">
-                <Separator className="my-4" />
                 <Button
                     variant="ghost"
                     onClick={logout}
