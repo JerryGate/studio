@@ -4,12 +4,13 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Palette, Newspaper, FileUp, Image as ImageIcon } from 'lucide-react';
+import { Palette, Newspaper, FileUp, Image as ImageIcon, Sparkles } from 'lucide-react';
 
 export default function ContentAdminDashboard() {
   const managementAreas = [
     { title: 'Manage Slider Images', description: 'Upload or remove homepage slider images.', href: '/admin/content-admin/slider', icon: ImageIcon },
     { title: 'Blog Posts', description: 'Create, edit, and publish articles.', href: '/admin/content-admin/blog', icon: Newspaper },
+    { title: 'Special Requests', description: 'Review customer recommendation requests.', href: '/admin/content-admin/requests', icon: Sparkles },
     { title: 'Document Uploads', description: 'Manage pharmacy licenses and other documents.', href: '/admin/content-admin/documents', icon: FileUp },
     { title: 'Theme Settings', description: 'Customize the look and feel of the website.', href: '/admin/content-admin/theme', icon: Palette },
   ];

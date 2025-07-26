@@ -1,12 +1,11 @@
 
-
 'use client';
 
 import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, AlertTriangle, FileUp } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -16,7 +15,14 @@ import { ProductCardSkeleton } from '@/components/skeletons/product-card-skeleto
 import { Skeleton } from '@/components/ui/skeleton';
 import { allProducts } from '@/lib/mock-data';
 import { DrugInteractionChecker } from '@/components/drug-interaction-checker';
-
+import { EmergencyRequestModal } from '@/components/emergency-request-modal';
+import { PrescriptionUploadModal } from '@/components/prescription-upload-modal';
+import { Separator } from '@/components/ui/separator';
+import { CategorySlider } from '@/components/category-slider';
+import { ShopByCategory } from '@/components/shop-by-category';
+import { BestSellers } from '@/components/best-sellers';
+import { SpecialRecommendationModal } from '@/components/special-recommendation-modal';
+import { WhatsAppCta } from '@/components/whatsapp-cta';
 
 function SearchResults() {
     const searchParams = useSearchParams();
@@ -31,7 +37,9 @@ function SearchResults() {
         setLoading(true);
         // Simulate API call
         const timer = setTimeout(() => {
+            const category = searchParams.get('category');
             const results = allProducts
+                .filter(product => category ? product.category.toLowerCase().replace(/\s/g, '-') === category : true)
                 .filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
                 .filter(product => !inStock || product.stock > 0)
                 .sort((a, b) => {
@@ -42,14 +50,13 @@ function SearchResults() {
                 });
             setFilteredProducts(results);
             setLoading(false);
-        }, 500); // Simulate 0.5 second loading time
+        }, 500);
 
         return () => clearTimeout(timer);
-    }, [searchTerm, sortBy, inStock]);
-
+    }, [searchTerm, sortBy, inStock, searchParams]);
 
     return (
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-12">
             {/* Filters Sidebar */}
             <aside className="w-full md:w-1/4 lg:w-1/5">
                 <div className="sticky top-24 space-y-8">
@@ -82,13 +89,16 @@ function SearchResults() {
                             </div>
                         </div>
                     </div>
+                     <Separator />
                      <DrugInteractionChecker />
+                     <Separator />
+                     <SpecialRecommendationModal />
                 </div>
             </aside>
 
             {/* Main Content */}
             <main className="w-full md:w-3/4 lg:w-4/5">
-                <div className="mb-6">
+                 <div className="mb-6">
                     <form onSubmit={(e) => { e.preventDefault(); }}>
                         <div className="relative">
                             <Input
@@ -102,7 +112,6 @@ function SearchResults() {
                         </div>
                     </form>
                 </div>
-
                 <div className="border-b pb-4 mb-6 flex justify-between items-center">
                     <p className="text-sm text-muted-foreground">
                         {!loading && (
@@ -116,7 +125,6 @@ function SearchResults() {
                          )}
                     </p>
                 </div>
-
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {Array.from({ length: 8 }).map((_, index) => (
@@ -144,36 +152,41 @@ function SearchResults() {
     );
 }
 
-
 function LoadingSkeleton() {
     return (
-        <div className="flex flex-col md:flex-row gap-8">
-            <aside className="w-full md:w-1/4">
-                 <div className="sticky top-24 space-y-6">
-                     <div className="space-y-2">
-                        <Skeleton className="h-6 w-20" />
-                        <Skeleton className="h-10 w-full" />
+        <div className="container mx-auto px-4 py-8">
+            <header className="mb-8">
+                <Skeleton className="h-9 w-1/3 mb-2" />
+                <Skeleton className="h-5 w-1/2" />
+            </header>
+            <div className="flex flex-col md:flex-row gap-8">
+                <aside className="w-full md:w-1/4">
+                     <div className="sticky top-24 space-y-6">
+                         <div className="space-y-2">
+                            <Skeleton className="h-6 w-20" />
+                            <Skeleton className="h-10 w-full" />
+                         </div>
+                         <div className="space-y-2">
+                            <Skeleton className="h-6 w-24" />
+                            <div className="flex items-center gap-2">
+                                <Skeleton className="h-5 w-5" />
+                                <Skeleton className="h-5 w-20" />
+                            </div>
+                         </div>
                      </div>
-                     <div className="space-y-2">
-                        <Skeleton className="h-6 w-24" />
-                        <div className="flex items-center gap-2">
-                            <Skeleton className="h-5 w-5" />
-                            <Skeleton className="h-5 w-20" />
-                        </div>
+                </aside>
+                <main className="w-full md:w-3/4">
+                     <Skeleton className="h-12 w-full mb-6" />
+                     <div className="border-b pb-4 mb-6">
+                         <Skeleton className="h-5 w-48" />
                      </div>
-                 </div>
-            </aside>
-            <main className="w-full md:w-3/4">
-                 <Skeleton className="h-12 w-full mb-6" />
-                 <div className="border-b pb-4 mb-6">
-                     <Skeleton className="h-5 w-48" />
-                 </div>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {Array.from({ length: 6 }).map((_, index) => (
-                        <ProductCardSkeleton key={index} />
-                    ))}
-                 </div>
-            </main>
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {Array.from({ length: 6 }).map((_, index) => (
+                            <ProductCardSkeleton key={index} />
+                        ))}
+                     </div>
+                </main>
+            </div>
         </div>
     )
 }
@@ -181,12 +194,22 @@ function LoadingSkeleton() {
 function SearchPageContent() {
     return (
         <div className="container mx-auto px-4 py-8">
-            <header className="mb-8">
-                <h1 className="text-3xl font-bold animated-gradient-text mb-2">Search for Medications</h1>
-                <p className="text-muted-foreground">Find the drugs you need from our wide selection.</p>
+            <header className="mb-8 space-y-4">
+                <h1 className="text-4xl font-extrabold animated-gradient-text">Order Medications</h1>
+                <p className="text-lg text-muted-foreground">Find drugs, check for interactions, or request special recommendations.</p>
+                <div className="flex flex-wrap gap-4 pt-4">
+                   <EmergencyRequestModal />
+                   <PrescriptionUploadModal />
+                </div>
             </header>
-            
-            <SearchResults />
+
+            <div className="space-y-16">
+                <CategorySlider />
+                <ShopByCategory />
+                <BestSellers />
+                 <SearchResults />
+            </div>
+            <WhatsAppCta />
         </div>
     );
 }
