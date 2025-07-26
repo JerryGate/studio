@@ -15,7 +15,6 @@ import { WhatsAppCta } from '@/components/whatsapp-cta';
 import { allProducts } from '@/lib/mock-data';
 import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
 import TopPharmacies from '@/components/landing/top-pharmacies';
-import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { PrescriptionUploadModal } from '@/components/prescription-upload-modal';
 
 const itemVariants = {
@@ -48,7 +47,6 @@ export default function Home() {
                 <SearchBar />
             </motion.div>
              <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-                <EmergencyRequestModal />
                 <PrescriptionUploadModal />
             </div>
         </div>

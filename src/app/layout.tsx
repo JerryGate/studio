@@ -16,6 +16,7 @@ import Preloader from '@/components/preloader';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from '@/contexts/theme-context';
 import { SettingsProvider } from '@/contexts/settings-context';
+import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 
 export default function RootLayout({
   children,
@@ -89,7 +90,12 @@ export default function RootLayout({
                                 <Footer />
                               </div>
                             )}
-                            <ScrollToTopButton />
+                            {!isDashboardRoute && !isAuthRoute && (
+                                <>
+                                    <EmergencyRequestModal />
+                                    <ScrollToTopButton />
+                                </>
+                            )}
                         </div>
                     </CartProvider>
                   </Toaster>

@@ -15,7 +15,6 @@ import { ProductCardSkeleton } from '@/components/skeletons/product-card-skeleto
 import { Skeleton } from '@/components/ui/skeleton';
 import { allProducts } from '@/lib/mock-data';
 import { DrugInteractionChecker } from '@/components/drug-interaction-checker';
-import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { PrescriptionUploadModal } from '@/components/prescription-upload-modal';
 import { Separator } from '@/components/ui/separator';
 import { SpecialRecommendationModal } from '@/components/special-recommendation-modal';
@@ -216,7 +215,6 @@ function SearchPageContent() {
                 <h1 className="text-4xl font-extrabold animated-gradient-text">Order Medications</h1>
                 <p className="text-lg text-muted-foreground">Find drugs, check for interactions, or request special recommendations.</p>
                 <div className="flex flex-wrap gap-4 pt-4">
-                   <EmergencyRequestModal />
                    <PrescriptionUploadModal />
                 </div>
             </header>
