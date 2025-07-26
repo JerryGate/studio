@@ -55,7 +55,7 @@
 
     --border-hue: 220;
     --border-saturation: 13%;
-    --border-lightness: 88%;
+    --border-lightness: 91%; /* Softer border */
 
     --input-hue: 220;
     --input-saturation: 13%;
