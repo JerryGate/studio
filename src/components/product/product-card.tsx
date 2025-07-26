@@ -64,13 +64,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 </Link>
                 <CardContent className="p-4 flex flex-col flex-grow">
                      <div className="flex-grow">
-                        <CardTitle className="text-lg font-semibold mb-1 hover:text-primary min-h-[50px] leading-tight">
+                        <CardTitle className="text-base font-semibold mb-1 hover:text-primary leading-tight min-h-[40px]">
                             <Link href={`/product/${product.id}`} className="focus:outline-none">
                                 {product.name}
                             </Link>
                         </CardTitle>
                         {product.dosage && (
-                            <p className="text-sm text-muted-foreground mb-2">{product.dosage}</p>
+                            <p className="text-xs text-muted-foreground mb-2">{product.dosage}</p>
                         )}
                     </div>
                      <div className="flex items-center gap-2 mt-2 mb-2">
@@ -87,12 +87,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         )}
                     </div>
 
-                    <div className="flex items-center justify-between gap-4 mt-auto">
-                         <p className="text-2xl font-bold animated-gradient-text">
+                    <div className="flex items-center justify-between gap-4 mt-auto pt-2">
+                         <p className="text-xl font-bold animated-gradient-text">
                             ₦{product.price.toLocaleString()}
                         </p>
-                        <Button className="h-10" disabled={!isInStock} onClick={handleAddToCart} size="icon">
-                            <ShoppingCart className="h-5 w-5" />
+                        <Button className="h-9 w-9" disabled={!isInStock} onClick={handleAddToCart} size="icon">
+                            <ShoppingCart className="h-4 w-4" />
                             <span className="sr-only">Add to Cart</span>
                         </Button>
                     </div>
