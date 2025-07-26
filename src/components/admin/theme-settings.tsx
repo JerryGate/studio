@@ -23,7 +23,7 @@ const hslToHex = (h: number, s: number, l: number): string => {
       .toString(16)
       .padStart(2, '0');
   };
-  return `#${f(0)}${f(8)}${f(4)}`;
+  return `#${f(0)}$f(8)}$f(4)}`;
 };
 
 const containerVariants = {
@@ -67,6 +67,10 @@ export default function ThemeSettings() {
     const getHslString = (hslObj: {h: number, s: number, l: number}) => {
         return `hsl(${Math.round(hslObj.h)}, ${Math.round(hslObj.s * 100)}%, ${Math.round(hslObj.l * 100)}%)`;
     }
+    
+    // Create unique lists of preset colors
+    const uniquePrimaryPresets = Array.from(new Set(THEMES.map(t => hslToHex(t.colors.primary.h, t.colors.primary.s, t.colors.primary.l))));
+    const uniqueAccentPresets = Array.from(new Set(THEMES.map(t => hslToHex(t.colors.accent.h, t.colors.accent.s, t.colors.accent.l))));
 
     return (
         <div className="space-y-8">
@@ -122,11 +126,7 @@ export default function ThemeSettings() {
                         <SketchPicker
                             color={hslToHex(customColors.primary.h, customColors.primary.s, customColors.primary.l)}
                             onChangeComplete={(color) => handleCustomColorChange('primary', color)}
-                            presetColors={THEMES.map(t => hslToHex(
-                                t.colors.primary.h,
-                                t.colors.primary.s,
-                                t.colors.primary.l
-                            ))}
+                            presetColors={uniquePrimaryPresets}
                         />
                     </div>
                      <div className="space-y-4">
@@ -134,11 +134,7 @@ export default function ThemeSettings() {
                          <SketchPicker
                             color={hslToHex(customColors.accent.h, customColors.accent.s, customColors.accent.l)}
                             onChangeComplete={(color) => handleCustomColorChange('accent', color)}
-                            presetColors={THEMES.map(t => hslToHex(
-                                t.colors.accent.h,
-                                t.colors.accent.s,
-                                t.colors.accent.l
-                            ))}
+                            presetColors={uniqueAccentPresets}
                         />
                     </div>
                 </CardContent>
