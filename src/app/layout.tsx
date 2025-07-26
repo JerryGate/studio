@@ -18,11 +18,7 @@ import { ThemeProvider } from '@/contexts/theme-context';
 import { SettingsProvider } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +31,6 @@ export default function RootLayout({
     return () => clearTimeout(timer);
   }, []);
 
-
   const isDashboardRoute =
     pathname.startsWith('/admin') ||
     pathname.startsWith('/dashboard') ||
@@ -45,6 +40,43 @@ export default function RootLayout({
     
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/partner');
 
+  return (
+    <>
+      <AnimatePresence mode="wait">
+        {loading && <Preloader />}
+      </AnimatePresence>
+      <div className="flex-1 flex flex-col" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
+          {!isDashboardRoute && !isAuthRoute && (
+            <div className="px-4 sm:px-6 lg:px-8">
+              <Header />
+            </div>
+          )}
+          <div className="flex-1 flex flex-col">
+            <Suspense>
+              <PageTransition>{children}</PageTransition>
+            </Suspense>
+          </div>
+          {!isDashboardRoute && !isAuthRoute && (
+            <div className="px-4 sm:px-6 lg:px-8">
+              <Footer />
+            </div>
+          )}
+          {!isDashboardRoute && !isAuthRoute && (
+              <>
+                  <EmergencyRequestModal />
+                  <ScrollToTopButton />
+              </>
+          )}
+      </div>
+    </>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
@@ -69,36 +101,11 @@ export default function RootLayout({
           <ThemeProvider>
             <SettingsProvider>
               <ImageProvider>
-                  <Toaster>
-                    <CartProvider>
-                        <AnimatePresence mode="wait">
-                          {loading && <Preloader />}
-                        </AnimatePresence>
-                        <div className="flex-1 flex flex-col" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
-                            {!isDashboardRoute && !isAuthRoute && (
-                              <div className="px-4 sm:px-6 lg:px-8">
-                                <Header />
-                              </div>
-                            )}
-                            <div className="flex-1 flex flex-col">
-                              <Suspense>
-                                <PageTransition>{children}</PageTransition>
-                              </Suspense>
-                            </div>
-                            {!isDashboardRoute && !isAuthRoute && (
-                              <div className="px-4 sm:px-6 lg:px-8">
-                                <Footer />
-                              </div>
-                            )}
-                            {!isDashboardRoute && !isAuthRoute && (
-                                <>
-                                    <EmergencyRequestModal />
-                                    <ScrollToTopButton />
-                                </>
-                            )}
-                        </div>
-                    </CartProvider>
-                  </Toaster>
+                <Toaster>
+                  <CartProvider>
+                    <LayoutContent>{children}</LayoutContent>
+                  </CartProvider>
+                </Toaster>
               </ImageProvider>
             </SettingsProvider>
           </ThemeProvider>
