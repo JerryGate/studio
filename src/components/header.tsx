@@ -15,7 +15,6 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
-import { ThemeToggle } from './theme-toggle';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -109,8 +108,6 @@ const Header = () => {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 </form>
              </div>
-             
-            <ThemeToggle />
 
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">

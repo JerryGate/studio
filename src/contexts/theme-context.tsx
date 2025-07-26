@@ -22,7 +22,6 @@ const applyThemeColors = (theme: Theme) => {
     root.style.setProperty('--accent-saturation', accentSaturation);
     root.style.setProperty('--accent-lightness', accentLightness);
 
-    // Set background variables for light mode
     const [bgHue, bgSat, bgLightness] = theme.colors.background.split(' ');
     root.style.setProperty('--background-hue', bgHue);
     root.style.setProperty('--background-saturation', bgSat);
@@ -34,8 +33,6 @@ interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   resetTheme: () => void;
-  mode: 'light' | 'dark';
-  toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -52,16 +49,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   });
 
-  const [mode, setMode] = useState<'light' | 'dark'>(() => {
-      if (isServer) return 'light';
-      try {
-          const savedMode = localStorage.getItem('website-mode') as 'light' | 'dark';
-          if (savedMode) return savedMode;
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      } catch (e) {
-          return 'light';
-      }
-  });
 
   useEffect(() => {
     if (!isServer) {
@@ -70,14 +57,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [theme]);
   
-  useEffect(() => {
-      if (!isServer) {
-          const root = document.documentElement;
-          root.classList.remove('light', 'dark');
-          root.classList.add(mode);
-          localStorage.setItem('website-mode', mode);
-      }
-  }, [mode]);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -87,12 +66,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(themes.find(t => t.name === DEFAULT_THEME_NAME)!);
   }
 
-  const toggleMode = () => {
-      setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, toggleMode }}>
+    <ThemeContext.Provider value={{ theme, setTheme, resetTheme }}>
       {children}
     </ThemeContext.Provider>
   );
