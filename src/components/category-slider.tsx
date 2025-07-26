@@ -43,7 +43,7 @@ export function CategorySlider() {
                                     "group relative cursor-pointer overflow-hidden h-full rounded-lg",
                                     "transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                                 )}>
-                                    <Card className="border-0 bg-transparent h-full">
+                                    <Card className="border-0 bg-secondary/50 h-full">
                                         <CardContent className="flex flex-col items-center justify-center p-6 text-center aspect-square">
                                             <div className="p-4 bg-primary/10 text-primary rounded-full mb-4 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110">
                                                 <category.icon className="h-8 w-8" />
