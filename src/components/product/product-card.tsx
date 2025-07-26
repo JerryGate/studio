@@ -1,17 +1,15 @@
 
 'use client';
 
-import { useState } from 'react';
 import { Product } from '@/types';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckCircle, Minus, Plus, ShoppingCart, XCircle } from 'lucide-react';
+import { CheckCircle, ShoppingCart, XCircle } from 'lucide-react';
 import { useCart } from '@/contexts/cart-context';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
     product: Product;
@@ -31,21 +29,11 @@ const itemVariants = {
 
 const ProductCard = ({ product }: ProductCardProps) => {
     const { addToCart } = useCart();
-    const [quantity, setQuantity] = useState(1);
     const isInStock = product.stock > 0;
 
     const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        addToCart(product, quantity);
-    };
-
-    const handleQuantityChange = (amount: number) => {
-        setQuantity(prev => {
-            const newQuantity = prev + amount;
-            if (newQuantity < 1) return 1;
-            if (newQuantity > product.stock) return product.stock;
-            return newQuantity;
-        });
+        addToCart(product, 1); // Always add a quantity of 1
     };
 
     return (
@@ -99,23 +87,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         )}
                     </div>
 
-                    <p className="text-2xl font-bold animated-gradient-text mb-4">
-                        ₦{product.price.toLocaleString()}
-                    </p>
-
-                    <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center border rounded-md">
-                            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => handleQuantityChange(-1)} disabled={!isInStock || quantity <= 1}>
-                                <Minus className="h-4 w-4" />
-                            </Button>
-                            <span className="w-8 text-center font-bold text-base">{quantity}</span>
-                            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => handleQuantityChange(1)} disabled={!isInStock || quantity >= product.stock}>
-                                <Plus className="h-4 w-4" />
-                            </Button>
-                        </div>
-                        <Button className="flex-1 h-10" disabled={!isInStock} onClick={handleAddToCart}>
-                            <ShoppingCart className="mr-2 h-4 w-4" />
-                            Add
+                    <div className="flex items-center justify-between gap-4 mt-auto">
+                         <p className="text-2xl font-bold animated-gradient-text">
+                            ₦{product.price.toLocaleString()}
+                        </p>
+                        <Button className="h-10" disabled={!isInStock} onClick={handleAddToCart} size="icon">
+                            <ShoppingCart className="h-5 w-5" />
+                            <span className="sr-only">Add to Cart</span>
                         </Button>
                     </div>
                 </CardContent>
