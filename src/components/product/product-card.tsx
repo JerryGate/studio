@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { CheckCircle, ShoppingCart, XCircle } from 'lucide-react';
 import { useCart } from '@/contexts/cart-context';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
     product: Product;
@@ -33,75 +34,74 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
     const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        addToCart(product, 1); // Always add a quantity of 1
+        e.stopPropagation();
+        addToCart(product, 1);
     };
 
     return (
         <motion.div
             variants={itemVariants}
-            whileHover="hover"
             className="h-full"
         >
-            <Card className="flex flex-col h-full overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group bg-card border-0 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 rounded-lg">
-                 <Link href={`/product/${product.id}`} className="block focus:outline-none">
+             <Card className={cn(
+                "relative flex flex-col h-full overflow-hidden group",
+                "bg-transparent border-border/20 transition-all duration-300",
+                "hover:border-transparent hover:shadow-2xl hover:-translate-y-2"
+             )}>
+                 {/* Animated Border */}
+                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-primary via-accent to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ zIndex: -1 }} />
+
+                <Link href={`/product/${product.id}`} className="block focus:outline-none flex flex-col h-full">
                     <CardHeader className="p-0">
-                        <motion.div 
-                            className="relative aspect-square w-full"
-                            variants={{ hover: { scale: 1.05 } }}
-                            transition={{ duration: 0.3 }}
-                        >
+                        <div className="relative aspect-square w-full overflow-hidden">
                             <Image
                                 src={product.imageUrls[0]}
                                 alt={product.name}
                                 fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                className="object-cover"
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 data-ai-hint={product.dataAiHint}
                             />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </motion.div>
+                            {isInStock ? (
+                                <Badge variant="secondary" className="absolute top-2 right-2 bg-black/50 text-white border-0">
+                                    <CheckCircle className="h-3 w-3 mr-1" />
+                                    In Stock
+                                </Badge>
+                            ) : (
+                                <Badge variant="destructive" className="absolute top-2 right-2">
+                                    <XCircle className="h-3 w-3 mr-1" />
+                                    Out of Stock
+                                </Badge>
+                            )}
+                        </div>
                     </CardHeader>
-                </Link>
-                <CardContent className="p-4 flex flex-col flex-grow">
-                     <div className="flex-grow mb-2">
-                        <CardTitle className="text-base font-semibold mb-1 hover:text-primary leading-tight">
-                            <Link href={`/product/${product.id}`} className="focus:outline-none">
-                                {product.name}
-                            </Link>
-                        </CardTitle>
-                        {product.dosage && (
-                            <p className="text-xs text-muted-foreground">{product.dosage}</p>
-                        )}
-                        {product.description && (
-                            <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                                {product.description}
+                    <CardContent className="p-4 flex flex-col flex-grow">
+                        <div className="flex-grow mb-2">
+                            <CardTitle className="text-base font-semibold mb-1 hover:text-primary leading-tight line-clamp-2">
+                               {product.name}
+                            </CardTitle>
+                             {product.dosage && (
+                                <p className="text-xs text-muted-foreground">{product.dosage}</p>
+                            )}
+                        </div>
+                        
+                        <div className="mt-auto pt-2 space-y-2">
+                            <p className="text-xl font-bold animated-gradient-text">
+                                ₦{product.price.toLocaleString()}
                             </p>
-                        )}
-                    </div>
-                     <div className="flex items-center gap-2 mb-2">
-                        {isInStock ? (
-                            <Badge variant="secondary" className="text-xs text-emerald-700 bg-emerald-100 border-emerald-200">
-                                <CheckCircle className="h-3 w-3 mr-1" />
-                                In Stock
-                            </Badge>
-                        ) : (
-                            <Badge variant="destructive" className="text-xs">
-                                <XCircle className="h-3 w-3 mr-1" />
-                                Out of Stock
-                            </Badge>
-                        )}
-                    </div>
-
-                    <div className="flex items-center justify-between gap-4 mt-auto pt-2">
-                         <p className="text-xl font-bold animated-gradient-text">
-                            ₦{product.price.toLocaleString()}
-                        </p>
-                        <Button className="h-9 w-9" disabled={!isInStock} onClick={handleAddToCart} size="icon">
-                            <ShoppingCart className="h-4 w-4" />
-                            <span className="sr-only">Add to Cart</span>
-                        </Button>
-                    </div>
-                </CardContent>
+                            <motion.div
+                                initial={{ y: '100%', opacity: 0 }}
+                                animate={{ y: '0%', opacity: 1 }}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            >
+                                <Button className="w-full h-9" disabled={!isInStock} onClick={handleAddToCart} size="sm">
+                                    <ShoppingCart className="h-4 w-4 mr-2" />
+                                    {isInStock ? 'Add to Cart' : 'Out of Stock'}
+                                </Button>
+                            </motion.div>
+                        </div>
+                    </CardContent>
+                </Link>
             </Card>
         </motion.div>
     );
