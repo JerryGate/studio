@@ -41,9 +41,9 @@ const Preloader = () => {
             />
         </motion.div>
         <motion.span
-            className="absolute font-headline font-extrabold text-2xl text-primary-foreground whitespace-nowrap"
+            className="absolute font-headline font-extrabold text-3xl whitespace-nowrap animated-gradient-text"
             initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: 1.2 }}
             transition={{
                 delay: 1,
                 duration: 0.8,
