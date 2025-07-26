@@ -45,15 +45,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
              <Card className={cn(
                 "relative flex flex-col h-full overflow-hidden group",
-                "bg-transparent border-border/20 transition-all duration-300",
-                "hover:border-transparent hover:shadow-2xl hover:-translate-y-2"
+                "transition-all duration-300",
+                "border-border/20 hover:shadow-2xl hover:-translate-y-2"
              )}>
-                 {/* Animated Border */}
-                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-primary via-accent to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ zIndex: -1 }} />
+                 {/* Animated Border on hover */}
+                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-primary via-accent to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ zIndex: 0 }} />
 
-                <Link href={`/product/${product.id}`} className="block focus:outline-none flex flex-col h-full">
+                <Link href={`/product/${product.id}`} className="block focus:outline-none flex flex-col h-full bg-card rounded-lg z-10">
                     <CardHeader className="p-0">
-                        <div className="relative aspect-square w-full overflow-hidden">
+                        <div className="relative aspect-square w-full overflow-hidden rounded-t-lg">
                             <Image
                                 src={product.imageUrls[0]}
                                 alt={product.name}
@@ -77,7 +77,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     </CardHeader>
                     <CardContent className="p-4 flex flex-col flex-grow">
                         <div className="flex-grow mb-2">
-                            <CardTitle className="text-base font-semibold mb-1 hover:text-primary leading-tight line-clamp-2">
+                            <CardTitle className="text-base font-semibold text-primary mb-1 leading-tight line-clamp-2">
                                {product.name}
                             </CardTitle>
                              {product.dosage && (
@@ -90,9 +90,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
                                 ₦{product.price.toLocaleString()}
                             </p>
                             <motion.div
-                                initial={{ y: '100%', opacity: 0 }}
-                                animate={{ y: '0%', opacity: 1 }}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                className="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300"
                             >
                                 <Button className="w-full h-9" disabled={!isInStock} onClick={handleAddToCart} size="sm">
                                     <ShoppingCart className="h-4 w-4 mr-2" />
