@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 240 10% 99%;
     --foreground: 240 5% 10%;
     
     --card: 0 0% 100%;
@@ -43,32 +43,32 @@
 
   .dark {
     --background: 240 5% 10%;
-    --foreground: 210 20% 98%;
+    --foreground: 0 0% 98%;
     
-    --card: 240 5% 10%;
-    --card-foreground: 210 20% 98%;
+    --card: 240 5% 12%;
+    --card-foreground: 0 0% 98%;
 
     --popover: 240 5% 10%;
-    --popover-foreground: 210 20% 98%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 221 83% 63%;
+    --primary-foreground: 0 0% 10%;
 
     --secondary: 240 4% 16%;
-    --secondary-foreground: 210 20% 98%;
+    --secondary-foreground: 0 0% 98%;
 
     --muted: 240 4% 16%;
     --muted-foreground: 240 4% 65%;
 
-    --accent: 142 76% 36%;
-    --accent-foreground: 210 20% 98%;
+    --accent: 142 76% 46%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 20% 98%;
+    --destructive: 0 74% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 221 83% 53%;
+    --border: 240 4% 20%;
+    --input: 240 4% 20%;
+    --ring: 221 83% 63%;
 
     --chart-1: hsl(var(--primary));
     --chart-2: hsl(var(--accent));
@@ -95,6 +95,7 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: gradient-move 4s linear infinite;
+        white-space: nowrap;
     }
 }
 

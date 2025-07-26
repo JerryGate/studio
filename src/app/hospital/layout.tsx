@@ -1,4 +1,3 @@
-
 'use client';
 import HospitalSidebar from '@/components/dashboard/hospital-sidebar';
 import { withAuth } from '@/components/with-auth';
@@ -10,6 +9,7 @@ import Logo from '@/components/logo';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const getInitials = (name: string) => {
     if (!name) return '';
@@ -51,6 +51,7 @@ function HospitalDashboardLayout({
            <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
              <HospitalMobileSidebar />
              <h1 className="flex-1 text-lg font-semibold md:text-xl">Hospital Dashboard</h1>
+             <ThemeToggle />
              <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative flex items-center gap-2">

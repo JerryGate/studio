@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -15,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
+import { ThemeToggle } from './theme-toggle';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -119,6 +119,7 @@ const Header = () => {
                   )}
               </Button>
             </Link>
+             <ThemeToggle />
             {user ? (
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
