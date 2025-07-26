@@ -1,3 +1,4 @@
+
 'use client';
 import HospitalSidebar from '@/components/dashboard/hospital-sidebar';
 import { withAuth } from '@/components/with-auth';

@@ -1,3 +1,4 @@
+
 'use client';
 import PharmacySidebar from '@/components/dashboard/pharmacy-sidebar';
 import { withAuth } from '@/components/with-auth';

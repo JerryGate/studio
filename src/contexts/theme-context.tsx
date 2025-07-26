@@ -1,20 +1,24 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { themes, Theme } from '@/lib/themes';
 
 const isServer = typeof window === 'undefined';
 
 const DEFAULT_THEME_NAME = 'default';
 
-const applyTheme = (theme: Theme) => {
+const applyThemeColors = (theme: Theme) => {
     if (isServer || !theme) return;
     const root = document.documentElement;
-    root.style.setProperty('--primary', theme.colors.primary);
-    root.style.setProperty('--accent', theme.colors.accent);
-    root.style.setProperty('--background', theme.colors.background);
+    root.style.setProperty('--primary-hue', theme.colors.primary.split(' ')[0]);
+    root.style.setProperty('--primary-saturation', theme.colors.primary.split(' ')[1]);
+    root.style.setProperty('--primary-lightness', theme.colors.primary.split(' ')[2]);
+    root.style.setProperty('--accent-hue', theme.colors.accent.split(' ')[0]);
+    root.style.setProperty('--accent-saturation', theme.colors.accent.split(' ')[1]);
+    root.style.setProperty('--accent-lightness', theme.colors.accent.split(' ')[2]);
 };
+
 
 type ThemeMode = 'light' | 'dark';
 
@@ -24,6 +28,7 @@ interface ThemeContextType {
   resetTheme: () => void;
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
+  toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -43,8 +48,21 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [mode, setMode] = useState<ThemeMode>('light');
 
   useEffect(() => {
+    const storedMode = localStorage.getItem('theme-mode') as ThemeMode | null;
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (storedMode) {
+      setMode(storedMode);
+    } else {
+      setMode(systemPrefersDark ? 'dark' : 'light');
+    }
+    setLoading(false);
+  }, []);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
     if (!isServer) {
-        applyTheme(theme);
+        applyThemeColors(theme);
         localStorage.setItem('website-theme-name', theme.name);
     }
   }, [theme]);
@@ -64,8 +82,17 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(themes.find(t => t.name === DEFAULT_THEME_NAME)!);
   }
 
+  const toggleMode = useCallback(() => {
+    setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
+  }, []);
+
+
+  if (loading) {
+    return null;
+  }
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, setMode }}>
+    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, setMode, toggleMode }}>
       {children}
     </ThemeContext.Provider>
   );
