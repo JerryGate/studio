@@ -91,11 +91,11 @@
 @layer utilities {
     .animated-gradient-text {
         @apply bg-gradient-to-r from-primary-foreground via-slate-300 to-primary-foreground;
-        background-size: 200% auto;
+        background-size: 400% auto;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: gradient-move 3s linear infinite;
+        animation: gradient-move 4s linear infinite;
     }
 }
 
