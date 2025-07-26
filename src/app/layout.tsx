@@ -12,7 +12,9 @@ import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
 import { ImageProvider } from '@/contexts/image-context';
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
+import Preloader from '@/components/preloader';
+import { AnimatePresence } from 'framer-motion';
 
 export default function RootLayout({
   children,
@@ -20,6 +22,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial loading time
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500); // Adjust time as needed
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
   const isDashboardRoute =
     pathname.startsWith('/admin') ||
     pathname.startsWith('/dashboard') ||
@@ -41,7 +55,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin=""/>
-        <title>E-pharma Nigeria - Quality Drugs, Fast Delivery</title>
+        <title>E-pharma - Quality Drugs, Fast Delivery</title>
         <meta
             name="description"
             content="Affordable, verified medications delivered to your doorstep from nearby pharmacies in Nigeria. Order drugs online with ease and track your delivery in real-time."
@@ -49,6 +63,9 @@ export default function RootLayout({
         <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, E-pharma" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
+        <AnimatePresence>
+          {loading && <Preloader />}
+        </AnimatePresence>
         <AuthProvider>
           <ThemeProvider>
             <Toaster>
