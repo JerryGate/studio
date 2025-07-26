@@ -5,44 +5,44 @@
 
 @layer base {
   :root {
-    --background-hue: 220;
-    --background-saturation: 14%;
-    --background-lightness: 98%; /* hsl(220, 14%, 98%) -> #F9FAFB */
+    --background-hue: 210;
+    --background-saturation: 40%;
+    --background-lightness: 98%; /* Soft White: #F8FAFC */
     
-    --foreground-hue: 221;
-    --foreground-saturation: 22%;
-    --foreground-lightness: 20%; /* hsl(221, 22%, 20%) -> #2A303F */
+    --foreground-hue: 222;
+    --foreground-saturation: 47%;
+    --foreground-lightness: 11%; /* Deep Slate: #0F172A */
     
-    --primary-hue: 221;
-    --primary-saturation: 83%;
-    --primary-lightness: 53%; /* Deep Blue from preloader - approx hsl(221, 83%, 53%) -> #1E3A8A */
+    --primary-hue: 224;
+    --primary-saturation: 76%;
+    --primary-lightness: 48%; /* Rich Blue: #1D4ED8 */
 
-    --accent-hue: 145;
-    --accent-saturation: 63%;
-    --accent-lightness: 49%; /* Vibrant Green from preloader - approx hsl(145, 63%, 49%) -> #22C55E */
+    --accent-hue: 160;
+    --accent-saturation: 64%;
+    --accent-lightness: 52%; /* Vibrant Teal: #34D399 */
 
     --primary-foreground-hue: 210;
-    --primary-foreground-saturation: 20%;
+    --primary-foreground-saturation: 40%;
     --primary-foreground-lightness: 98%;
     
     --secondary-hue: 220;
-    --secondary-saturation: 13%;
-    --secondary-lightness: 91%;
+    --secondary-saturation: 14%;
+    --secondary-lightness: 95%; /* Lighter gray */
     
-    --secondary-foreground-hue: 224;
-    --secondary-foreground-saturation: 71%;
-    --secondary-foreground-lightness: 4%;
+    --secondary-foreground-hue: 222;
+    --secondary-foreground-saturation: 47%;
+    --secondary-foreground-lightness: 11%;
 
     --muted-hue: 220;
-    --muted-saturation: 13%;
-    --muted-lightness: 91%;
+    --muted-saturation: 14%;
+    --muted-lightness: 95%;
     
-    --muted-foreground-hue: 220;
-    --muted-foreground-saturation: 9%;
-    --muted-foreground-lightness: 46%;
+    --muted-foreground-hue: 215;
+    --muted-foreground-saturation: 16%;
+    --muted-foreground-lightness: 47%; /* Softer gray */
 
     --accent-foreground-hue: 210;
-    --accent-foreground-saturation: 20%;
+    --accent-foreground-saturation: 40%;
     --accent-foreground-lightness: 98%;
     
     --destructive-hue: 0;
@@ -50,7 +50,7 @@
     --destructive-lightness: 60%;
     
     --destructive-foreground-hue: 210;
-    --destructive-foreground-saturation: 20%;
+    --destructive-foreground-saturation: 40%;
     --destructive-foreground-lightness: 98%;
 
     --border-hue: 220;
@@ -61,11 +61,11 @@
     --input-saturation: 13%;
     --input-lightness: 88%;
 
-    --ring-hue: 221;
-    --ring-saturation: 83%;
-    --ring-lightness: 53%;
+    --ring-hue: 224;
+    --ring-saturation: 76%;
+    --ring-lightness: 48%;
 
-    --radius: 0.75rem; /* Increased for a softer look */
+    --radius: 0.75rem; /* 12px */
     
     --background: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
     --foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
@@ -96,6 +96,7 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.5;
   }
 }
 
@@ -134,3 +135,4 @@
     --tw-prose-th-borders: hsl(var(--border));
     --tw-prose-td-borders: hsl(var(--border));
 }
+

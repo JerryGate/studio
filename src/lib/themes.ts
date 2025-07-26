@@ -17,77 +17,77 @@ export const THEMES: Theme[] = [
     {
         name: 'Default',
         colors: {
-            primary: { h: 217, s: 91, l: 60 }, // Soft Blue #3B82F6
-            accent: { h: 158, s: 82, l: 42 }, // Emerald Green #10B981
+            primary: { h: 224, s: 76, l: 48 }, // Rich Blue: #1D4ED8
+            accent: { h: 160, s: 64, l: 52 }, // Vibrant Teal: #34D399
         },
     },
     {
-        name: 'Coastal Calm',
+        name: 'Aqua Serenity',
         colors: {
-            primary: { h: 210, s: 100, l: 39 }, // #1E90FF
-            accent: { h: 180, s: 100, l: 40 },  // #00CED1
+            primary: { h: 204, s: 96, l: 40 }, // #0284C7
+            accent: { h: 190, s: 81, l: 59 },  // #22D3EE
         },
     },
     {
-        name: 'Warm Sunset',
+        name: 'Crimson Tide',
         colors: {
-            primary: { h: 27, s: 82, l: 53 }, // Orange
-            accent: { h: 0, s: 100, l: 71 },  // #FF6B6B
+            primary: { h: 0, s: 72, l: 51 }, // #DC2626
+            accent: { h: 0, s: 95, l: 81 },  // #FCA5A5
         },
     },
     {
-        name: 'Lush Forest',
+        name: 'Emerald Glow',
         colors: {
-            primary: { h: 158, s: 82, l: 21 }, // #065F46
-            accent: { h: 99, s: 57, l: 55 }, // Lime Green #84CC16
+            primary: { h: 160, s: 94, l: 25 }, // #047857
+            accent: { h: 147, s: 73, l: 67 }, // #6EE7B7
         },
     },
     {
-        name: 'Night Pulse',
+        name: 'Twilight Pulse',
         colors: {
-            primary: { h: 273, s: 66, l: 36 }, // #6B21A8
-            accent: { h: 276, s: 94, l: 87 }, // #D8B4FE
+            primary: { h: 259, s: 80, l: 56 }, // #7C3AED
+            accent: { h: 249, s: 86, l: 84 },  // #C4B5FD
         },
     },
     {
-        name: 'Urban Slate',
+        name: 'Slate Modern',
         colors: {
-            primary: { h: 215, s: 15, l: 34 }, // #4B5563
-            accent: { h: 39, s: 92, l: 58 },  // #F59E0B
+            primary: { h: 220, s: 13, l: 52 }, // #374151
+            accent: { h: 42, s: 95, l: 57 },  // #FBBF24
         },
     },
     {
-        name: 'Coral Breeze',
+        name: 'Coral Dream',
         colors: {
-            primary: { h: 0, s: 84, l: 60 }, // #EF4444
-            accent: { h: 180, s: 100, l: 40 }, // #00CED1
+            primary: { h: 326, s: 86, l: 64 }, // #F472B6
+            accent: { h: 327, s: 85, l: 87 },  // #FBCFE8
         },
     },
     {
-        name: 'Golden Serenity',
+        name: 'Golden Aura',
         colors: {
-            primary: { h: 33, s: 93, l: 43 }, // #D97706
+            primary: { h: 32, s: 93, l: 39 }, // #B45309
             accent: { h: 45, s: 96, l: 65 },  // #FCD34D
         },
     },
     {
-        name: 'Sky Haven',
+        name: 'Sky Bliss',
         colors: {
-            primary: { h: 217, s: 91, l: 60 }, // #3B82F6
+            primary: { h: 221, s: 83, l: 53 }, // #2563EB
             accent: { h: 208, s: 93, l: 77 },  // #93C5FD
         },
     },
     {
-        name: 'Earthy Harmony',
+        name: 'Earthy Calm',
         colors: {
-            primary: { h: 27, s: 34, l: 36 },  // #7F5539
-            accent: { h: 32, s: 37, l: 74 },  // #D9C2A6
+            primary: { h: 28, s: 91, l: 30 },  // #92400E
+            accent: { h: 249, s: 86, l: 84 },  // #D8B4FE
         },
     },
     {
-        name: 'Mint Fresh',
+        name: 'Mint Breeze',
         colors: {
-            primary: { h: 173, s: 82, l: 40 }, // #14B8A6
+            primary: { h: 174, s: 86, l: 31 }, // #0D9488
             accent: { h: 170, s: 79, l: 69 },  // #5EEAD4
         },
     },
