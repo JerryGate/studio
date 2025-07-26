@@ -11,13 +11,13 @@
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 221 83% 53%;
+    --primary: hsl(var(--primary-hue, 221) var(--primary-saturation, 83%) var(--primary-lightness, 53%));
     --primary-foreground: 210 20% 98%;
     --secondary: 215 27.9% 90%;
     --secondary-foreground: 224 71.4% 4.1%;
     --muted: 215 27.9% 90%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 142 76% 36%;
+    --accent: hsl(var(--accent-hue, 142) var(--accent-saturation, 76%) var(--accent-lightness, 36%));
     --accent-foreground: 210 20% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
@@ -42,13 +42,13 @@
     --card-foreground: 210 20% 98%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-    --primary: 210 20% 98%;
+    --primary: hsl(var(--primary-hue, 210) var(--primary-saturation, 20%) var(--primary-lightness, 98%));
     --primary-foreground: 224 71.4% 4.1%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217 91.2% 59.8%;
+    --accent: hsl(var(--accent-hue, 217) var(--accent-saturation, 91%) var(--accent-lightness, 60%));
     --accent-foreground: 224 71.4% 4.1%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
@@ -57,10 +57,6 @@
     --ring: 215 20.2% 65.1%;
   }
 
-  :root, .dark {
-    --primary: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness));
-    --accent: hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness));
-  }
 }
 
 @layer base {
