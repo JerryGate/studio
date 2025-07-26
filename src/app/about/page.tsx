@@ -35,8 +35,8 @@ export default function AboutPage() {
                 <Image 
                     src="https://placehold.co/600x400.png" 
                     alt="Pharmacists working" 
-                    layout="fill" 
-                    objectFit="cover"
+                    fill
+                    className="object-cover"
                     data-ai-hint="pharmacist helping customer"
                 />
             </div>

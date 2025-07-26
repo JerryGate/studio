@@ -36,7 +36,7 @@ export default function CartPage() {
               {cartItems.map((item) => (
                 <div key={item.id} className="flex flex-col md:flex-row items-center gap-6 p-4 border rounded-lg">
                   <div className="relative h-24 w-24 rounded-md overflow-hidden flex-shrink-0">
-                    <Image src={item.imageUrls[0]} alt={item.name} layout="fill" objectFit="cover" />
+                    <Image src={item.imageUrls[0]} alt={item.name} fill className="object-cover" />
                   </div>
                   <div className="flex-grow text-center md:text-left">
                     <Link href={`/product/${item.id}`}>
