@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star, MapPin, ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const topPharmacies = [
     { name: 'GoodHealth Pharmacy', location: 'Ikeja, Lagos', rating: 4.8, image: 'https://placehold.co/400x300.png', dataAiHint: 'modern pharmacy interior' },
@@ -37,7 +38,7 @@ const itemVariants = {
 
 const TopPharmacies = () => {
   return (
-    <section className="py-20 md:py-32 bg-background">
+    <section className="py-20 md:py-32 bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
             className="text-center mb-12"
@@ -46,7 +47,7 @@ const TopPharmacies = () => {
             viewport={{ once: true, amount: 0.5 }}
             variants={itemVariants}
         >
-          <div className="inline-block bg-accent/10 text-accent font-semibold py-1 px-3 rounded-full text-sm mb-4">
+          <div className="inline-block bg-primary/10 text-primary font-semibold py-1 px-3 rounded-full text-sm mb-4">
               Trusted Partners
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold font-headline animated-gradient-text">
@@ -66,8 +67,12 @@ const TopPharmacies = () => {
           {topPharmacies.map((pharmacy) => (
             <motion.div key={pharmacy.name} variants={itemVariants}>
                 <Link href="#" passHref>
-                    <Card className="overflow-hidden bg-background/50 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full flex flex-col group rounded-xl">
-                        <div className="relative aspect-[4/3] overflow-hidden">
+                    <Card className={cn(
+                        "overflow-hidden group h-full flex flex-col rounded-xl",
+                        "bg-transparent border-0 shadow-none",
+                        "transition-all duration-300 hover:bg-background hover:shadow-2xl hover:-translate-y-2"
+                    )}>
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-t-xl">
                             <Image
                                 src={pharmacy.image}
                                 alt={pharmacy.name}
@@ -77,7 +82,7 @@ const TopPharmacies = () => {
                             />
                         </div>
                         <CardContent className="p-6 flex-grow flex flex-col">
-                            <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">{pharmacy.name}</CardTitle>
+                            <CardTitle className="text-xl mb-2 text-primary">{pharmacy.name}</CardTitle>
                             <div className="flex items-center text-muted-foreground text-sm mb-3">
                                 <MapPin className="h-4 w-4 mr-2 shrink-0" />
                                 <span>{pharmacy.location}</span>
