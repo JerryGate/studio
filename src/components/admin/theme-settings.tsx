@@ -23,7 +23,7 @@ const hslToHex = (h: number, s: number, l: number): string => {
       .toString(16)
       .padStart(2, '0');
   };
-  return `#${f(0)}$f(8)}$f(4)}`;
+  return `#${f(0)}${f(8)}$f(4)}`;
 };
 
 const containerVariants = {
