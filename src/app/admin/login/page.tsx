@@ -81,7 +81,7 @@ function LoginContent() {
                 </Link>
             </p>
           </div>
-          <Card className="shadow-lg">
+          <Card>
             <CardHeader>
                 <CardTitle>Admin Sign In</CardTitle>
             </CardHeader>

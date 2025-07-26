@@ -76,7 +76,7 @@ function LoginContent() {
               Enter your credentials to access your account
             </p>
           </div>
-            <Card className="shadow-lg">
+            <Card>
                 <CardHeader>
                     <CardTitle>Customer Sign In</CardTitle>
                 </CardHeader>

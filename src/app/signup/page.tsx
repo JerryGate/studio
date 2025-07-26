@@ -68,7 +68,7 @@ function SignupContent() {
               Enter your email below to create your account
             </p>
           </div>
-          <Card className="shadow-lg">
+          <Card>
             <CardHeader>
                 <CardTitle>Customer Sign Up</CardTitle>
             </CardHeader>
