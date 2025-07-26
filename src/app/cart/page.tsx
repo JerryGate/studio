@@ -5,7 +5,7 @@ import { useCart } from '@/contexts/cart-context';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { MinusCircle, PlusCircle, Trash2, ShoppingCart } from 'lucide-react';
+import { MinusCircle, PlusCircle, Trash2, ShoppingCart, ArrowRight, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -25,7 +25,10 @@ export default function CartPage() {
               <h2 className="mt-6 text-2xl font-semibold">Your cart is empty</h2>
               <p className="mt-2 text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
               <Link href="/search">
-                <Button className="mt-8">Start Shopping</Button>
+                <Button className="mt-8">
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    Start Shopping
+                </Button>
               </Link>
             </div>
           ) : (
@@ -79,10 +82,14 @@ export default function CartPage() {
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full justify-end">
                 <Button variant="outline" onClick={clearCart}>
+                    <XCircle className="mr-2 h-4 w-4" />
                     Clear Cart
                 </Button>
                 <Link href="/checkout">
-                  <Button size="lg">Proceed to Checkout</Button>
+                  <Button size="lg">
+                    Proceed to Checkout
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </Link>
             </div>
           </CardFooter>

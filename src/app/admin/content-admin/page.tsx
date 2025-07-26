@@ -4,7 +4,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Palette, Newspaper, FileUp, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Palette, Newspaper, FileUp, Image as ImageIcon, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function ContentAdminDashboard() {
   const managementAreas = [
@@ -39,7 +39,10 @@ export default function ContentAdminDashboard() {
             </CardHeader>
             <CardContent>
               <Link href={area.href}>
-                <Button>Manage {area.title.replace('Manage ', '').replace('Settings', '')}</Button>
+                <Button>
+                    Manage {area.title.replace('Manage ', '').replace('Settings', '')}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </Link>
             </CardContent>
           </Card>

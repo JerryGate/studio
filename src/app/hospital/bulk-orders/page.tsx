@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { Order, OrderStatus } from '@/types';
+import { Eye, PlusCircle } from 'lucide-react';
 
 // Mock data for bulk orders
 const mockBulkOrders: Partial<Order>[] = [
@@ -30,7 +31,7 @@ export const columns: ColumnDef<Partial<Order>>[] = [
     },
     {
         id: 'actions',
-        cell: () => <Button variant="outline" size="sm">View Details</Button>,
+        cell: () => <Button variant="outline" size="sm"><Eye className="mr-2 h-4 w-4" />View Details</Button>,
     },
 ];
 
@@ -43,7 +44,10 @@ export default function BulkOrdersPage() {
                     <p className="text-muted-foreground">Manage and track your bulk medication orders.</p>
                 </div>
                 <Button asChild>
-                    <Link href="/hospital/bulk-orders/new">Place New Bulk Order</Link>
+                    <Link href="/hospital/bulk-orders/new">
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Place New Bulk Order
+                    </Link>
                 </Button>
             </div>
             <Card>

@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Send } from 'lucide-react';
 
 export default function NotificationsPage() {
     const { toast } = useToast();
@@ -77,7 +77,7 @@ export default function NotificationsPage() {
                             />
                         </div>
                         <Button type="submit" disabled={isLoading}>
-                           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                           {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                            Send Notification
                         </Button>
                     </form>

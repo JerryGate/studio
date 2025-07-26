@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Save } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { Separator } from '../ui/separator';
@@ -75,7 +75,7 @@ export function AccountSettings() {
                             <Input id="email" type="email" defaultValue={user.email} readOnly />
                         </div>
                         <Button type="submit" disabled={isProfileLoading}>
-                             {isProfileLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isProfileLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Save Changes
                         </Button>
                     </CardContent>
@@ -104,7 +104,7 @@ export function AccountSettings() {
                             <Input id="confirm-password" type="password" />
                         </div>
                         <Button type="submit" disabled={isPasswordLoading}>
-                             {isPasswordLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isPasswordLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Update Password
                         </Button>
                     </CardContent>

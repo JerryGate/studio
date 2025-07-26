@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { DataTable } from '@/components/data-table';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
+import { Send } from 'lucide-react';
 
 type Payout = {
   payoutId: string;
@@ -33,7 +34,7 @@ export const columns: ColumnDef<Payout>[] = [
         cell: ({ row }) => {
           const payout = row.original;
           if (payout.status === 'Pending') {
-            return <Button size="sm">Process Payout</Button>;
+            return <Button size="sm"><Send className="mr-2 h-4 w-4" />Process Payout</Button>;
           }
           return null;
         },

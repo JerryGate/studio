@@ -9,7 +9,7 @@ import { mockOrders } from '@/lib/mock-data';
 import { Order, OrderStatus } from '@/types';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle, CheckCircle, Package, Truck } from 'lucide-react';
+import { AlertCircle, CheckCircle, Package, Truck, Search } from 'lucide-react';
 
 const statusToProgress: Record<OrderStatus, number> = {
     Processing: 25,
@@ -58,7 +58,10 @@ export default function DeliveryTrackingPage() {
                             onChange={(e) => setOrderId(e.target.value)}
                             onKeyPress={handleKeyPress}
                         />
-                        <Button onClick={handleTrack}>Track</Button>
+                        <Button onClick={handleTrack}>
+                            <Search className="mr-2 h-4 w-4" />
+                            Track
+                        </Button>
                     </div>
                     
                     <div className="pt-4 border-t">

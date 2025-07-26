@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { AlertTriangle, Loader2 } from 'lucide-react';
+import { AlertTriangle, Loader2, Send, Ban } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export function EmergencyRequestModal() {
@@ -62,9 +62,12 @@ export function EmergencyRequestModal() {
                         <Textarea id="urgencyReason" placeholder="Briefly describe the emergency" required />
                     </div>
                     <DialogFooter>
-                        <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>Cancel</Button>
+                        <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>
+                            <Ban className="mr-2 h-4 w-4" />
+                            Cancel
+                        </Button>
                         <Button type="submit" variant="destructive" disabled={isLoading}>
-                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                             Send Urgent Alert
                         </Button>
                     </DialogFooter>

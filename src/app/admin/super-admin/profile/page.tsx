@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, User, Camera } from 'lucide-react';
+import { Loader2, User, Camera, Save } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/auth-context';
@@ -99,7 +99,7 @@ export default function AdminProfilePage() {
                             <Input id="email" type="email" defaultValue="super@e-pharma.com" readOnly />
                         </div>
                         <Button type="submit" disabled={isLoading}>
-                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Save Changes
                         </Button>
                     </CardContent>

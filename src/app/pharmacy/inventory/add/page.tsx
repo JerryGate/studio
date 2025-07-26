@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { UploadCloud, X } from 'lucide-react';
+import { UploadCloud, X, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 
 export default function AddProductPage() {
@@ -126,7 +126,10 @@ export default function AddProductPage() {
             </div>
 
             <div className="flex justify-end">
-              <Button type="submit">Add Product</Button>
+              <Button type="submit">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add Product
+              </Button>
             </div>
           </form>
         </CardContent>

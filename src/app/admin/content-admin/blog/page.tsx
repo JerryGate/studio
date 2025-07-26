@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -122,7 +122,10 @@ export default function BlogManagementPage() {
                     </div>
                 </div>
                 <Link href="/admin/content-admin/blog/add">
-                    <Button>Add New Post</Button>
+                    <Button>
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Add New Post
+                    </Button>
                 </Link>
             </div>
             <Card>

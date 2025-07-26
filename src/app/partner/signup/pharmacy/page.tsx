@@ -9,7 +9,7 @@ import Logo from "@/components/logo";
 import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -84,7 +84,7 @@ export default function PharmacySignupPage() {
                     </div>
                     <div>
                         <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UserPlus className="mr-2 h-4 w-4" />}
                             Submit Application
                         </Button>
                     </div>

@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import { UserRole } from "@/types";
 import { mockAuthUsers } from "@/lib/mock-data";
 import { motion } from "framer-motion";
@@ -121,7 +121,7 @@ export default function PartnerLoginPage() {
                 </Tabs>
                  <div className="mt-6">
                     <Button type="submit" className="w-full" disabled={isLoading}>
-                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                         Sign in as {role.charAt(0).toUpperCase() + role.slice(1)}
                     </Button>
                 </div>

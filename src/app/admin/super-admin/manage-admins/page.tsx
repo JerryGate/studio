@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -87,7 +87,10 @@ export default function ManageAdminsPage() {
                     <h1 className="text-3xl font-bold animated-gradient-text">Manage Admins</h1>
                     <p className="text-muted-foreground">Add, edit, or suspend administrator accounts.</p>
                 </div>
-                <Button>Add New Admin</Button>
+                <Button>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add New Admin
+                </Button>
             </div>
             <Card>
                 <CardHeader>

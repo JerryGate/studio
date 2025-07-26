@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Star } from 'lucide-react';
+import { Star, Send, Ban } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Order } from '@/types';
 
@@ -83,8 +83,14 @@ export function FeedbackDialog({ isOpen, onClose, order, onSubmit }: FeedbackDia
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={onClose}>Skip</Button>
-                    <Button onClick={handleSubmit}>Submit Feedback</Button>
+                    <Button variant="outline" onClick={onClose}>
+                        <Ban className="mr-2 h-4 w-4" />
+                        Skip
+                    </Button>
+                    <Button onClick={handleSubmit}>
+                        <Send className="mr-2 h-4 w-4" />
+                        Submit Feedback
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

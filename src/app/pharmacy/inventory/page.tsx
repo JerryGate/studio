@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InventoryTable from './inventory-table';
+import { PlusCircle } from 'lucide-react';
 
 
 export default function InventoryPage() {
@@ -17,7 +18,10 @@ export default function InventoryPage() {
                     </div>
                 </div>
                 <Link href="/pharmacy/inventory/add">
-                    <Button>Add New Product</Button>
+                    <Button>
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Add New Product
+                    </Button>
                 </Link>
             </div>
             <Card>

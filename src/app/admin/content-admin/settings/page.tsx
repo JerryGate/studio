@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Phone } from 'lucide-react';
+import { Loader2, Phone, Save } from 'lucide-react';
 import { useState } from 'react';
 import { useSettings } from '@/contexts/settings-context';
 import { Separator } from '@/components/ui/separator';
@@ -68,7 +68,7 @@ export default function SiteSettingsPage() {
                             </p>
                         </div>
                         <Button type="submit" disabled={isSaving || loading}>
-                             {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Save Changes
                         </Button>
                     </CardContent>

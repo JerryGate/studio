@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Users, Pill, Truck } from 'lucide-react';
+import { Users, Pill, Truck, Users2 } from 'lucide-react';
 import { PatientAdmissionsChart } from '@/components/dashboard/patient-admissions-chart';
 
 
@@ -47,10 +47,16 @@ export default function HospitalDashboardPage() {
         </CardHeader>
         <CardContent className="flex gap-4">
             <Link href="/hospital/bulk-orders/new">
-                <Button>Place a Bulk Order</Button>
+                <Button>
+                    <Pill className="mr-2 h-4 w-4" />
+                    Place a Bulk Order
+                </Button>
             </Link>
              <Link href="/hospital/staff">
-                <Button variant="outline">Manage Staff</Button>
+                <Button variant="outline">
+                    <Users2 className="mr-2 h-4 w-4" />
+                    Manage Staff
+                </Button>
             </Link>
         </CardContent>
       </Card>

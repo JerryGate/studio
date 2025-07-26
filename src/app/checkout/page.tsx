@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CreditCard, MapPin, ShoppingCart, Loader2, LogIn, Truck } from 'lucide-react';
+import { CreditCard, MapPin, ShoppingCart, Loader2, LogIn, Truck, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -103,7 +103,10 @@ export default function CheckoutPage() {
           You can't proceed to checkout without any items.
         </p>
         <Link href="/search">
-          <Button className="mt-8">Start Shopping</Button>
+          <Button className="mt-8">
+            <ShoppingCart className="mr-2 h-4 w-4" />
+            Start Shopping
+          </Button>
         </Link>
       </div>
     );
@@ -375,7 +378,7 @@ export default function CheckoutPage() {
                         </div>
                         <div>
                              <Button type="button" variant="outline" onClick={handleGeocodeAddress} disabled={isGeocoding}>
-                                {isGeocoding && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                {isGeocoding ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <MapPin className="mr-2 h-4 w-4" />}
                                 Find on Map
                             </Button>
                         </div>
@@ -486,7 +489,7 @@ export default function CheckoutPage() {
                     className="w-full"
                     disabled={isCalculatingFee || isGeocoding || isPlacingOrder || deliveryFee === null || !form.getValues('paymentMethod')}
                 >
-                    {isPlacingOrder && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isPlacingOrder ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                     Place Order
                 </Button>
             </CardFooter>

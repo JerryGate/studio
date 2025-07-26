@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Truck, CheckCircle, Clock } from 'lucide-react';
+import { Truck, CheckCircle, Clock, ArrowRight } from 'lucide-react';
 import { DispatcherDeliveryChart } from '@/components/dashboard/dispatcher-delivery-chart';
 
 export default function DispatcherDashboardPage() {
@@ -46,7 +46,10 @@ export default function DispatcherDashboardPage() {
         </CardHeader>
         <CardContent>
             <Link href="/dispatcher/deliveries">
-                <Button>View Active Deliveries</Button>
+                <Button>
+                    <Truck className="mr-2 h-4 w-4" />
+                    View Active Deliveries
+                </Button>
             </Link>
         </CardContent>
       </Card>

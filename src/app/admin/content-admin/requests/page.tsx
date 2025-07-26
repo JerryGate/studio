@@ -6,6 +6,7 @@ import { DataTable } from '@/components/data-table';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { ArrowRight } from 'lucide-react';
 
 type SpecialRequest = {
   id: string;
@@ -45,7 +46,7 @@ export const columns: ColumnDef<SpecialRequest>[] = [
     },
     {
         id: 'actions',
-        cell: () => <Button variant="outline" size="sm">View & Reply</Button>,
+        cell: () => <Button variant="outline" size="sm">View & Reply <ArrowRight className="ml-2 h-4 w-4" /></Button>,
     },
 ];
 

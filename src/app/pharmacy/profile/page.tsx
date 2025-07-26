@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useRef } from 'react';
-import { Loader2, Camera, User } from 'lucide-react';
+import { Loader2, Camera, User, Save } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/auth-context';
 
@@ -97,7 +97,7 @@ export default function PharmacyProfilePage() {
                             <Input id="address" defaultValue="456 Health Way, Ikeja, Lagos" />
                         </div>
                         <Button type="submit" disabled={isLoading}>
-                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                             {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Save Changes
                         </Button>
                     </CardContent>

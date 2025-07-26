@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -84,7 +84,10 @@ export default function ManageStaffPage() {
                     <h1 className="text-3xl font-bold text-primary">Manage Staff</h1>
                     <p className="text-muted-foreground">Add, edit, or remove staff members with access to the hospital portal.</p>
                 </div>
-                <Button>Add New Staff Member</Button>
+                <Button>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add New Staff Member
+                </Button>
             </div>
             <Card>
                 <CardHeader>

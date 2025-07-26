@@ -12,6 +12,7 @@ import { OrderDetailsDialog } from '@/components/dashboard/order-details-dialog'
 import { Order } from '@/types';
 import { FeedbackDialog } from '@/components/dashboard/feedback-dialog';
 import { useToast } from '@/hooks/use-toast';
+import { Eye } from 'lucide-react';
 
 export default function OrderHistoryPage() {
     const { orders, updateOrderStatus } = useOrders();
@@ -83,7 +84,10 @@ export default function OrderHistoryPage() {
                                             </Badge>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="outline" size="sm" onClick={() => handleViewDetails(order)}>View Details</Button>
+                                            <Button variant="outline" size="sm" onClick={() => handleViewDetails(order)}>
+                                                <Eye className="mr-2 h-4 w-4" />
+                                                View Details
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 ))

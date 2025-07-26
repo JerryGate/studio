@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { Loader2, UploadCloud, X } from 'lucide-react';
+import { Loader2, UploadCloud, X, Send, Ban } from 'lucide-react';
 import Image from 'next/image';
 
 export default function AddBlogPage() {
@@ -113,9 +113,12 @@ export default function AddBlogPage() {
             </div>
             
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+              <Button type="button" variant="outline" onClick={() => router.back()}>
+                <Ban className="mr-2 h-4 w-4" />
+                Cancel
+              </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                 Publish Post
               </Button>
             </div>

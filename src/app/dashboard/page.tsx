@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { SpendingHistoryChart } from '@/components/dashboard/spending-history-chart';
+import { ShoppingCart } from 'lucide-react';
 
 export default function DashboardPage() {
   return (
@@ -18,7 +19,10 @@ export default function DashboardPage() {
         <CardContent className="space-y-4">
             <p>You can use the navigation on the left to get around.</p>
             <Link href="/search">
-                <Button>Start a New Order</Button>
+                <Button>
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    Start a New Order
+                </Button>
             </Link>
         </CardContent>
       </Card>

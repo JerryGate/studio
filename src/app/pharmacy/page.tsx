@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PharmacySalesChart } from '@/components/dashboard/pharmacy-sales-chart';
-import { DollarSign, ListPlus, Package } from 'lucide-react';
+import { DollarSign, ListPlus, Package, ArrowRight } from 'lucide-react';
 
 export default function PharmacyDashboardPage() {
   const stats = [
@@ -46,10 +46,16 @@ export default function PharmacyDashboardPage() {
         </CardHeader>
         <CardContent className="flex gap-4">
             <Link href="/pharmacy/orders">
-                <Button>View New Orders</Button>
+                <Button>
+                    <ArrowRight className="mr-2 h-4 w-4" />
+                    View New Orders
+                </Button>
             </Link>
              <Link href="/pharmacy/inventory">
-                <Button variant="outline">Manage Inventory</Button>
+                <Button variant="outline">
+                    <ListPlus className="mr-2 h-4 w-4" />
+                    Manage Inventory
+                </Button>
             </Link>
         </CardContent>
       </Card>

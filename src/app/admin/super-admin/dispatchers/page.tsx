@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, PlusCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -142,7 +142,10 @@ export default function DispatcherManagementPage() {
                     <h1 className="text-3xl font-bold animated-gradient-text">Dispatcher Management</h1>
                     <p className="text-muted-foreground">Manage all dispatchers on the platform.</p>
                 </div>
-                <Button onClick={() => openForm()}>Add New Dispatcher</Button>
+                <Button onClick={() => openForm()}>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add New Dispatcher
+                </Button>
             </div>
             <Card>
                 <CardHeader>

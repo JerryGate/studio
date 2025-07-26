@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { useImageContext } from '@/contexts/image-context';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { UploadCloud, Trash2, Edit, Loader2 } from 'lucide-react';
+import { UploadCloud, Trash2, Edit, Loader2, Save, Ban } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -190,8 +190,14 @@ export default function SliderManagementPage() {
                         </div>
                     </div>
                     <div className="flex justify-end gap-2">
-                         <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
-                         <Button onClick={handleEditSubmit}>Save Changes</Button>
+                         <Button variant="outline" onClick={() => setIsEditOpen(false)}>
+                            <Ban className="mr-2 h-4 w-4" />
+                            Cancel
+                         </Button>
+                         <Button onClick={handleEditSubmit}>
+                            <Save className="mr-2 h-4 w-4" />
+                            Save Changes
+                        </Button>
                     </div>
                 </DialogContent>
             </Dialog>

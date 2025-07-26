@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { Loader2, PlusCircle, Trash2 } from 'lucide-react';
+import { Loader2, PlusCircle, Trash2, Send, Ban } from 'lucide-react';
 
 interface OrderItem {
     id: number;
@@ -110,9 +110,12 @@ export default function NewBulkOrderPage() {
             </div>
             
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+              <Button type="button" variant="outline" onClick={() => router.back()}>
+                <Ban className="mr-2 h-4 w-4" />
+                Cancel
+              </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                 Submit Request
               </Button>
             </div>

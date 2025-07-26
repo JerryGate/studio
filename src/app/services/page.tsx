@@ -15,6 +15,7 @@ import {
   FileCheck2,
   ArrowRight,
   Star,
+  ChevronRight,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -144,6 +145,7 @@ const ServicesPage = () => {
                         className="mt-8"
                      >
                         <Button size="lg" onClick={() => document.getElementById('services-grid')?.scrollIntoView({ behavior: 'smooth' })}>
+                            <ChevronRight className="mr-2 h-4 w-4" />
                             Explore Services
                         </Button>
                     </motion.div>

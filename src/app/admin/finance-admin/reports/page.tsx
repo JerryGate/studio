@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/date-picker-with-range';
 import { DataTable } from '@/components/data-table';
 import { ColumnDef } from '@tanstack/react-table';
+import { FileText } from 'lucide-react';
 
 type Transaction = {
   orderId: string;
@@ -46,7 +47,10 @@ export default function ReportsPage() {
                         <CardDescription>Generate transaction reports for a specific day.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Button onClick={() => setShowReport(true)}>Generate Today's Report</Button>
+                        <Button onClick={() => setShowReport(true)}>
+                            <FileText className="mr-2 h-4 w-4" />
+                            Generate Today's Report
+                        </Button>
                     </CardContent>
                 </Card>
                 <Card>
@@ -56,7 +60,10 @@ export default function ReportsPage() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                          <DatePickerWithRange />
-                         <Button onClick={() => setShowReport(true)}>Generate Periodic Report</Button>
+                         <Button onClick={() => setShowReport(true)}>
+                            <FileText className="mr-2 h-4 w-4" />
+                            Generate Periodic Report
+                        </Button>
                     </CardContent>
                 </Card>
             </div>
