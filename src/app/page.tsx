@@ -11,6 +11,7 @@ import FeaturedProducts from '@/components/landing/featured-products';
 import TopPharmacies from '@/components/landing/top-pharmacies';
 import { SearchBar } from '@/components/landing/hero';
 import { motion } from 'framer-motion';
+import { CategorySlider } from '@/components/category-slider';
 
 export default function Home() {
   return (
@@ -27,6 +28,9 @@ export default function Home() {
             </motion.div>
         </div>
         <Services />
+        <div className="container mx-auto px-4 py-16">
+            <CategorySlider />
+        </div>
         <FeaturedProducts />
         <HowItWorks />
         <TopPharmacies />
