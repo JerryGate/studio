@@ -42,7 +42,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             whileHover="hover"
             className="h-full"
         >
-            <Card className="flex flex-col h-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-white border-0 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 rounded-lg">
+            <Card className="flex flex-col h-full overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group bg-card border-border focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 rounded-lg">
                  <Link href={`/product/${product.id}`} className="block focus:outline-none">
                     <CardHeader className="p-0">
                         <motion.div 
