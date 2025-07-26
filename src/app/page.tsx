@@ -30,6 +30,9 @@ export default function Home() {
                 <SearchBar />
             </motion.div>
         </div>
+        
+        <FeaturedProducts />
+
         <Services />
 
         <div className="container mx-auto px-4 py-16 space-y-24">
@@ -38,7 +41,6 @@ export default function Home() {
             <BestSellers />
         </div>
 
-        <FeaturedProducts />
         <HowItWorks />
         <TopPharmacies />
         <TrustSignals />
