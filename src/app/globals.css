@@ -14,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 5% 10%;
     
-    --primary: 326 100% 47%; /* Vibrant Pink/Red */
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
     
     --secondary: 240 5% 96%;
@@ -23,7 +23,7 @@
     --muted: 240 5% 96%;
     --muted-foreground: 240 4% 46%;
     
-    --accent: 221 83% 53%; /* Deep Blue */
+    --accent: 142 76% 36%;
     --accent-foreground: 210 20% 98%;
     
     --destructive: 0 84% 60%;
@@ -31,7 +31,7 @@
     
     --border: 240 6% 90%;
     --input: 240 6% 90%;
-    --ring: 326 100% 47%;
+    --ring: 221 83% 53%;
     
     --radius: 0.5rem;
 
@@ -52,7 +52,7 @@
     --popover: 240 5% 10%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 326 100% 47%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 4% 16%;
@@ -61,7 +61,7 @@
     --muted: 240 4% 16%;
     --muted-foreground: 240 4% 65%;
 
-    --accent: 221 83% 53%;
+    --accent: 142 76% 36%;
     --accent-foreground: 210 20% 98%;
 
     --destructive: 0 63% 31%;
@@ -69,7 +69,7 @@
 
     --border: 240 4% 16%;
     --input: 240 4% 16%;
-    --ring: 326 100% 47%;
+    --ring: 221 83% 53%;
 
     --chart-1: hsl(var(--primary));
     --chart-2: hsl(var(--accent));
@@ -96,6 +96,12 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: gradient-move 3s linear infinite;
+        text-shadow: 
+            0 1px 0 hsl(0, 0%, 100%, 0.4),
+            0 2px 0 hsl(0, 0%, 95%, 0.3),
+            0 3px 0 hsl(0, 0%, 90%, 0.2),
+            0 4px 0 hsl(0, 0%, 85%, 0.1),
+            0 5px 10px hsla(0, 0%, 0%, 0.2);
     }
 }
 
