@@ -46,7 +46,7 @@ export interface Conversation {
 }
 
 // Order type
-export type OrderStatus = 'Pending Approval' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
 export type PaymentMethod = 'paystack' | 'delivery';
 

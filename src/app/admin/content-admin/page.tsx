@@ -11,7 +11,7 @@ export default function ContentAdminDashboard() {
   const managementAreas = [
     { title: 'Manage Slider Images', description: 'Upload or remove homepage slider images.', href: '/admin/content-admin/slider', icon: ImageIcon },
     { title: 'Blog Posts', description: 'Create, edit, and publish articles.', href: '/admin/content-admin/blog', icon: Newspaper },
-    { title: 'Document Uploads', description: 'Manage pharmacy licenses and other documents.', href: '#', icon: FileUp },
+    { title: 'Document Uploads', description: 'Manage pharmacy licenses and other documents.', href: '/admin/content-admin/documents', icon: FileUp },
   ];
 
   return (

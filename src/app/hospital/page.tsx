@@ -46,10 +46,10 @@ export default function HospitalDashboardPage() {
           <CardTitle>Quick Actions</CardTitle>
         </CardHeader>
         <CardContent className="flex gap-4">
-            <Link href="#">
+            <Link href="/hospital/bulk-orders/new">
                 <Button>Place a Bulk Order</Button>
             </Link>
-             <Link href="#">
+             <Link href="/hospital/staff">
                 <Button variant="outline">Manage Staff</Button>
             </Link>
         </CardContent>

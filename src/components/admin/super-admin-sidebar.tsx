@@ -19,7 +19,7 @@ const navItems = [
   { href: '/admin/super-admin/performance', icon: LifeBuoy, label: 'Performance' },
   { href: '/admin/super-admin/notifications', icon: Bell, label: 'Notifications' },
   { href: '/admin/super-admin/messages', icon: MessageSquare, label: 'Messages' },
-  { href: '#', icon: Shield, label: 'Manage Admins' },
+  { href: '/admin/super-admin/manage-admins', icon: Shield, label: 'Manage Admins' },
   { href: '/admin/super-admin/profile', icon: UserCircle, label: 'Profile' },
   { href: '/admin/super-admin/settings', icon: Settings, label: 'Settings' },
 ];
@@ -32,7 +32,7 @@ export const AdminNav = ({ isMobile = false }) => {
       if (href === '/admin/super-admin') {
         return pathname === href;
       }
-      return pathname.startsWith(href) && href !== '/admin/super-admin';
+      return pathname.startsWith(href);
     }
 
     return (
@@ -44,8 +44,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold',
-                        item.href === '#' && 'cursor-not-allowed opacity-50'
+                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
                     )}
                     >
                     <item.icon className="h-4 w-4" />

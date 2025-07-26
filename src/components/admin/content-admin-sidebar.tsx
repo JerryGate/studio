@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Power, UserCircle, Palette, Newspaper, FileUp, Image as ImageIcon } from 'lucide-react';
+import { Home, Power, UserCircle, Newspaper, FileUp, Image as ImageIcon } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -14,7 +14,7 @@ const navItems = [
   { href: '/admin/content-admin', icon: Home, label: 'Dashboard' },
   { href: '/admin/content-admin/slider', icon: ImageIcon, label: 'Slider Images' },
   { href: '/admin/content-admin/blog', icon: Newspaper, label: 'Blog Posts' },
-  { href: '#', icon: FileUp, label: 'Document Uploads' },
+  { href: '/admin/content-admin/documents', icon: FileUp, label: 'Document Uploads' },
   { href: '/admin/content-admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
@@ -23,10 +23,10 @@ export const AdminNav = ({ isMobile = false }) => {
     const { logout } = useAuth();
 
     const checkActive = (href: string) => {
-      if (href === '/admin/content-admin' && pathname === href) {
-        return true;
+      if (href === '/admin/content-admin') {
+        return pathname === href;
       }
-      return href !== '/admin/content-admin' && pathname.startsWith(href) && href !== '#';
+      return pathname.startsWith(href);
     }
 
     return (
@@ -38,8 +38,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold',
-                        item.href === '#' && 'cursor-not-allowed opacity-50'
+                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
                     )}
                     >
                     <item.icon className="h-4 w-4" />

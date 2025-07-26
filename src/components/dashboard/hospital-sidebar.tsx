@@ -13,7 +13,7 @@ import { Button } from '../ui/button';
 const navItems = [
   { href: '/hospital', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/hospital/profile', icon: User, label: 'My Profile' },
-  { href: '/hospital/orders', icon: Package, label: 'Bulk Orders' },
+  { href: '/hospital/bulk-orders', icon: Package, label: 'Bulk Orders' },
   { href: '/hospital/staff', icon: Users2, label: 'Manage Staff' },
   { href: '/hospital/messages', icon: MessageSquare, label: 'Messages' },
   { href: '/hospital/settings', icon: Settings, label: 'Settings' },

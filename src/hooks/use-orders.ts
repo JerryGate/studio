@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Order, CartItem, OrderStatus, PaymentMethod } from '@/types';
 import { mockOrders, addMockOrder, updateMockOrderStatus } from '@/lib/mock-data';
 
@@ -22,7 +22,7 @@ export const useOrders = () => {
             ...newOrderData,
             id: `ORD${Math.floor(Math.random() * 10000).toString().padStart(3, '0')}`,
             date: new Date().toISOString().split('T')[0],
-            status: 'Pending Approval',
+            status: 'Processing',
         };
         addMockOrder(newOrder);
         // Update state to trigger re-render in components using this hook

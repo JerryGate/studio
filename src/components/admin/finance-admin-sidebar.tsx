@@ -13,8 +13,8 @@ import { Button } from '../ui/button';
 const navItems = [
   { href: '/admin/finance-admin', icon: Home, label: 'Dashboard' },
   { href: '/admin/finance-admin/reports', icon: BarChart, label: 'Transaction Reports' },
-  { href: '#', icon: Landmark, label: 'Manage Payouts' },
-  { href: '#', icon: AlertTriangle, label: 'Disputes & Refunds' },
+  { href: '/admin/finance-admin/payouts', icon: Landmark, label: 'Manage Payouts' },
+  { href: '/admin/finance-admin/disputes', icon: AlertTriangle, label: 'Disputes & Refunds' },
   { href: '/admin/finance-admin/profile', icon: UserCircle, label: 'Profile' },
 ];
 
@@ -26,7 +26,7 @@ export const AdminNav = ({ isMobile = false }) => {
       if (href === '/admin/finance-admin') {
         return pathname === href;
       }
-      return pathname.startsWith(href) && href !== '/admin/finance-admin';
+      return pathname.startsWith(href);
     }
 
     return (
@@ -38,8 +38,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     href={item.href}
                     className={cn(
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold',
-                         item.href === '#' && 'cursor-not-allowed opacity-50'
+                        checkActive(item.href) && 'bg-primary/10 text-primary font-semibold'
                     )}
                     >
                     <item.icon className="h-4 w-4" />

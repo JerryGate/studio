@@ -51,22 +51,22 @@ export const mockConversations: Conversation[] = [
   },
   {
     id: 'convo3',
-    participants: [mockUsers.admin, mockUsers.pharmacy],
+    participants: [mockUsers['content-admin'], mockUsers.pharmacy],
     subject: 'Verification Document Submission',
     lastMessageAt: '2024-07-25T15:00:00.000Z',
     messages: [
-      { id: 'msg5', senderId: 'admin1', sender: mockUsers.admin, text: 'Please upload your business registration documents.', timestamp: '2024-07-25T14:55:00.000Z' },
+      { id: 'msg5', senderId: 'contentadmin1', sender: mockUsers['content-admin'], text: 'Please upload your business registration documents.', timestamp: '2024-07-25T14:55:00.000Z' },
       { id: 'msg6', senderId: 'pharmacy1', sender: mockUsers.pharmacy, text: 'I have just uploaded them. Please confirm.', timestamp: '2024-07-25T15:00:00.000Z' },
     ],
   },
   {
     id: 'convo4',
-    participants: [mockUsers.customer, mockUsers.admin],
+    participants: [mockUsers.customer, mockUsers['super-admin']],
     subject: 'Support Ticket: Payment Issue',
     lastMessageAt: '2024-07-26T09:15:00.000Z',
     messages: [
       { id: 'msg7', senderId: 'customer1', sender: mockUsers.customer, text: 'My payment is not going through.', timestamp: '2024-07-26T09:10:00.000Z' },
-      { id: 'msg8', senderId: 'admin1', sender: mockUsers.admin, text: 'We are looking into this for you right now.', timestamp: '2024-07-26T09:15:00.000Z' },
+      { id: 'msg8', senderId: 'superadmin1', sender: mockUsers['super-admin'], text: 'We are looking into this for you right now.', timestamp: '2024-07-26T09:15:00.000Z' },
     ],
   },
   {

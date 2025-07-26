@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, Palette, UserCircle, Settings } from 'lucide-react';
+import { Home, Store, Users, Truck, BarChart, Bell, MessageSquare, Power, LifeBuoy, UserCircle, Settings, Shield } from 'lucide-react';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -14,17 +14,17 @@ import { Button } from '../ui/button';
 // but is kept for now to avoid breaking imports. It can be removed later.
 
 const navItems = [
-  { href: '/admin', icon: Home, label: 'Dashboard' },
-  { href: '/admin/pharmacies', icon: Store, label: 'Pharmacies' },
-  { href: '/admin/patients', icon: Users, label: 'Patients' },
-  { href: '/admin/dispatchers', icon: Truck, label: 'Dispatchers' },
-  { href: '/admin/reports', icon: BarChart, label: 'Reports' },
-  { href: '/admin/notifications', icon: Bell, label: 'Notifications' },
-  { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
-  { href: '/admin/performance', icon: LifeBuoy, label: 'Performance' },
-  { href: '/admin/theme', icon: Palette, label: 'Theme Settings' },
-  { href: '/admin/profile', icon: UserCircle, label: 'Profile' },
-  { href: '/admin/settings', icon: Settings, label: 'Settings' },
+  { href: '/admin/super-admin', icon: Home, label: 'Dashboard' },
+  { href: '/admin/super-admin/pharmacies', icon: Store, label: 'Pharmacies' },
+  { href: '/admin/super-admin/patients', icon: Users, label: 'Patients' },
+  { href: '/admin/super-admin/dispatchers', icon: Truck, label: 'Dispatchers' },
+  { href: '/admin/super-admin/reports', icon: BarChart, label: 'Reports' },
+  { href: '/admin/super-admin/performance', icon: LifeBuoy, label: 'Performance' },
+  { href: '/admin/super-admin/notifications', icon: Bell, label: 'Notifications' },
+  { href: '/admin/super-admin/messages', icon: MessageSquare, label: 'Messages' },
+  { href: '/admin/super-admin/manage-admins', icon: Shield, label: 'Manage Admins' },
+  { href: '/admin/super-admin/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/admin/super-admin/settings', icon: Settings, label: 'Settings' },
 ];
 
 export const AdminNav = ({ isMobile = false }) => {
@@ -32,7 +32,8 @@ export const AdminNav = ({ isMobile = false }) => {
     const { logout } = useAuth();
 
     const checkActive = (href: string) => {
-      if (href === '/admin') {
+      const baseAdminPath = '/admin/super-admin';
+      if (href === baseAdminPath) {
         return pathname === href;
       }
       return pathname.startsWith(href);

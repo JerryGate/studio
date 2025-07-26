@@ -37,9 +37,11 @@ const Cta = () => {
               Order Your Drugs Today
             </Button>
           </Link>
-          <Button size="lg" variant="outline">
-            Join as a Pharmacy/Dispatcher
-          </Button>
+          <Link href="/partner">
+            <Button size="lg" variant="outline">
+              Join as a Pharmacy/Dispatcher
+            </Button>
+          </Link>
         </div>
       </motion.div>
     </section>
