@@ -17,6 +17,7 @@ import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from '@/contexts/theme-context';
 import { SettingsProvider } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
+import { WhatsAppCta } from '@/components/whatsapp-cta';
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -65,6 +66,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               <>
                   <EmergencyRequestModal />
                   <ScrollToTopButton />
+                  <WhatsAppCta />
               </>
           )}
       </div>

@@ -11,7 +11,6 @@ import { SearchBar } from '@/components/landing/hero';
 import { motion } from 'framer-motion';
 import { CategorySlider } from '@/components/category-slider';
 import { Card, CardContent } from '@/components/ui/card';
-import { WhatsAppCta } from '@/components/whatsapp-cta';
 import { allProducts } from '@/lib/mock-data';
 import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
 import TopPharmacies from '@/components/landing/top-pharmacies';
@@ -91,7 +90,6 @@ export default function Home() {
         <TrustSignals />
         <GeolocationFeature />
         <Cta />
-        <WhatsAppCta />
       </main>
     </div>
   );
