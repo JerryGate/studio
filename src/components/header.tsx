@@ -96,7 +96,7 @@ const Header = () => {
           </div>
           
           <div className="flex items-center gap-2">
-             <div className={cn("hidden lg:flex", pathname !== '/' && 'hidden')}>
+             <div className="hidden lg:flex">
                 <form className="relative w-full max-w-sm" onSubmit={handleSearch}>
                     <Input
                     type="text"
@@ -174,13 +174,13 @@ const Header = () => {
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="bottom" className="w-full bg-background p-0 h-auto rounded-t-2xl">
-                     <SheetHeader className="p-4 flex flex-col items-center">
-                        <div className="w-12 h-1.5 rounded-full bg-muted-foreground/30 mb-2" />
+                  <SheetContent side="left" className="w-full max-w-sm bg-background p-0 flex flex-col">
+                     <SheetHeader className="p-4 border-b">
+                        <Logo />
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                      </SheetHeader>
-                    <div className="flex flex-col">
-                      <nav className="p-4 space-y-2">
+                    <div className="flex flex-col flex-1">
+                      <nav className="p-4 space-y-2 flex-1">
                         {baseNavLinks.map((link) => (
                            <SheetClose asChild key={link.href}>
                              <Link
