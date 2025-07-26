@@ -40,7 +40,7 @@ export function CategorySlider() {
                         <CarouselItem key={index} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                              <Link href={category.href}>
                                 <Card className={cn(
-                                    "group cursor-pointer overflow-hidden h-full",
+                                    "group cursor-pointer overflow-hidden h-full border-0",
                                     "transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                                 )}>
                                     <CardContent className="flex flex-col items-center justify-center p-6 text-center aspect-square">
