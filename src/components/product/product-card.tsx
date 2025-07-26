@@ -63,17 +63,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     </CardHeader>
                 </Link>
                 <CardContent className="p-4 flex flex-col flex-grow">
-                     <div className="flex-grow">
-                        <CardTitle className="text-base font-semibold mb-1 hover:text-primary leading-tight min-h-[40px]">
+                     <div className="flex-grow mb-2">
+                        <CardTitle className="text-base font-semibold mb-1 hover:text-primary leading-tight">
                             <Link href={`/product/${product.id}`} className="focus:outline-none">
                                 {product.name}
                             </Link>
                         </CardTitle>
                         {product.dosage && (
-                            <p className="text-xs text-muted-foreground mb-2">{product.dosage}</p>
+                            <p className="text-xs text-muted-foreground">{product.dosage}</p>
+                        )}
+                        {product.description && (
+                            <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                                {product.description}
+                            </p>
                         )}
                     </div>
-                     <div className="flex items-center gap-2 mt-2 mb-2">
+                     <div className="flex items-center gap-2 mb-2">
                         {isInStock ? (
                             <Badge variant="secondary" className="text-xs text-emerald-700 bg-emerald-100 border-emerald-200">
                                 <CheckCircle className="h-3 w-3 mr-1" />
