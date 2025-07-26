@@ -15,6 +15,8 @@ import { WhatsAppCta } from '@/components/whatsapp-cta';
 import { allProducts } from '@/lib/mock-data';
 import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
 import TopPharmacies from '@/components/landing/top-pharmacies';
+import { EmergencyRequestModal } from '@/components/emergency-request-modal';
+import { PrescriptionUploadModal } from '@/components/prescription-upload-modal';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -35,15 +37,22 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <Hero />
-        <div className="lg:hidden container mx-auto px-4 py-8">
+        
+        <div className="container mx-auto px-4 py-8 space-y-4">
             <motion.div
+                className="lg:hidden"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
                 <SearchBar />
             </motion.div>
+             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+                <EmergencyRequestModal />
+                <PrescriptionUploadModal />
+            </div>
         </div>
+
 
         <Services />
 
