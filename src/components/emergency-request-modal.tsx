@@ -12,6 +12,25 @@ import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { y: 10, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+    },
+};
+
+
 export function EmergencyRequestModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -57,29 +76,36 @@ export function EmergencyRequestModal() {
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2">
-                        <AlertTriangle className="text-emergency-DEFAULT" />
+                    <DialogTitle className="flex items-center gap-2 text-xl text-destructive">
+                        <AlertTriangle className="h-6 w-6" />
                         Urgent Medical Request
                     </DialogTitle>
                     <DialogDescription>
                         This will send an alert to all nearby pharmacies. Use only for genuine emergencies.
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4 py-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="drugName">Drug Name</Label>
-                        <Input id="drugName" placeholder="e.g., Ventolin Inhaler" required />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="quantity">Quantity</Label>
-                        <Input id="quantity" placeholder="e.g., 1" required />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="urgencyReason">Reason for Urgency</Label>
-                        <Textarea id="urgencyReason" placeholder="Briefly describe the emergency" required />
-                    </div>
+                <form onSubmit={handleSubmit}>
+                     <motion.div 
+                        className="space-y-4 py-4"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        <motion.div className="space-y-2" variants={itemVariants}>
+                            <Label htmlFor="drugName">Drug Name</Label>
+                            <Input id="drugName" placeholder="e.g., Ventolin Inhaler" required />
+                        </motion.div>
+                        <motion.div className="space-y-2" variants={itemVariants}>
+                            <Label htmlFor="quantity">Quantity</Label>
+                            <Input id="quantity" placeholder="e.g., 1" required />
+                        </motion.div>
+                        <motion.div className="space-y-2" variants={itemVariants}>
+                            <Label htmlFor="urgencyReason">Reason for Urgency</Label>
+                            <Textarea id="urgencyReason" placeholder="Briefly describe the emergency" required />
+                        </motion.div>
+                    </motion.div>
                     <DialogFooter>
                         <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>
                             <Ban className="mr-2 h-4 w-4" />
