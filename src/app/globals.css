@@ -72,3 +72,20 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+.animated-gradient-text {
+  background: linear-gradient(-45deg, #ffffff, #f0f0f0, #d0d0d0, #ffffff);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: animated_text 10s ease-in-out infinite;
+  -moz-animation: animated_text 10s ease-in-out infinite;
+  -webkit-animation: animated_text 10s ease-in-out infinite;
+}
+
+@keyframes animated_text {
+  0% { background-position: 0px 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0px 50%; }
+}

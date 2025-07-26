@@ -17,9 +17,6 @@ const applyThemeColors = (theme: Theme) => {
     root.style.setProperty('--accent-hue', theme.colors.accent.split(' ')[0]);
     root.style.setProperty('--accent-saturation', theme.colors.accent.split(' ')[1]);
     root.style.setProperty('--accent-lightness', theme.colors.accent.split(' ')[2]);
-
-    // For simplicity, we can also update the background here if needed by the theme
-    // For now, we only handle primary and accent colors as per the `themes.ts` file
 };
 
 interface ThemeContextType {
@@ -38,7 +35,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         const foundTheme = themes.find(t => t.name === savedThemeName);
         return foundTheme || themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     } catch (e) {
-        // If localStorage is unavailable or fails, fallback to default
         return themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     }
   });
