@@ -1,9 +1,10 @@
-
 'use client';
 
 import ProductCard from '@/components/product/product-card';
 import { motion } from 'framer-motion';
 import { allProducts } from '@/lib/mock-data';
+import Link from 'next/link';
+import { Button } from './ui/button';
 
 const bestSellers = allProducts.slice(0, 4);
 
@@ -59,6 +60,13 @@ export function BestSellers() {
              <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>
+        <div className="text-center mt-16">
+            <Link href="/search">
+                <Button size="lg" variant="outline">
+                    Shop All Best Sellers
+                </Button>
+            </Link>
+        </div>
     </section>
   );
 };

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { motion } from 'framer-motion';
 import { HeartPulse, Shield, Syringe, Sparkles, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
 const categories = [
     { name: 'Pain Relief', icon: HeartPulse, href: '/search?category=pain-relief' },
@@ -81,6 +81,13 @@ export function ShopByCategory() {
                     </motion.div>
                 ))}
             </motion.div>
+             <div className="text-center mt-16">
+                <Link href="/search">
+                    <Button size="lg" variant="outline">
+                        View All Categories
+                    </Button>
+                </Link>
+            </div>
         </section>
     )
 }
