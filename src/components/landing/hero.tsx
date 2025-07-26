@@ -29,7 +29,7 @@ const HeroSkeleton = () => (
     </div>
 );
 
-const SearchBar = () => {
+export const SearchBar = () => {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
   
@@ -127,7 +127,7 @@ const Hero = () => {
                                     {sliderImages[current]?.description || "Your trusted source for verified medications from local pharmacies in Nigeria."}
                                 </p>
                                 <motion.div
-                                    className="mt-10"
+                                    className="mt-10 hidden lg:block"
                                     initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
