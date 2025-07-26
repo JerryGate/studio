@@ -12,6 +12,25 @@ const Preloader = () => {
       className="fixed inset-0 z-[100] flex items-center justify-center bg-primary"
     >
       <div className="relative flex items-center justify-center">
+        {/* Pulsating Waves */}
+        {[...Array(4)].map((_, i) => (
+            <motion.div
+                key={i}
+                className="absolute rounded-full border border-primary-foreground/30"
+                initial={{ scale: 0, opacity: 1, width: '112px', height: '112px' }}
+                animate={{
+                    scale: 2.5,
+                    opacity: 0,
+                }}
+                transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.6, // Stagger the start of each wave
+                }}
+            />
+        ))}
+
         <motion.div
             className="relative h-28 w-28"
             animate={{ scale: [1, 1.2, 1], rotate: 360 }}
