@@ -10,6 +10,7 @@ import { Textarea } from './ui/textarea';
 import { AlertTriangle, Loader2, Send, Ban } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 export function EmergencyRequestModal() {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,20 +34,29 @@ export function EmergencyRequestModal() {
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-                <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 1.2 }}
-                    whileHover={{ scale: 1.1 }}
-                    className="fixed bottom-24 right-6 z-50"
-                >
-                    <Button variant="destructive" size="icon" className="w-16 h-16 rounded-full shadow-lg animate-pulse-red">
-                        <AlertTriangle className="h-8 w-8" />
-                         <span className="sr-only">Emergency Request</span>
-                    </Button>
-                </motion.div>
-            </DialogTrigger>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                         <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 1.2 }}
+                            whileHover={{ scale: 1.1 }}
+                            className="fixed bottom-24 right-6 z-50"
+                        >
+                            <DialogTrigger asChild>
+                                <Button variant="destructive" size="icon" className="w-16 h-16 rounded-full shadow-lg animate-pulse-red">
+                                    <AlertTriangle className="h-8 w-8" />
+                                     <span className="sr-only">Emergency Request</span>
+                                </Button>
+                            </DialogTrigger>
+                        </motion.div>
+                    </TooltipTrigger>
+                    <TooltipContent side="left">
+                        <p>Urgent Medical Request</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">

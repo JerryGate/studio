@@ -58,8 +58,8 @@ const config = {
           foreground: "hsl(var(--card-foreground-hue, var(--foreground-hue)), var(--card-foreground-saturation, var(--foreground-saturation)), var(--card-foreground-lightness, var(--foreground-lightness)))",
         },
         emergency: {
-          DEFAULT: "#450a0a",
-          dark: "#2c0606",
+          DEFAULT: "#ef4444",
+          dark: "#dc2626",
         }
       },
       borderRadius: {
@@ -81,8 +81,8 @@ const config = {
           "100%": { opacity: "1" },
         },
         "pulse-red": {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(69, 10, 10, 0.7)" },
-          "70%": { boxShadow: "0 0 0 10px rgba(69, 10, 10, 0)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(239, 68, 68, 0.7)" },
+          "70%": { boxShadow: "0 0 0 12px rgba(239, 68, 68, 0)" },
         },
       },
       animation: {
