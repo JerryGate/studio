@@ -63,14 +63,14 @@ export default function RootLayout({
         <meta name="keywords" content="buy drugs online Nigeria, e-pharmacy Nigeria, drug delivery Nigeria, online pharmacy, Medfast Nigeria" />
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
-        <AnimatePresence>
-          {loading && <Preloader />}
-        </AnimatePresence>
         <ThemeProvider>
           <AuthProvider>
             <Toaster>
               <ImageProvider>
                 <CartProvider>
+                  <AnimatePresence>
+                    {loading && <Preloader />}
+                  </AnimatePresence>
                   {!isDashboardRoute && !isAuthRoute && (
                     <div className="px-4 sm:px-6 lg:px-8">
                       <Header />
