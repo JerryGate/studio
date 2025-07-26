@@ -39,17 +39,20 @@ export function CategorySlider() {
                     {categories.map((category, index) => (
                         <CarouselItem key={index} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                              <Link href={category.href}>
-                                <Card className={cn(
-                                    "group cursor-pointer overflow-hidden h-full border-0",
+                                <div className={cn(
+                                    "group relative cursor-pointer overflow-hidden h-full rounded-lg",
                                     "transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                                 )}>
-                                    <CardContent className="flex flex-col items-center justify-center p-6 text-center aspect-square">
-                                        <div className="p-4 bg-primary/10 text-primary rounded-full mb-4 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110">
-                                            <category.icon className="h-8 w-8" />
-                                        </div>
-                                        <p className="font-semibold text-primary group-hover:text-accent">{category.name.replace(' 2', '')}</p>
-                                    </CardContent>
-                                </Card>
+                                    <Card className="border-0 bg-transparent h-full">
+                                        <CardContent className="flex flex-col items-center justify-center p-6 text-center aspect-square">
+                                            <div className="p-4 bg-primary/10 text-primary rounded-full mb-4 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110">
+                                                <category.icon className="h-8 w-8" />
+                                            </div>
+                                            <p className="font-semibold text-primary group-hover:text-accent">{category.name.replace(' 2', '')}</p>
+                                        </CardContent>
+                                    </Card>
+                                     <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-primary to-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ zIndex: -1 }} />
+                                </div>
                             </Link>
                         </CarouselItem>
                     ))}
