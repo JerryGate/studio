@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { themes, Theme } from '@/lib/themes';
 
 const isServer = typeof window === 'undefined';
@@ -17,18 +17,15 @@ const applyThemeColors = (theme: Theme) => {
     root.style.setProperty('--accent-hue', theme.colors.accent.split(' ')[0]);
     root.style.setProperty('--accent-saturation', theme.colors.accent.split(' ')[1]);
     root.style.setProperty('--accent-lightness', theme.colors.accent.split(' ')[2]);
+
+    // For simplicity, we can also update the background here if needed by the theme
+    // For now, we only handle primary and accent colors as per the `themes.ts` file
 };
-
-
-type ThemeMode = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   resetTheme: () => void;
-  mode: ThemeMode;
-  setMode: (mode: ThemeMode) => void;
-  toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -41,24 +38,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         const foundTheme = themes.find(t => t.name === savedThemeName);
         return foundTheme || themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     } catch (e) {
+        // If localStorage is unavailable or fails, fallback to default
         return themes.find(t => t.name === DEFAULT_THEME_NAME)!;
     }
   });
-
-  const [mode, setMode] = useState<ThemeMode>('light');
-
-  useEffect(() => {
-    const storedMode = localStorage.getItem('theme-mode') as ThemeMode | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (storedMode) {
-      setMode(storedMode);
-    } else {
-      setMode(systemPrefersDark ? 'dark' : 'light');
-    }
-    setLoading(false);
-  }, []);
-
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isServer) {
@@ -66,13 +49,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('website-theme-name', theme.name);
     }
   }, [theme]);
-
-   useEffect(() => {
-    if (isServer) return;
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(mode);
-    localStorage.setItem('theme-mode', mode);
-  }, [mode]);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -82,17 +58,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(themes.find(t => t.name === DEFAULT_THEME_NAME)!);
   }
 
-  const toggleMode = useCallback(() => {
-    setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
-  }, []);
-
-
-  if (loading) {
-    return null;
-  }
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, resetTheme, mode, setMode, toggleMode }}>
+    <ThemeContext.Provider value={{ theme, setTheme, resetTheme }}>
       {children}
     </ThemeContext.Provider>
   );

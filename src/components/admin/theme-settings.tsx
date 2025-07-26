@@ -7,7 +7,6 @@ import { useTheme } from '@/contexts/theme-context';
 import { CheckCircle, Palette } from 'lucide-react';
 import { themes } from '@/lib/themes';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '../theme-toggle';
 
 export default function ThemeSettings() {
     const { theme, setTheme, resetTheme } = useTheme();
@@ -15,15 +14,12 @@ export default function ThemeSettings() {
     return (
         <Card>
             <CardHeader>
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Palette className="h-6 w-6 text-primary" />
-                        <CardTitle>Theme Settings</CardTitle>
-                    </div>
-                    <ThemeToggle />
+                <div className="flex items-center gap-2">
+                    <Palette className="h-6 w-6 text-primary" />
+                    <CardTitle>Theme Settings</CardTitle>
                 </div>
                 <CardDescription>
-                    Choose a predefined color scheme. Changes apply globally in both light and dark modes.
+                    Choose a predefined color scheme for the website.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">

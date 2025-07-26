@@ -9,7 +9,6 @@ import Link from 'next/link';
 import SuperAdminSidebar from '@/components/admin/super-admin-sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Logo from '@/components/logo';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 const getInitials = (name: string) => {
     if (!name) return '';
@@ -48,7 +47,6 @@ export default function SuperAdminLayout({
             <div className="w-full flex-1">
               <h1 className="text-lg font-semibold md:text-xl">Super Admin</h1>
             </div>
-             <ThemeToggle />
              <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative flex items-center gap-2">

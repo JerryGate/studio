@@ -5,30 +5,20 @@
 
 @layer base {
   :root {
-    /* Base HSL values from the default theme */
-    --primary-hue: 221;
-    --primary-saturation: 83%;
-    --primary-lightness: 53%;
-    
-    --accent-hue: 142;
-    --accent-saturation: 76%;
-    --accent-lightness: 36%;
-
-    /* Light Mode Colors */
-    --background: 240 10% 99%; /* #F9FAFA */
-    --foreground: 224 71% 4%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
+    --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 4%;
-    --primary: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness));
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness));
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
@@ -38,20 +28,19 @@
   }
 
   .dark {
-    /* Dark Mode Colors */
-    --background: 222 47% 11%; /* Dark Gray #111827 - similar to #1F2937 */
-    --foreground: 210 40% 98%; /* Light Text #F3F4F6 */
-    --card: 222 47% 15%; /* Slightly lighter card background */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
+    --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness));
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness));
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -69,23 +58,4 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
-
-@layer utilities {
-    .animated-gradient-text {
-        @apply bg-gradient-to-r from-primary-foreground via-slate-300 to-primary-foreground;
-        background-size: 400% auto;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradient-move 4s linear infinite;
-        white-space: nowrap;
-    }
-}
-
-
-@keyframes gradient-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
