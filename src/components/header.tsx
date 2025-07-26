@@ -28,7 +28,12 @@ const getDashboardUrl = (role: string | undefined) => {
     if (!role) return '/login';
     switch (role) {
         case 'admin':
-            return '/admin';
+        case 'super-admin':
+            return '/admin/super-admin';
+        case 'content-admin':
+            return '/admin/content-admin';
+        case 'finance-admin':
+            return '/admin/finance-admin';
         case 'customer':
             return '/dashboard';
         case 'pharmacy':
