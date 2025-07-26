@@ -24,7 +24,7 @@ const categories = [
 ];
 
 export function CategorySlider() {
-    const plugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+    const plugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
     
     return (
         <section>
