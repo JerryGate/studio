@@ -14,6 +14,7 @@ import { ImageProvider } from '@/contexts/image-context';
 import { Suspense, useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
 import { AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from '@/contexts/theme-context';
 
 export default function RootLayout({
   children,
@@ -63,31 +64,33 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background text-foreground flex flex-col min-h-screen">
           <AuthProvider>
-            <Toaster>
-              <ImageProvider>
-                <CartProvider>
-                  <AnimatePresence>
-                    {loading && <Preloader />}
-                  </AnimatePresence>
-                  {!isDashboardRoute && !isAuthRoute && (
-                    <div className="px-4 sm:px-6 lg:px-8">
-                      <Header />
+            <ThemeProvider>
+              <Toaster>
+                <ImageProvider>
+                  <CartProvider>
+                    <AnimatePresence>
+                      {loading && <Preloader />}
+                    </AnimatePresence>
+                    {!isDashboardRoute && !isAuthRoute && (
+                      <div className="px-4 sm:px-6 lg:px-8">
+                        <Header />
+                      </div>
+                    )}
+                    <div className="flex-1 flex flex-col">
+                      <Suspense>
+                        <PageTransition>{children}</PageTransition>
+                      </Suspense>
                     </div>
-                  )}
-                  <div className="flex-1 flex flex-col">
-                    <Suspense>
-                      <PageTransition>{children}</PageTransition>
-                    </Suspense>
-                  </div>
-                  {!isDashboardRoute && !isAuthRoute && (
-                    <div className="px-4 sm:px-6 lg:px-8">
-                      <Footer />
-                    </div>
-                  )}
-                  <ScrollToTopButton />
-                </CartProvider>
-              </ImageProvider>
-            </Toaster>
+                    {!isDashboardRoute && !isAuthRoute && (
+                      <div className="px-4 sm:px-6 lg:px-8">
+                        <Footer />
+                      </div>
+                    )}
+                    <ScrollToTopButton />
+                  </CartProvider>
+                </ImageProvider>
+              </Toaster>
+            </ThemeProvider>
           </AuthProvider>
       </body>
     </html>
