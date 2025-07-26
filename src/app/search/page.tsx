@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, Suspense, useEffect } from 'react';
@@ -18,28 +17,29 @@ import { DrugInteractionChecker } from '@/components/drug-interaction-checker';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { PrescriptionUploadModal } from '@/components/prescription-upload-modal';
 import { Separator } from '@/components/ui/separator';
-import { CategorySlider } from '@/components/category-slider';
-import { ShopByCategory } from '@/components/shop-by-category';
-import { BestSellers } from '@/components/best-sellers';
 import { SpecialRecommendationModal } from '@/components/special-recommendation-modal';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
+import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
 
 function SearchResults() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams.get('q') || '';
+    const initialCategory = searchParams.get('category') || 'all';
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(initialQuery);
     const [sortBy, setSortBy] = useState('relevance');
     const [inStock, setInStock] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+    const allCategories = ['all', ...Array.from(new Set(allProducts.map(p => p.category)))];
 
     useEffect(() => {
         setLoading(true);
         // Simulate API call
         const timer = setTimeout(() => {
-            const category = searchParams.get('category');
             const results = allProducts
-                .filter(product => category ? product.category.toLowerCase().replace(/\s/g, '-') === category : true)
+                .filter(product => selectedCategory === 'all' ? true : product.category.toLowerCase().replace(/\s+/g, '-') === selectedCategory)
                 .filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
                 .filter(product => !inStock || product.stock > 0)
                 .sort((a, b) => {
@@ -53,7 +53,7 @@ function SearchResults() {
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [searchTerm, sortBy, inStock, searchParams]);
+    }, [searchTerm, sortBy, inStock, selectedCategory]);
 
     return (
         <div className="flex flex-col md:flex-row gap-12">
@@ -66,6 +66,21 @@ function SearchResults() {
                             Filters
                         </h3>
                         <div className="space-y-6">
+                             <div>
+                                <Label htmlFor="category" className="font-semibold">Category</Label>
+                                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                                    <SelectTrigger id="category" className="w-full mt-2">
+                                        <SelectValue placeholder="All Categories" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {allCategories.map(cat => (
+                                            <SelectItem key={cat} value={cat === 'all' ? 'all' : cat.toLowerCase().replace(/\s+/g, '-')}>
+                                                {cat === 'all' ? 'All Categories' : cat}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                             <div>
                                 <Label htmlFor="sort" className="font-semibold">Sort by</Label>
                                 <Select value={sortBy} onValueChange={setSortBy}>
@@ -191,21 +206,23 @@ function LoadingSkeleton() {
 }
 
 function SearchPageContent() {
+    const searchParams = useSearchParams();
+    const hasCategory = searchParams.has('category');
+
     return (
         <div className="container mx-auto px-4 py-8">
-            <header className="mb-8 space-y-4">
-                <h1 className="text-4xl font-extrabold animated-gradient-text">Order Medications</h1>
-                <p className="text-lg text-muted-foreground">Find drugs, check for interactions, or request special recommendations.</p>
-                <div className="flex flex-wrap gap-4 pt-4">
-                   <EmergencyRequestModal />
-                   <PrescriptionUploadModal />
-                </div>
-            </header>
+             {!hasCategory && (
+                <header className="mb-8 space-y-4">
+                    <h1 className="text-4xl font-extrabold animated-gradient-text">Order Medications</h1>
+                    <p className="text-lg text-muted-foreground">Find drugs, check for interactions, or request special recommendations.</p>
+                    <div className="flex flex-wrap gap-4 pt-4">
+                       <EmergencyRequestModal />
+                       <PrescriptionUploadModal />
+                    </div>
+                </header>
+            )}
 
             <div className="space-y-16">
-                <CategorySlider />
-                <ShopByCategory />
-                <BestSellers />
                  <SearchResults />
             </div>
             <WhatsAppCta />

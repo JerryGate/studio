@@ -1,12 +1,15 @@
 'use client';
+
 import { Product } from '@/types';
 import ProductCard from '@/components/product/product-card';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { allProducts } from '@/lib/mock-data';
 
-const featuredProducts = allProducts.slice(0, 4);
+interface CategoryProductsSectionProps {
+  category: string;
+  products: Product[];
+}
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -31,11 +34,15 @@ const itemVariants = {
     },
 };
 
+export function CategoryProductsSection({ category, products }: CategoryProductsSectionProps) {
+  if (products.length === 0) {
+    return null;
+  }
+  
+  const categorySlug = category.toLowerCase().replace(/\s+/g, '-');
 
-const FeaturedProducts = () => {
   return (
-    <section className="py-20 md:py-28 bg-secondary">
-      <div className="container mx-auto px-4">
+    <section>
         <motion.div 
             className="text-center mb-16"
             initial="hidden"
@@ -44,10 +51,10 @@ const FeaturedProducts = () => {
             variants={itemVariants}
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-headline animated-gradient-text">
-            Featured Products
+            Top Picks in {category}
           </h2>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Check out some of our most popular medications and health products.
+            Explore our most popular products for {category.toLowerCase()}.
           </p>
         </motion.div>
         <motion.div 
@@ -57,20 +64,17 @@ const FeaturedProducts = () => {
             viewport={{ once: true, amount: 0.2 }}
             variants={containerVariants}
         >
-          {featuredProducts.map((product) => (
+          {products.map((product) => (
              <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>
         <div className="text-center mt-16">
-            <Link href="/search">
-                <Button size="lg">
-                    View All Products
+            <Link href={`/search?category=${categorySlug}`}>
+                <Button size="lg" variant="outline">
+                    View All in {category}
                 </Button>
             </Link>
         </div>
-      </div>
     </section>
   );
 };
-
-export default FeaturedProducts;

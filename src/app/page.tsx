@@ -1,4 +1,3 @@
-
 'use client';
 
 import Hero from '@/components/landing/hero';
@@ -7,16 +6,13 @@ import HowItWorks from '@/components/landing/how-it-works';
 import TrustSignals from '@/components/landing/trust-signals';
 import GeolocationFeature from '@/components/landing/geolocation-feature';
 import Cta from '@/components/landing/cta';
-import FeaturedProducts from '@/components/landing/featured-products';
-import TopPharmacies from '@/components/landing/top-pharmacies';
 import { SearchBar } from '@/components/landing/hero';
 import { motion } from 'framer-motion';
 import { CategorySlider } from '@/components/category-slider';
-import { ShopByCategory } from '@/components/shop-by-category';
-import { BestSellers } from '@/components/best-sellers';
-import { Separator } from '@/components/ui/separator';
 import { Card, CardContent } from '@/components/ui/card';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
+import { allProducts } from '@/lib/mock-data';
+import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -30,6 +26,7 @@ const itemVariants = {
     },
 };
 
+const uniqueCategories = [...new Set(allProducts.map(p => p.category))];
 
 export default function Home() {
   return (
@@ -45,8 +42,6 @@ export default function Home() {
                 <SearchBar />
             </motion.div>
         </div>
-        
-        <FeaturedProducts />
 
         <Services />
 
@@ -72,8 +67,14 @@ export default function Home() {
                     </CardContent>
                 </Card>
             </section>
-            <ShopByCategory />
-            <BestSellers />
+            
+            {uniqueCategories.map(category => (
+              <CategoryProductsSection
+                key={category}
+                category={category}
+                products={allProducts.filter(p => p.category === category).slice(0, 4)}
+              />
+            ))}
         </div>
 
         <HowItWorks />
