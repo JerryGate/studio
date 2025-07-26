@@ -5,13 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Palette, Newspaper, FileUp, Image as ImageIcon } from 'lucide-react';
-import ThemeSettings from '@/components/admin/theme-settings';
 
 export default function ContentAdminDashboard() {
   const managementAreas = [
     { title: 'Manage Slider Images', description: 'Upload or remove homepage slider images.', href: '/admin/content-admin/slider', icon: ImageIcon },
     { title: 'Blog Posts', description: 'Create, edit, and publish articles.', href: '/admin/content-admin/blog', icon: Newspaper },
     { title: 'Document Uploads', description: 'Manage pharmacy licenses and other documents.', href: '/admin/content-admin/documents', icon: FileUp },
+    { title: 'Theme Settings', description: 'Customize the look and feel of the website.', href: '/admin/content-admin/theme', icon: Palette },
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function ContentAdminDashboard() {
             </CardHeader>
             <CardContent>
               <Link href={area.href}>
-                <Button>Manage {area.title.replace('Manage ', '')}</Button>
+                <Button>Manage {area.title.replace('Manage ', '').replace('Settings', '')}</Button>
               </Link>
             </CardContent>
           </Card>

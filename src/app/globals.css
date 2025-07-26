@@ -5,26 +5,81 @@
 
 @layer base {
   :root {
-    --background: 240 5% 96%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 240 5% 96%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 240 5% 96%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 221 65% 32%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 224 71.4% 4.1%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 142 60% 45%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 221 65% 32%;
+    --background-hue: 240;
+    --background-saturation: 5%;
+    --background-lightness: 96%;
+    --foreground-hue: 224;
+    --foreground-saturation: 71%;
+    --foreground-lightness: 4%;
+    
+    --primary-hue: 221;
+    --primary-saturation: 65%;
+    --primary-lightness: 32%;
+    --primary-foreground-hue: 210;
+    --primary-foreground-saturation: 20%;
+    --primary-foreground-lightness: 98%;
+
+    --secondary-hue: 220;
+    --secondary-saturation: 13%;
+    --secondary-lightness: 91%;
+    --secondary-foreground-hue: 224;
+    --secondary-foreground-saturation: 71%;
+    --secondary-foreground-lightness: 4%;
+
+    --muted-hue: 220;
+    --muted-saturation: 13%;
+    --muted-lightness: 91%;
+    --muted-foreground-hue: 220;
+    --muted-foreground-saturation: 9%;
+    --muted-foreground-lightness: 46%;
+
+    --accent-hue: 142;
+    --accent-saturation: 60%;
+    --accent-lightness: 45%;
+    --accent-foreground-hue: 210;
+    --accent-foreground-saturation: 20%;
+    --accent-foreground-lightness: 98%;
+    
+    --destructive-hue: 0;
+    --destructive-saturation: 84%;
+    --destructive-lightness: 60%;
+    --destructive-foreground-hue: 210;
+    --destructive-foreground-saturation: 20%;
+    --destructive-foreground-lightness: 98%;
+
+    --border-hue: 220;
+    --border-saturation: 13%;
+    --border-lightness: 91%;
+
+    --input-hue: 220;
+    --input-saturation: 13%;
+    --input-lightness: 91%;
+
+    --ring-hue: 221;
+    --ring-saturation: 65%;
+    --ring-lightness: 32%;
+
     --radius: 0.5rem;
+    
+    --background: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
+    --foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
+    --card: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
+    --card-foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
+    --popover: hsl(var(--background-hue), var(--background-saturation), var(--background-lightness));
+    --popover-foreground: hsl(var(--foreground-hue), var(--foreground-saturation), var(--foreground-lightness));
+    --primary: hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness));
+    --primary-foreground: hsl(var(--primary-foreground-hue), var(--primary-foreground-saturation), var(--primary-foreground-lightness));
+    --secondary: hsl(var(--secondary-hue), var(--secondary-saturation), var(--secondary-lightness));
+    --secondary-foreground: hsl(var(--secondary-foreground-hue), var(--secondary-foreground-saturation), var(--secondary-foreground-lightness));
+    --muted: hsl(var(--muted-hue), var(--muted-saturation), var(--muted-lightness));
+    --muted-foreground: hsl(var(--muted-foreground-hue), var(--muted-foreground-saturation), var(--muted-foreground-lightness));
+    --accent: hsl(var(--accent-hue), var(--accent-saturation), var(--accent-lightness));
+    --accent-foreground: hsl(var(--accent-foreground-hue), var(--accent-foreground-saturation), var(--accent-foreground-lightness));
+    --destructive: hsl(var(--destructive-hue), var(--destructive-saturation), var(--destructive-lightness));
+    --destructive-foreground: hsl(var(--destructive-foreground-hue), var(--destructive-foreground-saturation), var(--destructive-foreground-lightness));
+    --border: hsl(var(--border-hue), var(--border-saturation), var(--border-lightness));
+    --input: hsl(var(--input-hue), var(--input-saturation), var(--input-lightness));
+    --ring: hsl(var(--ring-hue), var(--ring-saturation), var(--ring-lightness));
   }
 }
 
@@ -40,7 +95,7 @@
 
 
 .animated-gradient-text {
-  background: linear-gradient(-45deg, #3B82F6, #1E3A8A, #22C55E, #16A34A);
+  background: linear-gradient(-45deg, hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness)), hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness)), hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness)), hsl(var(--accent-hue) var(--accent-saturation) var(--accent-lightness)));
   background-size: 300%;
   -webkit-background-clip: text;
   background-clip: text;
