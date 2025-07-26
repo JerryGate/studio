@@ -63,7 +63,7 @@ export default function FinanceAdminSidebar({isMobile = false}) {
   return (
     <div className="flex flex-col h-full">
        {!isMobile && (
-         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+         <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6">
             <Logo textClassName="inline" />
          </div>
       )}

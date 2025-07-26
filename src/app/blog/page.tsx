@@ -61,12 +61,12 @@ const BlogCard = ({ post, isFeatured = false }: { post: BlogPost, isFeatured?: b
                       {post.title}
                     </Link>
                   </CardTitle>
-                  <div className="text-sm text-muted-foreground">
+                  <CardDescription>
                     <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
                         <span className="flex items-center gap-1"><User className="h-3 w-3" /> {post.author}</span>
                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {post.publishedDate}</span>
                     </div>
-                  </div>
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">{post.excerpt}</p>

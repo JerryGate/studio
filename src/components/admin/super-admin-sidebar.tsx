@@ -53,7 +53,7 @@ export const AdminNav = ({ isMobile = false }) => {
         <div className="flex flex-col h-full">
             <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 {navSections.map((section, sectionIndex) => (
-                    <div key={section.name} className={cn(sectionIndex > 0 && "pt-4 mt-4 border-t border-border/50")}>
+                    <div key={section.name} className={cn(sectionIndex > 0 && "pt-4 mt-4")}>
                         <h4 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{section.name}</h4>
                         <div className="space-y-1">
                             {section.items.map((item) => (
