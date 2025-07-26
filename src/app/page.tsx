@@ -12,6 +12,9 @@ import TopPharmacies from '@/components/landing/top-pharmacies';
 import { SearchBar } from '@/components/landing/hero';
 import { motion } from 'framer-motion';
 import { CategorySlider } from '@/components/category-slider';
+import { ShopByCategory } from '@/components/shop-by-category';
+import { BestSellers } from '@/components/best-sellers';
+import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
   return (
@@ -28,9 +31,13 @@ export default function Home() {
             </motion.div>
         </div>
         <Services />
-        <div className="container mx-auto px-4 py-16">
+
+        <div className="container mx-auto px-4 py-16 space-y-24">
             <CategorySlider />
+            <ShopByCategory />
+            <BestSellers />
         </div>
+
         <FeaturedProducts />
         <HowItWorks />
         <TopPharmacies />
