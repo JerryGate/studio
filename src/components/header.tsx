@@ -16,6 +16,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
 import { Separator } from './ui/separator';
+import { motion } from 'framer-motion';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -24,6 +25,25 @@ const baseNavLinks = [
   { name: 'Blog', href: '/blog' },
   { name: 'FAQ', href: '/faq' },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 10, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
+
 
 const getDashboardUrl = (role: string | undefined) => {
     if (!role) return '/login';
@@ -181,23 +201,29 @@ const Header = () => {
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                      </SheetHeader>
                     <div className="flex flex-col flex-1">
-                      <nav className="p-4 space-y-2 flex-1">
+                      <motion.nav 
+                        className="p-4 space-y-2 flex-1"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
                         {baseNavLinks.map((link) => (
                            <SheetClose asChild key={link.href}>
-                             <Link
-                                href={link.href}
-                                className={cn(
-                                  'flex items-center gap-3 rounded-lg px-3 py-3 text-lg font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
-                                  pathname === link.href && 'bg-primary/10 text-primary font-semibold'
-                                )}
-                              >
-                                <span>{link.name}</span>
-                              </Link>
+                             <motion.div variants={itemVariants}>
+                                <Link
+                                    href={link.href}
+                                    className={cn(
+                                    'flex items-center gap-3 rounded-lg px-3 py-3 text-lg font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
+                                    pathname === link.href && 'bg-primary/10 text-primary font-semibold'
+                                    )}
+                                >
+                                    <span>{link.name}</span>
+                                </Link>
+                             </motion.div>
                            </SheetClose>
                         ))}
-                      </nav>
-                       <Separator className="my-4" />
-                      <div className="p-4 space-y-2">
+                      </motion.nav>
+                      <div className="p-4 mt-auto border-t space-y-4">
                          {user ? (
                             <>
                                 <SheetClose asChild>
