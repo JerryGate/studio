@@ -3,9 +3,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, ShoppingCart, User, ChevronDown, LayoutDashboard, LogOut, Search } from 'lucide-react';
+import { Menu, ShoppingCart, User, ChevronDown, LayoutDashboard, LogOut, Search, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 import Logo from './logo';
 import { useCart } from '@/contexts/cart-context';
 import { Badge } from './ui/badge';
@@ -15,8 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
-import { Separator } from './ui/separator';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -25,25 +23,6 @@ const baseNavLinks = [
   { name: 'Blog', href: '/blog' },
   { name: 'FAQ', href: '/faq' },
 ];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 10, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-  },
-};
-
 
 const getDashboardUrl = (role: string | undefined) => {
     if (!role) return '/login';
@@ -74,6 +53,124 @@ const getInitials = (name: string) => {
     return parts[0].charAt(0).toUpperCase();
 }
 
+const MobileMenu = ({ user, logout, closeMenu }: { user: any, logout: () => void, closeMenu: () => void }) => {
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        } else {
+            router.push('/search');
+        }
+        closeMenu();
+    };
+    
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.08,
+                delayChildren: 0.2,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                type: 'spring',
+                stiffness: 100
+            },
+        },
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-lg flex flex-col p-6"
+        >
+            <div className="flex justify-between items-center mb-12">
+                <Logo />
+                <Button variant="ghost" size="icon" onClick={closeMenu}>
+                    <X className="h-6 w-6" />
+                </Button>
+            </div>
+            
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex-grow flex flex-col justify-center items-center text-center space-y-2"
+            >
+                {baseNavLinks.map((link) => (
+                    <motion.div key={link.name} variants={itemVariants}>
+                        <Link href={link.href} onClick={closeMenu}>
+                            <span className="block text-3xl font-headline font-semibold py-3 text-foreground hover:text-primary transition-colors">
+                                {link.name}
+                            </span>
+                        </Link>
+                    </motion.div>
+                ))}
+            </motion.div>
+
+            <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="mt-auto space-y-4"
+            >
+                <form onSubmit={handleSearch}>
+                    <div className="relative">
+                        <Input
+                            placeholder="Search..."
+                            className="h-12 pl-12 rounded-full text-base"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    </div>
+                </form>
+                {user ? (
+                    <div className="flex gap-2">
+                        <Button asChild className="flex-1 text-base py-6" variant="outline">
+                             <Link href={getDashboardUrl(user.role)} onClick={closeMenu}>
+                                <LayoutDashboard className="mr-2 h-5 w-5" />
+                                Dashboard
+                            </Link>
+                        </Button>
+                        <Button className="flex-1 text-base py-6" variant="ghost" onClick={() => { logout(); closeMenu(); }}>
+                            <LogOut className="mr-2 h-5 w-5" />
+                            Log Out
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="flex gap-2">
+                         <Button asChild className="flex-1 text-base py-6">
+                            <Link href="/login" onClick={closeMenu}>
+                                <User className="mr-2 h-5 w-5" />
+                                Log In
+                            </Link>
+                        </Button>
+                        <Button asChild className="flex-1 text-base py-6" variant="outline">
+                            <Link href="/signup" onClick={closeMenu}>
+                                Sign Up
+                            </Link>
+                        </Button>
+                    </div>
+                )}
+            </motion.div>
+        </motion.div>
+    )
+}
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -92,7 +189,13 @@ const Header = () => {
     }
   };
 
-  const navLinks = baseNavLinks;
+  useEffect(() => {
+    // Disable body scroll when mobile menu is open
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
+    return () => {
+        document.body.style.overflow = 'auto';
+    }
+  }, [isMobileMenuOpen]);
 
 
   return (
@@ -106,7 +209,7 @@ const Header = () => {
           <div className="flex items-center gap-6">
             <Logo />
              <nav className="hidden lg:flex items-center gap-6">
-              {navLinks.map((link) => (
+              {baseNavLinks.map((link) => (
                 <Link key={link.name} href={link.href}>
                   <div className="font-medium text-foreground/80 hover:text-primary transition-colors duration-300">
                     {link.name}
@@ -188,86 +291,19 @@ const Header = () => {
             )}
           
             <div className="lg:hidden">
-                <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                  <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <Menu className="h-6 w-6" />
-                      <span className="sr-only">Open menu</span>
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side="left" className="w-full max-w-sm bg-background p-0 flex flex-col">
-                     <SheetHeader className="p-4 border-b">
-                        <Logo />
-                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                     </SheetHeader>
-                    <div className="flex flex-col flex-1">
-                      <motion.nav 
-                        className="p-4 space-y-2 flex-1"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                      >
-                        {navLinks.map((link) => (
-                           <SheetClose asChild key={link.href}>
-                             <motion.div variants={itemVariants}>
-                                <Link
-                                    href={link.href}
-                                    className={cn(
-                                    'flex items-center gap-3 rounded-lg px-3 py-3 text-lg font-medium text-foreground transition-all hover:text-primary hover:bg-primary/10',
-                                    pathname === link.href && 'bg-primary/10 text-primary font-semibold'
-                                    )}
-                                >
-                                    <span>{link.name}</span>
-                                </Link>
-                             </motion.div>
-                           </SheetClose>
-                        ))}
-                      </motion.nav>
-                      <div className="p-4 mt-auto border-t space-y-4">
-                         {user ? (
-                            <>
-                                <SheetClose asChild>
-                                   <Link href={getDashboardUrl(user?.role)} passHref>
-                                        <Button variant="outline" className="w-full justify-start text-base py-6">
-                                            <LayoutDashboard className="mr-2 h-5 w-5" />
-                                            Dashboard
-                                        </Button>
-                                    </Link>
-                                </SheetClose>
-                                <SheetClose asChild>
-                                    <Button variant="ghost" className="w-full justify-start text-base py-6" onClick={logout}>
-                                        <LogOut className="mr-2 h-5 w-5" />
-                                        Log Out
-                                    </Button>
-                                </SheetClose>
-                            </>
-                        ) : (
-                            <>
-                                 <SheetClose asChild>
-                                    <Link href="/login" passHref>
-                                        <Button className="w-full justify-start text-base py-6">
-                                            <User className="mr-2 h-5 w-5" />
-                                            Log In
-                                        </Button>
-                                    </Link>
-                                </SheetClose>
-                                <SheetClose asChild>
-                                    <Link href="/signup" passHref>
-                                        <Button variant="outline" className="w-full justify-start text-base py-6 mt-2">
-                                            Sign Up
-                                        </Button>
-                                    </Link>
-                                </SheetClose>
-                            </>
-                        )}
-                      </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
+                <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open menu</span>
+                </Button>
             </div>
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+            <MobileMenu user={user} logout={logout} closeMenu={() => setIsMobileMenuOpen(false)} />
+        )}
+      </AnimatePresence>
     </header>
   );
 };
