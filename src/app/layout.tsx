@@ -6,7 +6,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { CartProvider } from '@/contexts/cart-context';
 import PageTransition from '@/components/page-transition';
-import { AuthProvider } from '@/contexts/auth-context';
+import { AuthProvider, useAuth } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
@@ -14,7 +14,7 @@ import { ImageProvider, useImageContext } from '@/contexts/image-context';
 import { Suspense, useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ThemeProvider } from '@/contexts/theme-context';
+import { ThemeProvider, useTheme } from '@/contexts/theme-context';
 import { SettingsProvider, useSettings } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
@@ -23,9 +23,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { loading: imagesLoading } = useImageContext();
   const { loading: settingsLoading } = useSettings();
+  const { loading: themeLoading } = useTheme();
+  const { loading: authLoading } = useAuth();
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
   
-  const allContextsLoaded = !imagesLoading && !settingsLoading;
+  const allContextsLoaded = !imagesLoading && !settingsLoading && !themeLoading && !authLoading;
 
   useEffect(() => {
     // This timer ensures the preloader is displayed for a minimum duration.
@@ -42,13 +44,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   // Also hide preloader immediately if contexts are loaded after the timer would have fired.
   useEffect(() => {
       if (allContextsLoaded && isPreloaderVisible) {
-          // If contexts are loaded, we might still be waiting on the 3s timer.
-          // We can check if the timeout has passed, but it's simpler to just let the above effect handle it.
-          // This effect ensures if contexts load after the timer, we hide the preloader.
-          const timerMayHavePassed = true; // Hard to know for sure, but if contexts load late, we should hide.
-          if(timerMayHavePassed) {
-             // setIsPreloaderVisible(false); // Let the timeout logic handle this to ensure min display time
-          }
+          // This effect ensures if contexts load after the timer, we hide the preloader
       }
   }, [allContextsLoaded, isPreloaderVisible]);
 

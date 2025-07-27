@@ -13,6 +13,7 @@ interface ThemeContextType {
     accent: HSLColor;
   };
   setCustomColor: (colorType: 'primary' | 'accent', color: { h: number, s: number, l: number}) => void;
+  loading: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -34,6 +35,7 @@ const applyThemeToDom = (themeToApply: Theme) => {
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, _setTheme] = useState<Theme>(THEMES[0]);
+  const [loading, setLoading] = useState(true);
   const [themeKey, setThemeKey] = useState(0);
   const [customColors, setCustomColors] = useState<{primary: HSLColor, accent: HSLColor}>({
     primary: THEMES[0].colors.primary,
@@ -41,6 +43,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
+    setLoading(true);
     const savedThemeName = localStorage.getItem('theme') || THEMES[0].name.toLowerCase();
     const savedCustomPrimary = localStorage.getItem('custom-primary');
     const savedCustomAccent = localStorage.getItem('custom-accent');
@@ -63,6 +66,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setCustomColors(initialCustomColors);
     applyThemeToDom(initialTheme);
     setThemeKey(prev => prev + 1);
+    setLoading(false);
   }, []);
 
   const setTheme = (themeName: string) => {
@@ -99,7 +103,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, customColors, setCustomColor }}>
+    <ThemeContext.Provider value={{ theme, setTheme, customColors, setCustomColor, loading }}>
        <AnimatePresence mode="wait">
             <motion.div
                 key={themeKey}
