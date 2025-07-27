@@ -13,7 +13,7 @@ import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
 import { ImageProvider } from '@/contexts/image-context';
 import { Suspense, useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from '@/contexts/theme-context';
 import { SettingsProvider } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
@@ -24,10 +24,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ensure the preloader runs for at least the animation duration.
+    // Ensure the preloader runs for at least a few seconds.
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 7000); 
+    }, 3000); 
 
     return () => clearTimeout(timer);
   }, []);
@@ -46,30 +46,40 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <AnimatePresence mode="wait">
         {loading && <Preloader />}
       </AnimatePresence>
-      <div className="flex-1 flex flex-col" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
-          {!isDashboardRoute && !isAuthRoute && (
-            <div className="px-4 sm:px-6 lg:px-8">
-              <Header />
-            </div>
-          )}
-          <div className="flex-1 flex flex-col">
-            <Suspense>
-              <PageTransition>{children}</PageTransition>
-            </Suspense>
-          </div>
-          {!isDashboardRoute && !isAuthRoute && (
-            <div className="px-4 sm:px-6 lg:px-8">
-              <Footer />
-            </div>
-          )}
-          {!isDashboardRoute && !isAuthRoute && (
-              <>
-                  <EmergencyRequestModal />
-                  <ScrollToTopButton />
-                  <WhatsAppCta />
-              </>
-          )}
-      </div>
+      
+      <AnimatePresence mode="wait">
+        {!loading && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="flex-1 flex flex-col"
+            >
+              {!isDashboardRoute && !isAuthRoute && (
+                <div className="px-4 sm:px-6 lg:px-8">
+                  <Header />
+                </div>
+              )}
+              <div className="flex-1 flex flex-col">
+                <Suspense>
+                  <PageTransition>{children}</PageTransition>
+                </Suspense>
+              </div>
+              {!isDashboardRoute && !isAuthRoute && (
+                <div className="px-4 sm:px-6 lg:px-8">
+                  <Footer />
+                </div>
+              )}
+              {!isDashboardRoute && !isAuthRoute && (
+                  <>
+                      <EmergencyRequestModal />
+                      <ScrollToTopButton />
+                      <WhatsAppCta />
+                  </>
+              )}
+            </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

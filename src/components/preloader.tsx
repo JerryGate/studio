@@ -2,75 +2,48 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { HeartPulse } from 'lucide-react';
 
 const Preloader = () => {
   return (
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: 'easeInOut' }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
     >
       <div className="relative flex items-center justify-center">
         {/* Pulsating Waves */}
-        {[...Array(4)].map((_, i) => (
+        {[...Array(3)].map((_, i) => (
             <motion.div
                 key={i}
                 className="absolute rounded-full border border-primary/30"
-                initial={{ scale: 0, opacity: 1, width: '112px', height: '112px' }}
+                initial={{ scale: 0, opacity: 1 }}
                 animate={{
-                    scale: 2.5,
+                    scale: 3,
                     opacity: 0,
                 }}
                 transition={{
-                    duration: 2.5,
+                    duration: 3,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: i * 0.6, // Stagger the start of each wave
+                    delay: i * 0.75, // Stagger the start of each wave
                 }}
             />
         ))}
 
+        {/* Central Icon */}
         <motion.div
-            className="relative h-28 w-28"
-            animate={{ scale: [1, 1.2, 1], rotate: 360 }}
+            className="relative h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center"
+            animate={{ scale: [1, 1.1, 1] }}
             transition={{
                 duration: 2.5,
                 repeat: Infinity,
                 ease: 'easeInOut',
             }}
-            >
-            {/* Outer circle */}
-            <motion.div
-                className="absolute inset-0 rounded-full border-2 border-primary/50"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-            />
-            {/* Middle circle */}
-            <motion.div
-                className="absolute inset-2 rounded-full border-2 border-primary/70"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
-            />
-            {/* Inner circle */}
-            <motion.div
-                className="absolute inset-4 rounded-full border-2 border-primary"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-            />
-        </motion.div>
-        <motion.span
-            className="absolute font-headline font-extrabold text-5xl whitespace-nowrap animated-gradient-text"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1.2 }}
-            transition={{
-                delay: 1,
-                duration: 0.8,
-                ease: "circOut"
-            }}
         >
-          E-pharma
-        </motion.span>
+            <HeartPulse className="h-10 w-10 text-primary" />
+        </motion.div>
       </div>
     </motion.div>
   );
