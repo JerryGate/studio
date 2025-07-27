@@ -1,10 +1,8 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
 import { useEffect, useState, useMemo, memo } from 'react';
 import Logo from './logo';
-import { cn } from '@/lib/utils';
 
 const ProgressCounter = memo(function ProgressCounter({ onComplete }: { onComplete: () => void }) {
     const [progress, setProgress] = useState(0);
@@ -14,21 +12,20 @@ const ProgressCounter = memo(function ProgressCounter({ onComplete }: { onComple
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(interval);
-                    // Use a timeout to avoid the 'cannot update during render' error
-                    setTimeout(onComplete, 0); 
+                    setTimeout(onComplete, 300); 
                     return 100;
                 }
                 return prev + 1;
             });
-        }, 28);
+        }, 25); // ~2.5 seconds to complete
 
         return () => clearInterval(interval);
     }, [onComplete]);
 
     return (
         <div 
-            className="font-mono text-3xl font-bold text-white/90"
-            style={{textShadow: '0 0 10px rgba(255, 255, 255, 0.7)'}}
+            className="font-sans text-xl font-medium text-white/80"
+            style={{textShadow: '0 0 8px rgba(255, 255, 255, 0.5)'}}
         >
             {progress}%
         </div>
@@ -36,26 +33,25 @@ const ProgressCounter = memo(function ProgressCounter({ onComplete }: { onComple
 });
 ProgressCounter.displayName = 'ProgressCounter';
 
-
 const Preloader = () => {
     const [isComplete, setIsComplete] = useState(false);
     const [pills, setPills] = useState<any[]>([]);
-    
+
     useEffect(() => {
-        // Generate pill properties only on the client to avoid hydration mismatch
-        setPills(Array.from({ length: 50 }).map((_, i) => ({
+        setPills(Array.from({ length: 40 }).map((_, i) => ({
             id: i,
-            x: `${Math.random() * 100}%`,
-            initialY: `-${Math.random() * 100}%`, // Start above the screen
-            duration: 2 + Math.random() * 3,
+            x: `${5 + Math.random() * 90}%`,
+            initialY: `-${20 + Math.random() * 80}%`,
+            duration: 3 + Math.random() * 3,
             delay: Math.random() * 2,
-            rotation: Math.random() * 180 - 90,
+            rotation: Math.random() * 40 - 20,
+            scale: 0.5 + Math.random() * 0.5,
             colors: [
-                `hsl(${180 + Math.random() * 60}, 100%, 70%)`, // Blues/Cyans
-                `hsl(${300 + Math.random() * 60}, 100%, 70%)`, // Pinks/Magentas
-                `hsl(${60 + Math.random() * 60}, 100%, 70%)`, // Greens/Limes
-                `hsl(${240 + Math.random() * 60}, 100%, 70%)`, // Purples/Violets
-            ],
+                'bg-blue-200/50',
+                'bg-green-200/50',
+                'bg-rose-200/50',
+                'bg-teal-200/50'
+            ][i % 4]
         })));
     }, []);
 
@@ -67,43 +63,23 @@ const Preloader = () => {
         <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: isComplete ? 0 : 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900 overflow-hidden"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-[#0c1a3a] to-[#e0e0e0] overflow-hidden"
         >
-             {/* Animated Gradient Background */}
-            <motion.div
-                className="absolute inset-0 z-0"
-                animate={{
-                     background: [
-                        'radial-gradient(circle, hsl(270, 50%, 20%), hsl(240, 60%, 10%))',
-                        'radial-gradient(circle, hsl(30, 80%, 30%), hsl(0, 60%, 15%))',
-                        'radial-gradient(circle, hsl(180, 50%, 25%), hsl(210, 60%, 12%))',
-                        'radial-gradient(circle, hsl(270, 50%, 20%), hsl(240, 60%, 10%))',
-                    ]
-                }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
-
-            {/* Falling Pills */}
+            <div className="absolute inset-0 bg-white/10 backdrop-blur-md" />
+            
             {pills.map((pill) => (
                 <motion.div
                     key={`cascade-${pill.id}`}
-                    className="absolute w-2 h-5 rounded-full"
+                    className={`absolute w-3 h-6 rounded-full ${pill.colors}`}
                     style={{
                         left: pill.x,
                         top: pill.initialY,
-                        filter: 'blur(1px)',
+                        scale: pill.scale,
                     }}
                     animate={{
                         y: '120vh',
                         rotate: pill.rotation,
-                        background: [
-                            `linear-gradient(45deg, ${pill.colors[0]}, ${pill.colors[1]})`,
-                            `linear-gradient(45deg, ${pill.colors[1]}, ${pill.colors[2]})`,
-                            `linear-gradient(45deg, ${pill.colors[2]}, ${pill.colors[3]})`,
-                            `linear-gradient(45deg, ${pill.colors[3]}, ${pill.colors[0]})`,
-                        ]
                     }}
                     transition={{
                         y: {
@@ -118,18 +94,12 @@ const Preloader = () => {
                             repeat: Infinity,
                             ease: 'linear'
                         },
-                         background: {
-                            duration: pill.duration / 2,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                            delay: pill.delay,
-                        }
                     }}
                 />
             ))}
-
+            
             <div className="relative z-10 flex flex-col items-center justify-center gap-8">
-                <Logo variant="preloader" iconSize='h-48 w-48' />
+                <Logo variant="preloader" iconSize='h-32 w-32' />
                 <ProgressCounter onComplete={onAnimationComplete} />
             </div>
         </motion.div>

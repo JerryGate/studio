@@ -1,10 +1,9 @@
-
 'use client';
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface LogoProps {
   className?: string;
@@ -15,41 +14,128 @@ interface LogoProps {
   variant?: 'default' | 'preloader';
 }
 
-const AnimatedIcon = ({ variant }: { variant: 'default' | 'preloader' }) => {
-    const isPreloader = variant === 'preloader';
+const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader' }) => {
+  return (
+    <motion.svg
+      className="w-full h-full"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <defs>
+        <motion.radialGradient
+          id="caduceus-glow"
+          cx="50%"
+          cy="50%"
+          r="50%"
+          fx="50%"
+          fy="50%"
+        >
+          <motion.stop
+            offset="0%"
+            stopColor="white"
+            animate={{ stopOpacity: [0.8, 0.4, 0.8] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.stop
+            offset="100%"
+            stopColor="white"
+            stopOpacity="0"
+          />
+        </motion.radialGradient>
+      </defs>
+      
+      {/* Central staff */}
+      <motion.path
+        d="M12 2V22"
+        animate={{
+          stroke: variant === 'preloader' ? ["#ffffff", "#99f6e4", "#a5f3fc", "#ffffff"] : "#ffffff",
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      
+      {/* Wings */}
+      <motion.path
+        d="M19 6.84a5.5 5.5 0 0 0-11.23 2.16l1.73 6a5.5 5.5 0 0 0 10.74 0l1.73-6A5.5 5.5 0 0 0 19 6.84Z"
+        animate={{
+          stroke: variant === 'preloader' ? ["#ffffff", "#a5f3fc", "#99f6e4", "#ffffff"] : "#ffffff",
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+      />
+      
+      {/* Snakes */}
+      <motion.path
+        d="M5 18s2.6-4 7-4 7 4 7 4"
+        animate={{
+          stroke: variant === 'preloader' ? ["#ffffff", "#a5f3fc", "#99f6e4", "#ffffff"] : "#ffffff",
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+      />
+      <motion.path
+        d="M5 12s2.6 4 7 4 7-4 7-4"
+        animate={{
+          stroke: variant === 'preloader' ? ["#ffffff", "#a5f3fc", "#99f6e4", "#ffffff"] : "#ffffff",
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+      />
+      
+      {/* Glow effect */}
+      {variant === 'preloader' && (
+        <circle cx="12" cy="12" r="10" fill="url(#caduceus-glow)" />
+      )}
+    </motion.svg>
+  );
+};
+
+
+const Particles = ({ count, variant }: { count: number, variant: 'default' | 'preloader' }) => {
+    const particles = useMemo(() => {
+        return Array.from({ length: count }).map((_, i) => ({
+            id: i,
+            angle: (i / count) * 360,
+            distance: 45 + Math.random() * 5,
+            size: variant === 'preloader' ? 1 + Math.random() * 2 : 1 + Math.random() * 1.5,
+            duration: 4 + Math.random() * 4,
+            delay: Math.random() * 4,
+        }));
+    }, [count, variant]);
+
+    if (variant === 'default') {
+        return null; // No particles for default logo
+    }
 
     return (
-        <div className="relative flex items-center justify-center w-full h-full">
-            <motion.div
-                className="relative w-full h-full flex items-center justify-center"
-                style={{
-                    filter: isPreloader ? 'drop-shadow(0 0 15px hsl(var(--primary-hue), var(--primary-saturation), 50%))' : 'none',
-                }}
-            >
-                <svg 
-                    className="w-full h-full" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="currentColor"
-                    strokeWidth={isPreloader ? 1 : 1.5}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <path d="M12 6V4" />
-                    <path d="M12 12V8" />
-                    <path d="M12 18V14" />
-                    <path d="M16 4h-8" />
-                    <path d="M12 6a4 4 0 0 0-4 4v4a4 4 0 1 0 8 0V10a4 4 0 0 0-4-4Z" />
-                    <path d="M12 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-                    <path d="M4 12h.01" />
-                    <path d="M20 12h.01" />
-                    <path d="M6.343 17.657h.01" />
-                    <path d="M17.657 17.657h.01" />
-                    <path d="M6.343 6.343h.01" />
-                    <path d="M17.657 6.343h.01" />
-                </svg>
-            </motion.div>
+        <div className="absolute inset-0">
+            {particles.map(p => (
+                <motion.div
+                    key={p.id}
+                    className="absolute rounded-full bg-white/50"
+                    style={{
+                        width: p.size,
+                        height: p.size,
+                        top: '50%',
+                        left: '50%',
+                        translateX: '-50%',
+                        translateY: '-50%',
+                        filter: 'blur(1px)',
+                    }}
+                    animate={{
+                        x: [0, p.distance, 0, -p.distance, 0],
+                        y: [p.distance, 0, -p.distance, 0, p.distance],
+                        scale: [1, 1.2, 1, 0.8, 1],
+                        opacity: [0.5, 1, 0.5, 1, 0.5],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        delay: p.delay,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
+                />
+            ))}
         </div>
     );
 };
@@ -62,8 +148,17 @@ const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'te
         center && 'justify-center',
         className
       )}>
-        <div className={cn("relative", iconSize, variant === 'default' ? 'text-primary' : 'text-white/90')}>
-           <AnimatedIcon variant={variant} />
+        <div className={cn("relative", iconSize)}>
+           <div className="relative w-full h-full text-white/90">
+             {variant === 'preloader' && <Particles count={15} variant={variant} />}
+             <motion.div
+                className="w-full h-full"
+                animate={variant === 'preloader' ? { scale: [1, 1.05, 1] } : {}}
+                transition={variant === 'preloader' ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : {}}
+             >
+                <CaduceusIcon variant={variant} />
+             </motion.div>
+           </div>
         </div>
         <span className={cn(
           "font-bold font-headline hidden sm:inline transition-all duration-300",
