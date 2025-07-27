@@ -253,7 +253,7 @@ const Header = () => {
                                 </SheetClose>
                                 <SheetClose asChild>
                                     <Link href="/signup" passHref>
-                                        <Button variant="outline" className="w-full justify-start text-base py-6 mt-2">
+                                        <Button variant="outline" className="w-full justify-start text-base py-6">
                                             Sign Up
                                         </Button>
                                     </Link>
