@@ -459,7 +459,7 @@ export default function CheckoutPage() {
                           defaultValue={field.value}
                           className="flex flex-col space-y-1"
                         >
-                          <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rounded-md p-4 bg-secondary/50">
                             <FormControl>
                               <RadioGroupItem value="paystack" />
                             </FormControl>
@@ -467,7 +467,7 @@ export default function CheckoutPage() {
                                 <CreditCard className="h-5 w-5" /> Pay Online with Paystack
                             </FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rounded-md p-4 bg-secondary/50">
                             <FormControl>
                               <RadioGroupItem value="delivery" />
                             </FormControl>
