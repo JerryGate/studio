@@ -21,13 +21,19 @@ import { WhatsAppCta } from '@/components/whatsapp-cta';
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { loading: imagesLoading } = useImageContext();
-  const { loading: settingsLoading } = useSettings();
-  const { loading: themeLoading } = useTheme();
+  const { sliderImages, loading: imagesLoading } = useImageContext();
+  const { whatsAppNumber, loading: settingsLoading } = useSettings();
+  const { theme, loading: themeLoading } = useTheme();
   const { loading: authLoading } = useAuth();
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
   
-  const allContextsLoaded = !imagesLoading && !settingsLoading && !themeLoading && !authLoading;
+  // This check is now more robust. It ensures not only that the contexts are done loading,
+  // but also that the data they provide has been initialized.
+  const allContextsLoaded = 
+    !imagesLoading && Array.isArray(sliderImages) && sliderImages.length > 0 &&
+    !settingsLoading && !!whatsAppNumber &&
+    !themeLoading && !!theme &&
+    !authLoading;
 
   useEffect(() => {
     // This timer ensures the preloader is displayed for a minimum duration.
@@ -38,14 +44,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         }
     }, 3000); 
 
+    // This effect ensures if contexts load after the timer, we hide the preloader
+    if (allContextsLoaded && isPreloaderVisible) {
+        setIsPreloaderVisible(false);
+    }
+    
     return () => clearTimeout(timer);
-  }, [allContextsLoaded]);
-
-  // Also hide preloader immediately if contexts are loaded after the timer would have fired.
-  useEffect(() => {
-      if (allContextsLoaded && isPreloaderVisible) {
-          // This effect ensures if contexts load after the timer, we hide the preloader
-      }
   }, [allContextsLoaded, isPreloaderVisible]);
 
 
