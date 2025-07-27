@@ -6,21 +6,46 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { CartProvider } from '@/contexts/cart-context';
 import PageTransition from '@/components/page-transition';
-import { AuthProvider } from '@/contexts/auth-context';
+import { AuthProvider, useAuth } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
-import { ImageProvider } from '@/contexts/image-context';
+import { ImageProvider, useImageContext } from '@/contexts/image-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider, useTheme } from '@/contexts/theme-context';
-import { SettingsProvider } from '@/contexts/settings-context';
+import { SettingsProvider, useSettings } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
+import { useEffect, useState }from 'react';
+import { Preloader } from '@/components/preloader';
 
-
-function AppContent({ children }: { children: React.ReactNode }) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { themeKey } = useTheme();
+  const { loading: imagesLoading, sliderImages } = useImageContext();
+  const { loading: settingsLoading, whatsAppNumber } = useSettings();
+  const { loading: themeLoading, theme } = useTheme();
+
+  const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
+
+  useEffect(() => {
+    const allContextsLoaded = 
+      !imagesLoading && 
+      !settingsLoading &&
+      !themeLoading &&
+      sliderImages &&
+      sliderImages.length > 0 &&
+      whatsAppNumber &&
+      theme;
+
+    if (allContextsLoaded) {
+      const timer = setTimeout(() => {
+        setIsPreloaderVisible(false);
+      }, 3000); // Preloader minimum display time
+
+      return () => clearTimeout(timer);
+    }
+  }, [imagesLoading, settingsLoading, themeLoading, sliderImages, whatsAppNumber, theme]);
 
   const isDashboardRoute =
     pathname.startsWith('/admin') ||
@@ -32,37 +57,53 @@ function AppContent({ children }: { children: React.ReactNode }) {
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/partner');
 
   return (
-      <AnimatePresence mode="wait">
+    <>
+      <AnimatePresence>
+        {isPreloaderVisible && <Preloader />}
+      </AnimatePresence>
+      
+      {!isPreloaderVisible && (
         <motion.div
-            key={themeKey}
+            key="loaded"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
             className="flex-1 flex flex-col min-h-screen"
         >
-            {!isDashboardRoute && !isAuthRoute && (
-              <div className="px-4 sm:px-6 lg:px-8">
-                <Header />
-              </div>
-            )}
-            <div className="flex-1 flex flex-col">
-              <PageTransition>{children}</PageTransition>
-            </div>
-            {!isDashboardRoute && !isAuthRoute && (
-              <div className="px-4 sm:px-6 lg:px-8">
-                <Footer />
-              </div>
-            )}
-            {!isDashboardRoute && !isAuthRoute && (
-                <>
-                    <EmergencyRequestModal />
-                    <ScrollToTopButton />
-                    <WhatsAppCta />
-                </>
-            )}
+          <AnimatePresence mode="wait">
+            <motion.div
+                key={pathname + themeKey}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex-1 flex flex-col"
+            >
+                {!isDashboardRoute && !isAuthRoute && (
+                  <div className="px-4 sm:px-6 lg:px-8">
+                    <Header />
+                  </div>
+                )}
+                <div className="flex-1 flex flex-col">
+                  <PageTransition>{children}</PageTransition>
+                </div>
+                {!isDashboardRoute && !isAuthRoute && (
+                  <div className="px-4 sm:px-6 lg:px-8">
+                    <Footer />
+                  </div>
+                )}
+                {!isDashboardRoute && !isAuthRoute && (
+                    <>
+                        <EmergencyRequestModal />
+                        <ScrollToTopButton />
+                        <WhatsAppCta />
+                    </>
+                )}
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
-      </AnimatePresence>
+      )}
+    </>
   );
 }
 
@@ -94,7 +135,7 @@ export default function RootLayout({
               <ImageProvider>
                 <Toaster>
                   <CartProvider>
-                    <AppContent>{children}</AppContent>
+                    <LayoutContent>{children}</LayoutContent>
                   </CartProvider>
                 </Toaster>
               </ImageProvider>
