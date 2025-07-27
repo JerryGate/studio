@@ -70,6 +70,7 @@
     "@types/react": "^18",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
+    "babel-plugin-react-compiler": "^0.0.0-experimental-0998c1c-20240725",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
