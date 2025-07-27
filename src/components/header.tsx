@@ -58,16 +58,15 @@ const getInitials = (name: string) => {
 const MobileMenu = () => {
     const { user, logout } = useAuth();
     const router = useRouter();
+    const pathname = usePathname();
     const [searchQuery, setSearchQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        // This is a workaround for a bug in Next.js/Framer Motion where the body scroll lock
-        // is not removed when navigating from a page with an open modal.
-        if (!isOpen) {
-            document.body.style.overflow = '';
-        } else {
+        if (isOpen) {
             document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
         }
         return () => {
             document.body.style.overflow = '';
@@ -89,7 +88,7 @@ const MobileMenu = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1,
+                staggerChildren: 0.08,
                 delayChildren: 0.2,
             },
         },
@@ -102,7 +101,8 @@ const MobileMenu = () => {
             opacity: 1,
             transition: {
                 type: 'spring',
-                stiffness: 100
+                stiffness: 120,
+                damping: 15
             },
         },
     };
@@ -117,21 +117,21 @@ const MobileMenu = () => {
             </SheetTrigger>
             <SheetContent 
                 side="left" 
-                className="w-full max-w-sm bg-gradient-to-br from-background via-secondary to-background p-0 flex flex-col rounded-r-2xl"
+                className="w-full max-w-sm bg-background/80 backdrop-blur-lg p-0 flex flex-col border-0"
             >
-                <SheetHeader className="p-6 flex flex-row items-center justify-between">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-20" style={{zIndex: -1}} />
+                <SheetHeader className="p-6 flex flex-row items-center justify-between border-b border-white/10">
                     <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     <Logo />
                     <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" className="text-foreground hover:bg-white/10">
                             <X className="h-6 w-6" />
                         </Button>
                     </SheetTrigger>
                 </SheetHeader>
-                <Separator />
-                <div className="flex-grow p-6">
+                <div className="flex-grow p-6 overflow-y-auto">
                      <motion.ul
-                        className="space-y-2"
+                        className="space-y-1"
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
@@ -139,7 +139,10 @@ const MobileMenu = () => {
                         {baseNavLinks.map((link) => (
                             <motion.li key={link.name} variants={itemVariants}>
                                 <Link href={link.href} onClick={() => setIsOpen(false)}>
-                                    <span className="block text-xl font-medium py-3 text-foreground hover:text-primary transition-colors rounded-lg hover:bg-primary/5 px-3">
+                                    <span className={cn(
+                                        "block text-xl font-medium py-3 text-foreground/80 hover:text-foreground transition-colors rounded-lg hover:bg-white/5 px-3",
+                                        pathname === link.href && "text-primary-foreground bg-primary/20 font-semibold"
+                                    )}>
                                         {link.name}
                                     </span>
                                 </Link>
@@ -148,7 +151,7 @@ const MobileMenu = () => {
                     </motion.ul>
                 </div>
                 <motion.div
-                    className="p-6 border-t mt-auto space-y-4"
+                    className="p-6 border-t border-white/10 mt-auto space-y-4"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.4 }}
@@ -157,14 +160,14 @@ const MobileMenu = () => {
                         <div className="relative">
                             <Input
                                 placeholder="Search..."
-                                className="h-11 pl-10 rounded-full"
+                                className="h-11 pl-10 rounded-full bg-background/50 border-white/20"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         </div>
                     </form>
-                    <Separator />
+                    <Separator className="bg-white/10" />
                      {user ? (
                         <div className="flex gap-2">
                             <Button asChild className="flex-1" variant="outline" onClick={() => setIsOpen(false)}>
