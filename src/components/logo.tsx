@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { HeartPulse } from 'lucide-react';
 
 interface LogoProps {
   className?: string;
@@ -21,30 +20,35 @@ const AnimatedIcon = ({ variant }: { variant: 'default' | 'preloader' }) => {
 
     return (
         <div className="relative flex items-center justify-center w-full h-full">
-            {/* Central Icon */}
             <motion.div
                 className="relative w-full h-full flex items-center justify-center"
                 style={{
                     filter: isPreloader ? 'drop-shadow(0 0 15px hsl(var(--primary-hue), var(--primary-saturation), 50%))' : 'none',
                 }}
             >
-                <HeartPulse 
-                    className="w-full h-full"
-                    strokeWidth={isPreloader ? 1.5 : 2}
-                />
-                 <motion.div
-                    className="absolute inset-0"
-                    animate={{
-                        background: isPreloader ? [
-                            "radial-gradient(circle, hsl(180, 100%, 70%), hsl(220, 100%, 70%))",
-                            "radial-gradient(circle, hsl(300, 100%, 70%), hsl(340, 100%, 70%))",
-                            "radial-gradient(circle, hsl(80, 100%, 70%), hsl(120, 100%, 70%))",
-                            "radial-gradient(circle, hsl(180, 100%, 70%), hsl(220, 100%, 70%))",
-                        ] : "hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness))",
-                    }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                    style={{ maskImage: 'url(heartpulse.svg)', WebkitMaskImage: 'url(heartpulse.svg)' }}
-                />
+                <svg 
+                    className="w-full h-full" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+                    strokeWidth={isPreloader ? 1 : 1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <path d="M12 6V4" />
+                    <path d="M12 12V8" />
+                    <path d="M12 18V14" />
+                    <path d="M16 4h-8" />
+                    <path d="M12 6a4 4 0 0 0-4 4v4a4 4 0 1 0 8 0V10a4 4 0 0 0-4-4Z" />
+                    <path d="M12 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                    <path d="M4 12h.01" />
+                    <path d="M20 12h.01" />
+                    <path d="M6.343 17.657h.01" />
+                    <path d="M17.657 17.657h.01" />
+                    <path d="M6.343 6.343h.01" />
+                    <path d="M17.657 6.343h.01" />
+                </svg>
             </motion.div>
         </div>
     );
