@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
 import { ImageProvider, useImageContext } from '@/contexts/image-context';
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider, useTheme } from '@/contexts/theme-context';
@@ -41,6 +41,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     }, 3000); 
 
     if (allContextsLoaded && isPreloaderVisible) {
+        // If all contexts load before the timer, hide the preloader immediately
         setIsPreloaderVisible(false);
     }
     
@@ -77,9 +78,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               </div>
             )}
             <div className="flex-1 flex flex-col">
-              <Suspense>
-                <PageTransition>{children}</PageTransition>
-              </Suspense>
+              <PageTransition>{children}</PageTransition>
             </div>
             {!isDashboardRoute && !isAuthRoute && (
               <div className="px-4 sm:px-6 lg:px-8">
