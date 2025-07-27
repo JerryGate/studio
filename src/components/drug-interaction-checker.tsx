@@ -67,19 +67,6 @@ export function DrugInteractionChecker() {
         }
     };
 
-    const removeDrugInput = (index: number) => {
-        if (drugs.length > 2) {
-            const newDrugs = drugs.filter((_, i) => i !== index);
-            setDrugs(newDrugs);
-        } else {
-            toast({
-                title: 'Minimum Required',
-                description: 'You need at least two drugs to check for interactions.',
-                variant: 'destructive',
-            });
-        }
-    };
-
     const handleCheckInteractions = async () => {
         const validDrugs = drugs.map(d => d.trim()).filter(d => d);
         if (validDrugs.length < 2) {
@@ -130,15 +117,6 @@ export function DrugInteractionChecker() {
                                 value={drug}
                                 onChange={(e) => handleDrugChange(index, e.target.value)}
                             />
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => removeDrugInput(index)}
-                                disabled={drugs.length <= 2}
-                            >
-                                <X className="h-4 w-4" />
-                            </Button>
                         </div>
                     ))}
                 </div>
