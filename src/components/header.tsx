@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { Menu, ShoppingCart, User, ChevronDown, LayoutDashboard, LogOut, Search, X } from 'lucide-react';
 import { Button } from './ui/button';
@@ -62,17 +62,6 @@ const MobileMenu = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [isOpen]);
-
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
@@ -119,15 +108,15 @@ const MobileMenu = () => {
                 side="left"
                 className={cn(
                     "w-full max-w-sm p-0 flex flex-col",
-                    "bg-background/80 backdrop-blur-lg border-r-0",
+                    "bg-background/80 backdrop-blur-lg",
                     "shadow-[10px_0_30px_-15px_rgba(0,0,0,0.3)]"
                 )}
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" style={{zIndex: -1}} />
                 
                 <SheetHeader className="p-6 flex flex-row items-center justify-between border-b">
-                    <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                    <Logo variant="default" />
+                     <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                    <Logo />
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted/50">
                             <X className="h-6 w-6" />
@@ -231,7 +220,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <Logo variant="default" />
+            <Logo />
              <nav className="hidden lg:flex items-center gap-6">
               {baseNavLinks.map((link) => (
                 <Link key={link.name} href={link.href}>

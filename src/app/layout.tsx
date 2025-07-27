@@ -48,8 +48,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
       
       <motion.div
+          key={loading ? 'loading' : 'loaded'}
           initial={{ opacity: 0 }}
-          animate={{ opacity: loading ? 0 : 1 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           className="flex-1 flex flex-col min-h-screen"
       >

@@ -40,7 +40,7 @@ const Preloader = () => {
     return (
         <motion.div
             initial={{ opacity: 1 }}
-            animate={{ opacity: isComplete ? 0 : 1, transitionEnd: { display: 'none' } }}
+            animate={{ opacity: isComplete ? 0 : 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900 overflow-hidden"
             style={{
@@ -49,6 +49,7 @@ const Preloader = () => {
                 animation: 'gradientBG 15s ease infinite'
             }}
         >
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
             
             <div className="relative flex items-center justify-center h-48 w-48">
                 <Logo variant="preloader" iconSize='h-48 w-48' />
