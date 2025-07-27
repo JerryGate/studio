@@ -1,9 +1,10 @@
+
 'use client';
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 interface LogoProps {
   className?: string;
@@ -51,17 +52,23 @@ const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader
       {/* Central staff */}
       <motion.path
         d="M12 2V22"
+        stroke={variant === 'preloader' ? 'url(#caduceus-glow)' : '#ffffff'}
         animate={{
-          stroke: variant === 'preloader' ? ["#ffffff", "#99f6e4", "#a5f3fc", "#ffffff"] : "#ffffff",
+          filter: variant === 'preloader' 
+            ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
+            : 'none'
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       />
       
       {/* Wings */}
       <motion.path
         d="M19 6.84a5.5 5.5 0 0 0-11.23 2.16l1.73 6a5.5 5.5 0 0 0 10.74 0l1.73-6A5.5 5.5 0 0 0 19 6.84Z"
-        animate={{
-          stroke: variant === 'preloader' ? ["#ffffff", "#a5f3fc", "#99f6e4", "#ffffff"] : "#ffffff",
+        stroke={variant === 'preloader' ? '#a5f3fc' : '#ffffff'}
+         animate={{
+          filter: variant === 'preloader' 
+            ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
+            : 'none'
         }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
       />
@@ -69,42 +76,48 @@ const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader
       {/* Snakes */}
       <motion.path
         d="M5 18s2.6-4 7-4 7 4 7 4"
-        animate={{
-          stroke: variant === 'preloader' ? ["#ffffff", "#a5f3fc", "#99f6e4", "#ffffff"] : "#ffffff",
+        stroke={variant === 'preloader' ? '#99f6e4' : '#ffffff'}
+         animate={{
+          filter: variant === 'preloader' 
+            ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
+            : 'none'
         }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       />
       <motion.path
         d="M5 12s2.6 4 7 4 7-4 7-4"
-        animate={{
-          stroke: variant === 'preloader' ? ["#ffffff", "#a5f3fc", "#99f6e4", "#ffffff"] : "#ffffff",
+        stroke={variant === 'preloader' ? '#99f6e4' : '#ffffff'}
+         animate={{
+          filter: variant === 'preloader' 
+            ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
+            : 'none'
         }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
       />
-      
-      {/* Glow effect */}
-      {variant === 'preloader' && (
-        <circle cx="12" cy="12" r="10" fill="url(#caduceus-glow)" />
-      )}
     </motion.svg>
   );
 };
 
 
 const Particles = ({ count, variant }: { count: number, variant: 'default' | 'preloader' }) => {
-    const particles = useMemo(() => {
-        return Array.from({ length: count }).map((_, i) => ({
-            id: i,
-            angle: (i / count) * 360,
-            distance: 45 + Math.random() * 5,
-            size: variant === 'preloader' ? 1 + Math.random() * 2 : 1 + Math.random() * 1.5,
-            duration: 4 + Math.random() * 4,
-            delay: Math.random() * 4,
-        }));
+    const [particles, setParticles] = useState<any[]>([]);
+
+    useEffect(() => {
+        // Generate particles only on the client-side
+        setParticles(
+            Array.from({ length: count }).map((_, i) => ({
+                id: i,
+                angle: (i / count) * 360,
+                distance: 45 + Math.random() * 5,
+                size: variant === 'preloader' ? 1 + Math.random() * 2 : 1 + Math.random() * 1.5,
+                duration: 4 + Math.random() * 4,
+                delay: Math.random() * 4,
+            }))
+        );
     }, [count, variant]);
 
-    if (variant === 'default') {
-        return null; // No particles for default logo
+    if (variant === 'default' || particles.length === 0) {
+        return null; // No particles for default logo or before client-side generation
     }
 
     return (
