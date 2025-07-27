@@ -36,16 +36,20 @@ const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
 
 const Preloader = () => {
     const [isComplete, setIsComplete] = useState(false);
+    const [pills, setPills] = useState<any[]>([]);
 
-    const numPills = 50;
-    const pills = useMemo(() => Array.from({ length: numPills }).map((_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: -10 - Math.random() * 100,
-        duration: 2 + Math.random() * 3,
-        delay: Math.random() * 2,
-        rotation: -45 + Math.random() * 90,
-    })), []);
+    useEffect(() => {
+        const numPills = 50;
+        const generatedPills = Array.from({ length: numPills }).map((_, i) => ({
+            id: i,
+            x: Math.random() * 100,
+            y: -10 - Math.random() * 100,
+            duration: 2 + Math.random() * 3,
+            delay: Math.random() * 2,
+            rotation: -45 + Math.random() * 90,
+        }));
+        setPills(generatedPills);
+    }, []);
     
     const numRipples = 10;
     const ripples = useMemo(() => Array.from({length: numRipples}).map((_, i) => ({
@@ -66,7 +70,7 @@ const Preloader = () => {
             }}
         >
             {/* Cascading pills */}
-            {pills.map(pill => (
+            {pills.length > 0 && pills.map(pill => (
                 <motion.div
                     key={pill.id}
                     className="absolute w-2 h-5 bg-white/30 rounded-full"
