@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Phone, Save } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSettings } from '@/contexts/settings-context';
 import { Separator } from '@/components/ui/separator';
 
@@ -15,13 +15,13 @@ export default function SiteSettingsPage() {
     const { toast } = useToast();
     const { whatsAppNumber, setWhatsAppNumber, loading } = useSettings();
     const [isSaving, setIsSaving] = useState(false);
-    const [tempNumber, setTempNumber] = useState(whatsAppNumber);
+    const [tempNumber, setTempNumber] = useState('');
 
-    useState(() => {
+    useEffect(() => {
         if (!loading) {
             setTempNumber(whatsAppNumber);
         }
-    });
+    }, [loading, whatsAppNumber]);
 
     const handleSave = (e: React.FormEvent) => {
         e.preventDefault();

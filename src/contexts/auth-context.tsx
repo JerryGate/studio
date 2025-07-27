@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { AuthUser, UserRole } from '@/types';
 import { mockAuthUsers } from '@/lib/mock-data';
 
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<AuthUser | null>(null);
     const [loading, setLoading] = useState(true);
 
-    React.useEffect(() => {
+    useEffect(() => {
         // Simulate checking for a logged-in user from a session or token
         try {
             const storedUser = sessionStorage.getItem('mock-user');

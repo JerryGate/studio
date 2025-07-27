@@ -153,7 +153,7 @@ const MobileMenu = ({ user, logout, closeMenu }: { user: any, logout: () => void
                         </Button>
                     </div>
                 ) : (
-                    <div className="flex gap-2">
+                    <div className="flex flex-col gap-2">
                          <Button asChild className="flex-1 text-base py-6">
                             <Link href="/login" onClick={closeMenu}>
                                 <User className="mr-2 h-5 w-5" />
@@ -191,9 +191,13 @@ const Header = () => {
 
   useEffect(() => {
     // Disable body scroll when mobile menu is open
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
+    if (typeof window !== 'undefined') {
+        document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
+    }
     return () => {
-        document.body.style.overflow = 'auto';
+        if (typeof window !== 'undefined') {
+            document.body.style.overflow = 'auto';
+        }
     }
   }, [isMobileMenuOpen]);
 
