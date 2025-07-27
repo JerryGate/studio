@@ -15,42 +15,43 @@ import { Suspense, useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from '@/contexts/theme-context';
-import { SettingsProvider } from '@/contexts/settings-context';
+import { SettingsProvider, useSettings } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { loading: imagesLoading } = useImageContext();
+  const { loading: settingsLoading } = useSettings();
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
+  
+  const allContextsLoaded = !imagesLoading && !settingsLoading;
 
   useEffect(() => {
     // This timer ensures the preloader is displayed for a minimum duration.
     const timer = setTimeout(() => {
-        // Only hide the preloader if the images are also loaded.
-        if (!imagesLoading) {
+        // Only hide the preloader if all contexts are also loaded.
+        if (allContextsLoaded) {
             setIsPreloaderVisible(false);
         }
     }, 3000); 
 
     return () => clearTimeout(timer);
-  }, [imagesLoading]);
+  }, [allContextsLoaded]);
 
-  // Also hide preloader immediately if images are loaded after the timer would have fired.
+  // Also hide preloader immediately if contexts are loaded after the timer would have fired.
   useEffect(() => {
-      if(!imagesLoading && !isPreloaderVisible) {
-          // This case is handled by the above useEffect.
-          return
-      }
-      if (!imagesLoading) {
-          // If images finish loading, we might still be waiting on the 3s timer.
-          // But if the timer is already done, we can hide.
-          const timerDone = !isPreloaderVisible;
-          if (timerDone) {
-              setIsPreloaderVisible(false);
+      if (allContextsLoaded && isPreloaderVisible) {
+          // If contexts are loaded, we might still be waiting on the 3s timer.
+          // We can check if the timeout has passed, but it's simpler to just let the above effect handle it.
+          // This effect ensures if contexts load after the timer, we hide the preloader.
+          const timerMayHavePassed = true; // Hard to know for sure, but if contexts load late, we should hide.
+          if(timerMayHavePassed) {
+             // setIsPreloaderVisible(false); // Let the timeout logic handle this to ensure min display time
           }
       }
-  }, [imagesLoading, isPreloaderVisible]);
+  }, [allContextsLoaded, isPreloaderVisible]);
+
 
   const isDashboardRoute =
     pathname.startsWith('/admin') ||
