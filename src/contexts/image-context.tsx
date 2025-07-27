@@ -23,45 +23,6 @@ interface ImageContextType {
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
-const defaultImages: SliderImage[] = [
-    { 
-        id: 'default1', 
-        src: 'https://images.unsplash.com/photo-1576091160399-112BA8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaGFybWFjeSUyMGhlYWx0aGNhcmUlMjB0ZWFtfGVufDB8fHx8MTc1MzQ4NTkwNHww&ixlib=rb-4.0.3&q=80&w=1080', 
-        hint: 'healthcare team',
-        headline: "Order Verified Drugs Instantly",
-        description: "Access a wide range of authentic medications from licensed pharmacies across Nigeria. Your health is our priority.",
-        ctaText: "Browse Medications",
-        ctaLink: "/search",
-    },
-    { 
-        id: 'default2', 
-        src: 'https://images.unsplash.com/photo-1645097539346-2c141ad78edc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZWxpdmVyeSUyMHBlcnNvbiUyMG1vdG9yY3ljbGV8ZW58MHx8fHwxNzUzNDgzNDQ2fDA&ixlib=rb-4.1.0&q=80&w=1080', 
-        hint: 'delivery person motorcycle',
-        headline: "Fast Delivery with Location Pinning",
-        description: "Our smart delivery system connects you to the nearest pharmacy for rapid delivery. Pin your location and track your order in real-time.",
-        ctaText: "Track Your Order",
-        ctaLink: "/dashboard/tracking",
-    },
-    { 
-        id: 'default3', 
-        src: 'https://images.unsplash.com/photo-1642844613096-7b743b7d9915?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkb2N0b3IlMjB3aXRoJTIwcGF0aWVudHxlbnwwfHx8fDE3NTM0ODM0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080', 
-        hint: 'doctor with patient',
-        headline: "Book Telehealth Consultations",
-        description: "Connect with licensed doctors and pharmacists from the comfort of your home. Get professional advice when you need it most.",
-        ctaText: "Book a Consultation",
-        ctaLink: "/services",
-    },
-    { 
-        id: 'default4', 
-        src: 'https://images.unsplash.com/photo-1684014450286-9d990b02058a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtZWRpY2luZSUyMG9uJTIwc2hlbGZ8ZW58MHx8fHwxNzUzNDgzNDQ2fDA&ixlib=rb-4.1.0&q=80&w=1080', 
-        hint: 'medicine on shelf',
-        headline: "Affordable Subscription Plans",
-        description: "Manage chronic conditions with ease. Automate your monthly refills for hypertension, diabetes, and more with our subscription plans.",
-        ctaText: "Learn More",
-        ctaLink: "/services",
-    },
-];
-
 const fileToDataUrl = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -85,14 +46,14 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
                 if (Array.isArray(storedImages) && storedImages.length > 0) {
                     setSliderImages(storedImages);
                 } else {
-                     setSliderImages(defaultImages);
+                     setSliderImages([]);
                 }
             } else {
-                setSliderImages(defaultImages);
+                setSliderImages([]);
             }
         } catch (error) {
             console.error("Failed to parse slider images from localStorage", error);
-            setSliderImages(defaultImages);
+            setSliderImages([]);
         } finally {
             setLoading(false);
         }
@@ -127,8 +88,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
             const updatedImages = prevImages.filter(image => image.id !== id);
              // If removing the last image, revert to defaults
             if (updatedImages.length === 0) {
-                 updateLocalStorage(defaultImages);
-                 return defaultImages;
+                 updateLocalStorage([]);
+                 return [];
             }
             updateLocalStorage(updatedImages);
             return updatedImages;

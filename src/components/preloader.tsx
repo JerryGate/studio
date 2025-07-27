@@ -1,10 +1,11 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState, useMemo, memo } from 'react';
+import { useEffect, useState } from 'react';
 import Logo from './logo';
 
-const ProgressCounter = memo(function ProgressCounter({ onComplete }: { onComplete: () => void }) {
+function ProgressCounter({ onComplete }: { onComplete: () => void }) {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const ProgressCounter = memo(function ProgressCounter({ onComplete }: { onComple
             {progress}%
         </div>
     );
-});
+};
 ProgressCounter.displayName = 'ProgressCounter';
 
 const Preloader = () => {
@@ -64,7 +65,7 @@ const Preloader = () => {
             initial={{ opacity: 1 }}
             animate={{ opacity: isComplete ? 0 : 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-[#0c1a3a] to-[#e0e0e0] overflow-hidden"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-600 bg-gradient-to-r overflow-hidden"
         >
             <div className="absolute inset-0 bg-white/10 backdrop-blur-md" />
             

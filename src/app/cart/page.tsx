@@ -19,7 +19,7 @@ export default function CartPage() {
           <CardTitle className="text-3xl font-extrabold animated-gradient-text">Your Shopping Cart</CardTitle>
         </CardHeader>
         <CardContent>
-          {cartCount === 0 ? (
+          {!cartItems || cartItems.length === 0 ? (
             <div className="text-center py-16">
               <ShoppingCart className="mx-auto h-24 w-24 text-muted-foreground" />
               <h2 className="mt-6 text-2xl font-semibold">Your cart is empty</h2>
