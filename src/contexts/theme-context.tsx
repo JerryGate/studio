@@ -14,6 +14,7 @@ interface ThemeContextType {
   };
   setCustomColor: (colorType: 'primary' | 'accent', color: { h: number, s: number, l: number}) => void;
   loading: boolean;
+  themeKey: number;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -103,18 +104,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, customColors, setCustomColor, loading }}>
-       <AnimatePresence mode="wait">
-            <motion.div
-                key={themeKey}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                {children}
-            </motion.div>
-        </AnimatePresence>
+    <ThemeContext.Provider value={{ theme, setTheme, customColors, setCustomColor, loading, themeKey }}>
+       {children}
     </ThemeContext.Provider>
   );
 };

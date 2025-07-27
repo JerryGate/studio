@@ -6,48 +6,21 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { CartProvider } from '@/contexts/cart-context';
 import PageTransition from '@/components/page-transition';
-import { AuthProvider, useAuth } from '@/contexts/auth-context';
+import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
-import { ImageProvider, useImageContext } from '@/contexts/image-context';
-import { useState, useEffect } from 'react';
-import Preloader from '@/components/preloader';
+import { ImageProvider } from '@/contexts/image-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider, useTheme } from '@/contexts/theme-context';
-import { SettingsProvider, useSettings } from '@/contexts/settings-context';
+import { SettingsProvider } from '@/contexts/settings-context';
 import { EmergencyRequestModal } from '@/components/emergency-request-modal';
 import { WhatsAppCta } from '@/components/whatsapp-cta';
 
-function LayoutContent({ children }: { children: React.ReactNode }) {
+
+function AppContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { sliderImages, loading: imagesLoading } = useImageContext();
-  const { whatsAppNumber, loading: settingsLoading } = useSettings();
-  const { theme, loading: themeLoading } = useTheme();
-  const { loading: authLoading } = useAuth();
-  const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
-  
-  const allContextsLoaded = 
-    !imagesLoading && Array.isArray(sliderImages) && sliderImages.length > 0 &&
-    !settingsLoading && !!whatsAppNumber &&
-    !themeLoading && !!theme &&
-    !authLoading;
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-        if (allContextsLoaded) {
-            setIsPreloaderVisible(false);
-        }
-    }, 3000); 
-
-    if (allContextsLoaded && isPreloaderVisible) {
-        // If all contexts load before the timer, hide the preloader immediately
-        setIsPreloaderVisible(false);
-    }
-    
-    return () => clearTimeout(timer);
-  }, [allContextsLoaded, isPreloaderVisible]);
-
+  const { themeKey } = useTheme();
 
   const isDashboardRoute =
     pathname.startsWith('/admin') ||
@@ -59,17 +32,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/partner');
 
   return (
-    <>
       <AnimatePresence mode="wait">
-        {isPreloaderVisible && <Preloader />}
-      </AnimatePresence>
-      
-      {!isPreloaderVisible && (
         <motion.div
-            key="loaded"
+            key={themeKey}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
             className="flex-1 flex flex-col min-h-screen"
         >
             {!isDashboardRoute && !isAuthRoute && (
@@ -93,8 +62,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                 </>
             )}
         </motion.div>
-      )}
-    </>
+      </AnimatePresence>
   );
 }
 
@@ -126,7 +94,7 @@ export default function RootLayout({
               <ImageProvider>
                 <Toaster>
                   <CartProvider>
-                    <LayoutContent>{children}</LayoutContent>
+                    <AppContent>{children}</AppContent>
                   </CartProvider>
                 </Toaster>
               </ImageProvider>
