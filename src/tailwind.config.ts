@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -57,10 +56,6 @@ const config = {
           DEFAULT: "hsl(var(--card-hue, var(--background-hue)), var(--card-saturation, var(--background-saturation)), 100%)",
           foreground: "hsl(var(--card-foreground-hue, var(--foreground-hue)), var(--card-foreground-saturation, var(--foreground-saturation)), var(--card-foreground-lightness, var(--foreground-lightness)))",
         },
-        emergency: {
-          DEFAULT: "#ef4444",
-          dark: "#dc2626",
-        }
       },
       borderRadius: {
         lg: "var(--radius)",

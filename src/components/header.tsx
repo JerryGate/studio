@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from './ui/sheet';
 import { Separator } from './ui/separator';
 
@@ -286,9 +286,9 @@ const Header = () => {
                 <>
                     <div className="hidden lg:flex items-center space-x-2">
                          <Link href="/login">
-                             <Button variant="ghost" size="icon">
-                                <User className="h-5 w-5" />
-                                <span className="sr-only">Log In</span>
+                             <Button variant="ghost" size="sm">
+                                <User className="h-5 w-5 mr-2" />
+                                Log In
                             </Button>
                         </Link>
                     </div>
