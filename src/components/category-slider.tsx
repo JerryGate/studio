@@ -37,7 +37,7 @@ export function CategorySlider() {
             >
                 <CarouselContent className="-ml-4">
                     {categories.map((category, index) => (
-                        <CarouselItem key={index} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                        <CarouselItem key={index} className="pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/5">
                              <Link href={category.href}>
                                 <div className={cn(
                                     "group relative cursor-pointer overflow-hidden h-full rounded-lg",
