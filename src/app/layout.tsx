@@ -47,36 +47,38 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         {loading && <Preloader />}
       </AnimatePresence>
       
-      <motion.div
-          key={loading ? 'loading' : 'loaded'}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="flex-1 flex flex-col min-h-screen"
-      >
-          {!isDashboardRoute && !isAuthRoute && (
-            <div className="px-4 sm:px-6 lg:px-8">
-              <Header />
+      {!loading && (
+        <motion.div
+            key="loaded"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="flex-1 flex flex-col min-h-screen"
+        >
+            {!isDashboardRoute && !isAuthRoute && (
+              <div className="px-4 sm:px-6 lg:px-8">
+                <Header />
+              </div>
+            )}
+            <div className="flex-1 flex flex-col">
+              <Suspense>
+                <PageTransition>{children}</PageTransition>
+              </Suspense>
             </div>
-          )}
-          <div className="flex-1 flex flex-col">
-            <Suspense>
-              <PageTransition>{children}</PageTransition>
-            </Suspense>
-          </div>
-          {!isDashboardRoute && !isAuthRoute && (
-            <div className="px-4 sm:px-6 lg:px-8">
-              <Footer />
-            </div>
-          )}
-          {!isDashboardRoute && !isAuthRoute && (
-              <>
-                  <EmergencyRequestModal />
-                  <ScrollToTopButton />
-                  <WhatsAppCta />
-              </>
-          )}
-      </motion.div>
+            {!isDashboardRoute && !isAuthRoute && (
+              <div className="px-4 sm:px-6 lg:px-8">
+                <Footer />
+              </div>
+            )}
+            {!isDashboardRoute && !isAuthRoute && (
+                <>
+                    <EmergencyRequestModal />
+                    <ScrollToTopButton />
+                    <WhatsAppCta />
+                </>
+            )}
+        </motion.div>
+      )}
     </>
   );
 }
