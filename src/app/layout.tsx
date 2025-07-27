@@ -24,7 +24,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ensure the preloader runs for a set duration.
+    // This timer ensures the preloader is displayed for a minimum duration.
     const timer = setTimeout(() => {
       setLoading(false);
     }, 3000); 
@@ -47,13 +47,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         {loading && <Preloader />}
       </AnimatePresence>
       
-      {!loading && (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex-1 flex flex-col"
-        >
+      <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: loading ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex-1 flex flex-col"
+      >
           {!isDashboardRoute && !isAuthRoute && (
             <div className="px-4 sm:px-6 lg:px-8">
               <Header />
@@ -76,8 +75,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   <WhatsAppCta />
               </>
           )}
-        </motion.div>
-      )}
+      </motion.div>
     </>
   );
 }

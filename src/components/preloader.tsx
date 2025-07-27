@@ -4,6 +4,7 @@
 import { motion } from 'framer-motion';
 import { HeartPulse } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 const AnimatedText = ({ text }: { text: string }) => {
     const letters = Array.from(text);
@@ -39,10 +40,11 @@ const AnimatedText = ({ text }: { text: string }) => {
   
     return (
       <motion.div
-        className="flex justify-center items-center text-xl sm:text-2xl md:text-3xl font-bold text-primary"
+        className="flex justify-center items-center text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-wider"
         variants={container}
         initial="hidden"
         animate="visible"
+        style={{textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}
       >
         {letters.map((letter, index) => (
           <motion.span variants={child} key={index}>
@@ -61,19 +63,18 @@ const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            // Defer the onComplete call to the next tick to avoid updating parent during render
             setTimeout(onComplete, 0);
             return 100;
           }
           return prev + 1;
         });
-      }, 25); // Adjust time to match loading duration
+      }, 25);
   
       return () => clearInterval(interval);
     }, [onComplete]);
   
     return (
-        <div className="font-mono text-lg font-medium text-primary">
+        <div className="font-mono text-lg font-medium text-white/80">
             {progress}%
         </div>
     );
@@ -86,35 +87,50 @@ const Preloader = () => {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+      animate={{ opacity: isComplete ? 0 : 1 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-primary via-primary to-accent"
     >
         <div className="relative flex items-center justify-center h-48 w-48 sm:h-64 sm:w-64">
-            {/* Animated Rings */}
-            {[...Array(4)].map((_, i) => (
-                 <motion.div
-                    key={i}
-                    className="absolute rounded-full"
+             {/* Animated streaks */}
+             {[...Array(8)].map((_, i) => (
+                <motion.div
+                    key={`streak-${i}`}
+                    className="absolute w-1 h-full origin-center"
                     style={{
-                        borderStyle: 'solid',
-                        borderWidth: '2px',
-                        borderColor: `hsl(var(--primary-hue), var(--primary-saturation), calc(var(--primary-lightness) + ${i*5}%))`,
+                        background: 'linear-gradient(to bottom, transparent, hsl(var(--accent-hue), var(--accent-saturation), 80%), transparent)',
+                        rotate: `${i * 45}deg`
                     }}
-                    initial={{ scale: 0, opacity: 0.8 }}
-                    animate={{ scale: 1, opacity: 0 }}
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    animate={{ scaleY: [0, 1, 0], opacity: [0, 0.7, 0] }}
                     transition={{
-                        duration: 3,
+                        duration: 1.5,
                         repeat: Infinity,
-                        ease: "linear",
-                        delay: i * 0.5,
+                        ease: "easeInOut",
+                        delay: i * 0.1,
                     }}
                 />
             ))}
 
-             {/* Central Icon */}
+            {/* Pulsating background circles */}
+            {[...Array(3)].map((_, i) => (
+                 <motion.div
+                    key={`pulse-${i}`}
+                    className="absolute rounded-full bg-white/10"
+                    initial={{ scale: 0, opacity: 0.5 }}
+                    animate={{ scale: 1.5, opacity: 0 }}
+                    transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        ease: "easeOut",
+                        delay: i * 0.4,
+                    }}
+                />
+            ))}
+
+            {/* Central Icon */}
             <motion.div
-                className="relative h-20 w-20 sm:h-24 sm:w-24 bg-primary/10 rounded-full flex items-center justify-center shadow-lg"
+                className="relative h-20 w-20 sm:h-24 sm:w-24 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl"
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{
                     duration: 2.5,
