@@ -19,13 +19,18 @@ interface LogoProps {
 const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'default' | 'preloader' }) => {
     const isPreloader = variant === 'preloader';
     const [pills, setPills] = useState<any[]>([]);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        if (isPreloader) {
-            setPills(Array.from({ length: 40 }).map((_, i) => ({
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (isClient && isPreloader) {
+            setPills(Array.from({ length: 50 }).map((_, i) => ({
                 id: i,
                 x: `${Math.random() * 100}%`,
-                initialY: `-${Math.random() * 100}%`,
+                initialY: `-${Math.random() * 200}%`, // Start further up to ensure a continuous stream
                 duration: 2 + Math.random() * 3,
                 delay: Math.random() * 4,
                 rotation: Math.random() * 720 - 360,
@@ -38,7 +43,7 @@ const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'defau
                 size: Math.random() * 0.5 + 0.4
             })));
         }
-    }, [isPreloader]);
+    }, [isPreloader, isClient]);
 
     const particles = useMemo(() => {
         return Array.from({ length: isPreloader ? 8 : 4 }).map((_, i) => ({

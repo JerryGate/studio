@@ -48,11 +48,6 @@ const Preloader = () => {
             animate={{ opacity: isComplete ? 0 : 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900 overflow-hidden"
-            style={{
-                background: 'linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #141E30, #243B55)',
-                backgroundSize: '400% 400%',
-                animation: 'gradientBG 15s ease infinite'
-            }}
         >
             <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
             
@@ -65,14 +60,6 @@ const Preloader = () => {
                      <ProgressCounter onComplete={onAnimationComplete} />
                 </div>
             </div>
-
-            <style jsx global>{`
-                @keyframes gradientBG {
-                    0% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                    100% { background-position: 0% 50%; }
-                }
-            `}</style>
         </motion.div>
     );
 };
