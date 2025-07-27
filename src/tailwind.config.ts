@@ -97,7 +97,7 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-in-out",
-        "pulse-red": "pulse-red 2s infinite",
+        "pulse-red": "pulse-red 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "pulse": "pulse 2s infinite",
         "border-spin": 'border-spin 4s linear infinite',
       },
