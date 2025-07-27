@@ -1,3 +1,4 @@
+
 'use client';
 
 import './globals.css';
@@ -9,7 +10,7 @@ import { AuthProvider } from '@/contexts/auth-context';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
 import { ScrollToTopButton } from '@/components/ui/scroll-to-top-button';
-import { ImageProvider } from '@/contexts/image-context';
+import { ImageProvider, useImageContext } from '@/contexts/image-context';
 import { Suspense, useState, useEffect } from 'react';
 import Preloader from '@/components/preloader';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -20,16 +21,36 @@ import { WhatsAppCta } from '@/components/whatsapp-cta';
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [loading, setLoading] = useState(true);
+  const { loading: imagesLoading } = useImageContext();
+  const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
 
   useEffect(() => {
     // This timer ensures the preloader is displayed for a minimum duration.
     const timer = setTimeout(() => {
-      setLoading(false);
+        // Only hide the preloader if the images are also loaded.
+        if (!imagesLoading) {
+            setIsPreloaderVisible(false);
+        }
     }, 3000); 
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [imagesLoading]);
+
+  // Also hide preloader immediately if images are loaded after the timer would have fired.
+  useEffect(() => {
+      if(!imagesLoading && !isPreloaderVisible) {
+          // This case is handled by the above useEffect.
+          return
+      }
+      if (!imagesLoading) {
+          // If images finish loading, we might still be waiting on the 3s timer.
+          // But if the timer is already done, we can hide.
+          const timerDone = !isPreloaderVisible;
+          if (timerDone) {
+              setIsPreloaderVisible(false);
+          }
+      }
+  }, [imagesLoading, isPreloaderVisible]);
 
   const isDashboardRoute =
     pathname.startsWith('/admin') ||
@@ -43,10 +64,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
       <AnimatePresence mode="wait">
-        {loading && <Preloader />}
+        {isPreloaderVisible && <Preloader />}
       </AnimatePresence>
       
-      {!loading && (
+      {!isPreloaderVisible && (
         <motion.div
             key="loaded"
             initial={{ opacity: 0 }}
