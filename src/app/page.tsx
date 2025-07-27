@@ -1,4 +1,3 @@
-
 'use client';
 
 import Hero from '@/components/landing/hero';
@@ -15,6 +14,7 @@ import { allProducts } from '@/lib/mock-data';
 import { CategoryProductsSection } from '@/components/landing/CategoryProductsSection';
 import TopPharmacies from '@/components/landing/top-pharmacies';
 import { PrescriptionUploadModal } from '@/components/prescription-upload-modal';
+import FeaturedProducts from '@/components/landing/featured-products';
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -50,6 +50,7 @@ export default function Home() {
             </div>
         </div>
 
+        <FeaturedProducts />
 
         <Services />
 
