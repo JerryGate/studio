@@ -19,16 +19,6 @@ interface LogoProps {
 const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'default' | 'preloader' }) => {
     const isPreloader = variant === 'preloader';
 
-    const particles = useMemo(() => {
-        return Array.from({ length: isPreloader ? 8 : 4 }).map((_, i) => ({
-            id: i,
-            angle: (360 / (isPreloader ? 8 : 4)) * i,
-            distance: isPreloader ? 28 : 22,
-            duration: isPreloader ? 3 : 4,
-            color: isPreloader ? `hsl(${i * 45}, 100%, 70%)` : `hsl(var(--primary-hue), var(--primary-saturation), 70%)`
-        }));
-    }, [isPreloader]);
-
     const cascadingPills = useMemo(() => {
         if (!isPreloader) return [];
         return Array.from({ length: 40 }).map((_, i) => ({
@@ -42,6 +32,17 @@ const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'defau
             size: Math.random() * 0.5 + 0.4
         }));
     }, [isPreloader]);
+    
+    const particles = useMemo(() => {
+        return Array.from({ length: isPreloader ? 8 : 4 }).map((_, i) => ({
+            id: i,
+            angle: (360 / (isPreloader ? 8 : 4)) * i,
+            distance: isPreloader ? 28 : 22,
+            duration: isPreloader ? 3 : 4,
+            color: isPreloader ? `hsl(${i * 45}, 100%, 70%)` : `hsl(var(--primary-hue), var(--primary-saturation), 70%)`
+        }));
+    }, [isPreloader]);
+
 
     return (
         <div className={cn("relative flex items-center justify-center", iconSize)}>
@@ -68,7 +69,7 @@ const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'defau
                     }}
                 />
             ))}
-
+            
             {/* Orbiting Particles */}
             {particles.map((particle) => (
                 <motion.div
@@ -98,7 +99,7 @@ const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'defau
             <motion.div
                 className="relative w-8 h-8 rounded-full flex items-center justify-center overflow-hidden"
                 style={{
-                    filter: isPreloader ? 'drop-shadow(0 0 10px hsl(var(--primary-hue), var(--primary-saturation), 50%))' : 'none',
+                     filter: isPreloader ? 'drop-shadow(0 0 10px hsl(var(--primary-hue), var(--primary-saturation), 50%))' : 'none',
                 }}
             >
                 <motion.div

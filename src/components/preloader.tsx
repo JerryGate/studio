@@ -32,10 +32,15 @@ const ProgressCounter = memo(function ProgressCounter({ onComplete }: { onComple
         </div>
     );
 });
+ProgressCounter.displayName = 'ProgressCounter';
 
 
 const Preloader = () => {
     const [isComplete, setIsComplete] = useState(false);
+    
+    const onAnimationComplete = () => {
+      setTimeout(() => setIsComplete(true), 0);
+    }
     
     return (
         <motion.div
@@ -57,7 +62,7 @@ const Preloader = () => {
             
             <div className="absolute bottom-16 text-center space-y-4">
                  <div className="flex justify-center">
-                     <ProgressCounter onComplete={() => setIsComplete(true)} />
+                     <ProgressCounter onComplete={onAnimationComplete} />
                 </div>
             </div>
 
