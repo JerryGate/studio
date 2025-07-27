@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { HeartPulse } from 'lucide-react';
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 
 interface LogoProps {
   className?: string;
@@ -18,21 +18,28 @@ interface LogoProps {
 
 const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'default' | 'preloader' }) => {
     const isPreloader = variant === 'preloader';
+    const [pills, setPills] = useState<any[]>([]);
 
-    const cascadingPills = useMemo(() => {
-        if (!isPreloader) return [];
-        return Array.from({ length: 40 }).map((_, i) => ({
-            id: i,
-            x: `${Math.random() * 100}%`,
-            initialY: `-${Math.random() * 100}%`,
-            duration: 2 + Math.random() * 3,
-            delay: Math.random() * 4,
-            rotation: Math.random() * 720 - 360,
-            color: `hsl(${Math.random() * 360}, 100%, 70%)`,
-            size: Math.random() * 0.5 + 0.4
-        }));
+    useEffect(() => {
+        if (isPreloader) {
+            setPills(Array.from({ length: 40 }).map((_, i) => ({
+                id: i,
+                x: `${Math.random() * 100}%`,
+                initialY: `-${Math.random() * 100}%`,
+                duration: 2 + Math.random() * 3,
+                delay: Math.random() * 4,
+                rotation: Math.random() * 720 - 360,
+                colors: [
+                    `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    `hsl(${Math.random() * 360}, 100%, 70%)`,
+                ],
+                size: Math.random() * 0.5 + 0.4
+            })));
+        }
     }, [isPreloader]);
-    
+
     const particles = useMemo(() => {
         return Array.from({ length: isPreloader ? 8 : 4 }).map((_, i) => ({
             id: i,
@@ -43,29 +50,49 @@ const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'defau
         }));
     }, [isPreloader]);
 
-
     return (
         <div className={cn("relative flex items-center justify-center", iconSize)}>
-
             {/* Cascading Pills (Preloader only) */}
-            {isPreloader && cascadingPills.map((pill) => (
+            {isPreloader && pills.map((pill) => (
                 <motion.div
                     key={`cascade-${pill.id}`}
                     className="absolute rounded-full opacity-70"
                     style={{
                         width: `${pill.size}rem`,
                         height: `${pill.size * 0.4}rem`,
-                        background: pill.color,
-                        boxShadow: `0 0 8px ${pill.color}`,
+                        boxShadow: `0 0 8px ${pill.colors[0]}`,
                         left: pill.x,
                         top: pill.initialY,
                     }}
-                    animate={{ y: '120vh', rotate: pill.rotation }}
+                    animate={{
+                        y: '120vh',
+                        rotate: pill.rotation,
+                        background: [
+                            `linear-gradient(90deg, ${pill.colors[0]}, ${pill.colors[1]})`,
+                            `linear-gradient(90deg, ${pill.colors[1]}, ${pill.colors[2]})`,
+                            `linear-gradient(90deg, ${pill.colors[2]}, ${pill.colors[3]})`,
+                            `linear-gradient(90deg, ${pill.colors[3]}, ${pill.colors[0]})`,
+                        ]
+                    }}
                     transition={{
-                        duration: pill.duration,
-                        delay: pill.delay,
-                        repeat: Infinity,
-                        ease: 'linear'
+                        y: {
+                            duration: pill.duration,
+                            delay: pill.delay,
+                            repeat: Infinity,
+                            ease: 'linear'
+                        },
+                        rotate: {
+                            duration: pill.duration,
+                            delay: pill.delay,
+                            repeat: Infinity,
+                            ease: 'linear'
+                        },
+                        background: {
+                            duration: pill.duration / 2,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                            delay: pill.delay,
+                        }
                     }}
                 />
             ))}
