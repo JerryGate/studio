@@ -15,6 +15,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Separator } from './ui/separator';
 
 const baseNavLinks = [
   { name: 'Home', href: '/' },
@@ -53,9 +55,11 @@ const getInitials = (name: string) => {
     return parts[0].charAt(0).toUpperCase();
 }
 
-const MobileMenu = ({ user, logout, closeMenu }: { user: any, logout: () => void, closeMenu: () => void }) => {
+const MobileMenu = () => {
+    const { user, logout } = useAuth();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -64,7 +68,7 @@ const MobileMenu = ({ user, logout, closeMenu }: { user: any, logout: () => void
         } else {
             router.push('/search');
         }
-        closeMenu();
+        setIsOpen(false);
     };
     
     const containerVariants = {
@@ -72,16 +76,16 @@ const MobileMenu = ({ user, logout, closeMenu }: { user: any, logout: () => void
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.08,
+                staggerChildren: 0.1,
                 delayChildren: 0.2,
             },
         },
     };
 
     const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
+        hidden: { x: -20, opacity: 0 },
         visible: {
-            y: 0,
+            x: 0,
             opacity: 1,
             transition: {
                 type: 'spring',
@@ -91,89 +95,95 @@ const MobileMenu = ({ user, logout, closeMenu }: { user: any, logout: () => void
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-background flex flex-col p-6"
-        >
-            <div className="flex justify-between items-center mb-12">
-                <Logo />
-                <Button variant="ghost" size="icon" onClick={closeMenu}>
-                    <X className="h-6 w-6" />
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open menu</span>
                 </Button>
-            </div>
-            
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="flex-grow flex flex-col justify-center items-center text-center space-y-2"
+            </SheetTrigger>
+            <SheetContent 
+                side="left" 
+                className="w-full max-w-sm bg-gradient-to-br from-background via-secondary to-background p-0 flex flex-col rounded-r-2xl"
             >
-                {baseNavLinks.map((link) => (
-                    <motion.div key={link.name} variants={itemVariants}>
-                        <Link href={link.href} onClick={closeMenu}>
-                            <span className="block text-3xl font-headline font-semibold py-3 text-foreground hover:text-primary transition-colors">
-                                {link.name}
-                            </span>
-                        </Link>
-                    </motion.div>
-                ))}
-            </motion.div>
-
-            <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="mt-auto space-y-4"
-            >
-                <form onSubmit={handleSearch}>
-                    <div className="relative">
-                        <Input
-                            placeholder="Search..."
-                            className="h-12 pl-12 rounded-full text-base"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    </div>
-                </form>
-                {user ? (
-                    <div className="flex gap-2">
-                        <Button asChild className="flex-1 text-base py-6" variant="outline">
-                             <Link href={getDashboardUrl(user.role)} onClick={closeMenu}>
-                                <LayoutDashboard className="mr-2 h-5 w-5" />
-                                Dashboard
-                            </Link>
+                 <div className="p-6 flex items-center justify-between">
+                    <Logo />
+                    <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <X className="h-6 w-6" />
                         </Button>
-                        <Button className="flex-1 text-base py-6" variant="ghost" onClick={() => { logout(); closeMenu(); }}>
-                            <LogOut className="mr-2 h-5 w-5" />
-                            Log Out
-                        </Button>
-                    </div>
-                ) : (
-                    <div className="flex flex-col gap-2">
-                         <Button asChild className="flex-1 text-base py-6">
-                            <Link href="/login" onClick={closeMenu}>
-                                <User className="mr-2 h-5 w-5" />
-                                Log In
-                            </Link>
-                        </Button>
-                        <Button asChild className="flex-1 text-base py-6" variant="outline">
-                            <Link href="/signup" onClick={closeMenu}>
-                                Sign Up
-                            </Link>
-                        </Button>
-                    </div>
-                )}
-            </motion.div>
-        </motion.div>
+                    </SheetTrigger>
+                </div>
+                <Separator />
+                <div className="flex-grow p-6">
+                     <motion.ul
+                        className="space-y-2"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {baseNavLinks.map((link) => (
+                            <motion.li key={link.name} variants={itemVariants}>
+                                <Link href={link.href} onClick={() => setIsOpen(false)}>
+                                    <span className="block text-xl font-medium py-3 text-foreground hover:text-primary transition-colors rounded-lg hover:bg-primary/5 px-3">
+                                        {link.name}
+                                    </span>
+                                </Link>
+                            </motion.li>
+                        ))}
+                    </motion.ul>
+                </div>
+                <motion.div
+                    className="p-6 border-t mt-auto space-y-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.4 }}
+                >
+                    <form onSubmit={handleSearch}>
+                        <div className="relative">
+                            <Input
+                                placeholder="Search..."
+                                className="h-11 pl-10 rounded-full"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        </div>
+                    </form>
+                    <Separator />
+                     {user ? (
+                        <div className="flex gap-2">
+                            <Button asChild className="flex-1" variant="outline" onClick={() => setIsOpen(false)}>
+                                <Link href={getDashboardUrl(user.role)}>
+                                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                                    Dashboard
+                                </Link>
+                            </Button>
+                            <Button className="flex-1" variant="ghost" onClick={() => { logout(); setIsOpen(false); }}>
+                                <LogOut className="mr-2 h-4 w-4" />
+                                Log Out
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                            <Button asChild className="w-full" onClick={() => setIsOpen(false)}>
+                                <Link href="/login">
+                                    <User className="mr-2 h-4 w-4" />
+                                    Log In
+                                </Link>
+                            </Button>
+                            <Button asChild className="w-full" variant="secondary" onClick={() => setIsOpen(false)}>
+                                <Link href="/signup">Sign Up</Link>
+                            </Button>
+                        </div>
+                    )}
+                </motion.div>
+            </SheetContent>
+        </Sheet>
     )
 }
 
 const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
   const { user, logout } = useAuth();
   const pathname = usePathname();
@@ -188,18 +198,6 @@ const Header = () => {
       router.push('/search');
     }
   };
-
-  useEffect(() => {
-    // Disable body scroll when mobile menu is open
-    if (typeof window !== 'undefined') {
-        document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
-    }
-    return () => {
-        if (typeof window !== 'undefined') {
-            document.body.style.overflow = 'auto';
-        }
-    }
-  }, [isMobileMenuOpen]);
 
 
   return (
@@ -295,19 +293,11 @@ const Header = () => {
             )}
           
             <div className="lg:hidden">
-                <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)}>
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Open menu</span>
-                </Button>
+                <MobileMenu />
             </div>
           </div>
         </div>
       </div>
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-            <MobileMenu user={user} logout={logout} closeMenu={() => setIsMobileMenuOpen(false)} />
-        )}
-      </AnimatePresence>
     </header>
   );
 };
