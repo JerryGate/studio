@@ -207,7 +207,7 @@ const Header = () => {
                         initial="hidden"
                         animate="visible"
                       >
-                        {baseNavLinks.map((link) => (
+                        {navLinks.map((link) => (
                            <SheetClose asChild key={link.href}>
                              <motion.div variants={itemVariants}>
                                 <Link
@@ -253,7 +253,7 @@ const Header = () => {
                                 </SheetClose>
                                 <SheetClose asChild>
                                     <Link href="/signup" passHref>
-                                        <Button variant="outline" className="w-full justify-start text-base py-6">
+                                        <Button variant="outline" className="w-full justify-start text-base py-6 mt-2">
                                             Sign Up
                                         </Button>
                                     </Link>
