@@ -64,7 +64,7 @@ export function EmergencyRequestModal() {
                             className="fixed bottom-24 right-6 z-50"
                         >
                             <DialogTrigger asChild>
-                                <Button variant="destructive" size="icon" className="w-16 h-16 rounded-full shadow-lg animate-pulse-red">
+                                <Button variant="destructive" size="icon" className="w-16 h-16 rounded-full shadow-lg [box-shadow:0_0_15px_4px_hsl(var(--destructive))]">
                                     <AlertTriangle className="h-8 w-8" />
                                      <span className="sr-only">Emergency Request</span>
                                 </Button>
@@ -76,14 +76,14 @@ export function EmergencyRequestModal() {
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-            <DialogContent className="sm:max-w-md bg-transparent border-none shadow-none p-0">
+            <DialogContent className="bg-transparent border-none shadow-none p-0 sm:max-w-md">
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
                     <Card className="shadow-lg">
-                        <CardHeader className="text-center">
+                        <DialogHeader className="p-6 pb-0 text-center">
                             <div className="mx-auto bg-destructive/10 text-destructive rounded-full h-16 w-16 flex items-center justify-center mb-4">
                                 <AlertTriangle className="h-8 w-8" />
                             </div>
@@ -91,8 +91,8 @@ export function EmergencyRequestModal() {
                             <DialogDescription>
                                 For genuine emergencies only. This will alert all nearby pharmacies.
                             </DialogDescription>
-                        </CardHeader>
-                        <CardContent>
+                        </DialogHeader>
+                        <CardContent className="p-6">
                             <form onSubmit={handleSubmit}>
                                 <motion.div 
                                     className="space-y-4"
