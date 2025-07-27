@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { HeartPulse } from 'lucide-react';
+import React from 'react';
 
 interface LogoProps {
   className?: string;
@@ -12,56 +13,46 @@ interface LogoProps {
   iconSize?: string;
   textSize?: string;
   center?: boolean;
+  variant?: 'default' | 'preloader';
 }
 
-const AnimatedPill = ({ iconSize }: { iconSize: string }) => {
+const AnimatedPill = ({ iconSize, variant }: { iconSize: string; variant: 'default' | 'preloader' }) => {
     const numParticles = 8;
-    const numPills = 10;
+    const isPreloader = variant === 'preloader';
+    const numCascadingPills = isPreloader ? 20 : 0;
+
+    const cascadingPills = React.useMemo(() => {
+        if (!isPreloader) return [];
+        return Array.from({ length: numCascadingPills }).map((_, i) => ({
+            id: i,
+            x: Math.random() * 200 - 100, // -100% to 100%
+            y: -100,
+            duration: 2 + Math.random() * 3,
+            delay: Math.random() * 4,
+            rotation: Math.random() * 360,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`
+        }));
+    }, [isPreloader, numCascadingPills]);
 
     return (
         <div className={cn("relative flex items-center justify-center", iconSize)}>
-            {/* Background Glow */}
-            <motion.div
-                className="absolute inset-0 rounded-full"
-                animate={{
-                    boxShadow: [
-                        "0 0 20px 5px hsl(150, 100%, 70%, 0.4), inset 0 0 10px hsl(150, 100%, 80%, 0.3)",
-                        "0 0 30px 8px hsl(330, 100%, 70%, 0.5), inset 0 0 15px hsl(330, 100%, 80%, 0.4)",
-                        "0 0 20px 5px hsl(210, 100%, 70%, 0.4), inset 0 0 10px hsl(210, 100%, 80%, 0.3)",
-                        "0 0 30px 8px hsl(150, 100%, 70%, 0.5), inset 0 0 15px hsl(150, 100%, 80%, 0.4)",
-                    ]
-                }}
-                transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-            />
-
-            {/* Cascading Pills */}
-            {Array.from({ length: numPills }).map((_, i) => (
+            {/* Cascading Pills (Preloader only) */}
+            {cascadingPills.map((pill) => (
                 <motion.div
-                    key={`pill-${i}`}
-                    className="absolute w-1.5 h-3 rounded-full"
-                    style={{
-                        background: `hsl(${i * 36}, 100%, 70%)`,
-                        boxShadow: `0 0 8px hsl(${i * 36}, 100%, 70%)`,
-                    }}
-                    initial={{
-                        y: -25,
-                        x: (Math.random() - 0.5) * 50,
-                        opacity: 0,
-                        scale: Math.random() * 0.5 + 0.5
-                    }}
-                    animate={{ y: [ -25, 25 ], opacity: [0, 1, 0] }}
+                    key={`cascade-${pill.id}`}
+                    className="absolute w-1 h-2 rounded-full opacity-70"
+                    style={{ background: pill.color, boxShadow: `0 0 8px ${pill.color}` }}
+                    initial={{ y: pill.y, x: `${pill.x}%`, rotate: 0 }}
+                    animate={{ y: [pill.y, 100], rotate: pill.rotation }}
                     transition={{
-                        duration: 1.5 + Math.random() * 1.5,
+                        duration: pill.duration,
+                        delay: pill.delay,
                         repeat: Infinity,
-                        delay: Math.random() * 2,
+                        ease: 'linear'
                     }}
                 />
             ))}
-            
+
             {/* Orbiting Particles */}
             {Array.from({ length: numParticles }).map((_, i) => (
                 <motion.div
@@ -70,8 +61,8 @@ const AnimatedPill = ({ iconSize }: { iconSize: string }) => {
                     style={{
                         originX: '50%',
                         originY: '50%',
-                        background: `hsl(${i * 45}, 100%, 50%)`,
-                        boxShadow: `0 0 5px hsl(${i * 45}, 100%, 50%)`,
+                        background: `hsl(${i * 45}, 100%, 70%)`,
+                        boxShadow: `0 0 8px hsl(${i * 45}, 100%, 70%)`,
                     }}
                     animate={{
                         x: [0, Math.cos((2 * Math.PI / numParticles) * i) * 22, 0],
@@ -79,29 +70,39 @@ const AnimatedPill = ({ iconSize }: { iconSize: string }) => {
                         scale: [1, 0.5, 1],
                     }}
                     transition={{
-                        duration: 2,
+                        duration: 3,
                         repeat: Infinity,
                         ease: 'linear',
-                        delay: i * 0.25,
+                        delay: i * (3 / numParticles),
                     }}
                 />
             ))}
 
             {/* Central Pill */}
             <motion.div
-                className="relative w-7 h-7 rounded-full flex items-center justify-center overflow-hidden"
-                 animate={{ rotate: 360 }}
-                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                className="relative w-8 h-8 rounded-full flex items-center justify-center overflow-hidden"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
             >
-                 <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-secondary opacity-90" />
-                 <div className="absolute inset-0 bg-black/20" />
+                <motion.div
+                    className="absolute inset-0"
+                    animate={{
+                        background: [
+                            "radial-gradient(circle, hsl(180, 100%, 70%), hsl(220, 100%, 70%))",
+                            "radial-gradient(circle, hsl(300, 100%, 70%), hsl(340, 100%, 70%))",
+                            "radial-gradient(circle, hsl(80, 100%, 70%), hsl(120, 100%, 70%))",
+                            "radial-gradient(circle, hsl(180, 100%, 70%), hsl(220, 100%, 70%))",
+                        ]
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                />
                  <HeartPulse className="relative z-10 text-white h-4 w-4" />
             </motion.div>
         </div>
     );
 };
 
-const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'text-2xl', center = false }: LogoProps) => {
+const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'text-2xl', center = false, variant = 'default' }: LogoProps) => {
   return (
     <Link href="/" passHref>
       <div className={cn(
@@ -109,9 +110,10 @@ const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'te
         center && 'justify-center',
         className
       )}>
-        <AnimatedPill iconSize={iconSize} />
+        <AnimatedPill iconSize={iconSize} variant={variant} />
         <span className={cn(
-          "font-bold font-headline text-primary hidden sm:inline transition-all duration-300 group-hover:animated-gradient-text",
+          "font-bold font-headline text-primary hidden sm:inline transition-all duration-300",
+           variant === 'default' ? "group-hover:animated-gradient-text" : "text-white/90 [text-shadow:0_0_8px_rgba(255,255,255,0.5)]",
           textSize,
           textClassName
         )}>

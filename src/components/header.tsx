@@ -127,7 +127,7 @@ const MobileMenu = () => {
                 
                 <SheetHeader className="p-6 flex flex-row items-center justify-between border-b">
                     <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                    <Logo />
+                    <Logo variant="default" />
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted/50">
                             <X className="h-6 w-6" />
@@ -231,7 +231,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <Logo />
+            <Logo variant="default" />
              <nav className="hidden lg:flex items-center gap-6">
               {baseNavLinks.map((link) => (
                 <Link key={link.name} href={link.href}>
