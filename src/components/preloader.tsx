@@ -1,7 +1,7 @@
 
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { HeartPulse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -61,12 +61,13 @@ const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            onComplete();
+            // Defer the onComplete call to the next tick to avoid updating parent during render
+            setTimeout(onComplete, 0);
             return 100;
           }
           return prev + 1;
         });
-      }, 25); // Adjust time to match 3s total duration
+      }, 25); // Adjust time to match loading duration
   
       return () => clearInterval(interval);
     }, [onComplete]);
