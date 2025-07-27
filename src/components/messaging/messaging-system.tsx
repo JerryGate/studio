@@ -29,7 +29,7 @@ export function MessagingSystem({ currentUser }: MessagingSystemProps) {
 
     return (
         <Card className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 h-[700px]">
-            <div className="col-span-1 border-r">
+            <div className="col-span-1 bg-muted/40">
                 <h2 className="p-4 text-lg font-semibold border-b">Conversations</h2>
                 <ScrollArea className="h-[calc(700px-57px)]">
                     <ConversationList

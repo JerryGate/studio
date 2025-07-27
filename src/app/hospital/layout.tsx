@@ -79,7 +79,7 @@ function HospitalDashboardLayout({
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-          <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-muted/40">
+          <main className="flex-1 p-4 sm:px-6 sm:py-6 gap-4 bg-background">
             {children}
           </main>
         </div>
