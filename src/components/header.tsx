@@ -15,7 +15,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from './ui/sheet';
 import { Separator } from './ui/separator';
 
 const baseNavLinks = [
@@ -60,6 +60,19 @@ const MobileMenu = () => {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        // This is a workaround for a bug in Next.js/Framer Motion where the body scroll lock
+        // is not removed when navigating from a page with an open modal.
+        if (!isOpen) {
+            document.body.style.overflow = '';
+        } else {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -106,14 +119,15 @@ const MobileMenu = () => {
                 side="left" 
                 className="w-full max-w-sm bg-gradient-to-br from-background via-secondary to-background p-0 flex flex-col rounded-r-2xl"
             >
-                 <div className="p-6 flex items-center justify-between">
+                <SheetHeader className="p-6 flex flex-row items-center justify-between">
+                    <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     <Logo />
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon">
                             <X className="h-6 w-6" />
                         </Button>
                     </SheetTrigger>
-                </div>
+                </SheetHeader>
                 <Separator />
                 <div className="flex-grow p-6">
                      <motion.ul
