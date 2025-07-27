@@ -4,7 +4,8 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import React, { useMemo } from 'react';
+import React from 'react';
+import { HeartPulse } from 'lucide-react';
 
 interface LogoProps {
   className?: string;
@@ -15,54 +16,34 @@ interface LogoProps {
   variant?: 'default' | 'preloader';
 }
 
-const LightningBolt = ({ rotation, delay, color }: { rotation: number; delay: number; color: string }) => (
-    <motion.div
-        className="absolute w-full h-full"
-        style={{ rotate: rotation }}
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: [0, 1, 0.5, 1, 0], scale: [0.5, 1, 1, 1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity, delay, ease: "easeInOut" }}
-    >
-        <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M50 0 V 30 L 40 40 L 60 60 L 50 70 V 100" />
-        </svg>
-    </motion.div>
-);
-
-const AnimatedPill = ({ variant }: { variant: 'default' | 'preloader' }) => {
+const AnimatedIcon = ({ variant }: { variant: 'default' | 'preloader' }) => {
     const isPreloader = variant === 'preloader';
 
     return (
         <div className="relative flex items-center justify-center w-full h-full">
-            {/* Lightning for Preloader */}
-            {isPreloader && (
-                <>
-                    <LightningBolt rotation={0} delay={0} color="#FF00FF" />
-                    <LightningBolt rotation={120} delay={0.5} color="#00FFFF" />
-                    <LightningBolt rotation={240} delay={1} color="#FF00FF" />
-                </>
-            )}
-
-            {/* Central Pill */}
+            {/* Central Icon */}
             <motion.div
-                className="relative w-8 h-16 rounded-full flex items-center justify-center overflow-hidden"
+                className="relative w-full h-full flex items-center justify-center"
                 style={{
-                     filter: isPreloader ? 'drop-shadow(0 0 15px hsl(var(--primary-hue), var(--primary-saturation), 50%))' : 'none',
+                    filter: isPreloader ? 'drop-shadow(0 0 15px hsl(var(--primary-hue), var(--primary-saturation), 50%))' : 'none',
                 }}
             >
-                <motion.div
+                <HeartPulse 
+                    className="w-full h-full"
+                    strokeWidth={isPreloader ? 1.5 : 2}
+                />
+                 <motion.div
                     className="absolute inset-0"
-                    animate={isPreloader ? {
-                        background: [
+                    animate={{
+                        background: isPreloader ? [
                             "radial-gradient(circle, hsl(180, 100%, 70%), hsl(220, 100%, 70%))",
                             "radial-gradient(circle, hsl(300, 100%, 70%), hsl(340, 100%, 70%))",
                             "radial-gradient(circle, hsl(80, 100%, 70%), hsl(120, 100%, 70%))",
                             "radial-gradient(circle, hsl(180, 100%, 70%), hsl(220, 100%, 70%))",
-                        ]
-                    } : {
-                        background: 'hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness))'
+                        ] : "hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness))",
                     }}
                     transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    style={{ maskImage: 'url(heartpulse.svg)', WebkitMaskImage: 'url(heartpulse.svg)' }}
                 />
             </motion.div>
         </div>
@@ -77,8 +58,8 @@ const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'te
         center && 'justify-center',
         className
       )}>
-        <div className={cn("relative", iconSize)}>
-            <AnimatedPill variant={variant} />
+        <div className={cn("relative", iconSize, variant === 'default' ? 'text-primary' : 'text-white/90')}>
+           <AnimatedIcon variant={variant} />
         </div>
         <span className={cn(
           "font-bold font-headline hidden sm:inline transition-all duration-300",
