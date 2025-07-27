@@ -3,57 +3,7 @@
 
 import { motion } from 'framer-motion';
 import { HeartPulse } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
-
-const AnimatedText = ({ text }: { text: string }) => {
-    const letters = Array.from(text);
-  
-    const container = {
-      hidden: { opacity: 0 },
-      visible: (i = 1) => ({
-        opacity: 1,
-        transition: { staggerChildren: 0.05, delayChildren: i * 0.04 },
-      }),
-    };
-  
-    const child = {
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          type: "spring",
-          damping: 12,
-          stiffness: 100,
-        },
-      },
-      hidden: {
-        opacity: 0,
-        y: 20,
-        transition: {
-          type: "spring",
-          damping: 12,
-          stiffness: 100,
-        },
-      },
-    };
-  
-    return (
-      <motion.div
-        className="flex justify-center items-center text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-wider"
-        variants={container}
-        initial="hidden"
-        animate="visible"
-        style={{textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}
-      >
-        {letters.map((letter, index) => (
-          <motion.span variants={child} key={index}>
-            {letter === " " ? "\u00A0" : letter}
-          </motion.span>
-        ))}
-      </motion.div>
-    );
-};
+import { useEffect, useState, useMemo } from 'react';
 
 const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
     const [progress, setProgress] = useState(0);
@@ -63,93 +13,124 @@ const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            setTimeout(onComplete, 0);
+            // Use a timeout to defer the state update in the parent component
+            setTimeout(onComplete, 0); 
             return 100;
           }
           return prev + 1;
         });
-      }, 25);
+      }, 45); // Adjusted to roughly match the 5s duration
   
       return () => clearInterval(interval);
     }, [onComplete]);
   
     return (
-        <div className="font-mono text-lg font-medium text-white/80">
+        <div 
+            className="font-mono text-xl font-medium text-white/80"
+            style={{textShadow: '0 0 8px rgba(255, 255, 255, 0.5)'}}
+        >
             {progress}%
         </div>
     );
 };
 
-
 const Preloader = () => {
     const [isComplete, setIsComplete] = useState(false);
 
-  return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{ opacity: isComplete ? 0 : 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-primary via-primary to-accent"
-    >
-        <div className="relative flex items-center justify-center h-48 w-48 sm:h-64 sm:w-64">
-             {/* Animated streaks */}
-             {[...Array(8)].map((_, i) => (
+    const numPills = 50;
+    const pills = useMemo(() => Array.from({ length: numPills }).map((_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: -10 - Math.random() * 100,
+        duration: 4 + Math.random() * 4,
+        delay: Math.random() * 4,
+        rotation: -45 + Math.random() * 90,
+    })), []);
+    
+    const numRipples = 10;
+    const ripples = useMemo(() => Array.from({length: numRipples}).map((_, i) => ({
+        id: i,
+        delay: i * 0.4
+    })), [])
+
+    return (
+        <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: isComplete ? 0 : 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900 overflow-hidden"
+        >
+            {/* Glassmorphism layer */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 via-black/30 to-amber-900/20 backdrop-blur-sm"></div>
+            
+            {/* Cascading pills */}
+            {pills.map(pill => (
                 <motion.div
-                    key={`streak-${i}`}
-                    className="absolute w-1 h-full origin-center"
+                    key={pill.id}
+                    className="absolute w-2 h-5 bg-white/30 rounded-full"
                     style={{
-                        background: 'linear-gradient(to bottom, transparent, hsl(var(--accent-hue), var(--accent-saturation), 80%), transparent)',
-                        rotate: `${i * 45}deg`
+                        left: `${pill.x}%`,
+                        top: `${pill.y}%`,
                     }}
-                    initial={{ scaleY: 0, opacity: 0 }}
-                    animate={{ scaleY: [0, 1, 0], opacity: [0, 0.7, 0] }}
+                    animate={{
+                        y: '120vh',
+                        rotate: pill.rotation
+                    }}
                     transition={{
-                        duration: 1.5,
+                        duration: pill.duration,
+                        delay: pill.delay,
                         repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.1,
+                        ease: 'linear'
                     }}
                 />
             ))}
+            
+            {/* Central Icon and ripples */}
+            <div className="relative flex items-center justify-center h-48 w-48">
+                {/* Ripples */}
+                {ripples.map(ripple => (
+                    <motion.div
+                        key={ripple.id}
+                        className="absolute rounded-full border-2 border-primary/50"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: [0, 2, 2], opacity: [1, 0, 0] }}
+                        transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: 'easeOut',
+                            delay: ripple.delay
+                        }}
+                        style={{ width: '100%', height: '100%' }}
+                    />
+                ))}
 
-            {/* Pulsating background circles */}
-            {[...Array(3)].map((_, i) => (
-                 <motion.div
-                    key={`pulse-${i}`}
-                    className="absolute rounded-full bg-white/10"
-                    initial={{ scale: 0, opacity: 0.5 }}
-                    animate={{ scale: 1.5, opacity: 0 }}
-                    transition={{
-                        duration: 2.5,
-                        repeat: Infinity,
-                        ease: "easeOut",
-                        delay: i * 0.4,
+                {/* Central Icon with glow */}
+                <motion.div
+                    className="relative h-24 w-24 bg-primary/20 rounded-full flex items-center justify-center shadow-2xl"
+                    style={{
+                        boxShadow: '0 0 20px hsl(var(--primary-hue), 80%, 60%), 0 0 40px hsl(var(--primary-hue), 80%, 60%)'
                     }}
-                />
-            ))}
-
-            {/* Central Icon */}
-            <motion.div
-                className="relative h-20 w-20 sm:h-24 sm:w-24 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl"
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
-            >
-                <HeartPulse className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
-            </motion.div>
-        </div>
-
-        <div className="mt-8 text-center space-y-4">
-            <AnimatedText text="E-pharma Nigeria" />
-             <div className="flex justify-center">
-                 <ProgressCounter onComplete={() => setIsComplete(true)} />
+                    animate={{ 
+                        scale: [1, 1.05, 1],
+                        rotateY: [0, 180, 360],
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
+                >
+                    <HeartPulse className="h-12 w-12 text-white" />
+                </motion.div>
             </div>
-        </div>
-    </motion.div>
-  );
+
+            <div className="absolute bottom-16 text-center space-y-4">
+                 <div className="flex justify-center">
+                     <ProgressCounter onComplete={() => setIsComplete(true)} />
+                </div>
+            </div>
+        </motion.div>
+    );
 };
 
 export default Preloader;
