@@ -5,22 +5,26 @@ import { Conversation, Message, AuthUser } from "@/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { Send } from "lucide-react";
+import { Send, ArrowLeft } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from 'date-fns';
 import { useState, useRef, useEffect } from "react";
 import { ScrollArea } from "../ui/scroll-area";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { motion } from "framer-motion";
 
 interface MessageViewProps {
   conversation: Conversation;
   currentUser: AuthUser;
   onSendMessage: (text: string) => void;
+  onBack: () => void;
 }
 
-export function MessageView({ conversation, currentUser, onSendMessage }: MessageViewProps) {
+export function MessageView({ conversation, currentUser, onSendMessage, onBack }: MessageViewProps) {
     const [newMessage, setNewMessage] = useState("");
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     const handleSendMessage = () => {
         if (newMessage.trim()) {
@@ -37,21 +41,26 @@ export function MessageView({ conversation, currentUser, onSendMessage }: Messag
 
 
   return (
-    <Card className="flex flex-col h-full">
-      <CardHeader className="border-b">
-        <div className="flex items-center gap-3">
-            <UserAvatar participants={conversation.participants} />
-            <div>
-                <CardTitle className="text-base">{conversation.subject}</CardTitle>
-                <p className="text-sm text-muted-foreground">
-                    {conversation.participants.map(p => p.name).join(', ')}
-                </p>
-            </div>
+    <Card className="flex flex-col h-full shadow-none border-0">
+      <CardHeader className="border-b flex-row items-center gap-4">
+        {isMobile && (
+            <motion.div whileTap={{ scale: 0.9 }}>
+                <Button variant="ghost" size="icon" onClick={onBack}>
+                    <ArrowLeft className="h-5 w-5" />
+                </Button>
+            </motion.div>
+        )}
+        <UserAvatar participants={conversation.participants} />
+        <div>
+            <CardTitle className="text-base">{conversation.subject}</CardTitle>
+            <p className="text-sm text-muted-foreground truncate max-w-[200px] sm:max-w-xs">
+                {conversation.participants.map(p => p.name).join(', ')}
+            </p>
         </div>
       </CardHeader>
       <CardContent className="flex-1 p-0">
-        <ScrollArea className="h-[450px] p-6" ref={scrollAreaRef}>
-             <div className="space-y-6">
+        <ScrollArea className="h-[calc(100%_-_70px)] md:h-[calc(100%_-_85px)]" viewPortClassName="h-full">
+            <div className="p-6 space-y-6 h-full">
                 {conversation.messages.map((message) => (
                     <div
                         key={message.id}
@@ -63,19 +72,22 @@ export function MessageView({ conversation, currentUser, onSendMessage }: Messag
                         {message.senderId !== currentUser.id && (
                              <UserAvatar participants={[message.sender]} />
                         )}
-                        <div
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
                             className={cn(
-                            "max-w-xs md:max-w-md p-3 rounded-lg",
+                            "max-w-xs md:max-w-md p-3 rounded-xl",
                             message.senderId === currentUser.id
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted"
+                                ? "bg-primary text-primary-foreground rounded-br-none"
+                                : "bg-muted rounded-bl-none"
                             )}
                         >
                             <p className="text-sm">{message.text}</p>
                             <p className="text-xs opacity-70 mt-1 text-right">
                                 {format(parseISO(message.timestamp), 'p')}
                             </p>
-                        </div>
+                        </motion.div>
                          {message.senderId === currentUser.id && (
                              <UserAvatar participants={[message.sender]} />
                         )}
@@ -96,7 +108,8 @@ export function MessageView({ conversation, currentUser, onSendMessage }: Messag
                     handleSendMessage();
                 }
             }}
-            className="pr-20"
+            className="pr-20 min-h-0"
+            rows={1}
           />
           <Button
             size="icon"
