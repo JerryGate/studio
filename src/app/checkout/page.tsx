@@ -394,7 +394,7 @@ export default function CheckoutPage() {
                      <CardDescription>Click on the map to set your delivery location, or use the "Find on Map" button above.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="h-96 w-full rounded-lg overflow-hidden">
+                    <div className="h-[500px] w-full rounded-lg overflow-hidden">
                         <Map
                            onLocationSelect={handleLocationSelect}
                            key={selectedLocation ? `${selectedLocation.lat}-${selectedLocation.lng}` : 'map'}

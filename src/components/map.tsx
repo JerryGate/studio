@@ -1,15 +1,14 @@
 
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Viewer } from 'mapillary-js';
-import 'mapillary-js/dist/mapillary.css';
+import React, { useState } from 'react';
+import { APIProvider, Map as GoogleMap, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 const NIGERIA_CENTER = { lat: 9.0820, lng: 8.6753 };
+const DEFAULT_ZOOM = 6;
+const FOCUSED_ZOOM = 15;
 
 interface MapProps {
     onLocationSelect?: (location: { lat: number; lng: number }) => void;
@@ -18,125 +17,65 @@ interface MapProps {
     interactive?: boolean;
 }
 
-// Fix for default Leaflet icon path issue with Webpack
-if (typeof window !== 'undefined') {
-  delete (L.Icon.Default.prototype as any)._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  });
-}
+const MapWrapper = ({ onLocationSelect, initialCenter, markers, interactive = true }: MapProps) => {
+    const [selectedMarker, setSelectedMarker] = useState(initialCenter);
 
-const Map = ({ onLocationSelect, initialCenter, markers, interactive = true }: MapProps) => {
-    const mapContainerRef = useRef<HTMLDivElement>(null);
-    const [status, setStatus] = useState<'loading' | 'street' | 'map' | 'error'>('loading');
-    const [error, setError] = useState<string | null>(null);
+    const centerPoint = selectedMarker || initialCenter || NIGERIA_CENTER;
 
-    const mapillaryKey = process.env.NEXT_PUBLIC_MAPILLARY_ACCESS_TOKEN;
+    const handleMapClick = (event: google.maps.MapMouseEvent) => {
+        if (!interactive || !onLocationSelect || !event.latLng) return;
+        const newLocation = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+        setSelectedMarker(newLocation);
+        onLocationSelect(newLocation);
+    };
 
-    useEffect(() => {
-        if (!mapContainerRef.current) return;
-        
-        let viewer: Viewer | null = null;
-        let leafletMap: L.Map | null = null;
+    return (
+        <GoogleMap
+            mapId="e-pharma-map"
+            style={{ width: '100%', height: '100%' }}
+            defaultCenter={centerPoint}
+            defaultZoom={initialCenter ? FOCUSED_ZOOM : DEFAULT_ZOOM}
+            center={centerPoint}
+            zoom={initialCenter ? FOCUSED_ZOOM : DEFAULT_ZOOM}
+            gestureHandling={interactive ? 'auto' : 'none'}
+            onClick={handleMapClick}
+            disableDefaultUI={true}
+        >
+            {markers?.map((marker, index) => (
+                <AdvancedMarker key={index} position={marker}>
+                    <Pin />
+                </AdvancedMarker>
+            ))}
+            {selectedMarker && !markers && (
+                 <AdvancedMarker position={selectedMarker}>
+                    <Pin />
+                </AdvancedMarker>
+            )}
+        </GoogleMap>
+    );
+};
 
-        const centerPoint = initialCenter || NIGERIA_CENTER;
 
-        const initializeMapillary = () => {
-            if (!mapillaryKey) {
-                setError('Mapillary Access Token is not configured.');
-                initializeLeaflet();
-                return;
-            }
+const Map = (props: MapProps) => {
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-            try {
-                viewer = new Viewer({
-                    accessToken: mapillaryKey,
-                    container: mapContainerRef.current!,
-                });
-
-                viewer.moveCloseTo(centerPoint.lat, centerPoint.lng)
-                    .then((node) => {
-                        console.log('Mapillary loaded successfully for node:', node.id);
-                        setStatus('street');
-                        if (interactive && onLocationSelect) {
-                            viewer?.on('position', (event) => {
-                                onLocationSelect({ lat: event.latLon.lat, lng: event.latLon.lng });
-                            });
-                        }
-                    })
-                    .catch((e) => {
-                        console.warn('Mapillary could not find street view, falling back to Leaflet.', e);
-                        initializeLeaflet();
-                    });
-
-            } catch (e) {
-                 console.error('Error initializing Mapillary Viewer:', e);
-                 initializeLeaflet();
-            }
-        };
-
-        const initializeLeaflet = () => {
-            if (mapContainerRef.current && !leafletMap) {
-                 mapContainerRef.current.innerHTML = ''; // Clear container
-                 leafletMap = L.map(mapContainerRef.current).setView([centerPoint.lat, centerPoint.lng], 13);
-
-                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(leafletMap);
-                
-                (markers || [centerPoint]).forEach(markerLocation => {
-                    L.marker([markerLocation.lat, markerLocation.lng]).addTo(leafletMap!);
-                });
-                
-                if (interactive && onLocationSelect) {
-                    leafletMap.on('click', (e) => {
-                         onLocationSelect({ lat: e.latlng.lat, lng: e.latlng.lng });
-                         L.marker(e.latlng).addTo(leafletMap!);
-                    });
-                }
-                
-                setStatus('map');
-            }
-        };
-
-        initializeMapillary();
-
-        return () => {
-            if (viewer) {
-                viewer.remove();
-                viewer = null;
-            }
-            if (leafletMap) {
-                leafletMap.remove();
-                leafletMap = null;
-            }
-        };
-    }, [initialCenter, interactive, onLocationSelect, markers, mapillaryKey]);
-
-    if (status === 'loading') {
-        return (
-            <div className="flex items-center justify-center h-full w-full bg-muted">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-2">Loading Map...</p>
-            </div>
-        );
-    }
-
-    if (status === 'error') {
-        return (
+    if (!apiKey) {
+         return (
             <div className="flex items-center justify-center h-full w-full bg-muted p-4">
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Map Error</AlertTitle>
-                    <AlertDescription>{error || 'Could not load the map.'}</AlertDescription>
+                    <AlertTitle>Map Configuration Error</AlertTitle>
+                    <AlertDescription>The Google Maps API key is not configured. Please contact support.</AlertDescription>
                 </Alert>
             </div>
         );
     }
-
-    return <div ref={mapContainerRef} className="h-full w-full" />;
-};
+    
+    return (
+        <APIProvider apiKey={apiKey} libraries={['marker']}>
+            <MapWrapper {...props} />
+        </APIProvider>
+    )
+}
 
 export default Map;
