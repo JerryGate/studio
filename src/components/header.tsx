@@ -115,16 +115,21 @@ const MobileMenu = () => {
                     <span className="sr-only">Open menu</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent 
-                side="left" 
-                className="w-full max-w-sm bg-background/80 backdrop-blur-lg p-0 flex flex-col border-0"
+             <SheetContent
+                side="left"
+                className={cn(
+                    "w-full max-w-sm p-0 flex flex-col",
+                    "bg-background/80 backdrop-blur-lg border-r-0",
+                    "shadow-[10px_0_30px_-15px_rgba(0,0,0,0.3)]"
+                )}
             >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-20" style={{zIndex: -1}} />
-                <SheetHeader className="p-6 flex flex-row items-center justify-between border-b border-white/10">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" style={{zIndex: -1}} />
+                
+                <SheetHeader className="p-6 flex flex-row items-center justify-between border-b">
                     <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     <Logo />
                     <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-foreground hover:bg-white/10">
+                        <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted/50">
                             <X className="h-6 w-6" />
                         </Button>
                     </SheetTrigger>
@@ -140,8 +145,8 @@ const MobileMenu = () => {
                             <motion.li key={link.name} variants={itemVariants}>
                                 <Link href={link.href} onClick={() => setIsOpen(false)}>
                                     <span className={cn(
-                                        "block text-xl font-medium py-3 text-foreground/80 hover:text-foreground transition-colors rounded-lg hover:bg-white/5 px-3",
-                                        pathname === link.href && "text-primary-foreground bg-primary/20 font-semibold"
+                                        "block text-xl font-medium py-3 text-foreground/80 hover:text-foreground transition-colors rounded-lg hover:bg-muted/50 px-3",
+                                        pathname === link.href && "text-primary bg-primary/10 font-semibold"
                                     )}>
                                         {link.name}
                                     </span>
@@ -151,7 +156,7 @@ const MobileMenu = () => {
                     </motion.ul>
                 </div>
                 <motion.div
-                    className="p-6 border-t border-white/10 mt-auto space-y-4"
+                    className="p-6 border-t mt-auto space-y-4"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.4 }}
@@ -160,14 +165,14 @@ const MobileMenu = () => {
                         <div className="relative">
                             <Input
                                 placeholder="Search..."
-                                className="h-11 pl-10 rounded-full bg-background/50 border-white/20"
+                                className="h-11 pl-10 rounded-full bg-secondary/50"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         </div>
                     </form>
-                    <Separator className="bg-white/10" />
+                    <Separator />
                      {user ? (
                         <div className="flex gap-2">
                             <Button asChild className="flex-1" variant="outline" onClick={() => setIsOpen(false)}>
