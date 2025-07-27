@@ -165,7 +165,7 @@ function ProductDetails({ id }: { id: string }) {
     )
 }
 
-export default function ProductDetailPage({ params }: { id: string }) {
+export default function ProductDetailPage({ params }: { params: { id: string } }) {
     return (
       <Suspense key={params.id} fallback={<ProductPageSkeleton />}>
         <ProductDetails id={params.id} />

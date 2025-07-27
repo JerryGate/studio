@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, use } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -40,7 +40,7 @@ function SignupContent() {
     router.push(`/login${redirectUrl ? `?redirect=${redirectUrl}` : ''}`);
   };
 
-  const redirectParam = searchParams.get('redirect') ? `?redirect=${redirectParam}` : '';
+  const redirectParam = searchParams.get('redirect') ? `?redirect=${searchParams.get('redirect')}` : '';
 
   return (
      <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
