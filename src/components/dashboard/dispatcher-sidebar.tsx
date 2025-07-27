@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -48,8 +49,7 @@ const NavContent = () => {
                 </Link>
             ))}
         </nav>
-        <div className="p-4 mt-auto border-t">
-            <Separator className="my-4" />
+        <div className="p-4 mt-auto border-t border-border/10">
             <Button
                 variant="ghost"
                 onClick={logout}
@@ -71,7 +71,7 @@ export default function DispatcherSidebar({ isMobile = false }) {
   
   return (
      <aside className="w-full flex-shrink-0 bg-background flex flex-col h-full">
-        <div className="p-4 border-b flex items-center h-[60px]">
+        <div className="p-4 flex items-center h-[60px] shadow-sm">
           <Logo textClassName="inline" />
         </div>
         <NavContent />

@@ -26,7 +26,7 @@ const DispatcherMobileSidebar = () => (
             </Button>
         </SheetTrigger>
         <SheetContent side="left" className="p-0 flex flex-col">
-            <div className="p-4 border-b">
+            <div className="p-4 shadow-sm">
                 <Logo textClassName="inline" />
             </div>
             <DispatcherSidebar isMobile={true} />

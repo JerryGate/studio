@@ -45,7 +45,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     </Link>
                 ))}
             </nav>
-            <div className="p-4 mt-auto border-t">
+            <div className="p-4 mt-auto border-t border-border/10">
                 <Button
                     variant="ghost"
                     onClick={logout}
@@ -63,7 +63,7 @@ export default function FinanceAdminSidebar({isMobile = false}) {
   return (
     <div className="flex flex-col h-full">
        {!isMobile && (
-         <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6">
+         <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6 shadow-sm">
             <Logo textClassName="inline" />
          </div>
       )}

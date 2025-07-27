@@ -42,7 +42,7 @@ export function MessageView({ conversation, currentUser, onSendMessage, onBack }
 
   return (
     <Card className="flex flex-col h-full shadow-none border-0">
-      <CardHeader className="border-b flex-row items-center gap-4">
+      <CardHeader className="flex-row items-center gap-4 bg-muted/30">
         {isMobile && (
             <motion.div whileTap={{ scale: 0.9 }}>
                 <Button variant="ghost" size="icon" onClick={onBack}>
@@ -96,7 +96,7 @@ export function MessageView({ conversation, currentUser, onSendMessage, onBack }
              </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="border-t p-4">
+      <CardFooter className="p-4 bg-muted/30">
         <div className="relative w-full">
           <Textarea
             placeholder="Type your message..."

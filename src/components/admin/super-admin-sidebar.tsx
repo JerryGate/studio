@@ -53,7 +53,7 @@ export const AdminNav = ({ isMobile = false }) => {
         <div className="flex flex-col h-full">
             <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 {navSections.map((section, sectionIndex) => (
-                    <div key={section.name} className={cn(sectionIndex > 0 && "pt-4 mt-4")}>
+                    <div key={section.name} className={cn(sectionIndex > 0 && "pt-4 mt-4 border-t border-border/10")}>
                         <h4 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{section.name}</h4>
                         <div className="space-y-1">
                             {section.items.map((item) => (
@@ -73,7 +73,7 @@ export const AdminNav = ({ isMobile = false }) => {
                     </div>
                 ))}
             </nav>
-            <div className="p-4 mt-auto border-t">
+            <div className="p-4 mt-auto border-t border-border/10">
                 <Button
                     variant="ghost"
                     onClick={logout}
@@ -91,7 +91,7 @@ export default function SuperAdminSidebar({isMobile = false}) {
   return (
     <div className="flex flex-col h-full">
       {!isMobile && (
-         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+         <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6 shadow-sm">
             <Logo textClassName="inline" />
          </div>
       )}
