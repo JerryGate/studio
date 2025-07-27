@@ -13,13 +13,12 @@ const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            // Use a timeout to defer the state update in the parent component
             setTimeout(onComplete, 0); 
             return 100;
           }
           return prev + 1;
         });
-      }, 45); // Adjusted to roughly match the 5s duration
+      }, 28); 
   
       return () => clearInterval(interval);
     }, [onComplete]);
@@ -34,6 +33,7 @@ const ProgressCounter = ({ onComplete }: { onComplete: () => void }) => {
     );
 };
 
+
 const Preloader = () => {
     const [isComplete, setIsComplete] = useState(false);
 
@@ -42,15 +42,15 @@ const Preloader = () => {
         id: i,
         x: Math.random() * 100,
         y: -10 - Math.random() * 100,
-        duration: 4 + Math.random() * 4,
-        delay: Math.random() * 4,
+        duration: 2 + Math.random() * 3,
+        delay: Math.random() * 2,
         rotation: -45 + Math.random() * 90,
     })), []);
     
     const numRipples = 10;
     const ripples = useMemo(() => Array.from({length: numRipples}).map((_, i) => ({
         id: i,
-        delay: i * 0.4
+        delay: i * 0.3
     })), [])
 
     return (
@@ -59,10 +59,12 @@ const Preloader = () => {
             animate={{ opacity: isComplete ? 0 : 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900 overflow-hidden"
+            style={{
+                background: 'linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #141E30, #243B55)',
+                backgroundSize: '400% 400%',
+                animation: 'gradientBG 15s ease infinite'
+            }}
         >
-            {/* Glassmorphism layer */}
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 via-black/30 to-amber-900/20 backdrop-blur-sm"></div>
-            
             {/* Cascading pills */}
             {pills.map(pill => (
                 <motion.div
@@ -71,6 +73,7 @@ const Preloader = () => {
                     style={{
                         left: `${pill.x}%`,
                         top: `${pill.y}%`,
+                        filter: 'blur(1px)'
                     }}
                     animate={{
                         y: '120vh',
@@ -91,44 +94,58 @@ const Preloader = () => {
                 {ripples.map(ripple => (
                     <motion.div
                         key={ripple.id}
-                        className="absolute rounded-full border-2 border-primary/50"
+                        className="absolute rounded-full border-2"
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: [0, 2, 2], opacity: [1, 0, 0] }}
                         transition={{
-                            duration: 4,
+                            duration: 3,
                             repeat: Infinity,
                             ease: 'easeOut',
                             delay: ripple.delay
                         }}
-                        style={{ width: '100%', height: '100%' }}
+                        style={{ 
+                            width: '100%', 
+                            height: '100%',
+                            borderColor: `hsl(${ripple.id * 36}, 100%, 70%)`
+                        }}
                     />
                 ))}
 
                 {/* Central Icon with glow */}
                 <motion.div
-                    className="relative h-24 w-24 bg-primary/20 rounded-full flex items-center justify-center shadow-2xl"
-                    style={{
-                        boxShadow: '0 0 20px hsl(var(--primary-hue), 80%, 60%), 0 0 40px hsl(var(--primary-hue), 80%, 60%)'
-                    }}
+                    className="relative h-24 w-24 rounded-full flex items-center justify-center"
                     animate={{ 
                         scale: [1, 1.05, 1],
-                        rotateY: [0, 180, 360],
                     }}
                     transition={{
-                        duration: 8,
+                        duration: 2,
                         repeat: Infinity,
                         ease: 'easeInOut',
                     }}
                 >
-                    <HeartPulse className="h-12 w-12 text-white" />
+                    <HeartPulse className="h-12 w-12 text-white" style={{
+                        filter: `
+                            drop-shadow(0 0 5px hsl(224, 100%, 80%)) 
+                            drop-shadow(0 0 10px hsl(224, 100%, 80%))
+                            drop-shadow(0 0 15px hsl(160, 100%, 70%))
+                        `
+                    }}/>
                 </motion.div>
             </div>
-
+            
             <div className="absolute bottom-16 text-center space-y-4">
                  <div className="flex justify-center">
                      <ProgressCounter onComplete={() => setIsComplete(true)} />
                 </div>
             </div>
+
+            <style jsx global>{`
+                @keyframes gradientBG {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+            `}</style>
         </motion.div>
     );
 };

@@ -27,7 +27,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     // This timer ensures the preloader is displayed for a minimum duration.
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000); 
+    }, 3000); 
 
     return () => clearTimeout(timer);
   }, []);
@@ -51,7 +51,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: loading ? 0 : 1 }}
           transition={{ duration: 0.8 }}
-          className="flex-1 flex flex-col"
+          className="flex-1 flex flex-col min-h-screen"
       >
           {!isDashboardRoute && !isAuthRoute && (
             <div className="px-4 sm:px-6 lg:px-8">
