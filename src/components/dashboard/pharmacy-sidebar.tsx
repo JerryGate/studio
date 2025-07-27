@@ -46,7 +46,8 @@ const NavContent = () => {
                     </Link>
                 ))}
             </nav>
-            <div className="p-4 mt-auto border-t border-border/10">
+            <div className="p-4 mt-auto">
+                <Separator className="mb-4" />
                 <Button
                     variant="ghost"
                     onClick={logout}

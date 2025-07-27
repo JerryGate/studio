@@ -8,6 +8,7 @@ import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
 const navItems = [
   { href: '/admin/finance-admin', icon: Home, label: 'Dashboard' },
@@ -45,7 +46,8 @@ export const AdminNav = ({ isMobile = false }) => {
                     </Link>
                 ))}
             </nav>
-            <div className="p-4 mt-auto border-t border-border/10">
+            <div className="p-4 mt-auto">
+                <Separator className="mb-4" />
                 <Button
                     variant="ghost"
                     onClick={logout}
