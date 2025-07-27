@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -151,7 +152,6 @@ export function Toaster({ children }: { children: React.ReactNode }) {
                 {description && <ToastDescription>{description}</ToastDescription>}
               </div>
               {action}
-              <ToastClose />
             </Toast>
           )
         })}
