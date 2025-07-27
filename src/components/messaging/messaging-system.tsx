@@ -52,7 +52,7 @@ export function MessagingSystem({ currentUser }: MessagingSystemProps) {
         return (
             <Card className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 h-[700px] overflow-hidden">
                 <div className="col-span-1 bg-muted/40">
-                    <h2 className="p-4 text-lg font-semibold border-b">Conversations</h2>
+                    <h2 className="p-4 text-lg font-semibold shadow-sm">Conversations</h2>
                      <ScrollArea className="h-[calc(700px-57px)]">
                         <ConversationList
                             conversations={conversations}
@@ -104,7 +104,7 @@ export function MessagingSystem({ currentUser }: MessagingSystemProps) {
                         className="absolute inset-0"
                     >
                          <div className="col-span-1 bg-muted/40 h-full flex flex-col">
-                            <h2 className="p-4 text-lg font-semibold border-b">Conversations</h2>
+                            <h2 className="p-4 text-lg font-semibold shadow-sm">Conversations</h2>
                             <ScrollArea className="flex-1">
                                 <ConversationList
                                     conversations={conversations}
