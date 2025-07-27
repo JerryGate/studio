@@ -27,8 +27,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const { loading: authLoading } = useAuth();
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
   
-  // This check is now more robust. It ensures not only that the contexts are done loading,
-  // but also that the data they provide has been initialized.
   const allContextsLoaded = 
     !imagesLoading && Array.isArray(sliderImages) && sliderImages.length > 0 &&
     !settingsLoading && !!whatsAppNumber &&
@@ -36,15 +34,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     !authLoading;
 
   useEffect(() => {
-    // This timer ensures the preloader is displayed for a minimum duration.
     const timer = setTimeout(() => {
-        // Only hide the preloader if all contexts are also loaded.
         if (allContextsLoaded) {
             setIsPreloaderVisible(false);
         }
     }, 3000); 
 
-    // This effect ensures if contexts load after the timer, we hide the preloader
     if (allContextsLoaded && isPreloaderVisible) {
         setIsPreloaderVisible(false);
     }

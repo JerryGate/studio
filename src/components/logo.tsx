@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface LogoProps {
   className?: string;
@@ -52,7 +52,7 @@ const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader
       {/* Central staff */}
       <motion.path
         d="M12 2V22"
-        stroke={variant === 'preloader' ? 'url(#caduceus-glow)' : '#ffffff'}
+        stroke={variant === 'preloader' ? 'url(#caduceus-glow)' : 'hsl(var(--primary))'}
         animate={{
           filter: variant === 'preloader' 
             ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
@@ -64,7 +64,7 @@ const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader
       {/* Wings */}
       <motion.path
         d="M19 6.84a5.5 5.5 0 0 0-11.23 2.16l1.73 6a5.5 5.5 0 0 0 10.74 0l1.73-6A5.5 5.5 0 0 0 19 6.84Z"
-        stroke={variant === 'preloader' ? '#a5f3fc' : '#ffffff'}
+        stroke={variant === 'preloader' ? '#a5f3fc' : 'hsl(var(--primary))'}
          animate={{
           filter: variant === 'preloader' 
             ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
@@ -76,7 +76,7 @@ const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader
       {/* Snakes */}
       <motion.path
         d="M5 18s2.6-4 7-4 7 4 7 4"
-        stroke={variant === 'preloader' ? '#99f6e4' : '#ffffff'}
+        stroke={variant === 'preloader' ? '#99f6e4' : 'hsl(var(--primary))'}
          animate={{
           filter: variant === 'preloader' 
             ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
@@ -86,7 +86,7 @@ const CaduceusIcon = ({ variant = 'default' }: { variant: 'default' | 'preloader
       />
       <motion.path
         d="M5 12s2.6 4 7 4 7-4 7-4"
-        stroke={variant === 'preloader' ? '#99f6e4' : '#ffffff'}
+        stroke={variant === 'preloader' ? '#99f6e4' : 'hsl(var(--primary))'}
          animate={{
           filter: variant === 'preloader' 
             ? ['drop-shadow(0 0 2px #a5f3fc)', 'drop-shadow(0 0 5px #99f6e4)', 'drop-shadow(0 0 2px #a5f3fc)']
@@ -116,8 +116,8 @@ const Particles = ({ count, variant }: { count: number, variant: 'default' | 'pr
         );
     }, [count, variant]);
 
-    if (variant === 'default' || particles.length === 0) {
-        return null; // No particles for default logo or before client-side generation
+    if (particles.length === 0) {
+        return null;
     }
 
     return (
@@ -162,7 +162,7 @@ const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'te
         className
       )}>
         <div className={cn("relative", iconSize)}>
-           <div className="relative w-full h-full text-white/90">
+           <div className="relative w-full h-full text-primary">
              {variant === 'preloader' && <Particles count={15} variant={variant} />}
              <motion.div
                 className="w-full h-full"
@@ -187,3 +187,4 @@ const Logo = ({ className, textClassName, iconSize = 'h-10 w-10', textSize = 'te
 };
 
 export default Logo;
+

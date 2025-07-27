@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Logo from './logo';
 
 function ProgressCounter({ onComplete }: { onComplete: () => void }) {
@@ -18,7 +18,7 @@ function ProgressCounter({ onComplete }: { onComplete: () => void }) {
                 }
                 return prev + 1;
             });
-        }, 25); // ~2.5 seconds to complete
+        }, 25); 
 
         return () => clearInterval(interval);
     }, [onComplete]);
@@ -34,6 +34,7 @@ function ProgressCounter({ onComplete }: { onComplete: () => void }) {
 };
 ProgressCounter.displayName = 'ProgressCounter';
 
+
 const Preloader = () => {
     const [isComplete, setIsComplete] = useState(false);
     const [pills, setPills] = useState<any[]>([]);
@@ -47,11 +48,11 @@ const Preloader = () => {
             delay: Math.random() * 2,
             rotation: Math.random() * 40 - 20,
             scale: 0.5 + Math.random() * 0.5,
-            colors: [
-                'bg-blue-200/50',
-                'bg-green-200/50',
-                'bg-rose-200/50',
-                'bg-teal-200/50'
+            gradient: [
+                ['#ff007f', '#ff7f00'],
+                ['#7f00ff', '#ff00ff'],
+                ['#00ff7f', '#ffff00'],
+                ['#007fff', '#00ffff'],
             ][i % 4]
         })));
     }, []);
@@ -65,14 +66,14 @@ const Preloader = () => {
             initial={{ opacity: 1 }}
             animate={{ opacity: isComplete ? 0 : 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-600 bg-gradient-to-r overflow-hidden"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900 overflow-hidden"
         >
             <div className="absolute inset-0 bg-white/10 backdrop-blur-md" />
             
             {pills.map((pill) => (
                 <motion.div
                     key={`cascade-${pill.id}`}
-                    className={`absolute w-3 h-6 rounded-full ${pill.colors}`}
+                    className={`absolute w-3 h-6 rounded-full`}
                     style={{
                         left: pill.x,
                         top: pill.initialY,
@@ -81,6 +82,7 @@ const Preloader = () => {
                     animate={{
                         y: '120vh',
                         rotate: pill.rotation,
+                        background: `linear-gradient(45deg, ${pill.gradient[0]}, ${pill.gradient[1]})`,
                     }}
                     transition={{
                         y: {
@@ -95,6 +97,11 @@ const Preloader = () => {
                             repeat: Infinity,
                             ease: 'linear'
                         },
+                        background: {
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatType: 'mirror'
+                        }
                     }}
                 />
             ))}

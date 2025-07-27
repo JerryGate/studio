@@ -67,7 +67,7 @@ export default function CartPage() {
             </div>
           )}
         </CardContent>
-        {cartCount > 0 && (
+        {cartItems && cartItems.length > 0 && (
           <CardFooter className="flex flex-col items-end gap-4 bg-muted/40 p-6">
             <div className="w-full md:w-1/3 space-y-2">
               <div className="flex justify-between text-lg">

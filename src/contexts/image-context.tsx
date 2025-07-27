@@ -32,6 +32,36 @@ const fileToDataUrl = (file: File): Promise<string> => {
     });
 };
 
+const defaultImages: SliderImage[] = [
+    {
+        id: "default-1",
+        src: "https://placehold.co/1920x1080.png",
+        hint: "pharmacist smiling",
+        headline: "Quality Drugs, Delivered Fast",
+        description: "Your trusted source for verified medications from local pharmacies in Nigeria.",
+        ctaText: "Shop Now",
+        ctaLink: "/search"
+    },
+    {
+        id: "default-2",
+        src: "https://placehold.co/1920x1080.png",
+        hint: "doctor consulting patient",
+        headline: "Expert Advice at Your Fingertips",
+        description: "Connect with licensed pharmacists and doctors for telehealth consultations.",
+        ctaText: "Book a Consultation",
+        ctaLink: "/services"
+    },
+    {
+        id: "default-3",
+        src: "https://placehold.co/1920x1080.png",
+        hint: "delivery person smiling",
+        headline: "Real-Time Delivery Tracking",
+        description: "Never miss a delivery. Track your order from the pharmacy to your doorstep.",
+        ctaText: "Track Your Order",
+        ctaLink: "/dashboard/tracking"
+    },
+];
+
 export const ImageProvider = ({ children }: { children: ReactNode }) => {
     const [sliderImages, setSliderImages] = useState<SliderImage[]>([]);
     const [loading, setLoading] = useState(true);
@@ -42,18 +72,17 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
             const storedImagesRaw = localStorage.getItem('sliderImages');
             if (storedImagesRaw) {
                 const storedImages = JSON.parse(storedImagesRaw);
-                // Basic validation
                 if (Array.isArray(storedImages) && storedImages.length > 0) {
                     setSliderImages(storedImages);
                 } else {
-                     setSliderImages([]);
+                     setSliderImages(defaultImages);
                 }
             } else {
-                setSliderImages([]);
+                setSliderImages(defaultImages);
             }
         } catch (error) {
-            console.error("Failed to parse slider images from localStorage", error);
-            setSliderImages([]);
+            console.error("Failed to parse slider images from localStorage, using defaults.", error);
+            setSliderImages(defaultImages);
         } finally {
             setLoading(false);
         }
@@ -86,10 +115,9 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     const removeSliderImage = (id: string) => {
         setSliderImages(prevImages => {
             const updatedImages = prevImages.filter(image => image.id !== id);
-             // If removing the last image, revert to defaults
             if (updatedImages.length === 0) {
-                 updateLocalStorage([]);
-                 return [];
+                 updateLocalStorage(defaultImages);
+                 return defaultImages;
             }
             updateLocalStorage(updatedImages);
             return updatedImages;
